@@ -1,0 +1,437 @@
+﻿@model NEXUS.Models.ViewModels.OrderViewModel
+@{
+    ViewData["Title"] = "New Connection — NEXUS";
+    ViewData["BodyClass"] = "public-body";
+
+    var demoPlans = new[]
+    {
+        new { Id = 1, Name = "Basic",    Speed = 5,  Monthly = 1200m, Tagline = "Light browsing & email",         Popular = false },
+        new { Id = 2, Name = "Standard", Speed = 15, Monthly = 2000m, Tagline = "Families, work & HD streaming",  Popular = true  },
+        new { Id = 3, Name = "Premium",  Speed = 30, Monthly = 3500m, Tagline = "Gaming & 4K streaming",         Popular = false }
+    };
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/orders.css" />
+    <link rel="stylesheet" href="~/css/public-pages.css" />
+}
+
+@* =========================================================
+   PAGE HEADER
+   ========================================================= *@
+<section class="order-page-head">
+    <div class="container">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <span class="sep">/</span>
+            <a href="/Plans">Plans</a>
+            <span class="sep">/</span>
+            <span class="current">New Connection</span>
+        </nav>
+
+        <div class="order-head-flex">
+            <div>
+                <h1><i class="fa-solid fa-plug-circle-plus" style="color:#1E6FE5;"></i> Get Your NEXUS Connection</h1>
+                <p>Complete the application below — it only takes a few minutes.</p>
+            </div>
+            <div class="order-head-badges">
+                <span class="badge badge-success"><i class="fa-solid fa-clock"></i> 5 Minutes</span>
+                <span class="badge badge-info"><i class="fa-solid fa-check"></i> Free Installation</span>
+                <span class="badge badge-muted"><i class="fa-solid fa-bolt"></i> Same-Day Slots</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* =========================================================
+   FORM
+   ========================================================= *@
+<section style="padding:0 0 90px;">
+    <div class="container">
+        <div class="order-layout">
+
+            <div>
+                <form asp-controller="Orders" asp-action="New"
+                      method="post" data-step-form data-order-form
+                      data-total-steps="4"
+                      novalidate>
+
+                    @Html.AntiForgeryToken()
+
+                    @* ---------- STEP INDICATOR ---------- *@
+                    <div class="step-progress" aria-label="Order progress">
+                        <div class="step-bar-fill" style="width:0%"></div>
+
+                        <div class="step active" data-step-indicator="1">
+                            <span class="step-num">1</span>
+                            <span class="step-label">Service</span>
+                        </div>
+                        <div class="step" data-step-indicator="2">
+                            <span class="step-num">2</span>
+                            <span class="step-label">Customer</span>
+                        </div>
+                        <div class="step" data-step-indicator="3">
+                            <span class="step-num">3</span>
+                            <span class="step-label">Installation</span>
+                        </div>
+                        <div class="step" data-step-indicator="4">
+                            <span class="step-num">4</span>
+                            <span class="step-label">Review</span>
+                        </div>
+                    </div>
+
+                    @* ---------- STEP 1 — SERVICE + PLAN ---------- *@
+                    <div class="step-panel active" data-panel="1">
+                        <div class="card">
+                            <div class="card-header">
+                                <div>
+                                    <h3><i class="fa-solid fa-layer-group" style="color:#1E6FE5;"></i> Choose Your Service</h3>
+                                    <p>Select the connection type and plan that fits your needs.</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom:22px;">
+                                <label for="ServiceType">Connection Type <span class="req">*</span></label>
+                                <select id="ServiceType" name="ServiceType" required data-validate="required">
+                                    <option value="">— Select connection type —</option>
+                                    <option value="Broadband" selected>Broadband (Recommended)</option>
+                                    <option value="Dial-Up">Dial-Up</option>
+                                </select>
+                                <span class="field-error"></span>
+                            </div>
+
+                            <label class="form-label" style="margin-bottom:12px;">Choose a Plan <span class="req">*</span></label>
+                            <div class="plan-choice-grid">
+                                @foreach (var p in demoPlans)
+                                {
+                                    var popular = p.Popular ? "popular" : "";
+                                    var selected = p.Name == "Standard" ? "selected" : "";
+                                    <label class="plan-choice @popular @selected">
+                                        <input type="radio" name="PlanName" value="@p.Name"
+                                               @(p.Name == "Standard" ? "checked" : "") required
+                                               data-validate="required"
+                                               data-plan-select data-speed-target="#Speed" />
+                                        @if (p.Popular)
+                                        {
+                                            <span class="choice-badge">Most Popular</span>
+                                        }
+                                        <div class="choice-name">@p.Name</div>
+                                        <div class="choice-speed">@p.Speed</div>
+                                        <div class="choice-price">Rs. @p.Monthly.ToString("N0")<span>/mo</span></div>
+                                        <div class="choice-tagline">@p.Tagline</div>
+                                    </label>
+                                }
+                            </div>
+                            <span class="field-error" data-error-for="PlanName" style="margin-top:8px;"></span>
+
+                            <input type="hidden" id="Speed" name="Speed" value="15 Mbps" />
+                        </div>
+                    </div>
+
+                    @* ---------- STEP 2 — CUSTOMER ---------- *@
+                    <div class="step-panel" data-panel="2">
+                        <div class="card">
+                            <div class="card-header">
+                                <div>
+                                    <h3><i class="fa-regular fa-user" style="color:#1E6FE5;"></i> Customer Information</h3>
+                                    <p>Please provide your details exactly as they appear on your CNIC.</p>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="FullName">Full Name <span class="req">*</span></label>
+                                    <input type="text" id="FullName" name="FullName"
+                                           placeholder="e.g. Ahmed Khan" required
+                                           data-validate="required" />
+                                    <span class="field-error"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Phone">Mobile Number <span class="req">*</span></label>
+                                    <input type="tel" id="Phone" name="Phone"
+                                           placeholder="03001234567" required
+                                           data-validate="required phone" />
+                                    <span class="field-error"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="Email">Email Address <span class="req">*</span></label>
+                                    <input type="email" id="Email" name="Email"
+                                           placeholder="you@example.com" required
+                                           data-validate="required email" />
+                                    <span class="field-error"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Cnic">CNIC <span class="req">*</span></label>
+                                    <input type="text" id="Cnic" name="Cnic"
+                                           placeholder="35202-1234567-1" required
+                                           data-validate="required cnic" />
+                                    <span class="field-error"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @* ---------- STEP 3 — INSTALLATION ---------- *@
+                    <div class="step-panel" data-panel="3">
+                        <div class="card">
+                            <div class="card-header">
+                                <div>
+                                    <h3><i class="fa-solid fa-screwdriver-wrench" style="color:#1E6FE5;"></i> Installation Details</h3>
+                                    <p>Where should our technician install your connection?</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="Address">Installation Address <span class="req">*</span></label>
+                                <input type="text" id="Address" name="Address"
+                                       placeholder="House / Flat / Street"
+                                       required data-validate="required" />
+                                <span class="field-error"></span>
+                            </div>
+
+                            <div class="form-row-3 form-row">
+                                <div class="form-group">
+                                    <label for="Area">Area <span class="req">*</span></label>
+                                    <input type="text" id="Area" name="Area"
+                                           placeholder="Gulberg III"
+                                           required data-validate="required" />
+                                    <span class="field-error"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="City">City <span class="req">*</span></label>
+                                    <select id="City" name="City" required data-validate="required">
+                                        <option value="">— Select city —</option>
+                                        <option>Lahore</option>
+                                        <option>Karachi</option>
+                                        <option>Islamabad</option>
+                                        <option>Rawalpindi</option>
+                                        <option>Faisalabad</option>
+                                        <option>Multan</option>
+                                        <option>Peshawar</option>
+                                        <option>Quetta</option>
+                                    </select>
+                                    <span class="field-error"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="PostalCode">Postal Code <span class="req">*</span></label>
+                                    <input type="text" id="PostalCode" name="PostalCode"
+                                           placeholder="54000"
+                                           required data-validate="required postal" />
+                                    <span class="field-error"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="PreferredInstallDate">Preferred Date</label>
+                                    <input type="date" id="PreferredInstallDate"
+                                           name="PreferredInstallDate" />
+                                    <span class="form-hint">Same-day and next-day slots usually available.</span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="PreferredTime">Preferred Time</label>
+                                    <select id="PreferredTime" name="PreferredTime">
+                                        <option value="Morning (9am–12pm)">Morning (9am–12pm)</option>
+                                        <option value="Afternoon (12pm–4pm)">Afternoon (12pm–4pm)</option>
+                                        <option value="Evening (4pm–7pm)">Evening (4pm–7pm)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="Notes">Additional Notes</label>
+                                <textarea id="Notes" name="Notes" rows="3"
+                                          placeholder="Anything our technician should know (gate code, floor, etc.)"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    @* ---------- STEP 4 — REVIEW ---------- *@
+                    <div class="step-panel" data-panel="4">
+                        <div class="card">
+                            <div class="card-header">
+                                <div>
+                                    <h3><i class="fa-solid fa-clipboard-check" style="color:#1E6FE5;"></i> Review Your Order</h3>
+                                    <p>Please confirm everything below before submitting.</p>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-2" style="gap:18px;">
+                                <div class="card" style="background:#F4F7FB;box-shadow:none;">
+                                    <h5 style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.08em;color:#64748B;margin:0 0 12px;">Selected Service</h5>
+                                    <div class="summary-rows">
+                                        <div><span>Service Type</span><strong data-summary="service">—</strong></div>
+                                        <div><span>Plan</span><strong data-summary="plan">—</strong></div>
+                                        <div><span>Speed</span><strong data-summary="speed">—</strong></div>
+                                    </div>
+                                </div>
+
+                                <div class="card" style="background:#F4F7FB;box-shadow:none;">
+                                    <h5 style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.08em;color:#64748B;margin:0 0 12px;">Customer</h5>
+                                    <div class="summary-rows">
+                                        <div><span>Full Name</span><strong data-review="FullName">—</strong></div>
+                                        <div><span>Mobile</span><strong data-review="Phone">—</strong></div>
+                                        <div><span>Email</span><strong data-review="Email">—</strong></div>
+                                        <div><span>CNIC</span><strong data-review="Cnic">—</strong></div>
+                                    </div>
+                                </div>
+
+                                <div class="card" style="background:#F4F7FB;box-shadow:none;">
+                                    <h5 style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.08em;color:#64748B;margin:0 0 12px;">Installation</h5>
+                                    <div class="summary-rows">
+                                        <div><span>Address</span><strong data-review="Address">—</strong></div>
+                                        <div><span>Area</span><strong data-review="Area">—</strong></div>
+                                        <div><span>City</span><strong data-review="City">—</strong></div>
+                                        <div><span>Postal</span><strong data-review="PostalCode">—</strong></div>
+                                    </div>
+                                </div>
+
+                                <div class="card" style="background:#F4F7FB;box-shadow:none;">
+                                    <h5 style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.08em;color:#64748B;margin:0 0 12px;">Price Summary</h5>
+                                    <div class="summary-rows">
+                                        <div><span>Monthly Rental</span><strong data-summary="monthly">—</strong></div>
+                                        <div><span>Security Deposit</span><strong data-summary="deposit">—</strong></div>
+                                        <div><span>Installation</span><strong data-summary="install">Free</strong></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <label class="checkbox" style="margin-top:22px;">
+                                <input type="checkbox" name="AcceptTerms" value="true" required data-validate="required" />
+                                <span>I agree to the NEXUS <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</span>
+                            </label>
+                            <span class="field-error"></span>
+                        </div>
+                    </div>
+
+                    @* ---------- STEP ACTIONS ---------- *@
+                    <div class="step-actions">
+                        <button type="button" class="btn btn-outline" data-step-prev>
+                            <i class="fa-solid fa-arrow-left"></i> Previous
+                        </button>
+                        <div class="right">
+                            <a href="/" class="btn btn-ghost">Cancel</a>
+                            <button type="button" class="btn btn-primary" data-step-next>
+                                Next <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                            <button type="submit" class="btn btn-primary" data-step-submit hidden>
+                                <i class="fa-solid fa-circle-check"></i> Submit Order
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            @* ---------------- STICKY SUMMARY ---------------- *@
+            <aside class="order-summary">
+                <div class="card">
+                    <h4><i class="fa-solid fa-receipt" style="color:#1E6FE5;"></i> Order Summary</h4>
+                    <p class="muted small" style="margin:0 0 18px;">Live preview — updates as you fill the form.</p>
+
+                    <div class="summary-rows">
+                        <div><span>Service</span><strong data-summary="service">Broadband</strong></div>
+                        <div><span>Plan</span><strong data-summary="plan">Standard Plan</strong></div>
+                        <div><span>Speed</span><strong data-summary="speed">15 Mbps</strong></div>
+                    </div>
+
+                    <div class="divider" style="margin:20px 0;height:1px;background:#E2E8F0;border:none;"></div>
+
+                    <div class="summary-rows">
+                        <div><span>Monthly Rental</span><strong data-summary="monthly">Rs. 2,000</strong></div>
+                        <div><span>Security Deposit</span><strong data-summary="deposit">Rs. 450</strong></div>
+                        <div><span>Installation</span><strong data-summary="install" style="color:#059669;">Free</strong></div>
+                    </div>
+
+                    <div class="summary-rows total" style="margin-top:16px;padding-top:14px;border-top:2px solid #E2E8F0;">
+                        <div><span>Total Due</span><strong data-summary="total" style="font-size:1.35rem;color:#1558B8;">Rs. 2,450</strong></div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top:14px;">
+                    <h4 style="font-size:0.95rem;"><i class="fa-solid fa-headset" style="color:#1E6FE5;"></i> Need Help?</h4>
+                    <p class="muted small" style="margin:0 0 10px;">Our team is available 24/7 to assist with your order.</p>
+                    <p class="small" style="margin:0;"><i class="fa-solid fa-phone" style="color:#1E6FE5;"></i> 111-NEXUS-1</p>
+                    <p class="small" style="margin:6px 0 0;"><i class="fa-solid fa-envelope" style="color:#1E6FE5;"></i> support@nexus.example</p>
+                </div>
+            </aside>
+        </div>
+    </div>
+</section>
+
+@* =========================================================
+   SUCCESS MODAL — with INLINE close handler
+   ========================================================= *@
+<div class="modal-backdrop" id="orderSuccess" aria-hidden="true">
+    <div class="modal modal-lg" role="dialog" aria-modal="true">
+        <div class="modal-header">
+            <h3><i class="fa-solid fa-circle-check" style="color:#10B981;"></i> Order Submitted</h3>
+            <button type="button" class="modal-close"
+                    onclick="document.getElementById('orderSuccess').classList.remove('open'); document.body.style.overflow='';"
+                    aria-label="Close">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div style="text-align:center;padding:10px 0 20px;">
+                <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#10B981,#059669);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:2.2rem;box-shadow:0 16px 40px rgba(16,185,129,0.4);margin-bottom:16px;">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                <h3 style="margin:0 0 8px;color:#0A1F44;">Order Received Successfully!</h3>
+                <p style="color:#64748B;margin:0;">Thank you for choosing NEXUS. Your connection request has been submitted (demo).</p>
+            </div>
+
+            <div class="info-card" style="background:#E8F1FD;border-color:#1E6FE5;">
+                <div class="icon" style="background:#1E6FE5;color:#fff;">
+                    <i class="fa-solid fa-hashtag"></i>
+                </div>
+                <div>
+                    <h5>Your Demo Order Number</h5>
+                    <p style="font-family:monospace;font-size:1.1rem;color:#1558B8;font-weight:700;">NX-ORD-1003</p>
+                </div>
+            </div>
+
+            <h5 style="margin-top:22px;">What happens next?</h5>
+            <div class="order-timeline" style="margin-top:14px;">
+                <div class="t-item done">
+                    <h4>Order Received</h4>
+                    <p>We've received your request.</p>
+                </div>
+                <div class="t-item active">
+                    <h4>Under Review</h4>
+                    <p>Our team will verify your details within 24 hours.</p>
+                </div>
+                <div class="t-item">
+                    <h4>Installation Scheduled</h4>
+                    <p>We'll contact you to confirm the installation slot.</p>
+                </div>
+                <div class="t-item">
+                    <h4>Connection Activated</h4>
+                    <p>You'll be notified once your connection is live.</p>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline"
+                    onclick="document.getElementById('orderSuccess').classList.remove('open'); document.body.style.overflow='';">
+                Close
+            </button>
+            <a href="/" class="btn btn-outline">Back Home</a>
+            <a href="/Orders/Tracking?id=NX-ORD-1003" class="btn btn-primary">
+                <i class="fa-solid fa-truck-fast"></i> Track Order
+            </a>
+        </div>
+    </div>
+</div>
+
+@* =========================================================
+   JS as EXTERNAL file — Razor ke andar nahi
+   ========================================================= *@
+<script src="~/js/new-connection.js" asp-append-version="true"></script>

@@ -1,0 +1,363 @@
+﻿/* =========================================================
+   NEXUS — services.css
+   Services page sections, hero variants, coverage, FAQ.
+   ========================================================= */
+
+/* ---------- Hero (public pages) ---------- */
+.hero {
+    position: relative;
+    min-height: 620px;
+    display: flex;
+    align-items: center;
+    color: #fff;
+    overflow: hidden;
+    padding: 80px 0;
+}
+
+.hero-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    transform: scale(1.05);
+    z-index: 0;
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(900px 500px at 20% 20%, rgba(30,136,229,.45), transparent 60%), linear-gradient(120deg, rgba(10,37,64,.92) 0%, rgba(10,37,64,.7) 60%, rgba(10,37,64,.55) 100%);
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 720px;
+}
+
+.hero h1 {
+    color: #fff;
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    line-height: 1.1;
+    margin: 0 0 18px;
+}
+
+.hero .tagline {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: rgba(56,189,248,.15);
+    border: 1px solid rgba(56,189,248,.4);
+    color: var(--accent-soft);
+    font-size: .82rem;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+}
+
+.hero p.lead {
+    color: rgba(255,255,255,.85);
+    font-size: 1.1rem;
+    margin: 0 0 30px;
+    max-width: 600px;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+/* Feature strip on hero */
+.hero-strip {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 18px;
+    margin-top: 60px;
+    position: relative;
+    z-index: 2;
+}
+
+    .hero-strip .strip-item {
+        background: rgba(255,255,255,.08);
+        border: 1px solid rgba(255,255,255,.15);
+        border-radius: var(--radius);
+        padding: 16px 18px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        backdrop-filter: blur(6px);
+    }
+
+        .hero-strip .strip-item i {
+            font-size: 1.2rem;
+            color: var(--accent);
+        }
+
+        .hero-strip .strip-item span {
+            font-size: .88rem;
+            color: #fff;
+            font-weight: 500;
+        }
+
+/* ---------- Page hero (smaller, for inner pages) ---------- */
+.page-hero {
+    background: radial-gradient(700px 400px at 80% 0%, rgba(56,189,248,.22), transparent 60%), linear-gradient(130deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: #fff;
+    padding: 70px 0 60px;
+    position: relative;
+    overflow: hidden;
+}
+
+    .page-hero h1 {
+        color: #fff;
+        margin-bottom: 10px;
+    }
+
+    .page-hero p {
+        color: rgba(255,255,255,.82);
+        max-width: 620px;
+        margin: 0;
+    }
+
+/* ---------- Services grid ---------- */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 26px;
+}
+
+/* ---------- Service detail row ---------- */
+.service-detail-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 46px;
+    align-items: center;
+    margin-bottom: 90px;
+}
+
+    .service-detail-row.reverse {
+        direction: rtl;
+    }
+
+        .service-detail-row.reverse > * {
+            direction: ltr;
+        }
+
+.service-detail-media {
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    aspect-ratio: 4 / 3;
+    background: var(--secondary-light);
+}
+
+    .service-detail-media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform var(--transition-slow);
+    }
+
+    .service-detail-media:hover img {
+        transform: scale(1.05);
+    }
+
+.service-detail-body h2 {
+    margin-top: 0;
+}
+
+.service-detail-body p {
+    color: var(--text-soft);
+}
+
+.service-detail-body ul {
+    list-style: none;
+    padding: 0;
+    margin: 18px 0;
+    display: grid;
+    gap: 10px;
+}
+
+    .service-detail-body ul li {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--text-soft);
+        font-size: .94rem;
+    }
+
+        .service-detail-body ul li::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: var(--success);
+            font-size: .85rem;
+        }
+
+@media (max-width: 900px) {
+    .service-detail-row,
+    .service-detail-row.reverse {
+        grid-template-columns: 1fr;
+        direction: ltr;
+        gap: 26px;
+    }
+}
+
+/* ---------- Coverage grid ---------- */
+.coverage-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+}
+
+.coverage-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    text-align: center;
+    transition: all var(--transition);
+}
+
+    .coverage-item:hover {
+        border-color: var(--secondary);
+        transform: translateY(-3px);
+    }
+
+    .coverage-item i {
+        color: var(--secondary);
+        font-size: 1.4rem;
+        margin-bottom: 8px;
+    }
+
+    .coverage-item strong {
+        display: block;
+        color: var(--primary);
+    }
+
+    .coverage-item span {
+        font-size: .82rem;
+        color: var(--muted);
+    }
+
+/* ---------- FAQ accordion ---------- */
+.faq-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 12px;
+    overflow: hidden;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+    .faq-item.open {
+        border-color: var(--secondary);
+        box-shadow: var(--shadow);
+    }
+
+.faq-question {
+    width: 100%;
+    padding: 18px 22px;
+    background: none;
+    border: none;
+    font-family: inherit;
+    font-size: .98rem;
+    font-weight: 600;
+    color: var(--primary);
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+}
+
+    .faq-question i {
+        transition: transform var(--transition);
+        color: var(--secondary);
+        font-size: .9rem;
+    }
+
+.faq-item.open .faq-question i {
+    transform: rotate(180deg);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height var(--transition-slow), padding var(--transition);
+    padding: 0 22px;
+    color: var(--text-soft);
+    font-size: .94rem;
+}
+
+.faq-item.open .faq-answer {
+    max-height: 400px;
+    padding: 0 22px 20px;
+}
+
+/* ---------- CTA banner ---------- */
+.cta-banner {
+    background: radial-gradient(600px 300px at 80% 20%, rgba(56,189,248,.35), transparent 60%), linear-gradient(130deg, var(--primary) 0%, var(--primary-mid) 100%);
+    color: #fff;
+    padding: 60px 44px;
+    border-radius: var(--radius-lg);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+    .cta-banner h2 {
+        color: #fff;
+        margin: 0 0 12px;
+    }
+
+    .cta-banner p {
+        color: rgba(255,255,255,.85);
+        max-width: 640px;
+        margin: 0 auto 26px;
+    }
+
+    .cta-banner .btn-group {
+        justify-content: center;
+    }
+
+/* ---------- Stats counter ---------- */
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+}
+
+.stat-counter {
+    text-align: center;
+    padding: 26px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+    .stat-counter .num {
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: var(--secondary-dark);
+        line-height: 1;
+        margin-bottom: 6px;
+    }
+
+        .stat-counter .num::after {
+            content: attr(data-suffix);
+        }
+
+    .stat-counter .label {
+        font-size: .82rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: .06em;
+    }

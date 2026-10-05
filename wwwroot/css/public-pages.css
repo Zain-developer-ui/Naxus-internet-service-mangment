@@ -1,0 +1,1390 @@
+﻿/* =========================================================
+   NEXUS — public-pages.css
+   Shared luxury styles for Services, Plans, Login, Order, etc.
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   1. PAGE HERO (small inner pages — Services, Plans, etc.)
+   --------------------------------------------------------- */
+.page-hero {
+    position: relative;
+    padding: 100px 0 90px;
+    color: #fff;
+    overflow: hidden;
+    isolation: isolate;
+    background: radial-gradient(900px 500px at 80% 10%, rgba(56, 189, 248, 0.22), transparent 60%), radial-gradient(800px 500px at 10% 90%, rgba(30, 111, 229, 0.24), transparent 60%), linear-gradient(135deg, var(--nexus-navy) 0%, var(--nexus-navy-dark) 100%);
+}
+
+    .page-hero::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+        background-size: 60px 60px;
+        z-index: -1;
+        opacity: 0.7;
+    }
+
+    .page-hero h1 {
+        color: #fff;
+        font-size: clamp(2rem, 4.5vw, 3.5rem);
+        font-weight: 800;
+        letter-spacing: -0.025em;
+        line-height: 1.1;
+        margin: 16px 0 14px;
+    }
+
+    .page-hero p {
+        color: rgba(255, 255, 255, 0.82);
+        font-size: 1.08rem;
+        max-width: 680px;
+        margin: 0;
+        line-height: 1.65;
+    }
+
+    .page-hero .breadcrumbs {
+        color: rgba(255, 255, 255, 0.65);
+        margin: 0 0 4px;
+    }
+
+        .page-hero .breadcrumbs a {
+            color: rgba(255, 255, 255, 0.72);
+        }
+
+            .page-hero .breadcrumbs a:hover {
+                color: #fff;
+            }
+
+        .page-hero .breadcrumbs .current {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .page-hero .breadcrumbs .sep {
+            opacity: 0.5;
+        }
+
+    .page-hero .hero-inline-meta {
+        display: flex;
+        gap: 26px;
+        margin-top: 26px;
+        padding-top: 26px;
+        border-top: 1px solid rgba(255, 255, 255, 0.12);
+        flex-wrap: wrap;
+    }
+
+        .page-hero .hero-inline-meta .item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.92rem;
+        }
+
+            .page-hero .hero-inline-meta .item i {
+                color: var(--nexus-accent);
+                font-size: 1.05rem;
+            }
+
+            .page-hero .hero-inline-meta .item strong {
+                color: #fff;
+                font-weight: 700;
+            }
+
+/* Two-column hero (with image on right) */
+.page-hero-split {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 60px;
+    align-items: center;
+}
+
+    .page-hero-split .hero-media {
+        position: relative;
+        border-radius: var(--radius-xl);
+        overflow: hidden;
+        aspect-ratio: 5 / 4;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+        .page-hero-split .hero-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform var(--ease-slow);
+        }
+
+        .page-hero-split .hero-media:hover img {
+            transform: scale(1.05);
+        }
+
+/* ---------------------------------------------------------
+   2. SERVICE DETAIL ROW (alternating image/text)
+   --------------------------------------------------------- */
+.service-detail-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+    margin-bottom: 100px;
+    scroll-margin-top: 100px;
+}
+
+    .service-detail-row:last-child {
+        margin-bottom: 0;
+    }
+
+    .service-detail-row.reverse {
+        direction: rtl;
+    }
+
+        .service-detail-row.reverse > * {
+            direction: ltr;
+        }
+
+.service-detail-media {
+    position: relative;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    box-shadow: 0 30px 60px rgba(10, 31, 68, 0.16), 0 12px 30px rgba(10, 31, 68, 0.1);
+}
+
+    .service-detail-media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform var(--ease-slow);
+    }
+
+    .service-detail-media:hover img {
+        transform: scale(1.06);
+    }
+
+    .service-detail-media .badge-float {
+        position: absolute;
+        bottom: 22px;
+        left: 22px;
+        padding: 12px 18px;
+        background: rgba(255, 255, 255, 0.96);
+        backdrop-filter: blur(12px);
+        border-radius: var(--radius-md);
+        box-shadow: 0 12px 30px rgba(10, 31, 68, 0.18);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+        .service-detail-media .badge-float i {
+            color: var(--nexus-blue-dark);
+            font-size: 1.15rem;
+        }
+
+        .service-detail-media .badge-float strong {
+            color: var(--nexus-navy);
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+
+.service-detail-body h2 {
+    margin-bottom: 16px;
+}
+
+.service-detail-body > p {
+    color: var(--nexus-text-soft);
+    font-size: 1.02rem;
+    line-height: 1.7;
+    margin-bottom: 22px;
+}
+
+.service-detail-body ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 26px;
+    display: grid;
+    gap: 12px;
+}
+
+    .service-detail-body ul li {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        color: var(--nexus-text-soft);
+        font-size: 0.96rem;
+        line-height: 1.6;
+    }
+
+        .service-detail-body ul li::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--nexus-success-bg);
+            color: var(--nexus-success-dark);
+            font-size: 0.72rem;
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+
+/* ---------------------------------------------------------
+   3. COMPARISON TABLE (Services / Plans)
+   --------------------------------------------------------- */
+.compare-table {
+    background: var(--nexus-surface);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--nexus-border);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+    .compare-table table {
+        min-width: 720px;
+    }
+
+    .compare-table thead th {
+        text-align: center;
+        background: var(--nexus-surface-2);
+        padding: 18px 16px;
+        font-size: 0.85rem;
+    }
+
+        .compare-table thead th.feature-name {
+            text-align: left;
+        }
+
+    .compare-table td {
+        text-align: center;
+        padding: 16px 14px;
+    }
+
+        .compare-table td.feature-name {
+            text-align: left;
+            font-weight: 600;
+            color: var(--nexus-text);
+        }
+
+    .compare-table .plan-col-popular {
+        background: linear-gradient(180deg, var(--nexus-blue-light) 0%, rgba(232, 241, 253, 0.4) 100%);
+    }
+
+    .compare-table thead .plan-col-popular {
+        background: linear-gradient(180deg, var(--nexus-blue) 0%, var(--nexus-blue-dark) 100%);
+        color: #fff;
+    }
+
+    .compare-table td .yes {
+        color: var(--nexus-success);
+        font-size: 1.1rem;
+    }
+
+    .compare-table td .no {
+        color: var(--nexus-border-strong);
+        font-size: 1.1rem;
+    }
+
+/* ---------------------------------------------------------
+   4. FAQ LIST
+   --------------------------------------------------------- */
+.faq-list {
+    display: grid;
+    gap: 14px;
+}
+
+.faq-item {
+    background: var(--nexus-surface);
+    border: 1px solid var(--nexus-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: border-color var(--ease-fast), box-shadow var(--ease-fast);
+}
+
+    .faq-item:hover {
+        border-color: var(--nexus-border-strong);
+    }
+
+    .faq-item.open {
+        border-color: var(--nexus-blue);
+        box-shadow: var(--shadow-sm);
+    }
+
+.faq-question {
+    width: 100%;
+    padding: 20px 24px;
+    background: none;
+    border: none;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--nexus-navy);
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    transition: color var(--ease-fast);
+}
+
+    .faq-question:hover {
+        color: var(--nexus-blue-dark);
+    }
+
+    .faq-question i {
+        color: var(--nexus-blue);
+        font-size: 0.9rem;
+        transition: transform var(--ease);
+        flex-shrink: 0;
+    }
+
+.faq-item.open .faq-question i {
+    transform: rotate(180deg);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height var(--ease-slow), padding var(--ease);
+    padding: 0 24px;
+    color: var(--nexus-text-soft);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+.faq-item.open .faq-answer {
+    max-height: 500px;
+    padding: 0 24px 22px;
+}
+
+/* ---------------------------------------------------------
+   5. CTA BANNER
+   --------------------------------------------------------- */
+.cta-banner {
+    position: relative;
+    padding: 70px 50px;
+    background: radial-gradient(700px 400px at 20% 20%, rgba(56, 189, 248, 0.22), transparent 60%), radial-gradient(700px 400px at 85% 80%, rgba(30, 111, 229, 0.28), transparent 60%), linear-gradient(130deg, var(--nexus-navy) 0%, var(--nexus-navy-dark) 100%);
+    border-radius: var(--radius-xl);
+    text-align: center;
+    color: #fff;
+    overflow: hidden;
+    box-shadow: 0 30px 60px rgba(10, 31, 68, 0.2);
+}
+
+    .cta-banner h2 {
+        color: #fff;
+        font-size: clamp(1.7rem, 3.2vw, 2.5rem);
+        margin-bottom: 14px;
+    }
+
+    .cta-banner p {
+        color: rgba(255, 255, 255, 0.82);
+        max-width: 640px;
+        margin: 0 auto 32px;
+        font-size: 1.05rem;
+    }
+
+    .cta-banner .hero-actions {
+        display: flex;
+        gap: 14px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+/* ---------------------------------------------------------
+   6. RESPONSIVE
+   --------------------------------------------------------- */
+@media (max-width: 1100px) {
+    .page-hero-split {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+        .page-hero-split .hero-media {
+            max-width: 560px;
+        }
+
+    .service-detail-row {
+        gap: 44px;
+    }
+}
+
+@media (max-width: 900px) {
+    .page-hero {
+        padding: 70px 0 60px;
+    }
+
+    .service-detail-row,
+    .service-detail-row.reverse {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        direction: ltr;
+        margin-bottom: 70px;
+    }
+
+    .service-detail-media {
+        max-width: 560px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 640px) {
+    .page-hero {
+        padding: 50px 0 40px;
+    }
+
+        .page-hero h1 {
+            font-size: 1.75rem;
+        }
+
+    .cta-banner {
+        padding: 50px 26px;
+        border-radius: var(--radius-lg);
+    }
+
+        .cta-banner .hero-actions {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+            .cta-banner .hero-actions .btn {
+                width: 100%;
+            }
+
+    .faq-question {
+        padding: 16px 18px;
+        font-size: 0.95rem;
+    }
+
+    .faq-answer {
+        padding: 0 18px;
+    }
+
+    .faq-item.open .faq-answer {
+        padding: 0 18px 18px;
+    }
+}
+/* =========================================================
+   PHASE 4B ADDITIONS — Login + Account Status
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   1. LOGIN SHELL (Customer Portal) — Luxury split-screen
+   --------------------------------------------------------- */
+.login-shell {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    min-height: 100vh;
+    background: var(--nexus-background);
+}
+
+/* LEFT — Brand aside with bg image */
+.login-aside {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 60px 70px;
+    color: #fff;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+    .login-aside .aside-bg {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        z-index: -2;
+        transform: scale(1.08);
+        animation: nexus-hero-zoom 22s ease-in-out infinite alternate;
+    }
+
+    .login-aside .aside-overlay {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background: radial-gradient(700px 500px at 20% 20%, rgba(56, 189, 248, 0.28), transparent 60%), linear-gradient(150deg, rgba(6, 22, 49, 0.92) 0%, rgba(10, 31, 68, 0.82) 100%);
+    }
+
+    .login-aside .aside-top .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: #fff;
+        font-weight: 800;
+        font-size: 1.25rem;
+        letter-spacing: 0.08em;
+    }
+
+    .login-aside .aside-top .brand-mark {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, var(--nexus-blue), var(--nexus-accent));
+        color: #fff;
+        font-weight: 800;
+        font-size: 1.1rem;
+        box-shadow: 0 8px 20px rgba(30, 111, 229, 0.5);
+    }
+
+    .login-aside .aside-top .brand-text {
+        color: #fff;
+    }
+
+    .login-aside .aside-mid h2 {
+        color: #fff;
+        font-size: clamp(1.75rem, 2.6vw, 2.4rem);
+        line-height: 1.15;
+        margin: 34px 0 18px;
+        letter-spacing: -0.02em;
+    }
+
+    .login-aside .aside-mid p {
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 1.02rem;
+        line-height: 1.65;
+        max-width: 480px;
+        margin: 0 0 26px;
+    }
+
+    .login-aside .aside-perks {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        gap: 14px;
+    }
+
+        .login-aside .aside-perks li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.95rem;
+        }
+
+            .login-aside .aside-perks li i {
+                width: 32px;
+                height: 32px;
+                border-radius: 10px;
+                background: rgba(56, 189, 248, 0.18);
+                color: var(--nexus-accent);
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 0.85rem;
+                flex-shrink: 0;
+            }
+
+    .login-aside .aside-foot {
+        border-top: 1px solid rgba(255, 255, 255, 0.14);
+        padding-top: 22px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: rgba(255, 255, 255, 0.72);
+        font-size: 0.85rem;
+    }
+
+        .login-aside .aside-foot i {
+            color: var(--nexus-accent);
+            font-size: 1.05rem;
+        }
+
+/* RIGHT — Form column */
+.login-form-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 40px;
+    background: var(--nexus-background);
+}
+
+.login-card {
+    width: 100%;
+    max-width: 440px;
+    background: var(--nexus-surface);
+    border: 1px solid var(--nexus-border);
+    border-radius: var(--radius-xl);
+    padding: 44px 40px;
+    box-shadow: 0 30px 60px rgba(10, 31, 68, 0.1);
+}
+
+    .login-card h2 {
+        margin: 0 0 8px;
+        font-size: 1.75rem;
+    }
+
+    .login-card .sub {
+        color: var(--nexus-muted);
+        font-size: 0.95rem;
+        margin-bottom: 28px;
+        line-height: 1.5;
+    }
+
+    .login-card .demo-hint {
+        margin-top: 22px;
+        padding: 14px 18px;
+        background: var(--nexus-info-bg);
+        border-radius: var(--radius-md);
+        border-left: 4px solid var(--nexus-info);
+        color: #075985;
+        font-size: 0.85rem;
+        line-height: 1.5;
+    }
+
+        .login-card .demo-hint i {
+            margin-right: 6px;
+        }
+
+        .login-card .demo-hint code {
+            background: rgba(0, 0, 0, 0.06);
+            padding: 1px 6px;
+            border-radius: 4px;
+            font-family: 'SF Mono', Monaco, Consolas, monospace;
+            font-size: 0.82rem;
+        }
+
+    .login-card .secure-note {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 20px;
+        color: var(--nexus-muted);
+        font-size: 0.8rem;
+    }
+
+        .login-card .secure-note i {
+            color: var(--nexus-success);
+        }
+
+    .login-card .back-home {
+        display: block;
+        text-align: center;
+        margin-top: 22px;
+        color: var(--nexus-muted);
+        font-size: 0.85rem;
+    }
+
+        .login-card .back-home:hover {
+            color: var(--nexus-blue-dark);
+        }
+
+/* Responsive */
+@media (max-width: 992px) {
+    .login-shell {
+        grid-template-columns: 1fr;
+    }
+
+    .login-aside {
+        display: none;
+    }
+
+    .login-form-wrap {
+        padding: 40px 20px;
+    }
+
+    .login-card {
+        padding: 32px 26px;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-card {
+        padding: 26px 22px;
+        border-radius: var(--radius-lg);
+    }
+}
+
+/* ---------------------------------------------------------
+   2. ACCOUNT STATUS PAGE
+   --------------------------------------------------------- */
+.status-search-card {
+    padding: 32px 34px;
+    background: var(--nexus-surface);
+    border: 1px solid var(--nexus-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+}
+
+    .status-search-card .form-row {
+        gap: 18px;
+    }
+
+.status-banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    padding: 30px 34px;
+    background: linear-gradient(120deg, var(--nexus-navy) 0%, var(--nexus-navy-mid) 100%);
+    border-radius: var(--radius-lg);
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+}
+
+    .status-banner::before {
+        content: '';
+        position: absolute;
+        top: -40%;
+        right: -10%;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(circle, rgba(56, 189, 248, 0.18), transparent 70%);
+        pointer-events: none;
+    }
+
+    .status-banner .sb-left {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .status-banner .avatar {
+        width: 68px;
+        height: 68px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--nexus-blue), var(--nexus-accent));
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-weight: 800;
+        font-size: 1.5rem;
+        flex-shrink: 0;
+        box-shadow: 0 12px 30px rgba(30, 111, 229, 0.4);
+        border: 3px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .status-banner h2 {
+        color: #fff;
+        margin: 0 0 6px;
+        font-size: 1.4rem;
+    }
+
+    .status-banner p {
+        color: rgba(255, 255, 255, 0.78);
+        margin: 0;
+        font-size: 0.9rem;
+        font-family: 'SF Mono', Monaco, Consolas, monospace;
+    }
+
+    .status-banner .sb-right {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+.status-kpi {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+}
+
+    .status-kpi .stat-card {
+        background: var(--nexus-surface);
+    }
+
+.health-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.health-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    background: var(--nexus-surface);
+    border: 1px solid var(--nexus-border);
+    border-radius: var(--radius-md);
+    transition: border-color var(--ease-fast), box-shadow var(--ease-fast);
+}
+
+    .health-row:hover {
+        border-color: var(--nexus-border-strong);
+        box-shadow: var(--shadow-xs);
+    }
+
+    .health-row .label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 0.92rem;
+        color: var(--nexus-text-soft);
+        font-weight: 500;
+    }
+
+        .health-row .label i {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            background: var(--nexus-blue-light);
+            color: var(--nexus-blue-dark);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+        }
+
+@media (max-width: 900px) {
+    .status-kpi {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .health-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .status-banner {
+        padding: 24px 22px;
+    }
+
+        .status-banner .avatar {
+            width: 56px;
+            height: 56px;
+            font-size: 1.25rem;
+        }
+}
+
+@media (max-width: 640px) {
+    .status-kpi {
+        grid-template-columns: 1fr;
+    }
+
+    .status-search-card {
+        padding: 24px 20px;
+    }
+
+    .status-banner .sb-right {
+        width: 100%;
+    }
+
+        .status-banner .sb-right .btn {
+            flex: 1;
+        }
+}
+/* =========================================================
+   PHASE 4B-FINAL — Centered Login with Bridge Background
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   1. FULL-PAGE SHELL
+   --------------------------------------------------------- */
+.login-centered {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 24px;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+/* Background image — BRIDGE */
+.login-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -3;
+    transform: scale(1.08);
+    animation: nexus-bridge-zoom 30s ease-in-out infinite alternate;
+}
+
+@keyframes nexus-bridge-zoom {
+    0% {
+        transform: scale(1.08) translate(0, 0);
+    }
+
+    100% {
+        transform: scale(1.16) translate(-1.5%, -1%);
+    }
+}
+
+/* Overlay — dark navy gradient */
+.login-bg-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background: radial-gradient(1000px 600px at 20% 20%, rgba(56, 189, 248, 0.24), transparent 60%), radial-gradient(900px 500px at 85% 85%, rgba(30, 111, 229, 0.32), transparent 60%), linear-gradient(135deg, rgba(6, 22, 49, 0.88) 0%, rgba(10, 31, 68, 0.82) 50%, rgba(6, 22, 49, 0.92) 100%);
+}
+
+/* Shining sweep */
+.login-shine {
+    position: absolute;
+    top: 0;
+    left: -60%;
+    width: 60%;
+    height: 100%;
+    z-index: -1;
+    background: linear-gradient( 100deg, transparent 0%, rgba(56, 189, 248, 0.06) 45%, rgba(255, 255, 255, 0.14) 50%, rgba(56, 189, 248, 0.06) 55%, transparent 100% );
+    transform: skewX(-18deg);
+    animation: nexus-shine-sweep 7s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes nexus-shine-sweep {
+    0% {
+        left: -60%;
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    80% {
+        opacity: 1;
+    }
+
+    100% {
+        left: 130%;
+        opacity: 0;
+    }
+}
+
+/* ---------------------------------------------------------
+   2. CONTENT COLUMN — centered
+   --------------------------------------------------------- */
+.login-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 520px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 26px;
+    text-align: center;
+}
+
+/* ---------------------------------------------------------
+   3. TOP — Brand + Title
+   --------------------------------------------------------- */
+.login-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+
+.login-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    margin-bottom: 6px;
+}
+
+    .login-brand .brand-mark {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, var(--nexus-blue), var(--nexus-accent));
+        color: #fff;
+        font-weight: 800;
+        font-size: 1.15rem;
+        box-shadow: 0 12px 30px rgba(30, 111, 229, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        animation: nexus-pulse-glow 3s ease-in-out infinite;
+    }
+
+@keyframes nexus-pulse-glow {
+    0%, 100% {
+        box-shadow: 0 12px 30px rgba(30, 111, 229, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 12px 42px rgba(56, 189, 248, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    }
+}
+
+.login-brand .brand-text {
+    color: #fff;
+    font-size: 1.25rem;
+    letter-spacing: 0.1em;
+}
+
+.login-title {
+    font-size: clamp(2.2rem, 5vw, 3.25rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: #fff;
+    margin: 0;
+    text-shadow: 0 6px 30px rgba(0, 0, 0, 0.4);
+    animation: nexus-fade-up 0.9s ease both;
+}
+
+    .login-title .shine {
+        background: linear-gradient( 90deg, #38BDF8 0%, #FFFFFF 35%, #7DD3FC 50%, #FFFFFF 65%, #38BDF8 100% );
+        background-size: 250% 100%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+        animation: nexus-text-shine 4.5s linear infinite;
+        filter: drop-shadow(0 4px 24px rgba(56, 189, 248, 0.55));
+    }
+
+@keyframes nexus-text-shine {
+    0% {
+        background-position: 250% center;
+    }
+
+    100% {
+        background-position: -50% center;
+    }
+}
+
+.login-subtitle {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 460px;
+    margin: 0;
+    animation: nexus-fade-up 0.9s ease 0.15s both;
+}
+
+/* ---------------------------------------------------------
+   4. CARD — centered
+   --------------------------------------------------------- */
+.login-card-centered {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: var(--radius-xl);
+    padding: 40px 40px 34px;
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4), 0 16px 40px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    text-align: left;
+    animation-delay: 0.25s;
+}
+
+.login-card-head {
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+    .login-card-head h2 {
+        font-size: 1.5rem;
+        margin: 0 0 6px;
+        letter-spacing: -0.02em;
+        color: var(--nexus-navy);
+    }
+
+    .login-card-head p {
+        margin: 0;
+        color: var(--nexus-muted);
+        font-size: 0.9rem;
+    }
+
+/* Login row — remember + forgot */
+.login-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+}
+
+.forgot-link {
+    font-size: 0.85rem;
+    color: var(--nexus-blue-dark);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+    .forgot-link:hover {
+        text-decoration: underline;
+    }
+
+/* Submit button — extra premium */
+.login-submit {
+    background: linear-gradient(135deg, var(--nexus-blue) 0%, var(--nexus-blue-dark) 100%);
+    box-shadow: 0 12px 28px rgba(30, 111, 229, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+    .login-submit::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+        transition: left 0.6s ease;
+    }
+
+    .login-submit:hover::after {
+        left: 100%;
+    }
+
+    .login-submit:hover {
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 18px 40px rgba(30, 111, 229, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    }
+
+/* Password toggle button inside input group */
+.password-toggle {
+    border: none !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    width: auto !important;
+    height: auto !important;
+    padding: 0 16px !important;
+    color: var(--nexus-muted);
+    cursor: pointer;
+    transition: color var(--ease-fast);
+    box-shadow: none !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .password-toggle:hover {
+        color: var(--nexus-blue-dark);
+        background: transparent !important;
+        border-color: transparent !important;
+        transform: none;
+    }
+
+/* Divider text */
+.login-card-centered .divider-text {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--nexus-muted);
+    font-size: 0.82rem;
+    margin: 22px 0 18px;
+}
+
+    .login-card-centered .divider-text::before,
+    .login-card-centered .divider-text::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: var(--nexus-border);
+    }
+
+/* Demo hint */
+.login-card-centered .demo-hint {
+    margin-top: 20px;
+    padding: 12px 16px;
+    background: var(--nexus-info-bg);
+    border-radius: var(--radius-md);
+    border-left: 4px solid var(--nexus-info);
+    color: #075985;
+    font-size: 0.82rem;
+    line-height: 1.55;
+    text-align: left;
+}
+
+    .login-card-centered .demo-hint i {
+        margin-right: 4px;
+    }
+
+    .login-card-centered .demo-hint code {
+        background: rgba(0, 0, 0, 0.06);
+        padding: 1px 6px;
+        border-radius: 4px;
+        font-family: 'SF Mono', Monaco, Consolas, monospace;
+        font-size: 0.78rem;
+    }
+
+/* ---------------------------------------------------------
+   5. BOTTOM — Trust strip
+   --------------------------------------------------------- */
+.login-trust {
+    display: flex;
+    justify-content: center;
+    gap: 26px;
+    flex-wrap: wrap;
+    padding: 16px 20px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: var(--radius-full);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    animation: nexus-fade-up 0.9s ease 0.5s both;
+}
+
+    .login-trust .trust-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+
+        .login-trust .trust-item i {
+            color: var(--nexus-accent);
+            font-size: 0.95rem;
+        }
+
+.back-home {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: color var(--ease-fast);
+    animation: nexus-fade-up 0.9s ease 0.6s both;
+}
+
+    .back-home:hover {
+        color: #fff;
+    }
+
+    .back-home i {
+        margin-right: 4px;
+    }
+
+/* ---------------------------------------------------------
+   6. RESPONSIVE
+   --------------------------------------------------------- */
+@media (max-width: 640px) {
+    .login-centered {
+        padding: 40px 18px;
+    }
+
+    .login-content {
+        gap: 20px;
+    }
+
+    .login-card-centered {
+        padding: 28px 22px 24px;
+        border-radius: var(--radius-lg);
+    }
+
+    .login-title {
+        font-size: 2.2rem;
+    }
+
+    .login-subtitle {
+        font-size: 0.92rem;
+    }
+
+    .login-trust {
+        gap: 14px;
+        padding: 12px 16px;
+        border-radius: var(--radius-lg);
+        flex-direction: column;
+        align-items: center;
+    }
+
+        .login-trust .trust-item {
+            font-size: 0.82rem;
+        }
+}
+
+@media (max-width: 400px) {
+    .login-brand .brand-text {
+        font-size: 1.05rem;
+    }
+
+    .login-title {
+        font-size: 1.85rem;
+    }
+}
+
+/* ---------------------------------------------------------
+   7. REDUCED MOTION
+   --------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    .login-bg,
+    .login-shine,
+    .login-title .shine,
+    .login-brand .brand-mark {
+        animation: none;
+    }
+}
+/* FAQ accordion (agar missing ho) */
+.faq-list {
+    display: grid;
+    gap: 12px;
+}
+
+.faq-item {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color 0.15s ease;
+}
+
+    .faq-item.open {
+        border-color: #1E6FE5;
+        box-shadow: 0 4px 12px rgba(30,111,229,0.08);
+    }
+
+.faq-question {
+    width: 100%;
+    padding: 16px 20px;
+    background: none;
+    border: none;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #0A1F44;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+}
+
+    .faq-question i {
+        color: #1E6FE5;
+        font-size: 0.85rem;
+        transition: transform 0.25s ease;
+    }
+
+.faq-item.open .faq-question i {
+    transform: rotate(180deg);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.25s ease;
+    padding: 0 20px;
+    color: #334155;
+    font-size: 0.92rem;
+    line-height: 1.65;
+}
+
+.faq-item.open .faq-answer {
+    max-height: 400px;
+    padding: 0 20px 18px;
+}

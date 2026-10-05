@@ -1,0 +1,207 @@
+﻿/* =========================================================
+   NEXUS — tables.css
+   Luxury Data Tables
+   ========================================================= */
+
+.table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--nexus-border);
+    background: var(--nexus-surface);
+    box-shadow: var(--shadow-xs);
+    position: relative;
+}
+
+    .table-wrap::-webkit-scrollbar {
+        height: 8px;
+    }
+
+    .table-wrap::-webkit-scrollbar-track {
+        background: var(--nexus-surface-2);
+    }
+
+    .table-wrap::-webkit-scrollbar-thumb {
+        background: var(--nexus-border-strong);
+        border-radius: 8px;
+    }
+
+table.table, table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+    min-width: 640px;
+    color: var(--nexus-text-soft);
+}
+
+    table thead {
+        background: var(--nexus-surface-2);
+        border-bottom: 1px solid var(--nexus-border);
+    }
+
+        table thead th {
+            text-align: left;
+            padding: 15px 18px;
+            font-size: 0.76rem;
+            font-weight: 700;
+            color: var(--nexus-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            white-space: nowrap;
+            background: var(--nexus-surface-2);
+        }
+
+            table thead th[data-sortable] {
+                cursor: pointer;
+                user-select: none;
+                position: relative;
+                padding-right: 30px;
+                transition: color var(--ease-fast);
+            }
+
+                table thead th[data-sortable]:hover {
+                    color: var(--nexus-navy);
+                }
+
+                table thead th[data-sortable]::after {
+                    content: '\f0dc';
+                    font-family: 'Font Awesome 6 Free';
+                    font-weight: 900;
+                    position: absolute;
+                    right: 12px;
+                    opacity: 0.35;
+                    font-size: 0.72rem;
+                }
+
+            table thead th.sorted-asc::after {
+                content: '\f0de';
+                opacity: 1;
+                color: var(--nexus-blue);
+            }
+
+            table thead th.sorted-desc::after {
+                content: '\f0dd';
+                opacity: 1;
+                color: var(--nexus-blue);
+            }
+
+    table tbody td {
+        padding: 15px 18px;
+        border-bottom: 1px solid var(--nexus-border-soft);
+        color: var(--nexus-text-soft);
+        vertical-align: middle;
+        line-height: 1.5;
+    }
+
+    table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    table tbody tr {
+        transition: background var(--ease-fast);
+    }
+
+        table tbody tr:hover {
+            background: var(--nexus-surface-2);
+        }
+
+    table td strong {
+        color: var(--nexus-navy);
+        font-weight: 600;
+    }
+
+        table td strong[style*="monospace"], table code {
+            font-family: 'SF Mono', Monaco, Consolas, 'Courier New', monospace;
+            font-size: 0.88em;
+            letter-spacing: -0.01em;
+        }
+
+    table td .row-actions {
+        display: flex;
+        gap: 6px;
+        white-space: nowrap;
+        align-items: center;
+    }
+
+    table.table-compact th, table.table-compact td {
+        padding: 10px 14px;
+        font-size: 0.88rem;
+    }
+
+    table.table-striped tbody tr:nth-child(even) {
+        background: var(--nexus-surface-2);
+    }
+
+        table.table-striped tbody tr:nth-child(even):hover {
+            background: #EEF2F7;
+        }
+
+    table.table-bordered th, table.table-bordered td {
+        border: 1px solid var(--nexus-border);
+    }
+
+    table.table-fluid {
+        min-width: auto;
+    }
+
+.table-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 20px;
+    border-top: 1px solid var(--nexus-border-soft);
+    background: var(--nexus-surface-2);
+    font-size: 0.85rem;
+    color: var(--nexus-muted);
+    flex-wrap: wrap;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+@media (max-width: 720px) {
+    .hide-sm {
+        display: none !important;
+    }
+
+    table {
+        font-size: 0.86rem;
+        min-width: 520px;
+    }
+
+        table thead th, table tbody td {
+            padding: 12px 14px;
+        }
+}
+
+@media (max-width: 480px) {
+    table {
+        min-width: 480px;
+    }
+
+        table thead th {
+            font-size: 0.7rem;
+            padding: 10px 12px;
+        }
+
+        table tbody td {
+            padding: 11px 12px;
+            font-size: 0.84rem;
+        }
+}
+
+@media print {
+    .table-wrap {
+        border: 1px solid #ddd;
+        box-shadow: none;
+        overflow: visible;
+    }
+
+    table {
+        min-width: auto;
+        font-size: 0.85rem;
+    }
+
+        table thead {
+            background: #f5f5f5;
+        }
+}

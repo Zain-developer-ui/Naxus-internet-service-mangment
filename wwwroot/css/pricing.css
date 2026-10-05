@@ -1,0 +1,196 @@
+﻿/* =========================================================
+   NEXUS — pricing.css
+   Pricing cards, popular badge, comparison table.
+   ========================================================= */
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 26px;
+    align-items: stretch;
+}
+
+.pricing-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 36px 30px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+
+    .pricing-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-xl);
+        border-color: var(--secondary);
+    }
+
+    .pricing-card .plan-name {
+        font-size: .85rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .12em;
+        color: var(--secondary-dark);
+        margin-bottom: 10px;
+    }
+
+    .pricing-card .plan-tagline {
+        color: var(--muted);
+        font-size: .9rem;
+        margin-bottom: 22px;
+    }
+
+    .pricing-card .plan-speed {
+        display: flex;
+        align-items: baseline;
+        gap: 6px;
+        margin-bottom: 6px;
+    }
+
+        .pricing-card .plan-speed strong {
+            font-size: 2.6rem;
+            font-weight: 800;
+            color: var(--primary);
+            line-height: 1;
+        }
+
+        .pricing-card .plan-speed span {
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+    .pricing-card .plan-price {
+        margin: 18px 0 22px;
+        padding: 18px 0;
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+    }
+
+        .pricing-card .plan-price .currency {
+            font-size: .9rem;
+            color: var(--muted);
+            font-weight: 600;
+            display: block;
+        }
+
+        .pricing-card .plan-price .amount {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+            line-height: 1;
+        }
+
+        .pricing-card .plan-price .per {
+            color: var(--muted);
+            font-size: .9rem;
+            font-weight: 500;
+            margin-left: 4px;
+        }
+
+    .pricing-card .plan-features {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 26px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        flex: 1;
+    }
+
+        .pricing-card .plan-features li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: .93rem;
+            color: var(--text-soft);
+        }
+
+            .pricing-card .plan-features li i {
+                color: var(--success);
+                margin-top: 3px;
+                font-size: .82rem;
+            }
+
+            .pricing-card .plan-features li.off {
+                color: var(--muted);
+            }
+
+                .pricing-card .plan-features li.off i {
+                    color: var(--muted);
+                }
+
+    /* Popular highlight */
+    .pricing-card.popular {
+        border: 2px solid var(--secondary);
+        box-shadow: 0 22px 50px rgba(30,136,229,.2);
+        transform: translateY(-10px);
+    }
+
+        .pricing-card.popular:hover {
+            transform: translateY(-16px);
+        }
+
+    .pricing-card .popular-badge {
+        position: absolute;
+        top: -14px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 6px 16px;
+        background: linear-gradient(135deg, var(--secondary), var(--secondary-dark));
+        color: #fff;
+        font-size: .72rem;
+        font-weight: 700;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        border-radius: 999px;
+        box-shadow: 0 8px 18px rgba(30,136,229,.35);
+        white-space: nowrap;
+    }
+
+/* ---------- Comparison table ---------- */
+.compare-table {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+
+    .compare-table table {
+        min-width: 720px;
+    }
+
+    .compare-table th {
+        text-align: center;
+        background: var(--surface-2);
+    }
+
+    .compare-table td {
+        text-align: center;
+    }
+
+        .compare-table td.feature-name {
+            text-align: left;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+    .compare-table .plan-col-popular {
+        background: var(--secondary-light);
+    }
+
+    .compare-table thead .plan-col-popular {
+        background: var(--secondary);
+        color: #fff;
+    }
+
+    .compare-table td .yes {
+        color: var(--success);
+        font-size: 1.05rem;
+    }
+
+    .compare-table td .no {
+        color: var(--border-strong);
+        font-size: 1.05rem;
+    }

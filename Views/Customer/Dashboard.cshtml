@@ -1,0 +1,383 @@
+﻿@model NEXUS.Models.ViewModels.CustomerDashboardViewModel
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Dashboard — NEXUS";
+    ViewData["UserRole"] = "Customer";
+    ViewData["ActiveSidebar"] = "dashboard";
+    ViewData["UserName"] = Model?.Account?.CustomerName ?? "Ahmed Khan";
+
+    var acc = Model?.Account ?? new NEXUS.Models.ViewModels.AccountViewModel
+    {
+        AccountId = "NX12345678", CustomerName = "Ahmed Khan",
+        ConnectionType = "Broadband", Plan = "Standard 15 Mbps",
+        Speed = "15 Mbps", Status = "Active",
+        BillingStatus = "Paid", InstallationStatus = "Completed",
+        ActivationDate = new DateTime(2025, 1, 12)
+    };
+
+    var currentBill = Model?.CurrentBill;
+    var recentBills = Model?.RecentBills ?? new List<NEXUS.Models.ViewModels.BillViewModel>();
+    var recentActivity = Model?.RecentActivity ?? new List<NEXUS.Models.ViewModels.ActivityViewModel>();
+
+    var usageLabels = Model?.UsageLabels ?? new List<string> { "Apr","May","Jun","Jul","Aug","Sep" };
+    var usageValues = Model?.UsageValues ?? new List<double> { 120,145,138,172,190,205 };
+    var paymentLabels = Model?.PaymentLabels ?? new List<string> { "Apr","May","Jun","Jul","Aug","Sep" };
+    var paymentValues = Model?.PaymentValues ?? new List<double> { 2450,2450,2450,2450,2450,0 };
+}
+
+@section DashboardStyles {
+    <link rel="stylesheet" href="~/css/dashboards-luxury.css" />
+}
+
+<script>
+    window.NEXUS_CHART_DATA = {
+        usage:        @Html.Raw(System.Text.Json.JsonSerializer.Serialize(usageValues)),
+        usageLabels:  @Html.Raw(System.Text.Json.JsonSerializer.Serialize(usageLabels)),
+        payments:     @Html.Raw(System.Text.Json.JsonSerializer.Serialize(paymentValues)),
+        paymentLabels:@Html.Raw(System.Text.Json.JsonSerializer.Serialize(paymentLabels))
+    };
+</script>
+
+@* =========================================================
+   WELCOME BANNER
+   ========================================================= *@
+<div class="welcome-banner reveal">
+    <div class="banner-flex">
+        <div>
+            <h1>Welcome back, @acc.CustomerName.Split(' ')[0]! 👋</h1>
+            <p>
+                Account <strong style="font-family:monospace;">@acc.AccountId</strong>
+                · @acc.ConnectionType · @acc.Plan
+            </p>
+            <div class="banner-actions">
+                <span class="badge badge-success"><i class="fa-solid fa-circle-check"></i> @acc.Status</span>
+                <span class="badge" style="background:rgba(255,255,255,0.15);color:#fff;">
+                    <i class="fa-solid fa-calendar"></i> Today · @DateTime.Now.ToString("dd MMM yyyy")
+                </span>
+            </div>
+        </div>
+        <div class="banner-actions">
+            <a href="/Bills" class="btn btn-outline-light">
+                <i class="fa-solid fa-file-invoice-dollar"></i> View Bills
+            </a>
+            <a href="/Customer/MyConnection" class="btn btn-primary">
+                <i class="fa-solid fa-wifi"></i> My Connection
+            </a>
+        </div>
+    </div>
+</div>
+
+@* =========================================================
+   STAT CARDS
+   ========================================================= *@
+<div class="stats-grid reveal">
+    <div class="stat-card">
+        <div class="stat-icon success"><i class="fa-solid fa-circle-check"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value">@acc.Status</div>
+            <div class="stat-label">Connection Status</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon navy"><i class="fa-solid fa-gauge-high"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value" style="font-size:1.2rem;">@acc.Plan</div>
+            <div class="stat-label">Current Plan · @acc.Speed</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon @(currentBill?.Status == "Paid" ? "success" : "warning")">
+            <i class="fa-solid fa-money-bill-wave"></i>
+        </div>
+        <div class="stat-meta">
+            <div class="stat-value">Rs. @((currentBill?.Amount ?? 2450).ToString("N0"))</div>
+            <div class="stat-label">@(currentBill != null && currentBill.Status != "Paid" ? "Amount Due" : "Monthly Bill")</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon blue"><i class="fa-regular fa-calendar"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value" style="font-size:1.15rem;">@(currentBill?.DueDate.ToString("dd MMM yyyy") ?? "25 Oct 2025")</div>
+            <div class="stat-label">Next Billing Date</div>
+        </div>
+    </div>
+</div>
+
+@* =========================================================
+   CONNECTION + BILLING OVERVIEW
+   ========================================================= *@
+<div class="dash-grid-2">
+    <div class="card reveal">
+        <div class="card-header">
+            <div>
+                <h4><i class="fa-solid fa-wifi" style="color:var(--nexus-blue);"></i> Connection Overview</h4>
+                <p>Your active NEXUS connection at a glance.</p>
+            </div>
+            <span class="badge badge-success">@acc.Status</span>
+        </div>
+
+        <div class="summary-rows">
+            <div><span>Connection Type</span><strong>@acc.ConnectionType</strong></div>
+            <div><span>Plan</span><strong>@acc.Plan</strong></div>
+            <div><span>Speed</span><strong>@acc.Speed</strong></div>
+            <div><span>Account ID</span><strong style="font-family:monospace;">@acc.AccountId</strong></div>
+            <div><span>Connection Since</span><strong>@(acc.ActivationDate?.ToString("dd MMM yyyy") ?? "12 Jan 2025")</strong></div>
+            <div><span>Service Area</span><strong>@(acc.ServiceArea ?? "Gulberg III, Lahore")</strong></div>
+        </div>
+
+        <div style="margin-top:20px;">
+            <a href="/Customer/MyConnection" class="btn btn-outline btn-sm">
+                View Full Details <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="card reveal delay-1">
+        <div class="card-header">
+            <div>
+                <h4><i class="fa-solid fa-file-invoice-dollar" style="color:var(--nexus-blue);"></i> Billing Overview</h4>
+                <p>Your latest bill and payment status.</p>
+            </div>
+            <span class="badge @(currentBill?.Status == "Paid" ? "badge-success" : "badge-warning")">
+                @(currentBill?.Status ?? "Paid")
+            </span>
+        </div>
+
+        <div class="summary-rows">
+            <div><span>Bill Number</span><strong style="font-family:monospace;">@(currentBill?.BillNo ?? "INV-1003")</strong></div>
+            <div><span>Billing Period</span><strong>@(currentBill?.Period ?? "Sep 2025")</strong></div>
+            <div><span>Due Date</span><strong>@(currentBill?.DueDate.ToString("dd MMM yyyy") ?? "25 Sep 2025")</strong></div>
+        </div>
+
+        <div class="summary-rows total" style="margin-top:16px;">
+            <div><span>Amount</span><strong>Rs. @((currentBill?.Amount ?? 2450).ToString("N0"))</strong></div>
+        </div>
+
+        <div style="margin-top:20px;display:flex;gap:8px;flex-wrap:wrap;">
+            <a href="/Bills" class="btn btn-outline btn-sm">View Bills</a>
+            <a href="/Bills/Details/@(currentBill?.BillNo ?? "INV-1003")" class="btn btn-primary btn-sm">
+                Bill Details <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+@* =========================================================
+   CHARTS
+   ========================================================= *@
+<div class="dash-grid-2" style="margin-top:22px;">
+    <div class="chart-card reveal">
+        <div class="chart-head">
+            <div>
+                <h4><i class="fa-solid fa-chart-area"></i> Internet Usage</h4>
+                <p class="chart-sub">Monthly data consumption (GB) — last 6 months.</p>
+            </div>
+            <span class="badge badge-info">Last 6 months</span>
+        </div>
+        <div class="chart-body">
+            <canvas id="usageChart" data-chart="area" data-label="Usage (GB)"></canvas>
+        </div>
+    </div>
+
+    <div class="chart-card reveal delay-1">
+        <div class="chart-head">
+            <div>
+                <h4><i class="fa-solid fa-chart-bar"></i> Payment History</h4>
+                <p class="chart-sub">Monthly payments (PKR).</p>
+            </div>
+            <span class="badge badge-success">On Track</span>
+        </div>
+        <div class="chart-body">
+            <canvas id="paymentChart" data-chart="bar" data-label="Paid (PKR)"></canvas>
+        </div>
+    </div>
+</div>
+
+@* =========================================================
+   SERVICE HEALTH
+   ========================================================= *@
+<div class="chart-card reveal" style="margin-top:22px;">
+    <div class="chart-head">
+        <div>
+            <h4><i class="fa-solid fa-shield-halved"></i> Service Health</h4>
+            <p class="chart-sub">Live status of your NEXUS services.</p>
+        </div>
+        <span class="badge badge-success"><i class="fa-solid fa-circle"></i> All systems operational</span>
+    </div>
+
+    <div class="stats-grid" style="margin-bottom:0;">
+        <div class="stat-card">
+            <div class="stat-icon success"><i class="fa-solid fa-signal"></i></div>
+            <div class="stat-meta">
+                <div class="stat-value" style="font-size:1.05rem;">Excellent</div>
+                <div class="stat-label">Internet</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon success"><i class="fa-solid fa-network-wired"></i></div>
+            <div class="stat-meta">
+                <div class="stat-value" style="font-size:1.05rem;">Stable</div>
+                <div class="stat-label">Network</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon success"><i class="fa-solid fa-user-check"></i></div>
+            <div class="stat-meta">
+                <div class="stat-value" style="font-size:1.05rem;">@acc.Status</div>
+                <div class="stat-label">Account</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon @(acc.BillingStatus == "Paid" ? "success" : "warning")">
+                <i class="fa-solid fa-file-invoice"></i>
+            </div>
+            <div class="stat-meta">
+                <div class="stat-value" style="font-size:1.05rem;">@acc.BillingStatus</div>
+                <div class="stat-label">Billing</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* =========================================================
+   QUICK ACTIONS
+   ========================================================= *@
+<div class="chart-card reveal" style="margin-top:22px;">
+    <div class="chart-head">
+        <h4><i class="fa-solid fa-bolt"></i> Quick Actions</h4>
+    </div>
+
+    <div class="quick-actions">
+        <a href="/Customer/MyConnection" class="quick-action">
+            <i class="fa-solid fa-wifi"></i><span>My Connection</span>
+        </a>
+        <a href="/Bills" class="quick-action">
+            <i class="fa-solid fa-file-invoice-dollar"></i><span>View Bills</span>
+        </a>
+        <a href="/Profile" class="quick-action">
+            <i class="fa-regular fa-user"></i><span>Update Profile</span>
+        </a>
+        <a href="/Feedback" class="quick-action">
+            <i class="fa-regular fa-comment-dots"></i><span>Send Feedback</span>
+        </a>
+        <a href="/Orders/Tracking" class="quick-action">
+            <i class="fa-solid fa-truck-fast"></i><span>Track Order</span>
+        </a>
+        <a href="/Home/Contact" class="quick-action">
+            <i class="fa-solid fa-headset"></i><span>Support</span>
+        </a>
+    </div>
+</div>
+
+@* =========================================================
+   RECENT BILLS + ACTIVITY
+   ========================================================= *@
+<div class="dash-grid-2" style="margin-top:22px;">
+    <div class="chart-card reveal" style="margin-bottom:0;">
+        <div class="chart-head">
+            <div>
+                <h4><i class="fa-solid fa-file-invoice"></i> Recent Bills</h4>
+                <p class="chart-sub">Your last three invoices.</p>
+            </div>
+            <a href="/Bills" class="btn btn-ghost btn-sm">View all</a>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Invoice</th>
+                        <th>Period</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th class="hide-sm"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (recentBills.Any())
+                    {
+                        @foreach (var b in recentBills)
+                        {
+                            var statusClass = b.Status == "Paid" ? "badge-success"
+                                            : b.Status == "Overdue" ? "badge-danger" : "badge-warning";
+                            <tr>
+                                <td><strong style="font-family:monospace;">@b.BillNo</strong></td>
+                                <td>@b.Period</td>
+                                <td><strong>Rs. @b.Amount.ToString("N0")</strong></td>
+                                <td><span class="badge @statusClass">@b.Status</span></td>
+                                <td class="hide-sm">
+                                    <a href="/Bills/Details/@b.BillNo" class="btn btn-ghost btn-sm">View</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr><td colspan="5" class="text-center muted">No bills yet.</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="chart-card reveal delay-1" style="margin-bottom:0;">
+        <div class="chart-head">
+            <h4><i class="fa-solid fa-clock-rotate-left"></i> Recent Activity</h4>
+        </div>
+
+        <div class="activity-feed">
+            @if (recentActivity.Any())
+            {
+                @foreach (var a in recentActivity)
+                {
+                    <div class="activity-item @a.Tone">
+                        <div class="icon"><i class="fa-solid @a.Icon"></i></div>
+                        <div class="meta">
+                            <strong>@a.Title</strong>
+                            <p>@a.Description</p>
+                        </div>
+                        <div class="when">@a.When</div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p class="muted text-center">No recent activity.</p>
+            }
+        </div>
+    </div>
+</div>
+
+@* =========================================================
+   SUPPORT CTA
+   ========================================================= *@
+<div class="cta-banner reveal" style="margin-top:22px;">
+    <h2>Need help with your connection?</h2>
+    <p>Our support team is available 24/7 — reach out any time.</p>
+    <div class="hero-actions">
+        <a href="/Home/Contact" class="btn btn-primary btn-lg">
+            <i class="fa-solid fa-headset"></i> Contact Support
+        </a>
+        <a href="/Feedback" class="btn btn-outline-light btn-lg">
+            <i class="fa-regular fa-comment-dots"></i> Send Feedback
+        </a>
+    </div>
+</div>
+
+@section DashboardScripts {
+    <script>
+        // Dashboard loaded toast
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(function () {
+                if (window.NEXUS && NEXUS.toast) {
+                    NEXUS.toast({
+                        title: 'Welcome back!',
+                        message: 'Dashboard loaded successfully.',
+                        type: 'success',
+                        duration: 3000
+                    });
+                }
+            }, 500);
+        });
+    </script>
+}

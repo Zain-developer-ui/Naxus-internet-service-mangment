@@ -1,0 +1,16 @@
+C:\Users\asp\Desktop\NEXUS.Services\obj\Debug\net9.0\rpswa.dswa.cache.json
+C:\Users\asp\Desktop\NEXUS.Services\obj\Debug\net9.0\NEXUS.Services.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\asp\Desktop\NEXUS.Services\obj\Debug\net9.0\NEXUS.Services.AssemblyInfoInputs.cache
+C:\Users\asp\Desktop\NEXUS.Services\obj\Debug\net9.0\NEXUS.Services.AssemblyInfo.cs
+C:\Users\asp\Desktop\NEXUS.Services\obj\Debug\net9.0\NEXUS.Services.csproj.CoreCompileInputs.cache
+C:\Users\asp\Desktop\NEXUS.Services\obj\Debug\net9.0\NEXUS.Services.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\asp\Desktop\NEXUS.Services\obj\Debug\net9.0\NEXUS.Services.RazorAssemblyInfo.cache
+C:\Users\asp\Desktop\NEXUS.Services\obj\Debug\net9.0\NEXUS.Services.RazorAssemblyInfo.cs
+C:\Users\AbdulSattar\Downloads\NEXUS.Services\NEXUS.Services\obj\Debug\net9.0\rpswa.dswa.cache.json
+C:\Users\AbdulSattar\Downloads\NEXUS.Services\NEXUS.Services\obj\Debug\net9.0\NEXUS.Services.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\AbdulSattar\Downloads\NEXUS.Services\NEXUS.Services\obj\Debug\net9.0\NEXUS.Services.AssemblyInfoInputs.cache
+C:\Users\AbdulSattar\Downloads\NEXUS.Services\NEXUS.Services\obj\Debug\net9.0\NEXUS.Services.AssemblyInfo.cs
+C:\Users\AbdulSattar\Downloads\NEXUS.Services\NEXUS.Services\obj\Debug\net9.0\NEXUS.Services.csproj.CoreCompileInputs.cache
+C:\Users\AbdulSattar\Downloads\NEXUS.Services\NEXUS.Services\obj\Debug\net9.0\NEXUS.Services.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\AbdulSattar\Downloads\NEXUS.Services\NEXUS.Services\obj\Debug\net9.0\NEXUS.Services.RazorAssemblyInfo.cache
+C:\Users\AbdulSattar\Downloads\NEXUS.Services\NEXUS.Services\obj\Debug\net9.0\NEXUS.Services.RazorAssemblyInfo.cs

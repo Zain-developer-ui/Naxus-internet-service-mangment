@@ -1,0 +1,483 @@
+﻿@model NEXUS.Models.ViewModels.PlanViewModel
+@{
+    ViewData["Title"] = (Model?.Name ?? "Plan") + " Plan — NEXUS";
+    ViewData["BodyClass"] = "public-body";
+
+    var name = Model?.Name ?? "Standard";
+    var speed = Model?.SpeedMbps ?? 15;
+    var monthly = Model?.MonthlyRental ?? 2000m;
+    var deposit = Model?.SecurityDeposit ?? 450m;
+    var tagline = Model?.Tagline ?? "Balanced speed for homes and offices.";
+    var description = Model?.Description ?? "A great all-round plan for streaming, work and multiple devices.";
+    var features = Model?.Features ?? new List<string>();
+    var benefits = Model?.Benefits ?? new List<string>();
+    var isPopular = Model?.IsPopular ?? false;
+    var totalFirstMonth = monthly + deposit;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/home.css" />
+    <link rel="stylesheet" href="~/css/pricing.css" />
+    <link rel="stylesheet" href="~/css/public-pages.css" />
+}
+
+@* =========================================================
+   1. HERO — Same luxury style
+   ========================================================= *@
+<section class="home-hero">
+    <div class="container">
+        <div class="home-hero-grid">
+
+            @* ---------- LEFT: Title ---------- *@
+            <div class="hero-copy">
+                <span class="hero-badge">
+                    <i class="fa-solid fa-gauge-high"></i> @name Plan @(isPopular ? "· Most Popular" : "")
+                </span>
+
+                <h1>
+                    Your @name<br />
+                    Connection<br />
+                    <span class="shine">@speed Mbps</span>
+                </h1>
+
+                <p class="hero-lead">
+                    @tagline — reliable, fast and built for the way you connect.
+                    @description
+                </p>
+
+                <div class="hero-actions">
+                    <a href="/Orders/New?plan=@name" class="btn btn-primary btn-lg">
+                        <i class="fa-solid fa-plug-circle-plus"></i> Choose This Plan
+                    </a>
+                    <a href="/Plans" class="btn btn-outline-light btn-lg">
+                        <i class="fa-solid fa-arrow-left"></i> Back to Plans
+                    </a>
+                </div>
+
+                <div class="hero-trust">
+                    <div class="hero-trust-item">
+                        <span class="ic"><i class="fa-solid fa-gauge-high"></i></span>
+                        <div class="txt"><strong>@speed Mbps</strong><span>Download</span></div>
+                    </div>
+                    <div class="hero-trust-item">
+                        <span class="ic"><i class="fa-solid fa-money-bill-wave"></i></span>
+                        <div class="txt"><strong>Rs. @monthly.ToString("N0")</strong><span>Per month</span></div>
+                    </div>
+                    <div class="hero-trust-item">
+                        <span class="ic"><i class="fa-solid fa-check"></i></span>
+                        <div class="txt"><strong>Free</strong><span>Installation</span></div>
+                    </div>
+                </div>
+            </div>
+
+            @* ---------- RIGHT: BIG Picture ---------- *@
+            <div class="hero-visual">
+                <div class="hero-media">
+                    <img src="https://images.unsplash.com/photo-1544428571-95f3fb8c4f2f?w=1000&q=85"
+                         alt="@name plan router" loading="eager" />
+                </div>
+
+                <span class="hero-live-badge">
+                    <span class="dot"></span> @(isPopular ? "Most Popular" : "Available")
+                </span>
+
+                <div class="hero-float-card">
+                    <span class="ic"><i class="fa-solid fa-router"></i></span>
+                    <div class="meta">
+                        <strong>Free Router</strong>
+                        <span>Wi-Fi 6 included</span>
+                    </div>
+                </div>
+
+                <div class="hero-float-card speed">
+                    <span class="ic"><i class="fa-solid fa-bolt"></i></span>
+                    <div class="meta">
+                        <strong>@speed Mbps</strong>
+                        <span>Blazing fast</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+@* =========================================================
+   2. STATS STRIP
+   ========================================================= *@
+<section class="home-stats-strip">
+    <div class="container">
+        <div class="home-stats-card reveal">
+            <div class="home-stat-item">
+                <div class="num">@speed<span class="unit">Mbps</span></div>
+                <span class="label">Download Speed</span>
+            </div>
+            <div class="home-stat-item">
+                <div class="num">Rs. @monthly.ToString("N0")</div>
+                <span class="label">Monthly Rental</span>
+            </div>
+            <div class="home-stat-item">
+                <div class="num">Rs. @deposit.ToString("N0")</div>
+                <span class="label">Security Deposit</span>
+            </div>
+            <div class="home-stat-item">
+                <div class="num">Free</div>
+                <span class="label">Installation</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* =========================================================
+   3. MAIN DETAIL — Split row with plan features
+   ========================================================= *@
+<section class="pps-section">
+    <div class="container">
+        <div class="split-row">
+
+            <div class="split-copy reveal-left">
+                <span class="eyebrow">About the @name Plan</span>
+                <h2>Everything you need for <span class="shine" style="background:linear-gradient(90deg,#1E6FE5,#38BDF8);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:text-shine 4s linear infinite;">@speed Mbps</span></h2>
+                <p class="lead">@description</p>
+
+                <ul class="check-list">
+                    @foreach (var f in features.Take(6))
+                    {
+                        <li><i class="fa-solid fa-check"></i> @f</li>
+                    }
+                </ul>
+
+                @if (benefits.Any())
+                {
+                    <h4 style="margin:22px 0 12px;color:#0A1F44;font-size:1.05rem;">Why you'll love it</h4>
+                    <ul class="check-list">
+                        @foreach (var b in benefits.Take(4))
+                        {
+                            <li><i class="fa-solid fa-star" style="color:#F59E0B;"></i> @b</li>
+                        }
+                    </ul>
+                }
+            </div>
+
+            @* Sticky plan card *@
+            <div class="split-media reveal-right" style="aspect-ratio:auto;">
+                <div class="pricing-card @(isPopular ? "popular" : "")" style="width:100%;max-width:100%;">
+                    @if (isPopular)
+                    {
+                        <span class="popular-badge">Most Popular</span>
+                    }
+
+                    <div class="plan-name">@name Plan</div>
+                    <div class="plan-tagline">@tagline</div>
+
+                    <div class="plan-speed">
+                        <strong>@speed</strong><span>Mbps</span>
+                    </div>
+
+                    <div class="plan-price">
+                        <span class="currency">Monthly Rental</span>
+                        <span class="amount">Rs. @monthly.ToString("N0")</span>
+                        <span class="per">/month</span>
+                    </div>
+
+                    <div style="padding:16px 0;border-bottom:1px dashed #E2E8F0;">
+                        <div style="display:flex;justify-content:space-between;font-size:0.9rem;padding:6px 0;">
+                            <span style="color:#64748B;">Security Deposit</span>
+                            <strong style="color:#0A1F44;">Rs. @deposit.ToString("N0")</strong>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;font-size:0.9rem;padding:6px 0;">
+                            <span style="color:#64748B;">Installation</span>
+                            <strong style="color:#10B981;">Free</strong>
+                        </div>
+                    </div>
+
+                    <div style="display:flex;justify-content:space-between;font-size:1.05rem;font-weight:700;padding:14px 0;border-bottom:2px solid #E2E8F0;margin-bottom:20px;">
+                        <span style="color:#0A1F44;">First Month Total</span>
+                        <strong style="color:#1558B8;">Rs. @totalFirstMonth.ToString("N0")</strong>
+                    </div>
+
+                    <a href="/Orders/New?plan=@name" class="btn btn-primary btn-block btn-lg">
+                        <i class="fa-solid fa-plug-circle-plus"></i> Choose This Plan
+                    </a>
+                    <a href="/Plans" class="btn btn-outline btn-block" style="margin-top:10px;">
+                        <i class="fa-solid fa-arrow-left"></i> Compare Plans
+                    </a>
+
+                    <p style="text-align:center;color:#64748B;font-size:0.82rem;margin:16px 0 0;">
+                        <i class="fa-solid fa-shield-halved" style="color:#10B981;"></i>
+                        Security deposit is fully refundable
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* =========================================================
+   4. WHY NEXUS PLANS — Navy section
+   ========================================================= *@
+<section class="pps-section alt">
+    <div class="container">
+        <div class="pps-head reveal">
+            <span class="eyebrow">Included With Every Plan</span>
+            <h2>Simple, Transparent, All-In</h2>
+            <p>What you see is what you pay. No hidden charges.</p>
+        </div>
+
+        <div class="why-cards-grid" style="background:#0A1F44;padding:40px;border-radius:24px;">
+            <div class="why-c reveal">
+                <div class="ic"><i class="fa-solid fa-infinity"></i></div>
+                <h4>Unlimited Data</h4>
+                <p>No caps, no throttling — stream, work and browse freely.</p>
+            </div>
+            <div class="why-c reveal delay-1">
+                <div class="ic"><i class="fa-solid fa-router"></i></div>
+                <h4>Free Wi-Fi 6 Router</h4>
+                <p>Modern dual-band router included with every plan.</p>
+            </div>
+            <div class="why-c reveal delay-2">
+                <div class="ic"><i class="fa-solid fa-headset"></i></div>
+                <h4>24/7 Support</h4>
+                <p>Reach us by phone, email or chat — any time.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* =========================================================
+   5. TECHNICAL SPECS
+   ========================================================= *@
+<section class="pps-section">
+    <div class="container">
+        <div class="pps-head reveal">
+            <span class="eyebrow">Technical Details</span>
+            <h2>Plan Specifications</h2>
+            <p>Everything you need to know about the @name plan.</p>
+        </div>
+
+        <div class="rich-services-grid">
+            <article class="rich-service reveal">
+                <div class="rs-media" style="background:linear-gradient(135deg,#E8F1FD,#BAE6FD);display:flex;align-items:center;justify-content:center;">
+                    <i class="fa-solid fa-wave-square" style="font-size:3rem;color:#1558B8;"></i>
+                </div>
+                <div class="rs-body">
+                    <h4>Line Type</h4>
+                    <p>ADSL / Broadband over copper pair</p>
+                </div>
+            </article>
+
+            <article class="rich-service reveal delay-1">
+                <div class="rs-media" style="background:linear-gradient(135deg,#E8F1FD,#BAE6FD);display:flex;align-items:center;justify-content:center;">
+                    <i class="fa-solid fa-router" style="font-size:3rem;color:#1558B8;"></i>
+                </div>
+                <div class="rs-body">
+                    <h4>Router</h4>
+                    <p>NEXUS Router R2 (Wi-Fi 6) — included free</p>
+                </div>
+            </article>
+
+            <article class="rich-service reveal delay-2">
+                <div class="rs-media" style="background:linear-gradient(135deg,#E8F1FD,#BAE6FD);display:flex;align-items:center;justify-content:center;">
+                    <i class="fa-solid fa-clock" style="font-size:3rem;color:#1558B8;"></i>
+                </div>
+                <div class="rs-body">
+                    <h4>Uptime Target</h4>
+                    <p>99.5% monthly (residential)</p>
+                </div>
+            </article>
+
+            <article class="rich-service reveal">
+                <div class="rs-media" style="background:linear-gradient(135deg,#E8F1FD,#BAE6FD);display:flex;align-items:center;justify-content:center;">
+                    <i class="fa-solid fa-users" style="font-size:3rem;color:#1558B8;"></i>
+                </div>
+                <div class="rs-body">
+                    <h4>Recommended Devices</h4>
+                    <p>@(speed >= 30 ? "10+" : speed >= 15 ? "5–8" : "2–4") simultaneous devices</p>
+                </div>
+            </article>
+
+            <article class="rich-service reveal delay-1">
+                <div class="rs-media" style="background:linear-gradient(135deg,#E8F1FD,#BAE6FD);display:flex;align-items:center;justify-content:center;">
+                    <i class="fa-solid fa-film" style="font-size:3rem;color:#1558B8;"></i>
+                </div>
+                <div class="rs-body">
+                    <h4>Streaming Quality</h4>
+                    <p>@(speed >= 30 ? "4K Ultra HD" : speed >= 15 ? "Full HD (1080p)" : "HD (720p)")</p>
+                </div>
+            </article>
+
+            <article class="rich-service reveal delay-2">
+                <div class="rs-media" style="background:linear-gradient(135deg,#E8F1FD,#BAE6FD);display:flex;align-items:center;justify-content:center;">
+                    <i class="fa-solid fa-headset" style="font-size:3rem;color:#1558B8;"></i>
+                </div>
+                <div class="rs-body">
+                    <h4>Support</h4>
+                    <p>@(isPopular ? "Priority 24/7 support" : "24/7 phone, email & chat")</p>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+@* =========================================================
+   6. OTHER PLANS
+   ========================================================= *@
+<section class="pps-section alt">
+    <div class="container">
+        <div class="pps-head reveal">
+            <span class="eyebrow">Compare</span>
+            <h2>Other NEXUS Plans</h2>
+            <p>Not sure this is the right fit? Compare with other plans.</p>
+        </div>
+
+        <div class="home-plans-grid">
+            <article class="pricing-card reveal">
+                <div class="plan-name">Basic</div>
+                <div class="plan-tagline">Perfect for light browsing.</div>
+                <div class="plan-speed"><strong>5</strong><span>Mbps</span></div>
+                <div class="plan-price">
+                    <span class="currency">Starting from</span>
+                    <span class="amount">Rs. 1,200</span>
+                    <span class="per">/month</span>
+                </div>
+                <ul class="plan-features">
+                    <li><i class="fa-solid fa-check"></i> Unlimited Data</li>
+                    <li><i class="fa-solid fa-check"></i> Free Router</li>
+                    <li><i class="fa-solid fa-check"></i> 24/7 Support</li>
+                </ul>
+                <a href="/Plans/Details/1" class="btn btn-outline btn-block">View Details</a>
+            </article>
+
+            <article class="pricing-card popular reveal delay-1">
+                <span class="popular-badge">Most Popular</span>
+                <div class="plan-name">Standard</div>
+                <div class="plan-tagline">Best for families.</div>
+                <div class="plan-speed"><strong>15</strong><span>Mbps</span></div>
+                <div class="plan-price">
+                    <span class="currency">Starting from</span>
+                    <span class="amount">Rs. 2,000</span>
+                    <span class="per">/month</span>
+                </div>
+                <ul class="plan-features">
+                    <li><i class="fa-solid fa-check"></i> Unlimited Data</li>
+                    <li><i class="fa-solid fa-check"></i> HD Streaming</li>
+                    <li><i class="fa-solid fa-check"></i> Free Router</li>
+                </ul>
+                <a href="/Plans/Details/2" class="btn btn-primary btn-block">View Details</a>
+            </article>
+
+            <article class="pricing-card reveal delay-2">
+                <div class="plan-name">Premium</div>
+                <div class="plan-tagline">For heavy usage.</div>
+                <div class="plan-speed"><strong>30</strong><span>Mbps</span></div>
+                <div class="plan-price">
+                    <span class="currency">Starting from</span>
+                    <span class="amount">Rs. 3,500</span>
+                    <span class="per">/month</span>
+                </div>
+                <ul class="plan-features">
+                    <li><i class="fa-solid fa-check"></i> Unlimited Data</li>
+                    <li><i class="fa-solid fa-check"></i> Gaming &amp; 4K</li>
+                    <li><i class="fa-solid fa-check"></i> Priority Support</li>
+                </ul>
+                <a href="/Plans/Details/3" class="btn btn-outline btn-block">View Details</a>
+            </article>
+        </div>
+    </div>
+</section>
+
+@* =========================================================
+   7. FAQ
+   ========================================================= *@
+<section class="pps-section">
+    <div class="container" style="max-width:820px;">
+        <div class="pps-head reveal">
+            <span class="eyebrow">FAQs</span>
+            <h2>@name Plan FAQs</h2>
+            <p>Specific questions about this plan.</p>
+        </div>
+
+        <div class="faq-list reveal">
+            <div class="faq-item">
+                <button class="faq-question" type="button">
+                    Is there a data limit on this plan?
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">No. Every NEXUS plan includes truly unlimited data with no throttling or monthly caps.</div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" type="button">
+                    Can I upgrade from this plan?
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">Yes — from your dashboard or by contacting support. Upgrades apply immediately; the difference is pro-rated on your next bill.</div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" type="button">
+                    Is the security deposit refundable?
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">Yes. The Rs. @deposit.ToString("N0") deposit is fully refundable when you close your account in good standing.</div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" type="button">
+                    Is the router really free?
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">Yes — the Wi-Fi router is provided free of charge on all residential plans and remains NEXUS property during your subscription.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* =========================================================
+   8. FINAL CTA
+   ========================================================= *@
+<section class="hero-cta-final">
+    <div class="cta-bg" style="background-image:url('https://images.unsplash.com/photo-1544428571-95f3fb8c4f2f?w=1920&q=85');" aria-hidden="true"></div>
+    <div class="cta-overlay" aria-hidden="true"></div>
+    <div class="cta-shine" aria-hidden="true"></div>
+
+    <div class="container">
+        <h2>Ready to Order the <span class="shine">@name Plan?</span></h2>
+        <p>Complete your connection request online in under five minutes.</p>
+        <div class="cta-actions">
+            <a href="/Orders/New?plan=@name" class="btn btn-primary btn-lg">
+                <i class="fa-solid fa-plug-circle-plus"></i> Order Now
+            </a>
+            <a href="/Plans" class="btn btn-outline-light btn-lg">
+                Compare Plans <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        // FAQ accordion
+        document.addEventListener('click', function (e) {
+            var q = e.target.closest('.faq-question');
+            if (!q) return;
+            var item = q.parentElement;
+            var isOpen = item.classList.contains('open');
+            document.querySelectorAll('.faq-item.open').forEach(function (i) {
+                if (i !== item) i.classList.remove('open');
+            });
+            item.classList.toggle('open', !isOpen);
+        });
+
+        // Toast on load
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(function () {
+                if (window.NEXUS && NEXUS.toast) {
+                    NEXUS.toast({
+                        title: '@name Plan Loaded',
+                        message: 'Compare features and order whenever you\'re ready.',
+                        type: 'info',
+                        duration: 4000
+                    });
+                }
+            }, 800);
+        });
+    </script>
+}

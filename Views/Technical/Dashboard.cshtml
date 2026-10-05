@@ -1,0 +1,381 @@
+﻿@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Technical Dashboard — NEXUS";
+    ViewData["UserRole"] = "Technical";
+    ViewData["ActiveSidebar"] = "dashboard";
+    ViewData["UserName"] = "Usman Ahmed";
+    ViewData["UserRoleLabel"] = "Senior Field Technician";
+}
+
+@section DashboardStyles {
+    <link rel="stylesheet" href="~/css/dashboards-luxury.css" />
+}
+
+<script>
+    window.NEXUS_CHART_DATA = {
+        months: ['Apr','May','Jun','Jul','Aug','Sep'],
+        issuesResolved: [12,18,22,19,26,31],
+        installations:  [10,14,18,16,22,24]
+    };
+</script>
+
+@* =========================================================
+   WELCOME BANNER
+   ========================================================= *@
+<div class="welcome-banner reveal">
+    <div class="banner-flex">
+        <div>
+            <h1>Welcome back, Usman 👋</h1>
+            <p>Technical Operations Center · @DateTime.Now.ToString("dddd, dd MMM yyyy")</p>
+            <div class="banner-actions">
+                <span class="badge badge-success"><i class="fa-solid fa-circle-check"></i> Network Healthy</span>
+                <span class="badge" style="background:rgba(255,255,255,0.15);color:#fff;">
+                    <i class="fa-solid fa-screwdriver-wrench"></i> 3 Assigned Today
+                </span>
+                <span class="badge" style="background:rgba(255,255,255,0.15);color:#fff;">
+                    <i class="fa-solid fa-clock"></i> 5 Open Issues
+                </span>
+            </div>
+        </div>
+        <div class="banner-actions">
+            <a href="/Retail/Search" class="btn btn-outline-light"><i class="fa-solid fa-magnifying-glass"></i> Search</a>
+            <a href="/Orders/Tracking" class="btn btn-primary"><i class="fa-solid fa-box"></i> Orders</a>
+        </div>
+    </div>
+</div>
+
+@* =========================================================
+   STATUS CARDS
+   ========================================================= *@
+<div class="stats-grid reveal">
+    <div class="stat-card">
+        <div class="stat-icon success"><i class="fa-solid fa-network-wired"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value" style="font-size:1.15rem;">Stable</div>
+            <div class="stat-label">Network Status</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon warning"><i class="fa-solid fa-list-check"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value" data-count="14">0</div>
+            <div class="stat-label">Installation Queue</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon danger"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value" data-count="5">0</div>
+            <div class="stat-label">Open Issues</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon success"><i class="fa-solid fa-circle-check"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value" data-count="9">0</div>
+            <div class="stat-label">Resolved Today</div>
+        </div>
+    </div>
+</div>
+
+@* =========================================================
+   TODAY'S TASKS
+   ========================================================= *@
+<div class="chart-card reveal" style="margin-top:22px;">
+    <div class="chart-head">
+        <div>
+            <h4><i class="fa-solid fa-clipboard-list"></i> Today's Assigned Tasks</h4>
+            <p class="chart-sub">Your scheduled work for today.</p>
+        </div>
+        <span class="badge badge-info">3 tasks</span>
+    </div>
+
+    <div class="timeline">
+        <div class="timeline-item done">
+            <h4>Installation · NX12345680</h4>
+            <div class="when">09:00 AM · Completed</div>
+            <p>Usman Ahmed · Basic 5 Mbps · Gulberg III</p>
+        </div>
+        <div class="timeline-item active">
+            <h4>Installation · NX12345683</h4>
+            <div class="when">11:30 AM · In Progress</div>
+            <p>Sana Iqbal · Standard 15 Mbps · DHA Phase 5</p>
+        </div>
+        <div class="timeline-item">
+            <h4>Technical Visit · Ticket #T-2043</h4>
+            <div class="when">03:00 PM · Scheduled</div>
+            <p>Slow speed report · Model Town</p>
+        </div>
+    </div>
+</div>
+
+@* =========================================================
+   CHARTS
+   ========================================================= *@
+<div class="dash-grid-2 reveal" style="margin-top:22px;">
+    <div class="chart-card">
+        <div class="chart-head">
+            <div>
+                <h4><i class="fa-solid fa-chart-line"></i> Issues Resolved</h4>
+                <p class="chart-sub">Last 6 months.</p>
+            </div>
+        </div>
+        <div class="chart-body">
+            <canvas id="issuesChart" data-chart="line" data-label="Resolved" data-key="issuesResolved"></canvas>
+        </div>
+    </div>
+
+    <div class="chart-card">
+        <div class="chart-head">
+            <div>
+                <h4><i class="fa-solid fa-chart-bar"></i> Installations Completed</h4>
+                <p class="chart-sub">Last 6 months.</p>
+            </div>
+        </div>
+        <div class="chart-body">
+            <canvas id="installChart" data-chart="bar" data-label="Installations" data-key="installations"></canvas>
+        </div>
+    </div>
+</div>
+
+@* =========================================================
+   TECHNICAL ISSUES TABLE
+   ========================================================= *@
+<div class="chart-card reveal" style="margin-top:22px;">
+    <div class="chart-head">
+        <div>
+            <h4><i class="fa-solid fa-triangle-exclamation"></i> Technical Issues</h4>
+            <p class="chart-sub">All open and recent technical tickets.</p>
+        </div>
+    </div>
+
+    <div class="form-row" style="grid-template-columns:2fr 1fr 1fr;gap:12px;margin-bottom:16px;">
+        <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" data-table-search="#issuesTable" placeholder="Search tickets…" />
+        </div>
+        <select data-table-filter="#issuesTable" data-col="status">
+            <option value="">All Status</option>
+            <option value="open">Open</option>
+            <option value="in progress">In Progress</option>
+            <option value="scheduled">Scheduled</option>
+            <option value="resolved">Resolved</option>
+        </select>
+        <select data-table-filter="#issuesTable" data-col="priority">
+            <option value="">All Priority</option>
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="low">Low</option>
+        </select>
+    </div>
+
+    <div class="table-wrap">
+        <table id="issuesTable" data-searchable>
+            <thead>
+                <tr>
+                    <th data-sortable="id">Ticket</th>
+                    <th data-sortable="customer">Customer</th>
+                    <th class="hide-sm">Account</th>
+                    <th>Issue</th>
+                    <th data-sortable="priority">Priority</th>
+                    <th class="hide-sm">Technician</th>
+                    <th data-sortable="status">Status</th>
+                    <th class="hide-sm">Date</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-col="id"><strong style="font-family:monospace;">T-2043</strong></td>
+                    <td data-col="customer">Ahmed Khan</td>
+                    <td class="hide-sm">NX12345678</td>
+                    <td>Slow speeds in evening</td>
+                    <td data-col="priority"><span class="badge badge-danger">High</span></td>
+                    <td class="hide-sm">Usman Ahmed</td>
+                    <td data-col="status"><span class="badge badge-warning">In Progress</span></td>
+                    <td class="hide-sm">03 Oct</td>
+                    <td><button class="btn btn-ghost btn-sm">View</button></td>
+                </tr>
+                <tr>
+                    <td data-col="id"><strong style="font-family:monospace;">T-2042</strong></td>
+                    <td data-col="customer">Ali Raza</td>
+                    <td class="hide-sm">NX12345679</td>
+                    <td>Router not powering on</td>
+                    <td data-col="priority"><span class="badge badge-warning">Medium</span></td>
+                    <td class="hide-sm">Hassan Shah</td>
+                    <td data-col="status"><span class="badge badge-info">Scheduled</span></td>
+                    <td class="hide-sm">02 Oct</td>
+                    <td><button class="btn btn-ghost btn-sm">View</button></td>
+                </tr>
+                <tr>
+                    <td data-col="id"><strong style="font-family:monospace;">T-2041</strong></td>
+                    <td data-col="customer">Usman Ahmed</td>
+                    <td class="hide-sm">NX12345680</td>
+                    <td>Intermittent connection</td>
+                    <td data-col="priority"><span class="badge badge-danger">High</span></td>
+                    <td class="hide-sm">Usman Ahmed</td>
+                    <td data-col="status"><span class="badge badge-warning">Open</span></td>
+                    <td class="hide-sm">02 Oct</td>
+                    <td><button class="btn btn-ghost btn-sm">View</button></td>
+                </tr>
+                <tr>
+                    <td data-col="id"><strong style="font-family:monospace;">T-2040</strong></td>
+                    <td data-col="customer">Hassan Shah</td>
+                    <td class="hide-sm">NX12345681</td>
+                    <td>Wi-Fi password reset</td>
+                    <td data-col="priority"><span class="badge badge-info">Low</span></td>
+                    <td class="hide-sm">Bilal Khan</td>
+                    <td data-col="status"><span class="badge badge-success">Resolved</span></td>
+                    <td class="hide-sm">01 Oct</td>
+                    <td><button class="btn btn-ghost btn-sm">View</button></td>
+                </tr>
+                <tr>
+                    <td data-col="id"><strong style="font-family:monospace;">T-2039</strong></td>
+                    <td data-col="customer">Bilal Khan</td>
+                    <td class="hide-sm">NX12345682</td>
+                    <td>New cable required</td>
+                    <td data-col="priority"><span class="badge badge-warning">Medium</span></td>
+                    <td class="hide-sm">Ali Raza</td>
+                    <td data-col="status"><span class="badge badge-success">Resolved</span></td>
+                    <td class="hide-sm">30 Sep</td>
+                    <td><button class="btn btn-ghost btn-sm">View</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@* =========================================================
+   INSTALLATION QUEUE
+   ========================================================= *@
+<div class="chart-card reveal" style="margin-top:22px;" id="installQueue">
+    <div class="chart-head">
+        <div>
+            <h4><i class="fa-solid fa-screwdriver-wrench"></i> Installation Queue</h4>
+            <p class="chart-sub">Upcoming installations assigned to the team.</p>
+        </div>
+    </div>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Customer</th>
+                    <th>Plan</th>
+                    <th class="hide-sm">Area</th>
+                    <th>Preferred Date</th>
+                    <th>Technician</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Ahmed Khan</td>
+                    <td>Standard 15 Mbps</td>
+                    <td class="hide-sm">Gulberg III, Lahore</td>
+                    <td>05 Oct 2025</td>
+                    <td>Usman Ahmed</td>
+                    <td><span class="badge badge-info">Scheduled</span></td>
+                </tr>
+                <tr>
+                    <td>Ali Raza</td>
+                    <td>Premium 30 Mbps</td>
+                    <td class="hide-sm">Clifton, Karachi</td>
+                    <td>05 Oct 2025</td>
+                    <td>Hassan Shah</td>
+                    <td><span class="badge badge-warning">Pending</span></td>
+                </tr>
+                <tr>
+                    <td>Sana Iqbal</td>
+                    <td>Standard 15 Mbps</td>
+                    <td class="hide-sm">DHA Phase 5, Lahore</td>
+                    <td>06 Oct 2025</td>
+                    <td>Usman Ahmed</td>
+                    <td><span class="badge badge-info">Scheduled</span></td>
+                </tr>
+                <tr>
+                    <td>Bilal Khan</td>
+                    <td>Basic 5 Mbps</td>
+                    <td class="hide-sm">F-7, Islamabad</td>
+                    <td>07 Oct 2025</td>
+                    <td>Ali Raza</td>
+                    <td><span class="badge badge-warning">Pending</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@* =========================================================
+   ACTIVITY + QUICK ACTIONS
+   ========================================================= *@
+<div class="dash-grid-2 reveal" style="margin-top:22px;">
+    <div class="chart-card" style="margin-bottom:0;">
+        <div class="chart-head">
+            <h4><i class="fa-solid fa-clock-rotate-left"></i> Your Activity</h4>
+        </div>
+        <div class="activity-feed">
+            <div class="activity-item success">
+                <div class="icon"><i class="fa-solid fa-circle-check"></i></div>
+                <div class="meta">
+                    <strong>Installation completed</strong>
+                    <p>NX12345680 · Usman Ahmed · Basic 5 Mbps</p>
+                </div>
+                <div class="when">Today 09:45</div>
+            </div>
+            <div class="activity-item">
+                <div class="icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                <div class="meta">
+                    <strong>Feasibility check</strong>
+                    <p>DHA Phase 5 · Sana Iqbal · Standard plan</p>
+                </div>
+                <div class="when">Yesterday</div>
+            </div>
+            <div class="activity-item warning">
+                <div class="icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                <div class="meta">
+                    <strong>Issue resolved</strong>
+                    <p>T-2038 · Wi-Fi speed fluctuation</p>
+                </div>
+                <div class="when">Yesterday</div>
+            </div>
+            <div class="activity-item success">
+                <div class="icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+                <div class="meta">
+                    <strong>Router replacement</strong>
+                    <p>NX12345681 · Hassan Shah · New R2 unit</p>
+                </div>
+                <div class="when">2 days ago</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="chart-card" style="margin-bottom:0;">
+        <div class="chart-head">
+            <h4><i class="fa-solid fa-bolt"></i> Quick Actions</h4>
+        </div>
+        <div class="quick-actions">
+            <a href="/Retail/Search" class="quick-action"><i class="fa-solid fa-magnifying-glass"></i><span>Search</span></a>
+            <a href="/Orders/Tracking" class="quick-action"><i class="fa-solid fa-box"></i><span>Orders</span></a>
+            <a href="#installQueue" class="quick-action"><i class="fa-solid fa-screwdriver-wrench"></i><span>Install Queue</span></a>
+            <a href="/Admin/Reports" class="quick-action"><i class="fa-solid fa-chart-line"></i><span>Reports</span></a>
+        </div>
+    </div>
+</div>
+
+@section DashboardScripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(function () {
+                if (window.NEXUS && NEXUS.toast) {
+                    NEXUS.toast({
+                        title: 'Welcome, Usman',
+                        message: 'Technical dashboard loaded successfully.',
+                        type: 'success',
+                        duration: 3000
+                    });
+                }
+            }, 600);
+        });
+    </script>
+}

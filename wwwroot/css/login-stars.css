@@ -1,0 +1,676 @@
+﻿/* =========================================================
+   NEXUS — login-stars.css
+   Starry background + Centered title + Split login layout
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   1. FULL-PAGE SHELL with STARRY BACKGROUND
+   --------------------------------------------------------- */
+.login-stars-page {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+    isolation: isolate;
+    background: radial-gradient(ellipse at 20% 30%, rgba(30, 111, 229, 0.28), transparent 55%), radial-gradient(ellipse at 80% 70%, rgba(56, 189, 248, 0.22), transparent 55%), radial-gradient(ellipse at 50% 50%, rgba(15, 42, 92, 0.6), transparent 70%), linear-gradient(180deg, #061631 0%, #0A1F44 40%, #061631 100%);
+}
+
+    /* ---------------------------------------------------------
+   2. ANIMATED STARS (pure CSS — no JS needed)
+   --------------------------------------------------------- */
+    .login-stars-page .star {
+        position: absolute;
+        background: #FFFFFF;
+        border-radius: 50%;
+        opacity: 0.8;
+        animation: twinkle 3s infinite ease-in-out;
+        z-index: 1;
+        pointer-events: none;
+        box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+    }
+
+@keyframes twinkle {
+    0%, 100% {
+        opacity: 0.25;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.3);
+    }
+}
+
+/* A few bigger glowing stars */
+.login-stars-page .star.big {
+    box-shadow: 0 0 12px rgba(255, 255, 255, 1), 0 0 24px rgba(56, 189, 248, 0.7);
+}
+
+/* Shooting star */
+.login-stars-page .shooting-star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: #FFFFFF;
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.15);
+    animation: shoot 6s linear infinite;
+    opacity: 0;
+    z-index: 1;
+}
+
+    .login-stars-page .shooting-star::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        right: 0;
+        width: 120px;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.9));
+        transform: translateY(-50%);
+    }
+
+@keyframes shoot {
+    0% {
+        transform: translateX(0) translateY(0);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(400px) translateY(200px);
+        opacity: 0;
+    }
+}
+
+/* ---------------------------------------------------------
+   3. CONTENT WRAPPER
+   --------------------------------------------------------- */
+.login-stars-page .login-inner {
+    position: relative;
+    z-index: 2;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 24px 60px;
+}
+
+/* ---------------------------------------------------------
+   4. CENTERED TITLE
+   --------------------------------------------------------- */
+.login-stars-page .login-title-wrap {
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto 40px;
+}
+
+.login-stars-page .brand-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 18px;
+    border-radius: 999px;
+    background: rgba(56, 189, 248, 0.12);
+    border: 1px solid rgba(56, 189, 248, 0.4);
+    color: #BAE6FD;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+    backdrop-filter: blur(8px);
+}
+
+.login-stars-page .login-h1 {
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: clamp(2.5rem, 6vw, 4.25rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    color: #FFFFFF;
+    margin: 0 0 16px;
+    text-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+}
+
+    .login-stars-page .login-h1 .shine {
+        background: linear-gradient( 90deg, #38BDF8 0%, #FFFFFF 35%, #7DD3FC 50%, #FFFFFF 65%, #38BDF8 100% );
+        background-size: 250% 100%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: text-shine 4s linear infinite;
+        filter: drop-shadow(0 4px 24px rgba(56, 189, 248, 0.55));
+    }
+
+@keyframes text-shine {
+    0% {
+        background-position: 250% center;
+    }
+
+    100% {
+        background-position: -50% center;
+    }
+}
+
+.login-stars-page .login-subtitle {
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin: 0 auto;
+    max-width: 560px;
+}
+
+/* ---------------------------------------------------------
+   5. SPLIT LAYOUT (Picture LEFT, Form RIGHT)
+   --------------------------------------------------------- */
+.login-stars-page .login-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    max-width: 1180px;
+    width: 100%;
+    margin: 0 auto;
+    align-items: center;
+    flex: 1;
+}
+
+/* -------- LEFT: PICTURE -------- */
+.login-stars-page .login-picture {
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    aspect-ratio: 4 / 5;
+    max-height: 600px;
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5), 0 16px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.08);
+    animation: picture-float 6s ease-in-out infinite;
+}
+
+@keyframes picture-float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.login-stars-page .login-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.login-stars-page .login-picture .overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient( 180deg, rgba(6, 22, 49, 0.1) 0%, rgba(6, 22, 49, 0.5) 60%, rgba(6, 22, 49, 0.9) 100% );
+    pointer-events: none;
+}
+
+/* Floating cards on picture */
+.login-stars-page .float-card {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(14px);
+    border-radius: 12px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+    z-index: 3;
+    animation: float 5s ease-in-out infinite;
+}
+
+    .login-stars-page .float-card .ic {
+        width: 38px;
+        height: 38px;
+        border-radius: 11px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: #FFFFFF;
+        font-size: 0.95rem;
+        flex-shrink: 0;
+    }
+
+        .login-stars-page .float-card .ic.green {
+            background: linear-gradient(135deg, #10B981, #059669);
+            box-shadow: 0 6px 14px rgba(16, 185, 129, 0.4);
+        }
+
+        .login-stars-page .float-card .ic.blue {
+            background: linear-gradient(135deg, #1E6FE5, #1558B8);
+            box-shadow: 0 6px 14px rgba(30, 111, 229, 0.4);
+        }
+
+    .login-stars-page .float-card .meta strong {
+        display: block;
+        color: #0A1F44;
+        font-size: 0.85rem;
+        font-weight: 700;
+        line-height: 1.15;
+    }
+
+    .login-stars-page .float-card .meta span {
+        font-size: 0.72rem;
+        color: #64748B;
+    }
+
+    .login-stars-page .float-card.tl {
+        top: 24px;
+        left: -20px;
+    }
+
+    .login-stars-page .float-card.br {
+        bottom: 24px;
+        right: -20px;
+        animation-delay: -2.5s;
+    }
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+/* Live badge */
+.login-stars-page .live-pill {
+    position: absolute;
+    top: 50%;
+    left: -16px;
+    transform: translateY(-50%);
+    padding: 9px 14px;
+    background: linear-gradient(135deg, #1E6FE5, #1558B8);
+    color: #FFFFFF;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 12px 26px rgba(30, 111, 229, 0.5);
+    z-index: 3;
+    animation: float 4s ease-in-out infinite;
+    animation-delay: -1.5s;
+}
+
+    .login-stars-page .live-pill .dot {
+        width: 7px;
+        height: 7px;
+        background: #FFFFFF;
+        border-radius: 50%;
+        animation: pulse 1.8s ease-in-out infinite;
+    }
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.3);
+        opacity: 0.7;
+    }
+}
+
+/* -------- RIGHT: FORM -------- */
+.login-stars-page .login-form-card {
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 24px;
+    padding: 40px 38px 34px;
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5), 0 16px 40px rgba(0, 0, 0, 0.25);
+    max-width: 480px;
+    width: 100%;
+    animation: fade-up 0.8s ease both;
+}
+
+    .login-stars-page .login-form-card h2 {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #0A1F44;
+        margin: 0 0 6px;
+        letter-spacing: -0.02em;
+    }
+
+    .login-stars-page .login-form-card .sub {
+        color: #64748B;
+        font-size: 0.92rem;
+        margin: 0 0 24px;
+    }
+
+@keyframes fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Form fields */
+.login-stars-page .field {
+    margin-bottom: 18px;
+}
+
+    .login-stars-page .field label {
+        display: block;
+        font-size: 0.86rem;
+        font-weight: 600;
+        color: #334155;
+        margin-bottom: 8px;
+    }
+
+.login-stars-page .input-wrap {
+    display: flex;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 10px;
+    background: #FFFFFF;
+    overflow: hidden;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .login-stars-page .input-wrap:focus-within {
+        border-color: #1E6FE5;
+        box-shadow: 0 0 0 4px rgba(30, 111, 229, 0.12);
+    }
+
+    .login-stars-page .input-wrap .ic {
+        padding: 0 14px;
+        background: #F4F7FB;
+        border-right: 1px solid #E2E8F0;
+        color: #64748B;
+        display: inline-flex;
+        align-items: center;
+        font-size: 0.95rem;
+    }
+
+    .login-stars-page .input-wrap input {
+        flex: 1;
+        border: none;
+        outline: none;
+        padding: 13px 14px;
+        font-family: inherit;
+        font-size: 0.94rem;
+        color: #0A1F44;
+        background: transparent;
+    }
+
+    .login-stars-page .input-wrap .toggle {
+        border: none;
+        background: transparent;
+        padding: 0 14px;
+        cursor: pointer;
+        color: #64748B;
+    }
+
+/* Row: remember + forgot */
+.login-stars-page .login-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+}
+
+.login-stars-page .checkbox-line {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.88rem;
+    color: #334155;
+    cursor: pointer;
+}
+
+    .login-stars-page .checkbox-line input {
+        width: 17px;
+        height: 17px;
+        accent-color: #1E6FE5;
+        cursor: pointer;
+    }
+
+.login-stars-page .forgot {
+    font-size: 0.85rem;
+    color: #1558B8;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+    .login-stars-page .forgot:hover {
+        text-decoration: underline;
+    }
+
+/* Submit button with shine */
+.login-stars-page .btn-submit {
+    width: 100%;
+    padding: 15px 24px;
+    background: linear-gradient(135deg, #1E6FE5 0%, #1558B8 100%);
+    color: #FFFFFF;
+    border: none;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 14px 30px rgba(30, 111, 229, 0.42);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .login-stars-page .btn-submit::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        transition: left 0.7s ease;
+    }
+
+    .login-stars-page .btn-submit:hover::after {
+        left: 100%;
+    }
+
+    .login-stars-page .btn-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 20px 40px rgba(30, 111, 229, 0.55);
+    }
+
+/* Divider */
+.login-stars-page .divider-line {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #64748B;
+    font-size: 0.82rem;
+    margin: 22px 0 18px;
+}
+
+    .login-stars-page .divider-line::before,
+    .login-stars-page .divider-line::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: #E2E8F0;
+    }
+
+/* Secondary button */
+.login-stars-page .btn-secondary {
+    width: 100%;
+    padding: 13px 24px;
+    background: transparent;
+    color: #0A1F44;
+    border: 1.5px solid #CBD5E1;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 0.94rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+    .login-stars-page .btn-secondary:hover {
+        background: #0A1F44;
+        color: #FFFFFF;
+        border-color: #0A1F44;
+        transform: translateY(-2px);
+    }
+
+/* Demo hint */
+.login-stars-page .demo-hint {
+    margin-top: 22px;
+    padding: 14px 18px;
+    background: #E0F2FE;
+    border-radius: 10px;
+    border-left: 4px solid #0284C7;
+    color: #075985;
+    font-size: 0.82rem;
+    line-height: 1.55;
+}
+
+    .login-stars-page .demo-hint code {
+        background: rgba(0,0,0,0.06);
+        padding: 1px 6px;
+        border-radius: 4px;
+        font-family: monospace;
+        font-size: 0.78rem;
+    }
+
+/* ---------------------------------------------------------
+   6. BOTTOM TRUST STRIP
+   --------------------------------------------------------- */
+.login-stars-page .login-trust {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    margin: 44px auto 0;
+    padding: 18px 26px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    backdrop-filter: blur(10px);
+    max-width: max-content;
+}
+
+.login-stars-page .trust-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.86rem;
+    font-weight: 500;
+}
+
+    .login-stars-page .trust-item i {
+        color: #38BDF8;
+        font-size: 0.95rem;
+    }
+
+/* ---------------------------------------------------------
+   7. RESPONSIVE
+   --------------------------------------------------------- */
+@media (max-width: 992px) {
+    .login-stars-page .login-split {
+        grid-template-columns: 1fr;
+        gap: 36px;
+        max-width: 520px;
+    }
+
+    .login-stars-page .login-picture {
+        aspect-ratio: 16 / 10;
+        max-height: 320px;
+        order: -1;
+    }
+
+    .login-stars-page .float-card.tl {
+        left: 12px;
+        top: 12px;
+    }
+
+    .login-stars-page .float-card.br {
+        right: 12px;
+        bottom: 12px;
+    }
+
+    .login-stars-page .live-pill {
+        display: none;
+    }
+
+    .login-stars-page .login-h1 {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .login-stars-page .login-inner {
+        padding: 24px 16px 40px;
+    }
+
+    .login-stars-page .login-title-wrap {
+        margin-bottom: 26px;
+    }
+
+    .login-stars-page .login-h1 {
+        font-size: 2rem;
+    }
+
+    .login-stars-page .login-subtitle {
+        font-size: 0.95rem;
+    }
+
+    .login-stars-page .login-form-card {
+        padding: 28px 22px 26px;
+        border-radius: 20px;
+    }
+
+    .login-stars-page .login-trust {
+        border-radius: 16px;
+        padding: 16px 18px;
+        gap: 16px;
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .login-stars-page .star,
+    .login-stars-page .shooting-star,
+    .login-stars-page .float-card,
+    .login-stars-page .live-pill,
+    .login-stars-page .login-picture,
+    .login-stars-page .login-h1 .shine {
+        animation: none;
+    }
+}

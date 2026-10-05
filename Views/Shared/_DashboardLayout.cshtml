@@ -1,0 +1,36 @@
+﻿@* ---------------------------------------------------------------
+   Dashboard layout used by Customer / Admin / Technical /
+   Accounts / Retail dashboards. Sets a "dashboard" body class
+   so navbar + sidebar CSS activate.
+   --------------------------------------------------------------- *@
+@{
+    Layout = "_Layout";
+    ViewData["BodyClass"] = "dashboard-body";
+}
+
+@section Styles {
+    @await RenderSectionAsync("DashboardStyles", required: false)
+}
+
+<div class="dashboard-shell">
+
+    @* Sidebar: pass the active item name via ViewData["ActiveSidebar"] *@
+    @await Html.PartialAsync("_Sidebar")
+
+    <div class="dashboard-main">
+        @* Dashboard topbar with user chip, notifications and hamburger *@
+        @await Html.PartialAsync("_DashboardTopbar")
+
+        <div class="dashboard-content">
+            @RenderBody()
+        </div>
+
+        <footer class="dashboard-footer">
+            <span>&copy; @DateTime.Now.Year NEXUS — Connecting You to a Better Tomorrow</span>
+        </footer>
+    </div>
+</div>
+
+@section Scripts {
+    @await RenderSectionAsync("DashboardScripts", required: false)
+}

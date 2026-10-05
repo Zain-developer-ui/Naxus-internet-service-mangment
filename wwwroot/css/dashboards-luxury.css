@@ -1,0 +1,881 @@
+﻿/* =========================================================
+   NEXUS — dashboards-luxury.css
+   Luxury styles for ALL dashboards
+   (Customer, Admin, Technical, Accounts, Retail)
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   1. WELCOME BANNER — big, luxury, with image option
+   --------------------------------------------------------- */
+.welcome-banner {
+    position: relative;
+    padding: 36px 40px;
+    border-radius: var(--radius-xl);
+    margin-bottom: 26px;
+    color: #fff;
+    overflow: hidden;
+    isolation: isolate;
+    background: radial-gradient(900px 500px at 85% 20%, rgba(56, 189, 248, 0.24), transparent 60%), radial-gradient(700px 400px at 10% 90%, rgba(30, 111, 229, 0.28), transparent 60%), linear-gradient(125deg, var(--nexus-navy) 0%, var(--nexus-navy-mid) 100%);
+    box-shadow: 0 20px 50px rgba(10, 31, 68, 0.18);
+}
+
+    .welcome-banner::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+        background-size: 50px 50px;
+        z-index: -1;
+        opacity: 0.7;
+    }
+
+    .welcome-banner h1 {
+        color: #fff;
+        font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+        margin: 0 0 8px;
+        letter-spacing: -0.02em;
+    }
+
+    .welcome-banner p {
+        color: rgba(255, 255, 255, 0.85);
+        margin: 0;
+        font-size: 0.96rem;
+    }
+
+    .welcome-banner .banner-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 18px;
+    }
+
+        .welcome-banner .banner-actions .btn-outline-light {
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.32);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+            .welcome-banner .banner-actions .btn-outline-light:hover {
+                background: rgba(255, 255, 255, 0.12);
+                border-color: #fff;
+                color: #fff;
+            }
+
+    /* Flex layout inside banner */
+    .welcome-banner .banner-flex {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 24px;
+        flex-wrap: wrap;
+    }
+
+/* ---------------------------------------------------------
+   2. STAT CARD — refined
+   --------------------------------------------------------- */
+.stat-card {
+    background: var(--nexus-surface);
+    border: 1px solid var(--nexus-border);
+    border-radius: var(--radius-lg);
+    padding: 22px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 4px 12px rgba(10, 31, 68, 0.04);
+    transition: transform var(--ease), box-shadow var(--ease), border-color var(--ease);
+    position: relative;
+    overflow: hidden;
+}
+
+    .stat-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--nexus-blue), var(--nexus-accent));
+        opacity: 0;
+        transition: opacity var(--ease);
+    }
+
+    .stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 16px 32px rgba(10, 31, 68, 0.1);
+        border-color: var(--nexus-border-strong);
+    }
+
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+
+    .stat-card .stat-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 14px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.3rem;
+        flex-shrink: 0;
+        background: var(--nexus-blue-light);
+        color: var(--nexus-blue-dark);
+        transition: transform var(--ease);
+    }
+
+    .stat-card:hover .stat-icon {
+        transform: scale(1.08) rotate(-4deg);
+    }
+
+    .stat-card .stat-icon.success {
+        background: var(--nexus-success-bg);
+        color: #065F46;
+    }
+
+    .stat-card .stat-icon.warning {
+        background: var(--nexus-warning-bg);
+        color: #78350F;
+    }
+
+    .stat-card .stat-icon.danger {
+        background: var(--nexus-danger-bg);
+        color: #7F1D1D;
+    }
+
+    .stat-card .stat-icon.navy {
+        background: rgba(10, 31, 68, 0.08);
+        color: var(--nexus-navy);
+    }
+
+    .stat-card .stat-icon.blue {
+        background: var(--nexus-blue-light);
+        color: var(--nexus-blue-dark);
+    }
+
+    .stat-card .stat-meta {
+        min-width: 0;
+        flex: 1;
+    }
+
+    .stat-card .stat-value {
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: var(--nexus-navy);
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        margin: 0;
+    }
+
+    .stat-card .stat-label {
+        font-size: 0.78rem;
+        color: var(--nexus-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        font-weight: 600;
+        margin-top: 4px;
+    }
+
+    .stat-card .stat-trend {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 0.76rem;
+        font-weight: 600;
+        margin-top: 5px;
+    }
+
+        .stat-card .stat-trend.up {
+            color: var(--nexus-success);
+        }
+
+        .stat-card .stat-trend.down {
+            color: var(--nexus-danger);
+        }
+
+/* ---------------------------------------------------------
+   3. STATS GRID — auto
+   --------------------------------------------------------- */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+    margin-bottom: 24px;
+}
+
+/* ---------------------------------------------------------
+   4. DASH GRID — 2 columns
+   --------------------------------------------------------- */
+.dash-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 22px;
+}
+
+.dash-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+}
+
+.dash-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+}
+
+@media (max-width: 1100px) {
+    .dash-grid,
+    .dash-grid-2,
+    .dash-grid-3 {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ---------------------------------------------------------
+   5. CHART CARD — refined
+   --------------------------------------------------------- */
+.chart-card {
+    background: var(--nexus-surface);
+    border: 1px solid var(--nexus-border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(10, 31, 68, 0.04);
+    margin-bottom: 22px;
+    transition: box-shadow var(--ease);
+}
+
+    .chart-card:hover {
+        box-shadow: 0 12px 28px rgba(10, 31, 68, 0.08);
+    }
+
+    .chart-card .chart-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 14px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+
+    .chart-card h4 {
+        margin: 0;
+        font-size: 1.08rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--nexus-navy);
+    }
+
+        .chart-card h4 i {
+            color: var(--nexus-blue);
+        }
+
+    .chart-card .chart-sub {
+        font-size: 0.83rem;
+        color: var(--nexus-muted);
+        margin: 6px 0 0;
+    }
+
+    .chart-card .chart-body {
+        position: relative;
+        height: 300px;
+    }
+
+        .chart-card .chart-body.sm {
+            height: 240px;
+        }
+
+/* ---------------------------------------------------------
+   6. QUICK ACTIONS — refined
+   --------------------------------------------------------- */
+.quick-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 14px;
+}
+
+.quick-action {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 22px 14px;
+    background: var(--nexus-surface);
+    border: 1px solid var(--nexus-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    color: var(--nexus-text-soft);
+    transition: all var(--ease);
+    position: relative;
+    overflow: hidden;
+}
+
+    .quick-action::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.08), transparent);
+        transition: left 0.6s ease;
+    }
+
+    .quick-action:hover::before {
+        left: 100%;
+    }
+
+    .quick-action:hover {
+        transform: translateY(-4px);
+        border-color: var(--nexus-blue);
+        color: var(--nexus-blue-dark);
+        box-shadow: 0 12px 24px rgba(30, 111, 229, 0.12);
+    }
+
+    .quick-action i {
+        width: 46px;
+        height: 46px;
+        border-radius: 12px;
+        background: var(--nexus-blue-light);
+        color: var(--nexus-blue-dark);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        transition: all var(--ease);
+    }
+
+    .quick-action:hover i {
+        background: linear-gradient(135deg, var(--nexus-blue), var(--nexus-blue-dark));
+        color: #fff;
+        transform: scale(1.08);
+    }
+
+    .quick-action span {
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+
+/* ---------------------------------------------------------
+   7. ACTIVITY FEED
+   --------------------------------------------------------- */
+.activity-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.activity-item {
+    display: flex;
+    gap: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px dashed var(--nexus-border);
+}
+
+    .activity-item:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .activity-item .icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        background: var(--nexus-blue-light);
+        color: var(--nexus-blue-dark);
+        font-size: 0.95rem;
+    }
+
+    .activity-item.success .icon {
+        background: var(--nexus-success-bg);
+        color: #065F46;
+    }
+
+    .activity-item.warning .icon {
+        background: var(--nexus-warning-bg);
+        color: #78350F;
+    }
+
+    .activity-item.danger .icon {
+        background: var(--nexus-danger-bg);
+        color: #7F1D1D;
+    }
+
+    .activity-item .meta {
+        flex: 1;
+        min-width: 0;
+    }
+
+        .activity-item .meta strong {
+            display: block;
+            color: var(--nexus-navy);
+            font-size: 0.92rem;
+            font-weight: 600;
+        }
+
+        .activity-item .meta p {
+            margin: 2px 0 0;
+            font-size: 0.83rem;
+            color: var(--nexus-muted);
+            line-height: 1.5;
+        }
+
+    .activity-item .when {
+        font-size: 0.75rem;
+        color: var(--nexus-muted);
+        white-space: nowrap;
+        align-self: flex-start;
+        margin-top: 2px;
+    }
+
+/* ---------------------------------------------------------
+   8. CONNECTION HERO (My Connection page)
+   --------------------------------------------------------- */
+.connection-hero {
+    position: relative;
+    padding: 34px 38px;
+    border-radius: var(--radius-xl);
+    color: #fff;
+    overflow: hidden;
+    isolation: isolate;
+    background: radial-gradient(700px 400px at 85% 20%, rgba(56, 189, 248, 0.28), transparent 60%), linear-gradient(125deg, var(--nexus-navy) 0%, var(--nexus-navy-mid) 100%);
+    box-shadow: 0 24px 50px rgba(10, 31, 68, 0.2);
+    margin-bottom: 26px;
+}
+
+    .connection-hero::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+        background-size: 40px 40px;
+        z-index: -1;
+        opacity: 0.6;
+    }
+
+    .connection-hero .ch-flex {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 24px;
+        flex-wrap: wrap;
+        position: relative;
+        z-index: 2;
+    }
+
+    .connection-hero h2 {
+        color: #fff;
+        font-size: 1.75rem;
+        margin: 12px 0 6px;
+        letter-spacing: -0.02em;
+    }
+
+    .connection-hero .meta {
+        color: rgba(255, 255, 255, 0.82);
+        font-size: 0.95rem;
+        margin: 0;
+    }
+
+    .connection-hero .side-meta {
+        text-align: right;
+    }
+
+        .connection-hero .side-meta .label {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.65);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+        }
+
+        .connection-hero .side-meta .value {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #fff;
+            margin-top: 4px;
+        }
+
+/* ---------------------------------------------------------
+   9. INFO CARD — refined
+   --------------------------------------------------------- */
+.info-card {
+    display: flex;
+    gap: 14px;
+    padding: 20px;
+    background: var(--nexus-surface);
+    border: 1px solid var(--nexus-border);
+    border-radius: var(--radius-md);
+    transition: border-color var(--ease), box-shadow var(--ease);
+}
+
+    .info-card:hover {
+        border-color: var(--nexus-blue);
+        box-shadow: 0 8px 20px rgba(30, 111, 229, 0.08);
+    }
+
+    .info-card .icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 12px;
+        background: var(--nexus-blue-light);
+        color: var(--nexus-blue-dark);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.05rem;
+        flex-shrink: 0;
+    }
+
+    .info-card h5 {
+        margin: 0 0 6px;
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--nexus-navy);
+    }
+
+    .info-card p {
+        margin: 0;
+        color: var(--nexus-muted);
+        font-size: 0.88rem;
+        line-height: 1.55;
+    }
+
+/* ---------------------------------------------------------
+   10. CHECKLIST
+   --------------------------------------------------------- */
+.check-list {
+    list-style: none;
+    padding: 0;
+    margin: 16px 0;
+    display: grid;
+    gap: 12px;
+}
+
+    .check-list li {
+        display: flex;
+        gap: 12px;
+        color: var(--nexus-text-soft);
+        font-size: 0.94rem;
+        line-height: 1.6;
+    }
+
+        .check-list li i {
+            color: var(--nexus-success);
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+
+/* ---------------------------------------------------------
+   11. SUMMARY ROWS
+   --------------------------------------------------------- */
+.summary-rows {
+    display: grid;
+    gap: 12px;
+}
+
+    .summary-rows > div {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding-bottom: 10px;
+        border-bottom: 1px dashed var(--nexus-border);
+        font-size: 0.92rem;
+    }
+
+        .summary-rows > div:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .summary-rows > div span {
+            color: var(--nexus-muted);
+        }
+
+        .summary-rows > div strong {
+            color: var(--nexus-navy);
+            font-weight: 600;
+            text-align: right;
+        }
+
+    .summary-rows.total > div {
+        padding-top: 10px;
+        border-top: 2px solid var(--nexus-border);
+        border-bottom: none;
+        font-weight: 700;
+    }
+
+        .summary-rows.total > div strong {
+            color: var(--nexus-blue-dark);
+            font-size: 1.05rem;
+        }
+
+/* ---------------------------------------------------------
+   12. TIMELINE (connection timeline)
+   --------------------------------------------------------- */
+.timeline {
+    position: relative;
+    padding-left: 34px;
+}
+
+    .timeline::before {
+        content: '';
+        position: absolute;
+        left: 12px;
+        top: 6px;
+        bottom: 6px;
+        width: 2px;
+        background: var(--nexus-border);
+    }
+
+.timeline-item {
+    position: relative;
+    padding-bottom: 26px;
+}
+
+    .timeline-item:last-child {
+        padding-bottom: 0;
+    }
+
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        left: -28px;
+        top: 4px;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: var(--nexus-surface);
+        border: 3px solid var(--nexus-border-strong);
+    }
+
+    .timeline-item.done::before {
+        border-color: var(--nexus-success);
+        background: var(--nexus-success);
+        box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.12);
+    }
+
+    .timeline-item.active::before {
+        border-color: var(--nexus-blue);
+        background: var(--nexus-blue);
+        box-shadow: 0 0 0 6px rgba(30, 111, 229, 0.18);
+    }
+
+    .timeline-item h4 {
+        margin: 0 0 4px;
+        font-size: 1rem;
+        color: var(--nexus-navy);
+    }
+
+    .timeline-item .when {
+        font-size: 0.82rem;
+        color: var(--nexus-muted);
+        font-weight: 500;
+    }
+
+    .timeline-item p {
+        margin: 6px 0 0;
+        color: var(--nexus-text-soft);
+        font-size: 0.9rem;
+        line-height: 1.55;
+    }
+
+/* ---------------------------------------------------------
+   13. FAQ LIST
+   --------------------------------------------------------- */
+.faq-list {
+    display: grid;
+    gap: 12px;
+}
+
+.faq-item {
+    background: var(--nexus-surface);
+    border: 1px solid var(--nexus-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: border-color var(--ease-fast);
+}
+
+    .faq-item.open {
+        border-color: var(--nexus-blue);
+        box-shadow: 0 4px 12px rgba(30, 111, 229, 0.08);
+    }
+
+.faq-question {
+    width: 100%;
+    padding: 16px 20px;
+    background: none;
+    border: none;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--nexus-navy);
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+}
+
+    .faq-question i {
+        color: var(--nexus-blue);
+        font-size: 0.85rem;
+        transition: transform var(--ease);
+    }
+
+.faq-item.open .faq-question i {
+    transform: rotate(180deg);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height var(--ease-slow), padding var(--ease);
+    padding: 0 20px;
+    color: var(--nexus-text-soft);
+    font-size: 0.92rem;
+    line-height: 1.65;
+}
+
+.faq-item.open .faq-answer {
+    max-height: 400px;
+    padding: 0 20px 18px;
+}
+
+/* ---------------------------------------------------------
+   14. CTA BANNER
+   --------------------------------------------------------- */
+.cta-banner {
+    position: relative;
+    padding: 50px 40px;
+    border-radius: var(--radius-xl);
+    text-align: center;
+    color: #fff;
+    overflow: hidden;
+    isolation: isolate;
+    background: radial-gradient(700px 400px at 20% 20%, rgba(56, 189, 248, 0.24), transparent 60%), linear-gradient(130deg, var(--nexus-navy) 0%, var(--nexus-navy-dark) 100%);
+    box-shadow: 0 24px 50px rgba(10, 31, 68, 0.18);
+}
+
+    .cta-banner h2 {
+        color: #fff;
+        font-size: clamp(1.5rem, 2.8vw, 2.1rem);
+        margin: 0 0 12px;
+    }
+
+    .cta-banner p {
+        color: rgba(255, 255, 255, 0.85);
+        max-width: 620px;
+        margin: 0 auto 26px;
+        font-size: 1rem;
+    }
+
+    .cta-banner .hero-actions {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .cta-banner .btn-outline-light {
+        color: #fff;
+        border-color: rgba(255, 255, 255, 0.4);
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+        .cta-banner .btn-outline-light:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #fff;
+            color: #fff;
+        }
+
+/* ---------------------------------------------------------
+   15. RESPONSIVE
+   --------------------------------------------------------- */
+@media (max-width: 992px) {
+    .welcome-banner {
+        padding: 28px 24px;
+    }
+
+    .chart-card {
+        padding: 20px;
+    }
+
+        .chart-card .chart-body {
+            height: 240px;
+        }
+}
+
+@media (max-width: 640px) {
+    .welcome-banner {
+        padding: 22px 20px;
+        border-radius: var(--radius-lg);
+    }
+
+        .welcome-banner h1 {
+            font-size: 1.2rem;
+        }
+
+        .welcome-banner .banner-actions {
+            width: 100%;
+        }
+
+            .welcome-banner .banner-actions .btn {
+                flex: 1;
+            }
+
+    .stat-card {
+        padding: 16px;
+        gap: 12px;
+    }
+
+        .stat-card .stat-icon {
+            width: 44px;
+            height: 44px;
+            font-size: 1.1rem;
+            border-radius: 11px;
+        }
+
+        .stat-card .stat-value {
+            font-size: 1.3rem;
+        }
+
+    .chart-card .chart-body {
+        height: 220px;
+    }
+
+    .cta-banner {
+        padding: 34px 22px;
+        border-radius: var(--radius-lg);
+    }
+
+        .cta-banner .hero-actions {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+            .cta-banner .hero-actions .btn {
+                width: 100%;
+            }
+
+    .connection-hero {
+        padding: 24px 20px;
+        border-radius: var(--radius-lg);
+    }
+
+        .connection-hero h2 {
+            font-size: 1.35rem;
+        }
+
+        .connection-hero .side-meta {
+            text-align: left;
+        }
+}

@@ -1,0 +1,394 @@
+﻿@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Accounts Dashboard — NEXUS";
+    ViewData["UserRole"] = "Accounts";
+    ViewData["ActiveSidebar"] = "dashboard";
+    ViewData["UserName"] = "Fatima Noor";
+    ViewData["UserRoleLabel"] = "Accounts Manager";
+}
+
+@section DashboardStyles {
+    <link rel="stylesheet" href="~/css/dashboards-luxury.css" />
+}
+
+<script>
+    window.NEXUS_CHART_DATA = {
+        months:       ['Apr','May','Jun','Jul','Aug','Sep'],
+        revenue:      [185000,198000,215000,228000,245000,258000],
+        collections:  [172000,185000,202000,215000,232000,244000],
+        outstanding:  [13000,13000,13000,13000,13000,14000],
+        paymentStatus:[720,180,45],
+        methodDist:   [420,280,150,95]
+    };
+</script>
+
+@* =========================================================
+   WELCOME BANNER
+   ========================================================= *@
+<div class="welcome-banner reveal">
+    <div class="banner-flex">
+        <div>
+            <h1>Welcome back, Fatima 👋</h1>
+            <p>Accounts &amp; Finance Center · @DateTime.Now.ToString("dddd, dd MMM yyyy")</p>
+            <div class="banner-actions">
+                <span class="badge badge-success"><i class="fa-solid fa-circle-check"></i> 720 Bills Paid</span>
+                <span class="badge" style="background:rgba(255,255,255,0.15);color:#fff;">
+                    <i class="fa-solid fa-clock"></i> 180 Pending
+                </span>
+                <span class="badge" style="background:rgba(239,68,68,0.3);color:#fff;">
+                    <i class="fa-solid fa-triangle-exclamation"></i> 45 Overdue
+                </span>
+            </div>
+        </div>
+        <div class="banner-actions">
+            <a href="/Bills" class="btn btn-outline-light"><i class="fa-solid fa-file-invoice"></i> Bills</a>
+            <a href="/Admin/Reports" class="btn btn-primary"><i class="fa-solid fa-chart-line"></i> Reports</a>
+        </div>
+    </div>
+</div>
+
+@* =========================================================
+   KPI CARDS
+   ========================================================= *@
+<div class="stats-grid reveal">
+    <div class="stat-card">
+        <div class="stat-icon success"><i class="fa-solid fa-sack-dollar"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value" data-count="14250" data-prefix="Rs. ">Rs. 0</div>
+            <div class="stat-label">Today's Collections</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon navy"><i class="fa-solid fa-money-bill-trend-up"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value" data-count="258000" data-prefix="Rs. ">Rs. 0</div>
+            <div class="stat-label">Monthly Revenue</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon warning"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value" data-count="14000" data-prefix="Rs. ">Rs. 0</div>
+            <div class="stat-label">Outstanding</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon success"><i class="fa-solid fa-circle-check"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value" data-count="720">0</div>
+            <div class="stat-label">Paid Bills</div>
+        </div>
+    </div>
+</div>
+
+<div class="stats-grid reveal">
+    <div class="stat-card">
+        <div class="stat-icon warning"><i class="fa-solid fa-clock"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value" data-count="180">0</div>
+            <div class="stat-label">Pending Payments</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon danger"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value" data-count="45">0</div>
+            <div class="stat-label">Overdue Bills</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon blue"><i class="fa-solid fa-users"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value" data-count="1245">0</div>
+            <div class="stat-label">Total Customers</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon success"><i class="fa-solid fa-percent"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value">94.5%</div>
+            <div class="stat-label">Collection Rate</div>
+        </div>
+    </div>
+</div>
+
+@* =========================================================
+   CHARTS ROW 1
+   ========================================================= *@
+<div class="dash-grid-2 reveal" style="margin-top:22px;">
+    <div class="chart-card">
+        <div class="chart-head">
+            <div>
+                <h4><i class="fa-solid fa-chart-line"></i> Revenue vs Collections</h4>
+                <p class="chart-sub">Monthly comparison (PKR).</p>
+            </div>
+        </div>
+        <div class="chart-body">
+            <canvas id="revenueChart" data-chart="line" data-label="Revenue" data-key="revenue" data-prefix="Rs. " data-legend></canvas>
+        </div>
+    </div>
+
+    <div class="chart-card">
+        <div class="chart-head">
+            <div>
+                <h4><i class="fa-solid fa-chart-pie"></i> Payment Status</h4>
+                <p class="chart-sub">Current cycle overview.</p>
+            </div>
+        </div>
+        <div class="chart-body">
+            <canvas id="paymentStatusChart" data-chart="pie"></canvas>
+        </div>
+    </div>
+</div>
+
+@* =========================================================
+   CHARTS ROW 2
+   ========================================================= *@
+<div class="dash-grid-2 reveal" style="margin-top:22px;">
+    <div class="chart-card">
+        <div class="chart-head">
+            <div>
+                <h4><i class="fa-solid fa-chart-bar"></i> Collections Trend</h4>
+                <p class="chart-sub">Monthly collections — last 6 months.</p>
+            </div>
+        </div>
+        <div class="chart-body sm">
+            <canvas id="collectionsChart" data-chart="bar" data-label="Collections" data-key="collections"></canvas>
+        </div>
+    </div>
+
+    <div class="chart-card">
+        <div class="chart-head">
+            <div>
+                <h4><i class="fa-solid fa-credit-card"></i> Payment Methods</h4>
+                <p class="chart-sub">Distribution by method.</p>
+            </div>
+        </div>
+        <div class="chart-body sm">
+            <canvas id="methodChart" data-chart="doughnut" data-key="methodDist"></canvas>
+        </div>
+    </div>
+</div>
+
+@* =========================================================
+   RECENT PAYMENTS
+   ========================================================= *@
+<div class="chart-card reveal" style="margin-top:22px;" id="recentPayments">
+    <div class="chart-head">
+        <div>
+            <h4><i class="fa-solid fa-money-bill-wave"></i> Recent Payments</h4>
+            <p class="chart-sub">Latest received transactions.</p>
+        </div>
+        <span class="badge badge-success">Live</span>
+    </div>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Payment ID</th>
+                    <th>Customer</th>
+                    <th class="hide-sm">Account</th>
+                    <th>Invoice</th>
+                    <th>Amount</th>
+                    <th class="hide-sm">Method</th>
+                    <th class="hide-sm">Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong style="font-family:monospace;">PMT-5001</strong></td>
+                    <td>Ahmed Khan</td>
+                    <td class="hide-sm">NX12345678</td>
+                    <td><strong style="font-family:monospace;">INV-1002</strong></td>
+                    <td><strong>Rs. 2,450</strong></td>
+                    <td class="hide-sm">Credit Card</td>
+                    <td class="hide-sm">12 Sep 2025</td>
+                    <td><span class="badge badge-success">Paid</span></td>
+                </tr>
+                <tr>
+                    <td><strong style="font-family:monospace;">PMT-5002</strong></td>
+                    <td>Ali Raza</td>
+                    <td class="hide-sm">NX12345679</td>
+                    <td><strong style="font-family:monospace;">INV-1001</strong></td>
+                    <td><strong>Rs. 2,000</strong></td>
+                    <td class="hide-sm">Bank Transfer</td>
+                    <td class="hide-sm">10 Sep 2025</td>
+                    <td><span class="badge badge-success">Paid</span></td>
+                </tr>
+                <tr>
+                    <td><strong style="font-family:monospace;">PMT-5003</strong></td>
+                    <td>Hassan Shah</td>
+                    <td class="hide-sm">NX12345681</td>
+                    <td><strong style="font-family:monospace;">INV-1000</strong></td>
+                    <td><strong>Rs. 3,500</strong></td>
+                    <td class="hide-sm">JazzCash</td>
+                    <td class="hide-sm">08 Sep 2025</td>
+                    <td><span class="badge badge-success">Paid</span></td>
+                </tr>
+                <tr>
+                    <td><strong style="font-family:monospace;">PMT-5004</strong></td>
+                    <td>Bilal Khan</td>
+                    <td class="hide-sm">NX12345682</td>
+                    <td><strong style="font-family:monospace;">INV-0999</strong></td>
+                    <td><strong>Rs. 2,450</strong></td>
+                    <td class="hide-sm">EasyPaisa</td>
+                    <td class="hide-sm">05 Sep 2025</td>
+                    <td><span class="badge badge-success">Paid</span></td>
+                </tr>
+                <tr>
+                    <td><strong style="font-family:monospace;">PMT-5005</strong></td>
+                    <td>Usman Ahmed</td>
+                    <td class="hide-sm">NX12345680</td>
+                    <td><strong style="font-family:monospace;">INV-0998</strong></td>
+                    <td><strong>Rs. 1,200</strong></td>
+                    <td class="hide-sm">Credit Card</td>
+                    <td class="hide-sm">03 Sep 2025</td>
+                    <td><span class="badge badge-warning">Processing</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@* =========================================================
+   OUTSTANDING BILLS
+   ========================================================= *@
+<div class="chart-card reveal" style="margin-top:22px;">
+    <div class="chart-head">
+        <div>
+            <h4><i class="fa-solid fa-triangle-exclamation"></i> Outstanding Bills</h4>
+            <p class="chart-sub">Invoices requiring follow-up.</p>
+        </div>
+        <span class="badge badge-danger">4 pending</span>
+    </div>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Invoice</th>
+                    <th>Customer</th>
+                    <th class="hide-sm">Account</th>
+                    <th>Amount</th>
+                    <th>Due Date</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong style="font-family:monospace;">INV-0997</strong></td>
+                    <td>Kamran Ali</td>
+                    <td class="hide-sm">NX12345701</td>
+                    <td><strong>Rs. 2,450</strong></td>
+                    <td>25 Sep 2025</td>
+                    <td><span class="badge badge-danger">Overdue</span></td>
+                    <td><button class="btn btn-ghost btn-sm"><i class="fa-solid fa-bell"></i> Remind</button></td>
+                </tr>
+                <tr>
+                    <td><strong style="font-family:monospace;">INV-0998</strong></td>
+                    <td>Usman Ahmed</td>
+                    <td class="hide-sm">NX12345680</td>
+                    <td><strong>Rs. 1,200</strong></td>
+                    <td>25 Sep 2025</td>
+                    <td><span class="badge badge-warning">Pending</span></td>
+                    <td><button class="btn btn-ghost btn-sm"><i class="fa-solid fa-bell"></i> Remind</button></td>
+                </tr>
+                <tr>
+                    <td><strong style="font-family:monospace;">INV-0996</strong></td>
+                    <td>Sana Iqbal</td>
+                    <td class="hide-sm">NX12345702</td>
+                    <td><strong>Rs. 2,000</strong></td>
+                    <td>25 Sep 2025</td>
+                    <td><span class="badge badge-danger">Overdue</span></td>
+                    <td><button class="btn btn-ghost btn-sm"><i class="fa-solid fa-bell"></i> Remind</button></td>
+                </tr>
+                <tr>
+                    <td><strong style="font-family:monospace;">INV-0995</strong></td>
+                    <td>Zainab Ali</td>
+                    <td class="hide-sm">NX12345703</td>
+                    <td><strong>Rs. 3,500</strong></td>
+                    <td>25 Sep 2025</td>
+                    <td><span class="badge badge-warning">Pending</span></td>
+                    <td><button class="btn btn-ghost btn-sm"><i class="fa-solid fa-bell"></i> Remind</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@* =========================================================
+   ACTIVITY + QUICK ACTIONS
+   ========================================================= *@
+<div class="dash-grid-2 reveal" style="margin-top:22px;">
+    <div class="chart-card" style="margin-bottom:0;">
+        <div class="chart-head">
+            <h4><i class="fa-solid fa-clock-rotate-left"></i> Accounts Activity</h4>
+        </div>
+        <div class="activity-feed">
+            <div class="activity-item success">
+                <div class="icon"><i class="fa-solid fa-circle-check"></i></div>
+                <div class="meta">
+                    <strong>Payment received</strong>
+                    <p>Ahmed Khan · Rs. 2,450 · Credit Card</p>
+                </div>
+                <div class="when">5 min ago</div>
+            </div>
+            <div class="activity-item">
+                <div class="icon"><i class="fa-solid fa-file-invoice"></i></div>
+                <div class="meta">
+                    <strong>Invoices generated</strong>
+                    <p>Sep 2025 cycle · 945 invoices</p>
+                </div>
+                <div class="when">1 hr ago</div>
+            </div>
+            <div class="activity-item warning">
+                <div class="icon"><i class="fa-solid fa-bell"></i></div>
+                <div class="meta">
+                    <strong>Reminders sent</strong>
+                    <p>45 overdue customers notified</p>
+                </div>
+                <div class="when">3 hr ago</div>
+            </div>
+            <div class="activity-item">
+                <div class="icon"><i class="fa-solid fa-chart-line"></i></div>
+                <div class="meta">
+                    <strong>Monthly report published</strong>
+                    <p>Sep 2025 · Revenue Rs. 258,000</p>
+                </div>
+                <div class="when">Yesterday</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="chart-card" style="margin-bottom:0;">
+        <div class="chart-head">
+            <h4><i class="fa-solid fa-bolt"></i> Quick Actions</h4>
+        </div>
+        <div class="quick-actions">
+            <a href="/Bills" class="quick-action"><i class="fa-solid fa-magnifying-glass"></i><span>Search Bill</span></a>
+            <a href="/Retail/Search" class="quick-action"><i class="fa-solid fa-users"></i><span>Customers</span></a>
+            <a href="#recentPayments" class="quick-action"><i class="fa-solid fa-money-bill-wave"></i><span>Payments</span></a>
+            <a href="/Admin/Reports" class="quick-action"><i class="fa-solid fa-chart-line"></i><span>Reports</span></a>
+        </div>
+    </div>
+</div>
+
+@section DashboardScripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(function () {
+                if (window.NEXUS && NEXUS.toast) {
+                    NEXUS.toast({
+                        title: 'Welcome, Fatima',
+                        message: 'Accounts dashboard loaded successfully.',
+                        type: 'success',
+                        duration: 3000
+                    });
+                }
+            }, 600);
+        });
+    </script>
+}

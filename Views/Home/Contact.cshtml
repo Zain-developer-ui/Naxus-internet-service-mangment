@@ -1,0 +1,438 @@
+﻿@{
+    ViewData["Title"] = "Contact Us — NEXUS";
+    ViewData["BodyClass"] = "public-body";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/home.css" />
+    <link rel="stylesheet" href="~/css/public-pages.css" />
+}
+
+@* =========================================================
+   1. HERO — Same luxury style
+   ========================================================= *@
+<section class="home-hero">
+    <div class="container">
+        <div class="home-hero-grid">
+
+            @* ---------- LEFT: Title ---------- *@
+            <div class="hero-copy">
+                <span class="hero-badge">
+                    <i class="fa-solid fa-headset"></i> Contact NEXUS
+                </span>
+
+                <h1>
+                    We're Here<br />
+                    To Help You<br />
+                    <span class="shine">24/7</span>
+                </h1>
+
+                <p class="hero-lead">
+                    Have a question, need support or want to discuss a new
+                    connection? Our team is available round the clock — by
+                    phone, email or chat.
+                </p>
+
+                <div class="hero-actions">
+                    <a href="tel:111639877" class="btn btn-primary btn-lg">
+                        <i class="fa-solid fa-phone"></i> Call 111-NEXUS-1
+                    </a>
+                    <a href="mailto:support@nexus.example" class="btn btn-outline-light btn-lg">
+                        <i class="fa-solid fa-envelope"></i> Email Us
+                    </a>
+                </div>
+
+                <div class="hero-trust">
+                    <div class="hero-trust-item">
+                        <span class="ic"><i class="fa-solid fa-clock"></i></span>
+                        <div class="txt"><strong>24/7</strong><span>Always available</span></div>
+                    </div>
+                    <div class="hero-trust-item">
+                        <span class="ic"><i class="fa-solid fa-bolt"></i></span>
+                        <div class="txt"><strong>&lt; 15 min</strong><span>Response time</span></div>
+                    </div>
+                    <div class="hero-trust-item">
+                        <span class="ic"><i class="fa-solid fa-users"></i></span>
+                        <div class="txt"><strong>1,245+</strong><span>Happy customers</span></div>
+                    </div>
+                </div>
+            </div>
+
+            @* ---------- RIGHT: BIG Picture ---------- *@
+            <div class="hero-visual">
+                <div class="hero-media">
+                    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=1000&q=85"
+                         alt="NEXUS customer support team" loading="eager" />
+                </div>
+
+                <span class="hero-live-badge">
+                    <span class="dot"></span> Online Now
+                </span>
+
+                <div class="hero-float-card">
+                    <span class="ic"><i class="fa-solid fa-comments"></i></span>
+                    <div class="meta">
+                        <strong>Live Chat</strong>
+                        <span>Average wait: 30s</span>
+                    </div>
+                </div>
+
+                <div class="hero-float-card speed">
+                    <span class="ic"><i class="fa-solid fa-star"></i></span>
+                    <div class="meta">
+                        <strong>4.8 / 5</strong>
+                        <span>Customer rating</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+@* =========================================================
+   2. STATS STRIP
+   ========================================================= *@
+<section class="home-stats-strip">
+    <div class="container">
+        <div class="home-stats-card reveal">
+            <div class="home-stat-item">
+                <div class="num">24<span class="unit">/7</span></div>
+                <span class="label">Support Available</span>
+            </div>
+            <div class="home-stat-item">
+                <div class="num" data-count="15" data-suffix=" min">0</div>
+                <span class="label">Avg Response Time</span>
+            </div>
+            <div class="home-stat-item">
+                <div class="num" data-count="42">0</div>
+                <span class="label">Cities Covered</span>
+            </div>
+            <div class="home-stat-item">
+                <div class="num">4.8<span class="unit">/5</span></div>
+                <span class="label">Customer Rating</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* =========================================================
+   3. CONTACT CARDS
+   ========================================================= *@
+<section class="pps-section">
+    <div class="container">
+        <div class="pps-head reveal">
+            <span class="eyebrow">Get in Touch</span>
+            <h2>Multiple Ways to Reach Us</h2>
+            <p>Pick whichever is most convenient — we're here to help.</p>
+        </div>
+
+        <div class="rich-services-grid">
+            <article class="rich-service reveal">
+                <div class="rs-media" style="background:linear-gradient(135deg,#1E6FE5,#1558B8);display:flex;align-items:center;justify-content:center;">
+                    <i class="fa-solid fa-phone" style="font-size:3.5rem;color:#fff;"></i>
+                </div>
+                <div class="rs-body">
+                    <h4>Call Us</h4>
+                    <p>Speak directly with our support team. Available 24/7 for urgent issues.</p>
+                    <div class="rs-meta">
+                        <span class="badge badge-info">24/7</span>
+                        <span class="badge badge-muted">Instant</span>
+                    </div>
+                    <a href="tel:111639877" class="btn btn-primary btn-block">
+                        <i class="fa-solid fa-phone"></i> 111-NEXUS-1
+                    </a>
+                </div>
+            </article>
+
+            <article class="rich-service reveal delay-1">
+                <div class="rs-media" style="background:linear-gradient(135deg,#10B981,#059669);display:flex;align-items:center;justify-content:center;">
+                    <i class="fa-solid fa-envelope" style="font-size:3.5rem;color:#fff;"></i>
+                </div>
+                <div class="rs-body">
+                    <h4>Email Us</h4>
+                    <p>Send us a detailed message and we'll get back to you within a few hours.</p>
+                    <div class="rs-meta">
+                        <span class="badge badge-info">Response 4h</span>
+                        <span class="badge badge-muted">Detailed</span>
+                    </div>
+                    <a href="mailto:support@nexus.example" class="btn btn-primary btn-block">
+                        <i class="fa-solid fa-envelope"></i> Send Email
+                    </a>
+                </div>
+            </article>
+
+            <article class="rich-service reveal delay-2">
+                <div class="rs-media" style="background:linear-gradient(135deg,#F59E0B,#D97706);display:flex;align-items:center;justify-content:center;">
+                    <i class="fa-solid fa-comments" style="font-size:3.5rem;color:#fff;"></i>
+                </div>
+                <div class="rs-body">
+                    <h4>Live Chat</h4>
+                    <p>Chat with a NEXUS agent in real-time. Perfect for quick questions.</p>
+                    <div class="rs-meta">
+                        <span class="badge badge-info">Live Now</span>
+                        <span class="badge badge-muted">Quick</span>
+                    </div>
+                    <button type="button" class="btn btn-primary btn-block" data-demo-chat>
+                        <i class="fa-solid fa-comment-dots"></i> Start Chat
+                    </button>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+@* =========================================================
+   4. CONTACT FORM + OFFICES
+   ========================================================= *@
+<section class="pps-section alt">
+    <div class="container">
+        <div class="split-row">
+
+            @* Left: Form *@
+            <div class="split-copy reveal-left">
+                <span class="eyebrow">Send a Message</span>
+                <h2>Tell Us How We Can Help</h2>
+                <p class="lead">
+                    Fill out the form below and our team will get back to you.
+                    For urgent issues, please call us at 111-NEXUS-1.
+                </p>
+
+                <form data-validate-form data-save-demo="Contact" novalidate
+                      style="background:#fff;border:1px solid #E2E8F0;border-radius:16px;padding:28px;box-shadow:0 12px 30px rgba(10,31,68,0.06);margin-top:20px;"
+                      onsubmit="event.preventDefault(); NEXUS.toast('Message sent successfully (demo).', 'success'); this.reset();">
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="contactName">Full Name <span style="color:#EF4444;">*</span></label>
+                            <input type="text" id="contactName" name="FullName" placeholder="e.g. Ahmed Khan" required data-validate="required" />
+                            <span class="field-error"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactPhone">Phone <span style="color:#EF4444;">*</span></label>
+                            <input type="tel" id="contactPhone" name="Phone" placeholder="03001234567" required data-validate="required phone" />
+                            <span class="field-error"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="contactEmail">Email <span style="color:#EF4444;">*</span></label>
+                            <input type="email" id="contactEmail" name="Email" placeholder="you@example.com" required data-validate="required email" />
+                            <span class="field-error"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactSubject">Subject <span style="color:#EF4444;">*</span></label>
+                            <select id="contactSubject" name="Subject" required data-validate="required">
+                                <option value="">— Select subject —</option>
+                                <option>New Connection</option>
+                                <option>Technical Support</option>
+                                <option>Billing Question</option>
+                                <option>Plan Upgrade</option>
+                                <option>Account Issue</option>
+                                <option>Other</option>
+                            </select>
+                            <span class="field-error"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contactMessage">Message <span style="color:#EF4444;">*</span></label>
+                        <textarea id="contactMessage" name="Message" rows="5" placeholder="How can we help?" required data-validate="required" maxlength="1000"></textarea>
+                        <span class="field-error"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">
+                        <i class="fa-solid fa-paper-plane"></i> Send Message
+                    </button>
+                </form>
+            </div>
+
+            @* Right: Office info *@
+            <div class="reveal-right">
+                <span class="eyebrow">Visit Our Offices</span>
+                <h2>Come Say Hello</h2>
+                <p class="lead">
+                    Our offices are open Monday through Saturday, 9 AM to 7 PM.
+                    Walk-ins welcome for new connections.
+                </p>
+
+                <div style="margin-top:22px;display:grid;gap:14px;">
+                    <div class="info-card">
+                        <div class="icon"><i class="fa-solid fa-location-dot"></i></div>
+                        <div>
+                            <h5>Head Office — Lahore</h5>
+                            <p>Plot 45, Gulberg III, Main Boulevard, Lahore, Pakistan</p>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="icon"><i class="fa-solid fa-location-dot"></i></div>
+                        <div>
+                            <h5>Regional Office — Karachi</h5>
+                            <p>Office 12, Clifton Block 5, Karachi, Pakistan</p>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="icon"><i class="fa-solid fa-location-dot"></i></div>
+                        <div>
+                            <h5>Regional Office — Islamabad</h5>
+                            <p>Blue Area, Jinnah Avenue, Islamabad, Pakistan</p>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="icon"><i class="fa-solid fa-clock"></i></div>
+                        <div>
+                            <h5>Office Hours</h5>
+                            <p>Mon–Sat: 9:00 AM – 7:00 PM · Sun: Closed (Emergency: 24/7)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* =========================================================
+   5. SUPPORT STATS — Navy
+   ========================================================= *@
+<section class="pps-section">
+    <div class="container">
+        <div class="pps-head reveal">
+            <span class="eyebrow">Our Commitment</span>
+            <h2>Support That Never Sleeps</h2>
+            <p>Numbers that reflect our dedication to customers.</p>
+        </div>
+
+        <div class="why-cards-grid" style="background:#0A1F44;padding:40px;border-radius:24px;">
+            <div class="why-c reveal">
+                <div class="ic"><i class="fa-solid fa-clock"></i></div>
+                <h4>24/7 Availability</h4>
+                <p>Round-the-clock support — day, night, weekends and holidays.</p>
+            </div>
+            <div class="why-c reveal delay-1">
+                <div class="ic"><i class="fa-solid fa-bolt"></i></div>
+                <h4>Fast Response</h4>
+                <p>Average first-response time under 15 minutes.</p>
+            </div>
+            <div class="why-c reveal delay-2">
+                <div class="ic"><i class="fa-solid fa-star"></i></div>
+                <h4>Rated 4.8/5</h4>
+                <p>Based on over 1,200 verified customer reviews.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* =========================================================
+   6. FAQ
+   ========================================================= *@
+<section class="pps-section alt">
+    <div class="container" style="max-width:820px;">
+        <div class="pps-head reveal">
+            <span class="eyebrow">FAQs</span>
+            <h2>Common Support Questions</h2>
+            <p>Quick answers to what customers ask us most.</p>
+        </div>
+
+        <div class="faq-list reveal">
+            <div class="faq-item">
+                <button class="faq-question" type="button">
+                    How do I report a connection issue?
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">Call 111-NEXUS-1, email support@nexus.example, or raise a ticket from your Customer Portal. Our team responds within 15 minutes on average.</div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" type="button">
+                    What are your support hours?
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">Phone and live chat support are available 24/7. Walk-in office hours are Mon–Sat, 9 AM to 7 PM.</div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" type="button">
+                    Can I visit an office to sign up?
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">Yes. Walk in to any of our offices in Lahore, Karachi or Islamabad — no appointment needed for new connections.</div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" type="button">
+                    How do I escalate a complaint?
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">If your issue isn't resolved within 48 hours, ask for a supervisor. You can also email complaints@nexus.example for priority handling.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* =========================================================
+   7. FINAL CTA
+   ========================================================= *@
+<section class="hero-cta-final">
+    <div class="cta-bg" style="background-image:url('https://images.unsplash.com/photo-1552664730-d307ca884978?w=1920&q=85');" aria-hidden="true"></div>
+    <div class="cta-overlay" aria-hidden="true"></div>
+    <div class="cta-shine" aria-hidden="true"></div>
+
+    <div class="container">
+        <h2>Ready to Get <span class="shine">Connected?</span></h2>
+        <p>Join over 1,200 customers across 42 cities already enjoying NEXUS.</p>
+        <div class="cta-actions">
+            <a href="/Orders/New" class="btn btn-primary btn-lg">
+                <i class="fa-solid fa-plug-circle-plus"></i> Get New Connection
+            </a>
+            <a href="/Plans" class="btn btn-outline-light btn-lg">
+                Explore Plans <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        // FAQ accordion
+        document.addEventListener('click', function (e) {
+            var q = e.target.closest('.faq-question');
+            if (!q) return;
+            var item = q.parentElement;
+            var isOpen = item.classList.contains('open');
+            document.querySelectorAll('.faq-item.open').forEach(function (i) {
+                if (i !== item) i.classList.remove('open');
+            });
+            item.classList.toggle('open', !isOpen);
+        });
+
+        // Demo chat button
+        document.addEventListener('click', function (e) {
+            if (e.target.closest('[data-demo-chat]')) {
+                e.preventDefault();
+                if (window.NEXUS && NEXUS.toast) {
+                    NEXUS.toast({
+                        title: 'Live Chat (Demo)',
+                        message: 'A NEXUS agent would connect shortly in production.',
+                        type: 'info',
+                        duration: 4000
+                    });
+                }
+            }
+        });
+
+        // Toast on load
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(function () {
+                if (window.NEXUS && NEXUS.toast) {
+                    NEXUS.toast({
+                        title: 'Welcome to Contact',
+                        message: 'Reach us by phone, email or chat — 24/7.',
+                        type: 'info',
+                        duration: 4000
+                    });
+                }
+            }, 800);
+        });
+    </script>
+}

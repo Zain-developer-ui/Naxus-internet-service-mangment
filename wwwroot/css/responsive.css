@@ -1,0 +1,386 @@
+﻿/* =========================================================
+   NEXUS — responsive.css
+   Global responsive overrides. Ensures no horizontal scroll.
+   ========================================================= */
+
+/* Prevent horizontal overflow everywhere */
+html, body {
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
+/* ---------- Large desktop (≥1400px) ---------- */
+@media (min-width: 1400px) {
+    :root {
+        --container-max: 1280px;
+    }
+}
+
+/* ---------- Tablet (≤1024px) ---------- */
+@media (max-width: 1024px) {
+    .section {
+        padding: 60px 0;
+    }
+
+    .section-lg {
+        padding: 80px 0;
+    }
+
+    .grid-4 {
+        grid-template-columns: repeat(2, minmax(0,1fr));
+    }
+
+    .grid-3 {
+        grid-template-columns: repeat(2, minmax(0,1fr));
+    }
+
+    .hero {
+        min-height: 520px;
+        padding: 60px 0;
+    }
+
+        .hero h1 {
+            font-size: 2.4rem;
+        }
+
+    .cta-banner {
+        padding: 46px 28px;
+    }
+
+    .pricing-card {
+        padding: 30px 24px;
+    }
+
+    .service-detail-row {
+        gap: 30px;
+    }
+}
+
+/* ---------- Small tablet / large phone (≤768px) ---------- */
+@media (max-width: 768px) {
+    body {
+        font-size: 14.5px;
+    }
+
+    h1 {
+        font-size: 1.9rem;
+    }
+
+    h2 {
+        font-size: 1.55rem;
+    }
+
+    h3 {
+        font-size: 1.2rem;
+    }
+
+    .section {
+        padding: 48px 0;
+    }
+
+    .section-sm {
+        padding: 36px 0;
+    }
+
+    .section-lg {
+        padding: 60px 0;
+    }
+
+    .grid-2,
+    .grid-3,
+    .grid-4 {
+        grid-template-columns: 1fr;
+    }
+
+    .flex-between {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .container {
+        padding: 0 16px;
+    }
+
+    .hero {
+        min-height: 460px;
+        padding: 50px 0;
+    }
+
+        .hero h1 {
+            font-size: 2rem;
+        }
+
+        .hero p.lead {
+            font-size: 1rem;
+        }
+
+    .page-hero {
+        padding: 50px 0 42px;
+    }
+
+    .welcome-banner h1 {
+        font-size: 1.35rem;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 14px;
+    }
+
+    .chart-card .chart-body {
+        height: 240px;
+    }
+
+        .chart-card .chart-body.sm {
+            height: 200px;
+        }
+
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .table-wrap {
+        border-radius: var(--radius);
+    }
+
+    .pagination {
+        flex-wrap: wrap;
+    }
+
+    .modal {
+        max-width: 100%;
+    }
+
+    .modal-body, .modal-header, .modal-footer {
+        padding: 18px;
+    }
+
+    .service-card .service-media {
+        height: 170px;
+    }
+
+    .step-progress .step-label {
+        font-size: .68rem;
+        max-width: 70px;
+    }
+
+    .step .step-num {
+        width: 32px;
+        height: 32px;
+        font-size: .8rem;
+    }
+
+    .step-progress::before,
+    .step-progress .step-bar-fill {
+        top: 15px;
+    }
+}
+
+/* ---------- Phone (≤480px) ---------- */
+@media (max-width: 480px) {
+    body {
+        font-size: 14px;
+    }
+
+    h1 {
+        font-size: 1.65rem;
+    }
+
+    h2 {
+        font-size: 1.35rem;
+    }
+
+    .section {
+        padding: 40px 0;
+    }
+
+    .section-lg {
+        padding: 48px 0;
+    }
+
+    .btn {
+        padding: 10px 18px;
+        font-size: .88rem;
+    }
+
+    .btn-lg {
+        padding: 12px 22px;
+        font-size: .95rem;
+    }
+
+    .hero {
+        min-height: 400px;
+        padding: 40px 0;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+        .hero-actions .btn {
+            width: 100%;
+        }
+
+    .hero-strip {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 30px;
+    }
+
+        .hero-strip .strip-item {
+            padding: 12px;
+            font-size: .82rem;
+        }
+
+            .hero-strip .strip-item i {
+                font-size: 1rem;
+            }
+
+    .card {
+        padding: 18px;
+    }
+
+    .stat-card {
+        padding: 16px;
+        gap: 12px;
+    }
+
+        .stat-card .stat-value {
+            font-size: 1.4rem;
+        }
+
+        .stat-card .stat-icon {
+            width: 42px;
+            height: 42px;
+            font-size: 1.1rem;
+        }
+
+    .welcome-banner {
+        padding: 22px 18px;
+    }
+
+        .welcome-banner .banner-actions {
+            width: 100%;
+            flex-direction: column;
+        }
+
+            .welcome-banner .banner-actions .btn {
+                width: 100%;
+            }
+
+    .pricing-card {
+        padding: 26px 20px;
+    }
+
+        .pricing-card.popular {
+            transform: none;
+        }
+
+            .pricing-card.popular:hover {
+                transform: translateY(-6px);
+            }
+
+        .pricing-card .plan-speed strong {
+            font-size: 2.1rem;
+        }
+
+        .pricing-card .plan-price .amount {
+            font-size: 1.7rem;
+        }
+
+    .service-detail-row {
+        margin-bottom: 60px;
+    }
+
+    .quick-actions {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .login-card {
+        padding: 28px 22px;
+        border-radius: var(--radius);
+    }
+
+    .cta-banner {
+        padding: 36px 20px;
+        border-radius: var(--radius);
+    }
+
+    .alert {
+        padding: 12px 14px;
+        font-size: .88rem;
+    }
+
+    .step-label {
+        display: none;
+    }
+}
+
+/* ---------- Ultra-narrow safety ---------- */
+@media (max-width: 340px) {
+    .container {
+        padding: 0 12px;
+    }
+
+    .brand-text {
+        display: none;
+    }
+}
+
+/* ---------- Print ---------- */
+@media print {
+    .nexus-navbar,
+    .nexus-footer,
+    .dashboard-sidebar,
+    .dashboard-topbar,
+    .fab,
+    .btn {
+        display: none !important;
+    }
+
+    body {
+        background: #fff;
+    }
+
+    .dashboard-main {
+        margin-left: 0;
+    }
+
+    .card {
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+}
+
+/* ---------- Safe-area (iOS) ---------- */
+@supports (padding: env(safe-area-inset-bottom)) {
+    .fab {
+        right: calc(24px + env(safe-area-inset-right));
+        bottom: calc(24px + env(safe-area-inset-bottom));
+    }
+}
+
+/* =========================================================
+   Batch 8 additions — dash-grid-3 responsive rule
+   ========================================================= */
+
+.dash-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+}
+
+@media (max-width: 992px) {
+    .dash-grid-3 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .dash-grid-3 {
+        grid-template-columns: 1fr;
+    }
+}

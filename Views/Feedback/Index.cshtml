@@ -1,0 +1,310 @@
+﻿@model NEXUS.Models.ViewModels.FeedbackViewModel
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Feedback — NEXUS";
+    ViewData["UserRole"] = "Customer";
+    ViewData["ActiveSidebar"] = "feedback";
+    ViewData["UserName"] = "Ahmed Khan";
+
+    var sampleHistory = new[]
+    {
+        new { Id = "FB-1001", Date = "12 Sep 2025", Category = "Internet Service", Rating = 5, Message = "Connection has been excellent this month. Very satisfied with the speed." },
+        new { Id = "FB-1002", Date = "05 Aug 2025", Category = "Customer Support", Rating = 4, Message = "Support call was quick and helpful. Issue resolved within an hour." }
+    };
+}
+
+@section DashboardStyles {
+    <link rel="stylesheet" href="~/css/dashboards-luxury.css" />
+}
+
+@* =========================================================
+   WELCOME BANNER (same as Dashboard)
+   ========================================================= *@
+<div class="welcome-banner reveal">
+    <div class="banner-flex">
+        <div>
+            <h1>We Value Your Feedback 👋</h1>
+            <p>Your opinion helps us serve you better — every submission is read by our team.</p>
+            <div class="banner-actions">
+                <span class="badge badge-success"><i class="fa-solid fa-star"></i> 4.8 / 5 Average Rating</span>
+                <span class="badge" style="background:rgba(255,255,255,0.15);color:#fff;">
+                    <i class="fa-regular fa-clock"></i> 48h Response Time
+                </span>
+            </div>
+        </div>
+        <div class="banner-actions">
+            <a href="#feedback-form" class="btn btn-primary">
+                <i class="fa-solid fa-paper-plane"></i> Send Feedback
+            </a>
+        </div>
+    </div>
+</div>
+
+@* =========================================================
+   KPI CARDS
+   ========================================================= *@
+<div class="stats-grid reveal">
+    <div class="stat-card">
+        <div class="stat-icon warning"><i class="fa-solid fa-star"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value">4.8 / 5</div>
+            <div class="stat-label">Your Average Rating</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon blue"><i class="fa-regular fa-comments"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value">2</div>
+            <div class="stat-label">Feedback Submitted</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon success"><i class="fa-solid fa-circle-check"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value" style="font-size:1.15rem;">Resolved</div>
+            <div class="stat-label">Last Response</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon navy"><i class="fa-regular fa-clock"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value" style="font-size:1.15rem;">&lt; 48h</div>
+            <div class="stat-label">Avg. Response Time</div>
+        </div>
+    </div>
+</div>
+
+@* =========================================================
+   FEEDBACK FORM + TIPS
+   ========================================================= *@
+<div class="dash-grid-2 reveal" id="feedback-form" style="margin-top:22px;">
+    <div>
+        <form asp-controller="Feedback" asp-action="Index" method="post"
+              data-validate-form data-save-demo="Feedback" novalidate
+              class="card">
+
+            @Html.AntiForgeryToken()
+
+            <div class="card-header">
+                <div>
+                    <h4><i class="fa-regular fa-comment-dots" style="color:var(--nexus-blue);"></i> Share Your Experience</h4>
+                    <p>Rate your overall experience and specific areas below.</p>
+                </div>
+            </div>
+
+            @* Overall rating *@
+            <label style="font-size:0.9rem;font-weight:600;color:var(--nexus-text);margin:14px 0 8px;display:block;">
+                Overall Rating <span class="req">*</span>
+            </label>
+            <div class="star-rating" data-star-rating style="display:flex;gap:8px;font-size:2.4rem;margin:10px 0 20px;">
+                <i class="fa-regular fa-star" data-star="1"></i>
+                <i class="fa-regular fa-star" data-star="2"></i>
+                <i class="fa-regular fa-star" data-star="3"></i>
+                <i class="fa-regular fa-star" data-star="4"></i>
+                <i class="fa-regular fa-star" data-star="5"></i>
+                <input type="hidden" name="OverallRating" value="0" required data-validate="required" />
+            </div>
+            <span class="field-error" style="display:block;margin-bottom:14px;"></span>
+
+            <div class="divider"></div>
+
+            @* Specific ratings *@
+            <label style="font-size:0.9rem;font-weight:600;color:var(--nexus-text);margin:0 0 12px;display:block;">
+                Rate Specific Areas
+            </label>
+
+            <div class="grid grid-3" style="gap:16px;margin-bottom:18px;">
+                <div>
+                    <label style="font-size:0.78rem;font-weight:600;color:var(--nexus-muted);margin-bottom:6px;display:block;">Internet Service</label>
+                    <div class="star-rating" data-star-rating style="display:flex;gap:4px;font-size:1.35rem;">
+                        <i class="fa-regular fa-star" data-star="1"></i>
+                        <i class="fa-regular fa-star" data-star="2"></i>
+                        <i class="fa-regular fa-star" data-star="3"></i>
+                        <i class="fa-regular fa-star" data-star="4"></i>
+                        <i class="fa-regular fa-star" data-star="5"></i>
+                        <input type="hidden" name="ServiceRating" value="0" />
+                    </div>
+                </div>
+                <div>
+                    <label style="font-size:0.78rem;font-weight:600;color:var(--nexus-muted);margin-bottom:6px;display:block;">Installation</label>
+                    <div class="star-rating" data-star-rating style="display:flex;gap:4px;font-size:1.35rem;">
+                        <i class="fa-regular fa-star" data-star="1"></i>
+                        <i class="fa-regular fa-star" data-star="2"></i>
+                        <i class="fa-regular fa-star" data-star="3"></i>
+                        <i class="fa-regular fa-star" data-star="4"></i>
+                        <i class="fa-regular fa-star" data-star="5"></i>
+                        <input type="hidden" name="InstallationRating" value="0" />
+                    </div>
+                </div>
+                <div>
+                    <label style="font-size:0.78rem;font-weight:600;color:var(--nexus-muted);margin-bottom:6px;display:block;">Customer Support</label>
+                    <div class="star-rating" data-star-rating style="display:flex;gap:4px;font-size:1.35rem;">
+                        <i class="fa-regular fa-star" data-star="1"></i>
+                        <i class="fa-regular fa-star" data-star="2"></i>
+                        <i class="fa-regular fa-star" data-star="3"></i>
+                        <i class="fa-regular fa-star" data-star="4"></i>
+                        <i class="fa-regular fa-star" data-star="5"></i>
+                        <input type="hidden" name="SupportRating" value="0" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            @* Category *@
+            <div class="form-group">
+                <label for="Category">Feedback Category <span class="req">*</span></label>
+                <select id="Category" name="Category" required data-validate="required">
+                    <option value="">— Select a category —</option>
+                    <option>Internet Service</option>
+                    <option>Installation</option>
+                    <option>Billing</option>
+                    <option>Customer Support</option>
+                    <option>Technical Issue</option>
+                    <option>Other</option>
+                </select>
+                <span class="field-error"></span>
+            </div>
+
+            @* Message *@
+            <div class="form-group">
+                <label for="Message">Your Feedback <span class="req">*</span></label>
+                <textarea id="Message" name="Message" rows="5"
+                          placeholder="Tell us what you think — what worked, what didn't, and how we can improve."
+                          required data-validate="required" maxlength="1000"></textarea>
+                <span class="form-hint" style="display:flex;justify-content:space-between;">
+                    <span>Please be specific and constructive.</span>
+                    <span><span id="charCount">0</span> / 1000</span>
+                </span>
+                <span class="field-error"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg btn-block">
+                <i class="fa-solid fa-paper-plane"></i> Submit Feedback
+            </button>
+        </form>
+    </div>
+
+    @* Sidebar *@
+    <aside>
+        <div class="card reveal">
+            <div class="card-header">
+                <h4><i class="fa-solid fa-lightbulb" style="color:var(--nexus-warning);"></i> Tips for Useful Feedback</h4>
+            </div>
+            <ul class="check-list" style="margin-top:12px;">
+                <li><i class="fa-solid fa-check"></i> Be specific about what happened</li>
+                <li><i class="fa-solid fa-check"></i> Mention dates or invoice numbers if relevant</li>
+                <li><i class="fa-solid fa-check"></i> Describe the impact on your service</li>
+                <li><i class="fa-solid fa-check"></i> Suggest improvements where possible</li>
+            </ul>
+        </div>
+
+        <div class="card reveal delay-1" style="margin-top:14px;">
+            <div class="card-header">
+                <h4><i class="fa-regular fa-clock" style="color:var(--nexus-blue);"></i> Response Time</h4>
+            </div>
+            <p class="muted" style="font-size:0.9rem;margin:14px 0 16px;">
+                We read every piece of feedback. Our team typically responds within 48 hours for requests that need a reply.
+            </p>
+            <div class="info-card">
+                <div class="icon"><i class="fa-solid fa-headset"></i></div>
+                <div>
+                    <h5>Need urgent help?</h5>
+                    <p>Call us at 111-NEXUS-1</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+</div>
+
+@* =========================================================
+   PREVIOUS FEEDBACK
+   ========================================================= *@
+<div class="chart-card reveal" style="margin-top:22px;">
+    <div class="chart-head">
+        <div>
+            <h4><i class="fa-regular fa-comments" style="color:var(--nexus-blue);"></i> Your Previous Feedback</h4>
+            <p class="chart-sub">Sample history shown for demonstration.</p>
+        </div>
+        <span class="badge badge-info">2 submissions</span>
+    </div>
+
+    <div class="dash-grid-2">
+        @foreach (var f in sampleHistory)
+        {
+            <div class="card" style="border-left:4px solid var(--nexus-blue);">
+                <div class="flex-between" style="margin-bottom:12px;">
+                    <span class="badge badge-info">@f.Category</span>
+                    <span class="stars">@(new string('★', f.Rating))@(new string('☆', 5 - f.Rating))</span>
+                </div>
+                <p style="color:var(--nexus-text-soft);margin:0 0 12px;font-size:0.94rem;line-height:1.6;">@f.Message</p>
+                <p class="muted small" style="margin:0;">
+                    <strong style="font-family:monospace;">@f.Id</strong> · @f.Date
+                </p>
+            </div>
+        }
+    </div>
+</div>
+
+@* =========================================================
+   SUPPORT CTA
+   ========================================================= *@
+<div class="cta-banner reveal" style="margin-top:22px;">
+    <h2>Prefer to Speak Directly?</h2>
+    <p>Our support team is available 24/7 to help with any issue.</p>
+    <div class="hero-actions">
+        <a href="/Home/Contact" class="btn btn-primary btn-lg">
+            <i class="fa-solid fa-headset"></i> Contact Support
+        </a>
+        <a href="/Customer/MyConnection" class="btn btn-outline-light btn-lg">
+            My Connection
+        </a>
+    </div>
+</div>
+
+@* =========================================================
+   SUCCESS MODAL
+   ========================================================= *@
+@if (TempData["Success"] != null)
+{
+    <div class="modal-backdrop open" id="feedbackSuccess" aria-hidden="false">
+        <div class="modal" role="dialog" aria-modal="true">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-circle-check" style="color:var(--nexus-success);"></i> Thank You!</h3>
+                <button class="modal-close" data-modal-close aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <p>Your feedback has been received (demo). Reference ID:</p>
+                <div class="info-card" style="margin-top:16px;">
+                    <div class="icon"><i class="fa-solid fa-hashtag"></i></div>
+                    <div>
+                        <h5>Feedback Reference</h5>
+                        <p style="font-family:monospace;font-size:1.05rem;color:var(--nexus-blue-dark);font-weight:700;">FB-1003</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="/Customer/Dashboard" class="btn btn-primary">Return to Dashboard</a>
+            </div>
+        </div>
+    </div>
+}
+
+@section DashboardScripts {
+    <script>
+        // Character counter
+        var msg = document.getElementById('Message');
+        var counter = document.getElementById('charCount');
+        if (msg && counter) {
+            msg.addEventListener('input', function () {
+                counter.textContent = msg.value.length;
+            });
+        }
+
+        // Smooth scroll
+        document.querySelector('a[href="#feedback-form"]')?.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.getElementById('feedback-form').scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+}

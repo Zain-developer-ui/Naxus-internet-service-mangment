@@ -1,0 +1,818 @@
+﻿/* =========================================================
+   NEXUS — orders.css
+   New Connection (Multi-step) + Track Order
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   1. ORDER LAYOUT (form + sticky summary)
+   --------------------------------------------------------- */
+.order-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 360px;
+    gap: 30px;
+    align-items: start;
+}
+
+@media (max-width: 992px) {
+    .order-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ---------------------------------------------------------
+   2. STEP PROGRESS — luxury with glow
+   --------------------------------------------------------- */
+.step-progress {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    position: relative;
+    margin: 8px 0 44px;
+    padding: 0 30px;
+}
+
+    .step-progress::before {
+        content: '';
+        position: absolute;
+        top: 20px;
+        left: 60px;
+        right: 60px;
+        height: 3px;
+        background: var(--nexus-border);
+        border-radius: var(--radius-full);
+        z-index: 0;
+    }
+
+    .step-progress .step-bar-fill {
+        position: absolute;
+        top: 20px;
+        left: 60px;
+        height: 3px;
+        background: linear-gradient(90deg, var(--nexus-blue) 0%, var(--nexus-accent) 100%);
+        border-radius: var(--radius-full);
+        z-index: 1;
+        transition: width var(--ease-slow);
+        box-shadow: 0 0 12px rgba(30, 111, 229, 0.4);
+    }
+
+    .step-progress .step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        z-index: 2;
+        flex: 1;
+        position: relative;
+    }
+
+    .step-progress .step-num {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: var(--nexus-surface);
+        border: 2px solid var(--nexus-border);
+        color: var(--nexus-muted);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 0.95rem;
+        transition: all var(--ease);
+        box-shadow: 0 4px 12px rgba(10, 31, 68, 0.06);
+    }
+
+    .step-progress .step-label {
+        font-size: 0.82rem;
+        color: var(--nexus-muted);
+        font-weight: 600;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    .step-progress .step.active .step-num {
+        background: linear-gradient(135deg, var(--nexus-blue), var(--nexus-blue-dark));
+        border-color: var(--nexus-blue);
+        color: #fff;
+        box-shadow: 0 0 0 6px rgba(30, 111, 229, 0.18), 0 8px 20px rgba(30, 111, 229, 0.4);
+    }
+
+    .step-progress .step.active .step-label {
+        color: var(--nexus-blue-dark);
+        font-weight: 700;
+    }
+
+    .step-progress .step.done .step-num {
+        background: linear-gradient(135deg, var(--nexus-success), var(--nexus-success-dark));
+        border-color: var(--nexus-success);
+        color: #fff;
+        box-shadow: 0 6px 16px rgba(16, 185, 129, 0.3);
+    }
+
+    .step-progress .step.done .step-label {
+        color: var(--nexus-success);
+    }
+
+/* ---------------------------------------------------------
+   3. STEP PANELS
+   --------------------------------------------------------- */
+.step-panel {
+    display: none;
+    animation: nexus-fade-in 0.4s ease;
+}
+
+    .step-panel.active {
+        display: block;
+    }
+
+    .step-panel .card {
+        padding: 34px 34px 30px;
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--nexus-border);
+        background: var(--nexus-surface);
+        box-shadow: 0 12px 30px rgba(10, 31, 68, 0.06);
+    }
+
+        .step-panel .card h3 {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.35rem;
+            margin: 0 0 10px;
+            color: var(--nexus-navy);
+            letter-spacing: -0.015em;
+        }
+
+            .step-panel .card h3 i {
+                width: 40px;
+                height: 40px;
+                border-radius: 11px;
+                background: linear-gradient(135deg, var(--nexus-blue-light), var(--nexus-accent-soft));
+                color: var(--nexus-blue-dark);
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1rem;
+                flex-shrink: 0;
+            }
+
+/* ---------------------------------------------------------
+   4. PLAN CHOICE CARDS (compact grid — 3 columns)
+   --------------------------------------------------------- */
+.plan-choice-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 8px;
+}
+
+.plan-choice {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 22px 18px 20px;
+    background: var(--nexus-surface);
+    border: 2px solid var(--nexus-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    text-align: center;
+    transition: all var(--ease-fast);
+    min-height: 200px;
+}
+
+    .plan-choice:hover {
+        border-color: var(--nexus-blue);
+        transform: translateY(-3px);
+        box-shadow: 0 12px 24px rgba(30, 111, 229, 0.12);
+    }
+
+    .plan-choice.selected {
+        border-color: var(--nexus-blue);
+        background: linear-gradient(180deg, var(--nexus-blue-light) 0%, var(--nexus-surface) 100%);
+        box-shadow: 0 12px 28px rgba(30, 111, 229, 0.18);
+    }
+
+    .plan-choice input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .plan-choice .choice-badge {
+        position: absolute;
+        top: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 4px 12px;
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #fff;
+        background: linear-gradient(135deg, var(--nexus-blue), var(--nexus-blue-dark));
+        border-radius: var(--radius-full);
+        box-shadow: 0 6px 14px rgba(30, 111, 229, 0.35);
+        white-space: nowrap;
+    }
+
+    .plan-choice .choice-name {
+        font-weight: 700;
+        color: var(--nexus-navy);
+        font-size: 0.95rem;
+        letter-spacing: 0.02em;
+        margin-bottom: 12px;
+    }
+
+    .plan-choice .choice-speed {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--nexus-blue-dark);
+        line-height: 1;
+        letter-spacing: -0.02em;
+    }
+
+        .plan-choice .choice-speed::after {
+            content: ' Mbps';
+            font-size: 0.72rem;
+            font-weight: 600;
+            opacity: 0.65;
+            letter-spacing: 0;
+        }
+
+    .plan-choice .choice-price {
+        margin-top: 12px;
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--nexus-text);
+    }
+
+        .plan-choice .choice-price span {
+            font-size: 0.72rem;
+            color: var(--nexus-muted);
+            font-weight: 500;
+        }
+
+    .plan-choice .choice-tagline {
+        margin-top: auto;
+        padding-top: 12px;
+        font-size: 0.78rem;
+        color: var(--nexus-muted);
+        line-height: 1.4;
+    }
+
+@media (max-width: 720px) {
+    .plan-choice-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .plan-choice {
+        min-height: auto;
+    }
+}
+
+/* ---------------------------------------------------------
+   5. STICKY ORDER SUMMARY
+   --------------------------------------------------------- */
+.order-summary {
+    position: sticky;
+    top: 100px;
+}
+
+    .order-summary .card {
+        padding: 26px 24px;
+        border: 1px solid var(--nexus-border);
+        background: var(--nexus-surface);
+        border-radius: var(--radius-lg);
+        box-shadow: 0 12px 30px rgba(10, 31, 68, 0.08);
+    }
+
+    .order-summary h4 {
+        font-size: 1.05rem;
+        margin: 0 0 6px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+        .order-summary h4 i {
+            color: var(--nexus-blue);
+        }
+
+.summary-rows {
+    display: grid;
+    gap: 12px;
+}
+
+    .summary-rows > div {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        font-size: 0.92rem;
+    }
+
+        .summary-rows > div span {
+            color: var(--nexus-muted);
+        }
+
+        .summary-rows > div strong {
+            color: var(--nexus-navy);
+            font-weight: 600;
+            text-align: right;
+        }
+
+    .summary-rows.total {
+        padding-top: 14px;
+        border-top: 2px solid var(--nexus-border);
+        margin-top: 6px;
+    }
+
+        .summary-rows.total > div {
+            font-size: 1.05rem;
+            font-weight: 700;
+        }
+
+            .summary-rows.total > div span {
+                color: var(--nexus-text);
+            }
+
+        .summary-rows.total strong {
+            color: var(--nexus-blue-dark);
+            font-size: 1.35rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+@media (max-width: 992px) {
+    .order-summary {
+        position: static;
+    }
+}
+
+/* ---------------------------------------------------------
+   6. STEP ACTIONS
+   --------------------------------------------------------- */
+.step-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-top: 30px;
+    padding-top: 26px;
+    border-top: 1px solid var(--nexus-border-soft);
+    flex-wrap: wrap;
+}
+
+    .step-actions .right {
+        display: flex;
+        gap: 10px;
+        margin-left: auto;
+        flex-wrap: wrap;
+    }
+
+/* ---------------------------------------------------------
+   7. HERO FOR ORDER PAGE
+   --------------------------------------------------------- */
+.order-hero {
+    position: relative;
+    padding: 70px 0 60px;
+    color: #fff;
+    overflow: hidden;
+    isolation: isolate;
+    background: radial-gradient(900px 500px at 80% 10%, rgba(56, 189, 248, 0.22), transparent 60%), radial-gradient(800px 500px at 10% 90%, rgba(30, 111, 229, 0.24), transparent 60%), linear-gradient(135deg, var(--nexus-navy) 0%, var(--nexus-navy-dark) 100%);
+}
+
+    .order-hero::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+        background-size: 60px 60px;
+        z-index: -1;
+        opacity: 0.7;
+    }
+
+    .order-hero h1 {
+        color: #fff;
+        font-size: clamp(1.85rem, 3.5vw, 2.75rem);
+        margin: 12px 0 10px;
+        letter-spacing: -0.025em;
+    }
+
+    .order-hero p {
+        color: rgba(255, 255, 255, 0.82);
+        font-size: 1rem;
+        max-width: 640px;
+        margin: 0;
+    }
+
+    .order-hero .breadcrumbs {
+        color: rgba(255, 255, 255, 0.65);
+        margin: 0;
+    }
+
+        .order-hero .breadcrumbs a {
+            color: rgba(255, 255, 255, 0.72);
+        }
+
+        .order-hero .breadcrumbs .current {
+            color: #fff;
+            font-weight: 600;
+        }
+
+@media (max-width: 640px) {
+    .order-hero {
+        padding: 50px 0 40px;
+    }
+
+        .order-hero h1 {
+            font-size: 1.6rem;
+        }
+}
+
+/* ---------------------------------------------------------
+   8. TRACK ORDER PAGE
+   --------------------------------------------------------- */
+.tracking-search-card {
+    padding: 30px 32px;
+    background: var(--nexus-surface);
+    border: 1px solid var(--nexus-border);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 12px 30px rgba(10, 31, 68, 0.08);
+}
+
+.tracking-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 24px 28px;
+    background: linear-gradient(120deg, var(--nexus-navy) 0%, var(--nexus-navy-mid) 100%);
+    border-radius: var(--radius-lg);
+    color: #fff;
+}
+
+    .tracking-header .th-left h2 {
+        color: #fff;
+        margin: 12px 0 6px;
+    }
+
+    .tracking-header .th-left p {
+        color: rgba(255, 255, 255, 0.78);
+        margin: 0;
+        font-size: 0.9rem;
+    }
+
+    .tracking-header .th-right {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+/* ---------------------------------------------------------
+   9. TIMELINE (order tracking)
+   --------------------------------------------------------- */
+.order-timeline {
+    position: relative;
+    padding-left: 34px;
+}
+
+    .order-timeline::before {
+        content: '';
+        position: absolute;
+        left: 12px;
+        top: 6px;
+        bottom: 6px;
+        width: 2px;
+        background: var(--nexus-border);
+    }
+
+    .order-timeline .t-item {
+        position: relative;
+        padding-bottom: 28px;
+    }
+
+        .order-timeline .t-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .order-timeline .t-item::before {
+            content: '';
+            position: absolute;
+            left: -28px;
+            top: 4px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--nexus-surface);
+            border: 3px solid var(--nexus-border-strong);
+        }
+
+        .order-timeline .t-item.done::before {
+            border-color: var(--nexus-success);
+            background: var(--nexus-success);
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
+        }
+
+        .order-timeline .t-item.active::before {
+            border-color: var(--nexus-blue);
+            background: var(--nexus-blue);
+            box-shadow: 0 0 0 6px rgba(30, 111, 229, 0.18);
+        }
+
+        .order-timeline .t-item h4 {
+            margin: 0 0 4px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--nexus-navy);
+        }
+
+        .order-timeline .t-item .when {
+            font-size: 0.82rem;
+            color: var(--nexus-muted);
+            font-weight: 500;
+        }
+
+        .order-timeline .t-item p {
+            margin: 6px 0 0;
+            color: var(--nexus-text-soft);
+            font-size: 0.92rem;
+            line-height: 1.55;
+        }
+
+/* ---------------------------------------------------------
+   10. RESPONSIVE
+   --------------------------------------------------------- */
+@media (max-width: 640px) {
+    .step-panel .card {
+        padding: 24px 20px 22px;
+    }
+
+        .step-panel .card h3 {
+            font-size: 1.15rem;
+        }
+
+    .step-progress {
+        padding: 0 10px;
+    }
+
+        .step-progress::before {
+            left: 20px;
+            right: 20px;
+        }
+
+        .step-progress .step-bar-fill {
+            left: 20px;
+        }
+
+        .step-progress .step-label {
+            font-size: 0.68rem;
+        }
+
+        .step-progress .step-num {
+            width: 34px;
+            height: 34px;
+            font-size: 0.82rem;
+        }
+
+    .step-actions {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+        .step-actions .right {
+            margin-left: 0;
+            width: 100%;
+        }
+
+            .step-actions .right .btn {
+                flex: 1;
+            }
+
+        .step-actions > .btn {
+            width: 100%;
+        }
+
+    .tracking-header {
+        padding: 20px;
+    }
+
+        .tracking-header .th-right {
+            width: 100%;
+        }
+
+            .tracking-header .th-right .btn {
+                flex: 1;
+            }
+}
+
+/* =========================================================
+   PHASE 4C — Order Stage Bar (horizontal progress with dots)
+   ========================================================= */
+
+.order-stage-bar {
+    padding: 8px 0;
+}
+
+    .order-stage-bar .stage-track {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 22px;
+    }
+
+        .order-stage-bar .stage-track::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 30px;
+            right: 30px;
+            height: 4px;
+            background: var(--nexus-border);
+            border-radius: var(--radius-full);
+            transform: translateY(-50%);
+            z-index: 0;
+        }
+
+    .order-stage-bar .stage-fill {
+        position: absolute;
+        top: 50%;
+        left: 30px;
+        height: 4px;
+        background: linear-gradient(90deg, var(--nexus-success) 0%, var(--nexus-blue) 100%);
+        border-radius: var(--radius-full);
+        transform: translateY(-50%);
+        z-index: 1;
+        transition: width var(--ease-slow);
+        box-shadow: 0 0 12px rgba(30, 111, 229, 0.4);
+    }
+
+    .order-stage-bar .stage {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .order-stage-bar .stage-dot {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--nexus-surface);
+        border: 3px solid var(--nexus-border);
+        color: var(--nexus-muted);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.85rem;
+        transition: all var(--ease);
+        box-shadow: 0 4px 12px rgba(10, 31, 68, 0.06);
+    }
+
+    .order-stage-bar .stage.done .stage-dot {
+        background: linear-gradient(135deg, var(--nexus-success), var(--nexus-success-dark));
+        border-color: var(--nexus-success);
+        color: #fff;
+        box-shadow: 0 6px 16px rgba(16, 185, 129, 0.3);
+    }
+
+    .order-stage-bar .stage.active .stage-dot {
+        background: linear-gradient(135deg, var(--nexus-blue), var(--nexus-blue-dark));
+        border-color: var(--nexus-blue);
+        color: #fff;
+        box-shadow: 0 0 0 6px rgba(30, 111, 229, 0.18), 0 8px 20px rgba(30, 111, 229, 0.4);
+        animation: nexus-pulse-ring 2s ease-out infinite;
+    }
+
+@keyframes nexus-pulse-ring {
+    0% {
+        box-shadow: 0 0 0 0 rgba(30, 111, 229, 0.5), 0 8px 20px rgba(30, 111, 229, 0.4);
+    }
+
+    100% {
+        box-shadow: 0 0 0 14px rgba(30, 111, 229, 0), 0 8px 20px rgba(30, 111, 229, 0.4);
+    }
+}
+
+.order-stage-bar .stage-labels {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 4px 0;
+    font-size: 0.78rem;
+    color: var(--nexus-muted);
+    font-weight: 500;
+}
+
+    .order-stage-bar .stage-labels span {
+        flex: 1;
+        text-align: center;
+    }
+
+        .order-stage-bar .stage-labels span.active {
+            color: var(--nexus-blue-dark);
+            font-weight: 700;
+        }
+
+/* Responsive */
+@media (max-width: 640px) {
+    .order-stage-bar .stage-dot {
+        width: 32px;
+        height: 32px;
+        font-size: 0.72rem;
+        border-width: 2px;
+    }
+
+    .order-stage-bar .stage-labels {
+        font-size: 0.68rem;
+    }
+
+    .order-stage-bar .stage-track {
+        padding: 0 10px;
+    }
+
+        .order-stage-bar .stage-track::before,
+        .order-stage-bar .stage-fill {
+            left: 20px;
+            right: 20px;
+        }
+}
+/* =========================================================
+   ORDER PAGE HEAD (replaces hero)
+   ========================================================= */
+.order-page-head {
+    padding: 40px 0 30px;
+    background: linear-gradient(180deg, #E8F1FD 0%, #F5F8FC 100%);
+    border-bottom: 1px solid #E2E8F0;
+    margin-bottom: 32px;
+}
+
+    .order-page-head h1 {
+        font-size: clamp(1.5rem, 3vw, 2.1rem);
+        font-weight: 800;
+        color: #0A1F44;
+        margin: 0 0 8px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        letter-spacing: -0.02em;
+    }
+
+    .order-page-head p {
+        color: #64748B;
+        font-size: 0.98rem;
+        margin: 0;
+    }
+
+.order-head-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+}
+
+.order-head-badges {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
+    .order-page-head {
+        padding: 24px 0 20px;
+    }
+
+        .order-page-head h1 {
+            font-size: 1.35rem;
+        }
+
+    .order-head-flex {
+        align-items: flex-start;
+    }
+}
+/* =========================================================
+   STEP BUTTONS — HIDE/SHOW BASED ON CURRENT STEP
+   Pure CSS — works even if JS fails
+   ========================================================= */
+
+/* DEFAULT: Show "Next" button, hide "Submit Order" */
+form[data-step-form] [data-step-next] {
+    display: inline-flex !important;
+}
+
+form[data-step-form] [data-step-submit] {
+    display: none !important;
+}
+
+/* STEP 4 (LAST): Hide "Next", show "Submit Order" */
+form[data-step="4"] [data-step-next] {
+    display: none !important;
+}
+
+form[data-step="4"] [data-step-submit] {
+    display: inline-flex !important;
+}

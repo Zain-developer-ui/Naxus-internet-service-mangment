@@ -1,0 +1,29 @@
+﻿@* Dashboard topbar — user chip, notifications, mobile sidebar toggle *@
+<div class="dashboard-topbar">
+    <button class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle sidebar">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <div class="topbar-search">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" placeholder="Search customers, orders, bills…" aria-label="Search" />
+    </div>
+
+    <div class="topbar-actions">
+        <button class="icon-btn" aria-label="Notifications">
+            <i class="fa-regular fa-bell"></i>
+            <span class="badge-dot"></span>
+        </button>
+        <button class="icon-btn" aria-label="Messages">
+            <i class="fa-regular fa-envelope"></i>
+        </button>
+
+        <div class="user-chip">
+            <img src="https://i.pravatar.cc/64?img=12" alt="User avatar" />
+            <div class="user-meta">
+                <span class="user-name">@(ViewData["UserName"] ?? "Ahmed Khan")</span>
+                <span class="user-role">@(ViewData["UserRole"] ?? "Customer")</span>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,290 @@
+﻿/* =========================================================
+   NEXUS — animations.css
+   Luxury Animation System
+   ========================================================= */
+
+@keyframes nexus-fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes nexus-fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes nexus-fade-down {
+    from {
+        opacity: 0;
+        transform: translateY(-16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes nexus-slide-down {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes nexus-slide-left {
+    from {
+        opacity: 0;
+        transform: translateX(28px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes nexus-slide-right {
+    from {
+        opacity: 0;
+        transform: translateX(-28px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes nexus-scale-in {
+    from {
+        opacity: 0;
+        transform: scale(0.94);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes nexus-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes nexus-pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.08);
+        opacity: 0.85;
+    }
+}
+
+@keyframes nexus-float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes nexus-shimmer {
+    0% {
+        background-position: -400px 0;
+    }
+
+    100% {
+        background-position: 400px 0;
+    }
+}
+
+@keyframes nexus-ring {
+    0% {
+        box-shadow: 0 0 0 0 rgba(30, 111, 229, 0.45);
+    }
+
+    70% {
+        box-shadow: 0 0 0 14px rgba(30, 111, 229, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(30, 111, 229, 0);
+    }
+}
+
+.fade-in {
+    animation: nexus-fade-in 0.6s ease both;
+}
+
+.fade-up {
+    animation: nexus-fade-up 0.6s ease both;
+}
+
+.fade-down {
+    animation: nexus-fade-down 0.6s ease both;
+}
+
+.slide-left {
+    animation: nexus-slide-left 0.6s ease both;
+}
+
+.slide-right {
+    animation: nexus-slide-right 0.6s ease both;
+}
+
+.scale-in {
+    animation: nexus-scale-in 0.5s ease both;
+}
+
+.delay-1 {
+    animation-delay: 0.1s;
+}
+
+.delay-2 {
+    animation-delay: 0.2s;
+}
+
+.delay-3 {
+    animation-delay: 0.3s;
+}
+
+.delay-4 {
+    animation-delay: 0.4s;
+}
+
+.delay-5 {
+    animation-delay: 0.5s;
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: opacity, transform;
+}
+
+    .reveal.in-view {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+.reveal-left {
+    opacity: 0;
+    transform: translateX(-32px);
+    transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal-right {
+    opacity: 0;
+    transform: translateX(32px);
+    transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+    .reveal-left.in-view, .reveal-right.in-view {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+.hover-lift {
+    transition: transform var(--ease), box-shadow var(--ease);
+}
+
+    .hover-lift:hover {
+        transform: translateY(-6px);
+        box-shadow: var(--shadow-lg);
+    }
+
+.hover-grow {
+    transition: transform var(--ease);
+}
+
+    .hover-grow:hover {
+        transform: scale(1.04);
+    }
+
+.hover-zoom img {
+    transition: transform var(--ease-slow);
+}
+
+.hover-zoom:hover img {
+    transform: scale(1.06);
+}
+
+.float {
+    animation: nexus-float 3s ease-in-out infinite;
+}
+
+.pulse {
+    animation: nexus-pulse 2s ease-in-out infinite;
+}
+
+.ring {
+    animation: nexus-ring 2s ease-out infinite;
+}
+
+.skeleton {
+    background: linear-gradient(90deg, #EEF2F7 0%, #F8FAFC 40%, #EEF2F7 80%);
+    background-size: 400px 100%;
+    animation: nexus-shimmer 1.4s linear infinite;
+    border-radius: var(--radius-sm);
+    color: transparent;
+    user-select: none;
+}
+
+.hero-anim h1 {
+    animation: nexus-fade-up 0.8s ease both;
+}
+
+.hero-anim .lead {
+    animation: nexus-fade-up 0.8s ease 0.15s both;
+}
+
+.hero-anim .hero-actions {
+    animation: nexus-fade-up 0.8s ease 0.3s both;
+}
+
+.progress-load {
+    animation: nexus-fade-in 0.6s ease both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .reveal, .reveal-left, .reveal-right {
+        opacity: 1;
+        transform: none;
+    }
+
+    .float, .pulse, .ring {
+        animation: none;
+    }
+}

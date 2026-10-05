@@ -1,0 +1,720 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\wwwroot\\js\\new-connection.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:wwwroot\\js\\new-connection.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\views\\orders\\new.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:views\\orders\\new.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\wwwroot\\css\\orders.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:wwwroot\\css\\orders.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\wwwroot\\css\\login-stars.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:wwwroot\\css\\login-stars.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\views\\home\\contact.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:views\\home\\contact.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\views\\plans\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:views\\plans\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\views\\customer\\myconnection.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:views\\customer\\myconnection.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\views\\feedback\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:views\\feedback\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\views\\bills\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:views\\bills\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\views\\profile\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:views\\profile\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\views\\bills\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:views\\bills\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\views\\account\\status.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:views\\account\\status.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\views\\orders\\tracking.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:views\\orders\\tracking.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\wwwroot\\css\\home.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:wwwroot\\css\\home.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\views\\plans\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:views\\plans\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\wwwroot\\css\\public-pages.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:wwwroot\\css\\public-pages.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\views\\services\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:views\\services\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\views\\admin\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:views\\admin\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\views\\admin\\reports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:views\\admin\\reports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\views\\admin\\settings.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:views\\admin\\settings.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\views\\retail\\search.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:views\\retail\\search.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\views\\retail\\neworder.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:views\\retail\\neworder.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\views\\retail\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:views\\retail\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\views\\accounts\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:views\\accounts\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\views\\technical\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:views\\technical\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\views\\customer\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:views\\customer\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\wwwroot\\css\\dashboards-luxury.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:wwwroot\\css\\dashboards-luxury.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\wwwroot\\js\\modal.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:wwwroot\\js\\modal.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\wwwroot\\js\\site.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:wwwroot\\js\\site.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\wwwroot\\css\\toast.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:wwwroot\\css\\toast.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\wwwroot\\css\\navbar.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:wwwroot\\css\\navbar.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\wwwroot\\css\\animations.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:wwwroot\\css\\animations.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\wwwroot\\css\\tables.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:wwwroot\\css\\tables.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\wwwroot\\css\\forms.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:wwwroot\\css\\forms.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\controllers\\servicescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:controllers\\servicescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\nexus.services.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:nexus.services.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\wwwroot\\js\\search.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:wwwroot\\js\\search.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|c:\\users\\asp\\downloads\\nexus.services ftd\\nexus.services\\nexus.services\\wwwroot\\js\\bills.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{24E5EE62-F90F-4A1E-823E-BC1B177D96D5}|NEXUS.Services.csproj|solutionrelative:wwwroot\\js\\bills.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 7,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "modal.js",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\wwwroot\\js\\modal.js",
+              "RelativeDocumentMoniker": "wwwroot\\js\\modal.js",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\wwwroot\\js\\modal.js",
+              "RelativeToolTip": "wwwroot\\js\\modal.js",
+              "ViewState": "AgIAAJ4AAAAAAAAAAAAkwLQAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-09-28T11:34:38.659Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAMEAAAAAAAAAAAAkwMsAAABRAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-09-28T17:45:41.931Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
+              "Title": "animations.css",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\wwwroot\\css\\animations.css",
+              "RelativeDocumentMoniker": "wwwroot\\css\\animations.css",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\wwwroot\\css\\animations.css",
+              "RelativeToolTip": "wwwroot\\css\\animations.css",
+              "ViewState": "AgIAAAYBAAAAAAAAAAAIwCIBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-09-29T18:57:04.706Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "navbar.css",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\wwwroot\\css\\navbar.css",
+              "RelativeDocumentMoniker": "wwwroot\\css\\navbar.css",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\wwwroot\\css\\navbar.css",
+              "RelativeToolTip": "wwwroot\\css\\navbar.css",
+              "ViewState": "AgIAAAQBAAAAAAAAAAAIwBQBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-09-29T19:06:18.124Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "toast.css",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\wwwroot\\css\\toast.css",
+              "RelativeDocumentMoniker": "wwwroot\\css\\toast.css",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\wwwroot\\css\\toast.css",
+              "RelativeToolTip": "wwwroot\\css\\toast.css",
+              "ViewState": "AgIAANoAAAAAAAAAAAAQwPYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-09-29T19:07:15.212Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "site.css",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\wwwroot\\css\\site.css",
+              "RelativeDocumentMoniker": "wwwroot\\css\\site.css",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\wwwroot\\css\\site.css",
+              "RelativeToolTip": "wwwroot\\css\\site.css",
+              "ViewState": "AgIAALYCAAAAAAAAAAAQwM8CAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-09-29T19:08:39.932Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAB8AAABAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-09-29T19:09:51.504Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "new-connection.js",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\wwwroot\\js\\new-connection.js",
+              "RelativeDocumentMoniker": "wwwroot\\js\\new-connection.js",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\wwwroot\\js\\new-connection.js",
+              "RelativeToolTip": "wwwroot\\js\\new-connection.js",
+              "ViewState": "AgIAAOIAAAAAAAAAAAAYwPwAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-10-05T11:14:42.628Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{56df62a4-05a3-4e5b-aa1a-99371ccfb997}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "New.cshtml",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Orders\\New.cshtml",
+              "RelativeDocumentMoniker": "Views\\Orders\\New.cshtml",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Orders\\New.cshtml",
+              "RelativeToolTip": "Views\\Orders\\New.cshtml",
+              "ViewState": "AgIAAJoBAAAAAAAAAAAYwLQBAABIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-09-28T17:58:40.556Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "orders.css",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\wwwroot\\css\\orders.css",
+              "RelativeDocumentMoniker": "wwwroot\\css\\orders.css",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\wwwroot\\css\\orders.css",
+              "RelativeToolTip": "wwwroot\\css\\orders.css",
+              "ViewState": "AgIAABYDAAAAAAAAAADwvzEDAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-10-01T18:01:49.84Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Login.cshtml",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Account\\Login.cshtml",
+              "RelativeDocumentMoniker": "Views\\Account\\Login.cshtml",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Account\\Login.cshtml",
+              "RelativeToolTip": "Views\\Account\\Login.cshtml",
+              "ViewState": "AgIAANMAAAAAAAAAAAAwwOQAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-10-01T18:07:02.525Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "login-stars.css",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\wwwroot\\css\\login-stars.css",
+              "RelativeDocumentMoniker": "wwwroot\\css\\login-stars.css",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\wwwroot\\css\\login-stars.css",
+              "RelativeToolTip": "wwwroot\\css\\login-stars.css",
+              "ViewState": "AgIAAIUCAAAAAAAAAAAUwKQCAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-10-05T10:33:26.742Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Contact.cshtml",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Home\\Contact.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\Contact.cshtml",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Home\\Contact.cshtml",
+              "RelativeToolTip": "Views\\Home\\Contact.cshtml",
+              "ViewState": "AgIAAJQBAAAAAAAAAAAcwLUBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-10-02T18:29:07.473Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Details.cshtml",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Plans\\Details.cshtml",
+              "RelativeDocumentMoniker": "Views\\Plans\\Details.cshtml",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Plans\\Details.cshtml",
+              "RelativeToolTip": "Views\\Plans\\Details.cshtml",
+              "ViewState": "AgIAAN8BAAAAAAAAAAAYwOIBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-10-02T18:26:13.779Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "CustomerController.cs",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Controllers\\CustomerController.cs",
+              "RelativeDocumentMoniker": "Controllers\\CustomerController.cs",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Controllers\\CustomerController.cs",
+              "RelativeToolTip": "Controllers\\CustomerController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-02T17:52:23.969Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "MyConnection.cshtml",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Customer\\MyConnection.cshtml",
+              "RelativeDocumentMoniker": "Views\\Customer\\MyConnection.cshtml",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Customer\\MyConnection.cshtml",
+              "RelativeToolTip": "Views\\Customer\\MyConnection.cshtml",
+              "ViewState": "AgIAAEwBAAAAAAAAAAAYwG0BAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-09-29T17:04:20.39Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Feedback\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Feedback\\Index.cshtml",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Feedback\\Index.cshtml",
+              "RelativeToolTip": "Views\\Feedback\\Index.cshtml",
+              "ViewState": "AgIAABQBAAAAAAAAAAAcwDUBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-09-29T17:15:31.587Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Bills\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Bills\\Index.cshtml",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Bills\\Index.cshtml",
+              "RelativeToolTip": "Views\\Bills\\Index.cshtml",
+              "ViewState": "AgIAAFIBAAAAAAAAAAAcwHMBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-09-29T17:05:51.27Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Profile\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Profile\\Index.cshtml",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Profile\\Index.cshtml",
+              "RelativeToolTip": "Views\\Profile\\Index.cshtml",
+              "ViewState": "AgIAAO8AAAAAAAAAAAAYwBABAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-09-29T17:07:54.116Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Details.cshtml",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Bills\\Details.cshtml",
+              "RelativeDocumentMoniker": "Views\\Bills\\Details.cshtml",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Bills\\Details.cshtml",
+              "RelativeToolTip": "Views\\Bills\\Details.cshtml",
+              "ViewState": "AgIAAC0BAAAAAAAAAAAYwE4BAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-09-29T17:06:47.391Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "home.css",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\wwwroot\\css\\home.css",
+              "RelativeDocumentMoniker": "wwwroot\\css\\home.css",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\wwwroot\\css\\home.css",
+              "RelativeToolTip": "wwwroot\\css\\home.css",
+              "ViewState": "AgIAAIkEAAAAAAAAAAAIwKIEAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-10-01T18:34:22.571Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "Status.cshtml",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Account\\Status.cshtml",
+              "RelativeDocumentMoniker": "Views\\Account\\Status.cshtml",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Account\\Status.cshtml",
+              "RelativeToolTip": "Views\\Account\\Status.cshtml",
+              "ViewState": "AgIAAOEBAAAAAAAAAAAYwAICAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-10-02T17:22:18.276Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "Tracking.cshtml",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Orders\\Tracking.cshtml",
+              "RelativeDocumentMoniker": "Views\\Orders\\Tracking.cshtml",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Orders\\Tracking.cshtml",
+              "RelativeToolTip": "Views\\Orders\\Tracking.cshtml",
+              "ViewState": "AgIAANsBAAAAAAAAAAAcwPwBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-09-28T17:59:50.493Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "Reports.cshtml",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Admin\\Reports.cshtml",
+              "RelativeDocumentMoniker": "Views\\Admin\\Reports.cshtml",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Admin\\Reports.cshtml",
+              "RelativeToolTip": "Views\\Admin\\Reports.cshtml",
+              "ViewState": "AgIAAIgCAAAAAAAAAAAAAKkCAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-10-01T18:31:01.501Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Plans\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Plans\\Index.cshtml",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Plans\\Index.cshtml",
+              "RelativeToolTip": "Views\\Plans\\Index.cshtml",
+              "ViewState": "AgIAAKMBAAAAAAAAAAAcwMQBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-10-01T19:18:18.177Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Services\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Services\\Index.cshtml",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Services\\Index.cshtml",
+              "RelativeToolTip": "Views\\Services\\Index.cshtml",
+              "ViewState": "AgIAALgBAAAAAAAAAAAYwNkBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-10-01T19:11:57.426Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "public-pages.css",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\wwwroot\\css\\public-pages.css",
+              "RelativeDocumentMoniker": "wwwroot\\css\\public-pages.css",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\wwwroot\\css\\public-pages.css",
+              "RelativeToolTip": "wwwroot\\css\\public-pages.css",
+              "ViewState": "AgIAAEsFAAAAAAAAAAAQwG0FAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-10-01T18:07:29.891Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "Settings.cshtml",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Admin\\Settings.cshtml",
+              "RelativeDocumentMoniker": "Views\\Admin\\Settings.cshtml",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Admin\\Settings.cshtml",
+              "RelativeToolTip": "Views\\Admin\\Settings.cshtml",
+              "ViewState": "AgIAAJ8BAAAAAAAAAAAcwMABAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-10-01T18:30:05.467Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "Dashboard.cshtml",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Admin\\Dashboard.cshtml",
+              "RelativeDocumentMoniker": "Views\\Admin\\Dashboard.cshtml",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Admin\\Dashboard.cshtml",
+              "RelativeToolTip": "Views\\Admin\\Dashboard.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-10-01T18:24:21.611Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "Search.cshtml",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Retail\\Search.cshtml",
+              "RelativeDocumentMoniker": "Views\\Retail\\Search.cshtml",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Retail\\Search.cshtml",
+              "RelativeToolTip": "Views\\Retail\\Search.cshtml",
+              "ViewState": "AgIAAJkBAAAAAAAAAAAcwLoBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-09-29T17:29:29.97Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "NewOrder.cshtml",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Retail\\NewOrder.cshtml",
+              "RelativeDocumentMoniker": "Views\\Retail\\NewOrder.cshtml",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Retail\\NewOrder.cshtml",
+              "RelativeToolTip": "Views\\Retail\\NewOrder.cshtml",
+              "ViewState": "AgIAABkBAAAAAAAAAAAcwDoBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-09-29T17:28:48.442Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "Dashboard.cshtml",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Retail\\Dashboard.cshtml",
+              "RelativeDocumentMoniker": "Views\\Retail\\Dashboard.cshtml",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Retail\\Dashboard.cshtml",
+              "RelativeToolTip": "Views\\Retail\\Dashboard.cshtml",
+              "ViewState": "AgIAADUBAAAAAAAAAAAcwFYBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-09-29T17:27:42.804Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "Dashboard.cshtml",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Accounts\\Dashboard.cshtml",
+              "RelativeDocumentMoniker": "Views\\Accounts\\Dashboard.cshtml",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Accounts\\Dashboard.cshtml",
+              "RelativeToolTip": "Views\\Accounts\\Dashboard.cshtml",
+              "ViewState": "AgIAAGsBAAAAAAAAAAAcwIkBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-10-01T18:25:54.792Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "Dashboard.cshtml",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Technical\\Dashboard.cshtml",
+              "RelativeDocumentMoniker": "Views\\Technical\\Dashboard.cshtml",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Technical\\Dashboard.cshtml",
+              "RelativeToolTip": "Views\\Technical\\Dashboard.cshtml",
+              "ViewState": "AgIAAFsBAAAAAAAAAAAcwHwBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-10-01T18:25:17.153Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "Dashboard.cshtml",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Customer\\Dashboard.cshtml",
+              "RelativeDocumentMoniker": "Views\\Customer\\Dashboard.cshtml",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Views\\Customer\\Dashboard.cshtml",
+              "RelativeToolTip": "Views\\Customer\\Dashboard.cshtml",
+              "ViewState": "AgIAAGYBAAAAAAAAAAAcwHsBAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-09-28T18:09:51.637Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "dashboards-luxury.css",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\wwwroot\\css\\dashboards-luxury.css",
+              "RelativeDocumentMoniker": "wwwroot\\css\\dashboards-luxury.css",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\wwwroot\\css\\dashboards-luxury.css",
+              "RelativeToolTip": "wwwroot\\css\\dashboards-luxury.css",
+              "ViewState": "AgIAAE8DAAAAAAAAAAAQwHEDAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-10-01T18:21:00.82Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 40,
+              "Title": "NEXUS.Services.csproj",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\NEXUS.Services.csproj",
+              "RelativeDocumentMoniker": "NEXUS.Services.csproj",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\NEXUS.Services.csproj",
+              "RelativeToolTip": "NEXUS.Services.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-09-29T17:36:03.896Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "site.js",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\wwwroot\\js\\site.js",
+              "RelativeDocumentMoniker": "wwwroot\\js\\site.js",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\wwwroot\\js\\site.js",
+              "RelativeToolTip": "wwwroot\\js\\site.js",
+              "ViewState": "AgIAAN8AAAAAAAAAAAAiwPUAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-09-29T19:09:15.582Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 38,
+              "Title": "forms.css",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\wwwroot\\css\\forms.css",
+              "RelativeDocumentMoniker": "wwwroot\\css\\forms.css",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\wwwroot\\css\\forms.css",
+              "RelativeToolTip": "wwwroot\\css\\forms.css",
+              "ViewState": "AgIAABMCAAAAAAAAAAAIwC8CAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-09-28T18:05:03.288Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 37,
+              "Title": "tables.css",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\wwwroot\\css\\tables.css",
+              "RelativeDocumentMoniker": "wwwroot\\css\\tables.css",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\wwwroot\\css\\tables.css",
+              "RelativeToolTip": "wwwroot\\css\\tables.css",
+              "ViewState": "AgIAALMAAAAAAAAAAAAIwM8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-09-29T18:56:23.059Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 39,
+              "Title": "ServicesController.cs",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Controllers\\ServicesController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ServicesController.cs",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\Controllers\\ServicesController.cs",
+              "RelativeToolTip": "Controllers\\ServicesController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-29T18:09:08.636Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 41,
+              "Title": "search.js",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\wwwroot\\js\\search.js",
+              "RelativeDocumentMoniker": "wwwroot\\js\\search.js",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\wwwroot\\js\\search.js",
+              "RelativeToolTip": "wwwroot\\js\\search.js",
+              "ViewState": "AgIAAIgAAAAAAAAAAAAuwKwAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-09-28T11:41:58.157Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 42,
+              "Title": "bills.js",
+              "DocumentMoniker": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\wwwroot\\js\\bills.js",
+              "RelativeDocumentMoniker": "wwwroot\\js\\bills.js",
+              "ToolTip": "C:\\Users\\asp\\Downloads\\NEXUS.Services Ftd\\NEXUS.Services\\NEXUS.Services\\wwwroot\\js\\bills.js",
+              "RelativeToolTip": "wwwroot\\js\\bills.js",
+              "ViewState": "AgIAAHMAAAAAAAAAAAAmwJMAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-09-28T11:39:32.406Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

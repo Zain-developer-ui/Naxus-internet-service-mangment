@@ -1,0 +1,559 @@
+﻿/* =========================================================
+   NEXUS — forms.css
+   Luxury Form System
+   ========================================================= */
+
+.form-group {
+    margin-bottom: 22px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.form-row-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.form-row .form-group {
+    margin-bottom: 0;
+}
+
+label, .form-label {
+    display: block;
+    font-size: 0.87rem;
+    font-weight: 600;
+    color: var(--nexus-text-soft);
+    margin-bottom: 8px;
+    letter-spacing: 0.005em;
+}
+
+    label .req {
+        color: var(--nexus-danger);
+        margin-left: 3px;
+    }
+
+.form-hint {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--nexus-muted);
+    margin-top: 6px;
+    line-height: 1.5;
+}
+
+.form-control,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+input[type="number"],
+input[type="date"],
+input[type="time"],
+input[type="search"],
+input[type="url"],
+select,
+textarea {
+    width: 100%;
+    padding: 13px 16px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--nexus-text);
+    background: var(--nexus-surface);
+    border: 1.5px solid var(--nexus-border);
+    border-radius: var(--radius-md);
+    transition: border-color var(--ease-fast), box-shadow var(--ease-fast), background var(--ease-fast);
+    appearance: none;
+}
+
+    .form-control::placeholder,
+    input::placeholder,
+    textarea::placeholder {
+        color: var(--nexus-muted-light);
+    }
+
+    .form-control:focus,
+    input:focus,
+    select:focus,
+    textarea:focus {
+        outline: none;
+        border-color: var(--nexus-blue);
+        box-shadow: 0 0 0 4px rgba(30, 111, 229, 0.12);
+        background: var(--nexus-surface);
+    }
+
+textarea {
+    resize: vertical;
+    min-height: 120px;
+    line-height: 1.6;
+}
+
+select {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 44px;
+    cursor: pointer;
+}
+
+.input-group {
+    display: flex;
+    align-items: stretch;
+    border: 1.5px solid var(--nexus-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--nexus-surface);
+    transition: border-color var(--ease-fast), box-shadow var(--ease-fast);
+}
+
+    .input-group:focus-within {
+        border-color: var(--nexus-blue);
+        box-shadow: 0 0 0 4px rgba(30, 111, 229, 0.12);
+    }
+
+    .input-group .input-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 16px;
+        color: var(--nexus-muted);
+        background: var(--nexus-surface-2);
+        border-right: 1px solid var(--nexus-border);
+        font-size: 0.95rem;
+    }
+
+    .input-group input {
+        flex: 1;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+        background: transparent;
+        padding: 13px 16px;
+    }
+
+        .input-group input:focus {
+            box-shadow: none;
+            outline: none;
+        }
+
+.checkbox {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.92rem;
+    color: var(--nexus-text-soft);
+    cursor: pointer;
+    user-select: none;
+}
+
+    .checkbox input {
+        width: 18px;
+        height: 18px;
+        accent-color: var(--nexus-blue);
+        cursor: pointer;
+    }
+
+.radio-row {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.field-error {
+    display: block;
+    color: var(--nexus-danger);
+    font-size: 0.8rem;
+    margin-top: 6px;
+    min-height: 16px;
+    font-weight: 500;
+}
+
+    .field-error::before {
+        content: '\f071';
+        font-family: 'Font Awesome 6 Free';
+        font-weight: 900;
+        margin-right: 5px;
+        font-size: 0.75rem;
+    }
+
+.input-error, input.input-error, select.input-error, textarea.input-error {
+    border-color: var(--nexus-danger) !important;
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1) !important;
+}
+
+.input-success {
+    border-color: var(--nexus-success) !important;
+}
+
+.validation-summary {
+    padding: 15px 20px;
+    background: var(--nexus-danger-bg);
+    border-left: 4px solid var(--nexus-danger);
+    border-radius: var(--radius-md);
+    color: #7F1D1D;
+    margin-bottom: 22px;
+    font-size: 0.92rem;
+}
+
+    .validation-summary ul {
+        margin: 0;
+        padding-left: 20px;
+    }
+
+.file-drop {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 30px 20px;
+    border: 2px dashed var(--nexus-border-strong);
+    border-radius: var(--radius-md);
+    background: var(--nexus-surface-2);
+    text-align: center;
+    cursor: pointer;
+    transition: all var(--ease-fast);
+}
+
+    .file-drop:hover, .file-drop.dragover {
+        border-color: var(--nexus-blue);
+        background: var(--nexus-blue-light);
+    }
+
+    .file-drop i {
+        font-size: 1.9rem;
+        color: var(--nexus-blue);
+        margin-bottom: 4px;
+    }
+
+    .file-drop p {
+        margin: 0;
+        color: var(--nexus-muted);
+        font-size: 0.9rem;
+    }
+
+.step-progress {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    margin: 30px 0 42px;
+}
+
+    .step-progress::before {
+        content: '';
+        position: absolute;
+        top: 19px;
+        left: 5%;
+        right: 5%;
+        height: 3px;
+        background: var(--nexus-border);
+        border-radius: var(--radius-full);
+        z-index: 0;
+    }
+
+    .step-progress .step-bar-fill {
+        position: absolute;
+        top: 19px;
+        left: 5%;
+        height: 3px;
+        background: linear-gradient(90deg, var(--nexus-blue) 0%, var(--nexus-accent) 100%);
+        border-radius: var(--radius-full);
+        z-index: 1;
+        transition: width var(--ease-slow);
+    }
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    z-index: 2;
+    flex: 1;
+}
+
+    .step .step-num {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--nexus-surface);
+        border: 2px solid var(--nexus-border);
+        color: var(--nexus-muted);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 0.9rem;
+        transition: all var(--ease);
+    }
+
+    .step .step-label {
+        font-size: 0.78rem;
+        color: var(--nexus-muted);
+        text-align: center;
+        max-width: 100px;
+        font-weight: 600;
+    }
+
+    .step.active .step-num {
+        background: var(--nexus-blue);
+        border-color: var(--nexus-blue);
+        color: #fff;
+        box-shadow: 0 0 0 6px rgba(30, 111, 229, 0.18);
+    }
+
+    .step.active .step-label {
+        color: var(--nexus-blue-dark);
+        font-weight: 700;
+    }
+
+    .step.done .step-num {
+        background: var(--nexus-success);
+        border-color: var(--nexus-success);
+        color: #fff;
+    }
+
+    .step.done .step-label {
+        color: var(--nexus-success);
+    }
+
+.step-panel {
+    display: none;
+    animation: nexus-fade-in 0.35s ease;
+}
+
+    .step-panel.active {
+        display: block;
+    }
+
+.step-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 32px;
+    padding-top: 26px;
+    border-top: 1px solid var(--nexus-border-soft);
+    flex-wrap: wrap;
+}
+
+    .step-actions .right {
+        display: flex;
+        gap: 10px;
+        margin-left: auto;
+        flex-wrap: wrap;
+    }
+
+.choice-card {
+    position: relative;
+    display: block;
+    background: var(--nexus-surface);
+    border: 2px solid var(--nexus-border);
+    border-radius: var(--radius-md);
+    padding: 20px 16px;
+    cursor: pointer;
+    text-align: center;
+    transition: all var(--ease-fast);
+}
+
+    .choice-card:hover {
+        border-color: var(--nexus-blue);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .choice-card.selected {
+        border-color: var(--nexus-blue);
+        background: var(--nexus-blue-light);
+        box-shadow: 0 8px 22px rgba(30, 111, 229, 0.15);
+    }
+
+    .choice-card input {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .choice-card .choice-badge {
+        position: absolute;
+        top: -10px;
+        right: 14px;
+        padding: 4px 10px;
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #fff;
+        background: var(--nexus-blue);
+        border-radius: var(--radius-full);
+    }
+
+.choice-name {
+    font-weight: 700;
+    color: var(--nexus-navy);
+    margin-bottom: 6px;
+    font-size: 0.98rem;
+}
+
+.choice-speed {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--nexus-blue-dark);
+    line-height: 1;
+}
+
+    .choice-speed::after {
+        content: ' Mbps';
+        font-size: 0.72rem;
+        font-weight: 600;
+        opacity: 0.7;
+    }
+
+.choice-price {
+    margin-top: 10px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--nexus-text);
+}
+
+    .choice-price span {
+        font-size: 0.75rem;
+        color: var(--nexus-muted);
+        font-weight: 500;
+    }
+
+.choice-tagline {
+    margin-top: 8px;
+    font-size: 0.78rem;
+    color: var(--nexus-muted);
+}
+
+.login-shell {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    min-height: 100vh;
+    background: var(--nexus-background);
+}
+
+.login-aside {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 60px;
+    color: #fff;
+    overflow: hidden;
+    background: radial-gradient(700px 500px at 20% 20%, rgba(56, 189, 248, 0.25), transparent 60%), linear-gradient(140deg, var(--nexus-navy) 0%, var(--nexus-navy-dark) 100%);
+}
+
+    .login-aside h2 {
+        color: #fff;
+        font-size: 2rem;
+        margin-bottom: 14px;
+    }
+
+    .login-aside p {
+        color: rgba(255, 255, 255, 0.85);
+        max-width: 460px;
+        font-size: 1.02rem;
+    }
+
+    .login-aside .aside-media {
+        margin-top: 30px;
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: var(--shadow-xl);
+    }
+
+        .login-aside .aside-media img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+    .login-aside .aside-foot {
+        border-top: 1px solid rgba(255, 255, 255, 0.14);
+        padding-top: 22px;
+        margin-top: 22px;
+    }
+
+.login-form-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 40px;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 440px;
+    background: var(--nexus-surface);
+    border: 1px solid var(--nexus-border);
+    border-radius: var(--radius-xl);
+    padding: 44px 40px;
+    box-shadow: var(--shadow-lg);
+}
+
+    .login-card h2 {
+        margin: 0 0 8px;
+    }
+
+    .login-card .sub {
+        color: var(--nexus-muted);
+        margin-bottom: 26px;
+        font-size: 0.95rem;
+    }
+
+@media (max-width: 900px) {
+    .login-shell {
+        grid-template-columns: 1fr;
+    }
+
+    .login-aside {
+        display: none;
+    }
+
+    .form-row, .form-row-3 {
+        grid-template-columns: 1fr;
+    }
+
+    .step-progress .step-label {
+        font-size: 0.68rem;
+        max-width: 70px;
+    }
+
+    .step .step-num {
+        width: 32px;
+        height: 32px;
+        font-size: 0.8rem;
+    }
+
+    .step-progress::before, .step-progress .step-bar-fill {
+        top: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-card {
+        padding: 30px 24px;
+        border-radius: var(--radius-lg);
+    }
+
+    .step-label {
+        display: none;
+    }
+
+    .step-actions {
+        flex-direction: column-reverse;
+    }
+
+        .step-actions .right {
+            width: 100%;
+            margin-left: 0;
+        }
+
+        .step-actions .btn {
+            flex: 1;
+        }
+}

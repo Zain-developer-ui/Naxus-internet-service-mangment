@@ -1,0 +1,276 @@
+﻿/* =========================================================
+   NEXUS — navbar.css
+   Luxury Public Navbar + Mobile Drawer
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   1. NAVBAR BASE
+   --------------------------------------------------------- */
+.nexus-navbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    height: var(--nav-height);
+    background: rgba(10, 31, 68, 0.94);
+    backdrop-filter: saturate(180%) blur(14px);
+    -webkit-backdrop-filter: saturate(180%) blur(14px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    transition: box-shadow var(--ease), background var(--ease);
+}
+
+    .nexus-navbar.scrolled {
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.28);
+        background: rgba(10, 31, 68, 0.98);
+    }
+
+.nav-inner {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    height: 100%;
+}
+
+/* ---------------------------------------------------------
+   2. BRAND
+   --------------------------------------------------------- */
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    font-size: 1.18rem;
+    flex-shrink: 0;
+    transition: opacity var(--ease-fast);
+}
+
+    .brand:hover {
+        color: #fff;
+        opacity: 0.92;
+    }
+
+.brand-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+    background: linear-gradient(135deg, var(--nexus-blue) 0%, var(--nexus-accent) 100%);
+    color: #fff;
+    font-weight: 800;
+    font-size: 1.1rem;
+    box-shadow: 0 8px 20px rgba(30, 111, 229, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.brand-text {
+    color: #fff;
+    font-size: 1.12rem;
+    letter-spacing: 0.08em;
+}
+
+/* ---------------------------------------------------------
+   3. NAV LINKS
+   --------------------------------------------------------- */
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: auto;
+}
+
+    .nav-links a {
+        display: inline-flex;
+        align-items: center;
+        padding: 10px 16px;
+        color: rgba(255, 255, 255, 0.82);
+        font-size: 0.92rem;
+        font-weight: 500;
+        border-radius: var(--radius-md);
+        position: relative;
+        transition: color var(--ease-fast), background var(--ease-fast);
+    }
+
+        .nav-links a:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.07);
+        }
+
+        .nav-links a.active {
+            color: #fff;
+            font-weight: 600;
+        }
+
+            .nav-links a.active::after {
+                content: '';
+                position: absolute;
+                left: 16px;
+                right: 16px;
+                bottom: 4px;
+                height: 2px;
+                background: var(--nexus-accent);
+                border-radius: 2px;
+                box-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
+            }
+
+/* ---------------------------------------------------------
+   4. NAV ACTIONS
+   --------------------------------------------------------- */
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 12px;
+    flex-shrink: 0;
+}
+
+    .nav-actions .btn-ghost {
+        color: rgba(255, 255, 255, 0.85);
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        padding: 9px 16px;
+        border-radius: var(--radius-md);
+        font-size: 0.88rem;
+    }
+
+        .nav-actions .btn-ghost:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.28);
+        }
+
+    .nav-actions .btn-primary {
+        padding: 10px 20px;
+        font-size: 0.88rem;
+        background: linear-gradient(135deg, var(--nexus-blue) 0%, var(--nexus-blue-dark) 100%);
+        color: #fff;
+        box-shadow: 0 6px 16px rgba(30, 111, 229, 0.36), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    }
+
+        .nav-actions .btn-primary:hover {
+            transform: translateY(-1px);
+            color: #fff;
+            box-shadow: 0 10px 22px rgba(30, 111, 229, 0.44), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+        }
+
+/* ---------------------------------------------------------
+   5. HAMBURGER
+   --------------------------------------------------------- */
+.nav-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: var(--radius-md);
+    color: #fff;
+    font-size: 1.15rem;
+    cursor: pointer;
+    transition: all var(--ease-fast);
+}
+
+    .nav-toggle:hover {
+        background: rgba(255, 255, 255, 0.12);
+        border-color: rgba(255, 255, 255, 0.28);
+    }
+
+/* ---------------------------------------------------------
+   6. DASHBOARD BODY — hide public navbar
+   --------------------------------------------------------- */
+.dashboard-body .nexus-navbar {
+    display: none;
+}
+
+/* ---------------------------------------------------------
+   7. RESPONSIVE — TABLET & MOBILE
+   --------------------------------------------------------- */
+@media (max-width: 1100px) {
+    .nav-links a {
+        padding: 10px 12px;
+        font-size: 0.88rem;
+    }
+
+    .nav-actions .btn-primary {
+        padding: 9px 16px;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .nav-toggle {
+        display: inline-flex;
+        margin-left: auto;
+    }
+
+    .nav-links {
+        position: fixed;
+        top: var(--nav-height);
+        left: 0;
+        right: 0;
+        bottom: 0;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 4px;
+        margin-left: 0;
+        padding: 20px 24px 30px;
+        background: linear-gradient(180deg, var(--nexus-navy) 0%, var(--nexus-navy-dark) 100%);
+        display: none;
+        overflow-y: auto;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        animation: nexus-slide-down 0.25s ease;
+    }
+
+        .nav-links.open {
+            display: flex;
+        }
+
+        .nav-links a {
+            padding: 14px 18px;
+            font-size: 0.98rem;
+            border-radius: var(--radius-md);
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+            .nav-links a.active::after {
+                display: none;
+            }
+
+            .nav-links a.active {
+                background: rgba(30, 111, 229, 0.18);
+                color: #fff;
+            }
+
+    .nav-actions {
+        margin-left: 0;
+        gap: 8px;
+    }
+
+        .nav-actions .btn-ghost {
+            display: none;
+        }
+
+        .nav-actions .btn-primary {
+            padding: 8px 14px;
+            font-size: 0.82rem;
+        }
+}
+
+@media (max-width: 480px) {
+    .nav-actions .btn-primary {
+        display: none;
+    }
+
+    .brand-text {
+        font-size: 1rem;
+    }
+}
+
+/* ---------------------------------------------------------
+   8. BODY LOCK WHEN MOBILE MENU OPEN
+   --------------------------------------------------------- */
+body.nav-open {
+    overflow: hidden;
+}

@@ -1,0 +1,443 @@
+﻿@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Search — NEXUS";
+    ViewData["UserRole"] = "Retail";
+    ViewData["ActiveSidebar"] = "search";
+    ViewData["UserName"] = "Hamza Tariq";
+}
+
+@section DashboardStyles {
+    <link rel="stylesheet" href="~/css/dashboards-luxury.css" />
+}
+
+@* =========================================================
+   PAGE HEADER
+   ========================================================= *@
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/Retail/Dashboard">Retail Dashboard</a>
+    <span class="sep">/</span>
+    <span class="current">Search</span>
+</nav>
+
+<div class="page-header reveal">
+    <div>
+        <h1><i class="fa-solid fa-magnifying-glass" style="color:var(--nexus-blue);"></i> Search</h1>
+        <p class="muted">Search customers, employees, orders and accounts from one place.</p>
+    </div>
+    <div class="page-header-actions">
+        <a href="/Retail/NewOrder" class="btn btn-primary"><i class="fa-solid fa-user-plus"></i> New Order</a>
+    </div>
+</div>
+
+@* =========================================================
+   TABS
+   ========================================================= *@
+<div class="tabs reveal" role="tablist">
+    <button class="tab active" data-tab-target="#customersPanel" role="tab">
+        <i class="fa-solid fa-users"></i> Customers
+    </button>
+    <button class="tab" data-tab-target="#employeesPanel" role="tab">
+        <i class="fa-solid fa-id-badge"></i> Employees
+    </button>
+    <button class="tab" data-tab-target="#ordersPanel" role="tab">
+        <i class="fa-solid fa-box"></i> Orders
+    </button>
+    <button class="tab" data-tab-target="#accountsPanel" role="tab">
+        <i class="fa-solid fa-file-invoice"></i> Accounts
+    </button>
+</div>
+
+@* =========================================================
+   CUSTOMERS
+   ========================================================= *@
+<div class="tab-panel active" id="customersPanel" role="tabpanel">
+    <div class="chart-card reveal">
+        <div class="chart-head">
+            <div>
+                <h4><i class="fa-solid fa-users"></i> Customer Search</h4>
+                <p class="chart-sub">Search by name, account, phone or CNIC.</p>
+            </div>
+        </div>
+
+        <div class="form-row" style="grid-template-columns:2fr 1fr 1fr;gap:12px;margin-bottom:16px;">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" data-table-search="#customerTable" placeholder="Search customers…" />
+            </div>
+            <select data-table-filter="#customerTable" data-col="status">
+                <option value="">All Status</option>
+                <option value="active">Active</option>
+                <option value="pending">Pending</option>
+                <option value="suspended">Suspended</option>
+            </select>
+            <select data-table-filter="#customerTable" data-col="service">
+                <option value="">All Services</option>
+                <option value="broadband">Broadband</option>
+                <option value="fiber">Fiber</option>
+                <option value="wireless">Wireless</option>
+            </select>
+        </div>
+
+        <div class="table-wrap">
+            <table id="customerTable" data-searchable data-paginate="10" data-pagination-target="#customerPager">
+                <thead>
+                    <tr>
+                        <th data-sortable="account">Account</th>
+                        <th data-sortable="name">Name</th>
+                        <th class="hide-sm">Phone</th>
+                        <th data-col="service">Service</th>
+                        <th class="hide-sm">Plan</th>
+                        <th class="hide-sm">City</th>
+                        <th data-col="status">Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-col="account"><strong style="font-family:monospace;">NX12345678</strong></td>
+                        <td data-col="name">Ahmed Khan</td>
+                        <td class="hide-sm">03001234567</td>
+                        <td data-col="service">Broadband</td>
+                        <td class="hide-sm">Standard 15 Mbps</td>
+                        <td class="hide-sm">Lahore</td>
+                        <td data-col="status"><span class="badge badge-success">Active</span></td>
+                        <td><a href="/Customer/MyConnection" class="btn btn-ghost btn-sm">View</a></td>
+                    </tr>
+                    <tr>
+                        <td data-col="account"><strong style="font-family:monospace;">NX12345679</strong></td>
+                        <td data-col="name">Ali Raza</td>
+                        <td class="hide-sm">03001234568</td>
+                        <td data-col="service">Broadband</td>
+                        <td class="hide-sm">Premium 30 Mbps</td>
+                        <td class="hide-sm">Karachi</td>
+                        <td data-col="status"><span class="badge badge-success">Active</span></td>
+                        <td><a href="/Customer/MyConnection" class="btn btn-ghost btn-sm">View</a></td>
+                    </tr>
+                    <tr>
+                        <td data-col="account"><strong style="font-family:monospace;">NX12345680</strong></td>
+                        <td data-col="name">Usman Ahmed</td>
+                        <td class="hide-sm">03001234569</td>
+                        <td data-col="service">Broadband</td>
+                        <td class="hide-sm">Basic 5 Mbps</td>
+                        <td class="hide-sm">Islamabad</td>
+                        <td data-col="status"><span class="badge badge-warning">Pending</span></td>
+                        <td><a href="/Customer/MyConnection" class="btn btn-ghost btn-sm">View</a></td>
+                    </tr>
+                    <tr>
+                        <td data-col="account"><strong style="font-family:monospace;">NX12345681</strong></td>
+                        <td data-col="name">Hassan Shah</td>
+                        <td class="hide-sm">03001234570</td>
+                        <td data-col="service">Broadband</td>
+                        <td class="hide-sm">Standard 15 Mbps</td>
+                        <td class="hide-sm">Lahore</td>
+                        <td data-col="status"><span class="badge badge-success">Active</span></td>
+                        <td><a href="/Customer/MyConnection" class="btn btn-ghost btn-sm">View</a></td>
+                    </tr>
+                    <tr>
+                        <td data-col="account"><strong style="font-family:monospace;">NX12345682</strong></td>
+                        <td data-col="name">Bilal Khan</td>
+                        <td class="hide-sm">03001234571</td>
+                        <td data-col="service">Broadband</td>
+                        <td class="hide-sm">Premium 30 Mbps</td>
+                        <td class="hide-sm">Rawalpindi</td>
+                        <td data-col="status"><span class="badge badge-success">Active</span></td>
+                        <td><a href="/Customer/MyConnection" class="btn btn-ghost btn-sm">View</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pagination" id="customerPager"></div>
+    </div>
+</div>
+
+@* =========================================================
+   EMPLOYEES
+   ========================================================= *@
+<div class="tab-panel" id="employeesPanel" role="tabpanel">
+    <div class="chart-card">
+        <div class="chart-head">
+            <div>
+                <h4><i class="fa-solid fa-id-badge"></i> Employee Search</h4>
+                <p class="chart-sub">Search by name, ID, role or department.</p>
+            </div>
+        </div>
+
+        <div class="form-row" style="grid-template-columns:2fr 1fr 1fr;gap:12px;margin-bottom:16px;">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" data-table-search="#employeeTable" placeholder="Search employees…" />
+            </div>
+            <select data-table-filter="#employeeTable" data-col="role">
+                <option value="">All Roles</option>
+                <option value="retail">Retail</option>
+                <option value="technical">Technical</option>
+                <option value="accounts">Accounts</option>
+                <option value="admin">Admin</option>
+            </select>
+            <select data-table-filter="#employeeTable" data-col="status">
+                <option value="">All Status</option>
+                <option value="active">Active</option>
+                <option value="on leave">On Leave</option>
+            </select>
+        </div>
+
+        <div class="table-wrap">
+            <table id="employeeTable" data-searchable data-paginate="10" data-pagination-target="#empPager">
+                <thead>
+                    <tr>
+                        <th data-sortable="id">Employee ID</th>
+                        <th data-sortable="name">Name</th>
+                        <th data-col="role">Role</th>
+                        <th class="hide-sm">Department</th>
+                        <th class="hide-sm">Branch</th>
+                        <th data-col="status">Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-col="id"><strong style="font-family:monospace;">E-EMP-1004</strong></td>
+                        <td data-col="name">Hamza Tariq</td>
+                        <td data-col="role">Retail</td>
+                        <td class="hide-sm">Retail Sales</td>
+                        <td class="hide-sm">Gulberg</td>
+                        <td data-col="status"><span class="badge badge-success">Active</span></td>
+                        <td><button class="btn btn-ghost btn-sm">View</button></td>
+                    </tr>
+                    <tr>
+                        <td data-col="id"><strong style="font-family:monospace;">E-EMP-1001</strong></td>
+                        <td data-col="name">Usman Ahmed</td>
+                        <td data-col="role">Technical</td>
+                        <td class="hide-sm">Field Operations</td>
+                        <td class="hide-sm">Lahore Central</td>
+                        <td data-col="status"><span class="badge badge-success">Active</span></td>
+                        <td><button class="btn btn-ghost btn-sm">View</button></td>
+                    </tr>
+                    <tr>
+                        <td data-col="id"><strong style="font-family:monospace;">E-EMP-1002</strong></td>
+                        <td data-col="name">Fatima Noor</td>
+                        <td data-col="role">Accounts</td>
+                        <td class="hide-sm">Finance</td>
+                        <td class="hide-sm">Head Office</td>
+                        <td data-col="status"><span class="badge badge-success">Active</span></td>
+                        <td><button class="btn btn-ghost btn-sm">View</button></td>
+                    </tr>
+                    <tr>
+                        <td data-col="id"><strong style="font-family:monospace;">E-EMP-1003</strong></td>
+                        <td data-col="name">Sara Malik</td>
+                        <td data-col="role">Admin</td>
+                        <td class="hide-sm">Administration</td>
+                        <td class="hide-sm">Head Office</td>
+                        <td data-col="status"><span class="badge badge-warning">On Leave</span></td>
+                        <td><button class="btn btn-ghost btn-sm">View</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pagination" id="empPager"></div>
+    </div>
+</div>
+
+@* =========================================================
+   ORDERS
+   ========================================================= *@
+<div class="tab-panel" id="ordersPanel" role="tabpanel">
+    <div class="chart-card">
+        <div class="chart-head">
+            <div>
+                <h4><i class="fa-solid fa-box"></i> Order Search</h4>
+                <p class="chart-sub">Search by order ID, customer or plan.</p>
+            </div>
+        </div>
+
+        <div class="form-row" style="grid-template-columns:2fr 1fr;gap:12px;margin-bottom:16px;">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" data-table-search="#orderTable" placeholder="Search by order ID or customer…" />
+            </div>
+            <select data-table-filter="#orderTable" data-col="status">
+                <option value="">All Status</option>
+                <option value="completed">Completed</option>
+                <option value="installation">Installation</option>
+                <option value="verification">Verification</option>
+                <option value="scheduled">Scheduled</option>
+                <option value="review">Review</option>
+            </select>
+        </div>
+
+        <div class="table-wrap">
+            <table id="orderTable" data-searchable>
+                <thead>
+                    <tr>
+                        <th data-sortable="id">Order ID</th>
+                        <th data-sortable="customer">Customer</th>
+                        <th class="hide-sm">Service</th>
+                        <th>Plan</th>
+                        <th class="hide-sm">Date</th>
+                        <th data-col="status">Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-col="id"><strong style="font-family:monospace;">NX-ORD-1001</strong></td>
+                        <td data-col="customer">Ahmed Khan</td>
+                        <td class="hide-sm">Broadband</td>
+                        <td>Standard</td>
+                        <td class="hide-sm">01 Oct 2025</td>
+                        <td data-col="status"><span class="badge badge-success">Completed</span></td>
+                        <td><a href="/Orders/Tracking?id=NX-ORD-1001" class="btn btn-ghost btn-sm">Track</a></td>
+                    </tr>
+                    <tr>
+                        <td data-col="id"><strong style="font-family:monospace;">NX-ORD-1002</strong></td>
+                        <td data-col="customer">Ali Raza</td>
+                        <td class="hide-sm">Broadband</td>
+                        <td>Premium</td>
+                        <td class="hide-sm">02 Oct 2025</td>
+                        <td data-col="status"><span class="badge badge-warning">Installation</span></td>
+                        <td><a href="/Orders/Tracking?id=NX-ORD-1002" class="btn btn-ghost btn-sm">Track</a></td>
+                    </tr>
+                    <tr>
+                        <td data-col="id"><strong style="font-family:monospace;">NX-ORD-1003</strong></td>
+                        <td data-col="customer">Usman Ahmed</td>
+                        <td class="hide-sm">Broadband</td>
+                        <td>Basic</td>
+                        <td class="hide-sm">03 Oct 2025</td>
+                        <td data-col="status"><span class="badge badge-info">Verification</span></td>
+                        <td><a href="/Orders/Tracking?id=NX-ORD-1003" class="btn btn-ghost btn-sm">Track</a></td>
+                    </tr>
+                    <tr>
+                        <td data-col="id"><strong style="font-family:monospace;">NX-ORD-1004</strong></td>
+                        <td data-col="customer">Hassan Shah</td>
+                        <td class="hide-sm">Broadband</td>
+                        <td>Standard</td>
+                        <td class="hide-sm">03 Oct 2025</td>
+                        <td data-col="status"><span class="badge badge-warning">Scheduled</span></td>
+                        <td><a href="/Orders/Tracking?id=NX-ORD-1004" class="btn btn-ghost btn-sm">Track</a></td>
+                    </tr>
+                    <tr>
+                        <td data-col="id"><strong style="font-family:monospace;">NX-ORD-1005</strong></td>
+                        <td data-col="customer">Bilal Khan</td>
+                        <td class="hide-sm">Broadband</td>
+                        <td>Premium</td>
+                        <td class="hide-sm">04 Oct 2025</td>
+                        <td data-col="status"><span class="badge badge-info">Review</span></td>
+                        <td><a href="/Orders/Tracking?id=NX-ORD-1005" class="btn btn-ghost btn-sm">Track</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@* =========================================================
+   ACCOUNTS
+   ========================================================= *@
+<div class="tab-panel" id="accountsPanel" role="tabpanel">
+    <div class="chart-card">
+        <div class="chart-head">
+            <div>
+                <h4><i class="fa-solid fa-file-invoice"></i> Account Search</h4>
+                <p class="chart-sub">Search by account ID, customer or plan.</p>
+            </div>
+        </div>
+
+        <div class="form-row" style="grid-template-columns:2fr 1fr;gap:12px;margin-bottom:16px;">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" data-table-search="#acctTable" placeholder="Search accounts…" />
+            </div>
+            <select data-table-filter="#acctTable" data-col="billing">
+                <option value="">All Billing</option>
+                <option value="paid">Paid</option>
+                <option value="due">Due</option>
+                <option value="overdue">Overdue</option>
+            </select>
+        </div>
+
+        <div class="table-wrap">
+            <table id="acctTable" data-searchable>
+                <thead>
+                    <tr>
+                        <th data-sortable="account">Account</th>
+                        <th data-sortable="customer">Customer</th>
+                        <th class="hide-sm">Service</th>
+                        <th>Plan</th>
+                        <th data-col="billing">Billing</th>
+                        <th data-col="status">Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-col="account"><strong style="font-family:monospace;">NX12345678</strong></td>
+                        <td data-col="customer">Ahmed Khan</td>
+                        <td class="hide-sm">Broadband</td>
+                        <td>Standard 15 Mbps</td>
+                        <td data-col="billing"><span class="badge badge-success">Paid</span></td>
+                        <td data-col="status"><span class="badge badge-success">Active</span></td>
+                        <td><a href="/Bills" class="btn btn-ghost btn-sm">Bills</a></td>
+                    </tr>
+                    <tr>
+                        <td data-col="account"><strong style="font-family:monospace;">NX12345679</strong></td>
+                        <td data-col="customer">Ali Raza</td>
+                        <td class="hide-sm">Broadband</td>
+                        <td>Premium 30 Mbps</td>
+                        <td data-col="billing"><span class="badge badge-success">Paid</span></td>
+                        <td data-col="status"><span class="badge badge-success">Active</span></td>
+                        <td><a href="/Bills" class="btn btn-ghost btn-sm">Bills</a></td>
+                    </tr>
+                    <tr>
+                        <td data-col="account"><strong style="font-family:monospace;">NX12345680</strong></td>
+                        <td data-col="customer">Usman Ahmed</td>
+                        <td class="hide-sm">Broadband</td>
+                        <td>Basic 5 Mbps</td>
+                        <td data-col="billing"><span class="badge badge-warning">Due</span></td>
+                        <td data-col="status"><span class="badge badge-warning">Pending</span></td>
+                        <td><a href="/Bills" class="btn btn-ghost btn-sm">Bills</a></td>
+                    </tr>
+                    <tr>
+                        <td data-col="account"><strong style="font-family:monospace;">NX12345701</strong></td>
+                        <td data-col="customer">Kamran Ali</td>
+                        <td class="hide-sm">Broadband</td>
+                        <td>Standard 15 Mbps</td>
+                        <td data-col="billing"><span class="badge badge-danger">Overdue</span></td>
+                        <td data-col="status"><span class="badge badge-success">Active</span></td>
+                        <td><a href="/Bills" class="btn btn-ghost btn-sm">Bills</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section DashboardScripts {
+    <script>
+        // Tab switching
+        document.querySelectorAll('.tabs .tab').forEach(function (tab) {
+            tab.addEventListener('click', function () {
+                document.querySelectorAll('.tabs .tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+                tab.classList.add('active');
+                var target = document.querySelector(tab.getAttribute('data-tab-target'));
+                if (target) target.classList.add('active');
+            });
+        });
+
+        // Toast on load
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(function () {
+                if (window.NEXUS && NEXUS.toast) {
+                    NEXUS.toast({
+                        title: 'Search Ready',
+                        message: 'Search across customers, employees, orders and accounts.',
+                        type: 'info',
+                        duration: 3000
+                    });
+                }
+            }, 600);
+        });
+    </script>
+}

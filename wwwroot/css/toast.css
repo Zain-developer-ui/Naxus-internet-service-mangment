@@ -1,0 +1,246 @@
+﻿/* =========================================================
+   NEXUS — toast.css
+   Luxury Toast Notification System
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   1. TOAST CONTAINER (top-right stack)
+   --------------------------------------------------------- */
+.nexus-toast-container {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 3000;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 380px;
+    max-width: calc(100vw - 32px);
+    pointer-events: none;
+}
+
+/* ---------------------------------------------------------
+   2. TOAST BASE
+   --------------------------------------------------------- */
+.nexus-toast {
+    pointer-events: auto;
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 18px;
+    background: var(--nexus-surface);
+    border: 1px solid var(--nexus-border);
+    border-left: 4px solid var(--nexus-blue);
+    border-radius: var(--radius-md);
+    box-shadow: 0 12px 32px rgba(10, 31, 68, 0.14), 0 4px 12px rgba(10, 31, 68, 0.08);
+    overflow: hidden;
+    transform: translateX(120%);
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.05), opacity 0.3s ease;
+    will-change: transform, opacity;
+}
+
+    .nexus-toast.show {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    .nexus-toast.hide {
+        transform: translateX(120%);
+        opacity: 0;
+    }
+
+    /* ---------------------------------------------------------
+   3. TOAST ICON
+   --------------------------------------------------------- */
+    .nexus-toast .toast-icon {
+        flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        font-size: 1.05rem;
+        color: #fff;
+        background: var(--nexus-blue);
+    }
+
+    /* ---------------------------------------------------------
+   4. TOAST CONTENT
+   --------------------------------------------------------- */
+    .nexus-toast .toast-body {
+        flex: 1;
+        min-width: 0;
+        padding-top: 2px;
+    }
+
+    .nexus-toast .toast-title {
+        font-size: 0.92rem;
+        font-weight: 700;
+        color: var(--nexus-navy);
+        margin: 0 0 3px;
+        line-height: 1.35;
+    }
+
+    .nexus-toast .toast-message {
+        font-size: 0.85rem;
+        color: var(--nexus-muted);
+        margin: 0;
+        line-height: 1.5;
+        word-wrap: break-word;
+    }
+
+    /* ---------------------------------------------------------
+   5. CLOSE BUTTON
+   --------------------------------------------------------- */
+    .nexus-toast .toast-close {
+        flex-shrink: 0;
+        background: none;
+        border: none;
+        color: var(--nexus-muted);
+        font-size: 0.9rem;
+        cursor: pointer;
+        padding: 4px 6px;
+        border-radius: var(--radius-sm);
+        transition: all var(--ease-fast);
+        align-self: flex-start;
+        margin-top: 2px;
+    }
+
+        .nexus-toast .toast-close:hover {
+            color: var(--nexus-danger);
+            background: var(--nexus-danger-bg);
+        }
+
+    /* ---------------------------------------------------------
+   6. PROGRESS BAR (auto-dismiss timer)
+   --------------------------------------------------------- */
+    .nexus-toast .toast-progress {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 3px;
+        width: 100%;
+        background: currentColor;
+        opacity: 0.35;
+        transform-origin: left center;
+        animation: nexus-toast-progress linear forwards;
+    }
+
+@keyframes nexus-toast-progress {
+    from {
+        transform: scaleX(1);
+    }
+
+    to {
+        transform: scaleX(0);
+    }
+}
+
+/* ---------------------------------------------------------
+   7. VARIANTS — success / warning / danger / info
+   --------------------------------------------------------- */
+
+/* SUCCESS */
+.nexus-toast.success {
+    border-left-color: var(--nexus-success);
+}
+
+    .nexus-toast.success .toast-icon {
+        background: linear-gradient(135deg, var(--nexus-success), var(--nexus-success-dark));
+        box-shadow: 0 6px 14px rgba(16, 185, 129, 0.35);
+    }
+
+    .nexus-toast.success .toast-progress {
+        color: var(--nexus-success);
+    }
+
+/* WARNING */
+.nexus-toast.warning {
+    border-left-color: var(--nexus-warning);
+}
+
+    .nexus-toast.warning .toast-icon {
+        background: linear-gradient(135deg, var(--nexus-warning), var(--nexus-warning-dark));
+        box-shadow: 0 6px 14px rgba(245, 158, 11, 0.35);
+    }
+
+    .nexus-toast.warning .toast-progress {
+        color: var(--nexus-warning);
+    }
+
+/* DANGER / ERROR */
+.nexus-toast.danger {
+    border-left-color: var(--nexus-danger);
+}
+
+    .nexus-toast.danger .toast-icon {
+        background: linear-gradient(135deg, var(--nexus-danger), var(--nexus-danger-dark));
+        box-shadow: 0 6px 14px rgba(239, 68, 68, 0.35);
+    }
+
+    .nexus-toast.danger .toast-progress {
+        color: var(--nexus-danger);
+    }
+
+/* INFO */
+.nexus-toast.info {
+    border-left-color: var(--nexus-info);
+}
+
+    .nexus-toast.info .toast-icon {
+        background: linear-gradient(135deg, var(--nexus-info), #0369A1);
+        box-shadow: 0 6px 14px rgba(2, 132, 199, 0.35);
+    }
+
+    .nexus-toast.info .toast-progress {
+        color: var(--nexus-info);
+    }
+
+/* ---------------------------------------------------------
+   8. MOBILE — move to bottom, full-width
+   --------------------------------------------------------- */
+@media (max-width: 640px) {
+    .nexus-toast-container {
+        top: auto;
+        bottom: 16px;
+        left: 16px;
+        right: 16px;
+        width: auto;
+        max-width: none;
+    }
+
+    .nexus-toast {
+        transform: translateY(120%);
+        padding: 14px 16px;
+    }
+
+        .nexus-toast.show {
+            transform: translateY(0);
+        }
+
+        .nexus-toast.hide {
+            transform: translateY(120%);
+        }
+
+        .nexus-toast .toast-icon {
+            width: 34px;
+            height: 34px;
+            font-size: 0.95rem;
+        }
+}
+
+/* ---------------------------------------------------------
+   9. REDUCED MOTION
+   --------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    .nexus-toast {
+        transition-duration: 0.01ms;
+    }
+
+        .nexus-toast .toast-progress {
+            animation-duration: 0.01ms;
+        }
+}

@@ -1,0 +1,449 @@
+﻿@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "System Settings — NEXUS";
+    ViewData["UserRole"] = "Admin";
+    ViewData["ActiveSidebar"] = "settings";
+    ViewData["UserName"] = "Admin User";
+    ViewData["UserRoleLabel"] = "System Administrator";
+}
+
+@section DashboardStyles {
+    <link rel="stylesheet" href="~/css/dashboards-luxury.css" />
+}
+
+@* =========================================================
+   PAGE HEADER
+   ========================================================= *@
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/Admin/Dashboard">Admin</a>
+    <span class="sep">/</span>
+    <span class="current">System Settings</span>
+</nav>
+
+<div class="page-header reveal">
+    <div>
+        <h1><i class="fa-solid fa-gear" style="color:var(--nexus-blue);"></i> System Settings</h1>
+        <p class="muted">Configure general, appearance, notification, service, security and maintenance options.</p>
+    </div>
+    <div class="page-header-actions">
+        <button class="btn btn-outline" data-settings-reset>
+            <i class="fa-solid fa-rotate-left"></i> Reset
+        </button>
+        <button class="btn btn-primary" data-settings-save>
+            <i class="fa-solid fa-floppy-disk"></i> Save Changes
+        </button>
+    </div>
+</div>
+
+@* =========================================================
+   TABS
+   ========================================================= *@
+<div class="tabs reveal" role="tablist">
+    <button class="tab active" data-tab-target="#generalPanel"><i class="fa-solid fa-sliders"></i> General</button>
+    <button class="tab" data-tab-target="#appearancePanel"><i class="fa-solid fa-palette"></i> Appearance</button>
+    <button class="tab" data-tab-target="#notificationsPanel"><i class="fa-regular fa-bell"></i> Notifications</button>
+    <button class="tab" data-tab-target="#servicePanel"><i class="fa-solid fa-wifi"></i> Services</button>
+    <button class="tab" data-tab-target="#securityPanel"><i class="fa-solid fa-shield-halved"></i> Security</button>
+    <button class="tab" data-tab-target="#systemPanel"><i class="fa-solid fa-server"></i> System</button>
+    <button class="tab" data-tab-target="#maintenancePanel"><i class="fa-solid fa-screwdriver-wrench"></i> Maintenance</button>
+</div>
+
+@* ---------- GENERAL ---------- *@
+<div class="tab-panel active" id="generalPanel">
+    <div class="chart-card">
+        <div class="chart-head">
+            <div>
+                <h4>General Settings</h4>
+                <p class="chart-sub">Basic branding and localization settings.</p>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="systemName">System Name</label>
+                <input type="text" id="systemName" value="NEXUS Service Marketing System" />
+            </div>
+            <div class="form-group">
+                <label for="companyName">Company Name</label>
+                <input type="text" id="companyName" value="NEXUS Telecom (Pvt) Ltd" />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="supportEmail">Support Email</label>
+                <input type="email" id="supportEmail" value="support@nexus.example" />
+            </div>
+            <div class="form-group">
+                <label for="supportPhone">Support Phone</label>
+                <input type="tel" id="supportPhone" value="111-NEXUS-1" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="officeAddress">Office Address</label>
+            <input type="text" id="officeAddress" value="Gulberg III, Lahore, Pakistan" />
+        </div>
+
+        <div class="form-row-3 form-row">
+            <div class="form-group">
+                <label for="timeZone">Time Zone</label>
+                <select id="timeZone">
+                    <option selected>Asia/Karachi (PKT)</option>
+                    <option>Asia/Dubai (GST)</option>
+                    <option>UTC</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="currency">Currency</label>
+                <select id="currency">
+                    <option selected>PKR (Rs.)</option>
+                    <option>USD ($)</option>
+                    <option>AED (د.إ)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="dateFormat">Date Format</label>
+                <select id="dateFormat">
+                    <option selected>DD MMM YYYY</option>
+                    <option>DD/MM/YYYY</option>
+                    <option>MM/DD/YYYY</option>
+                    <option>YYYY-MM-DD</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* ---------- APPEARANCE ---------- *@
+<div class="tab-panel" id="appearancePanel">
+    <div class="chart-card">
+        <div class="chart-head">
+            <div>
+                <h4>Appearance</h4>
+                <p class="chart-sub">Visual preferences for the dashboard.</p>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="theme">Theme</label>
+                <select id="theme">
+                    <option selected>NEXUS Navy (Default)</option>
+                    <option>NEXUS Light</option>
+                    <option>System</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="sidebarMode">Sidebar Mode</label>
+                <select id="sidebarMode">
+                    <option selected>Expanded</option>
+                    <option>Collapsed</option>
+                    <option>Auto</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="density">Dashboard Density</label>
+                <select id="density">
+                    <option>Comfortable</option>
+                    <option selected>Cozy</option>
+                    <option>Compact</option>
+                </select>
+            </div>
+            <div class="form-group" style="padding-top:26px;">
+                <label class="switch">
+                    <input type="checkbox" checked />
+                    <span class="track"></span>
+                    <span class="switch-label">Enable animations</span>
+                </label>
+                <label class="switch" style="margin-top:12px;">
+                    <input type="checkbox" />
+                    <span class="track"></span>
+                    <span class="switch-label">Compact card layout</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top:20px;background:var(--nexus-blue-light);border-color:var(--nexus-blue);">
+            <h5 style="margin-bottom:14px;color:var(--nexus-navy);">Preview</h5>
+            <div class="stats-grid" style="margin-bottom:0;">
+                <div class="stat-card" style="box-shadow:none;">
+                    <div class="stat-icon blue"><i class="fa-solid fa-users"></i></div>
+                    <div class="stat-meta">
+                        <div class="stat-value" style="font-size:1.2rem;">1,245</div>
+                        <div class="stat-label">Customers</div>
+                    </div>
+                </div>
+                <div class="stat-card" style="box-shadow:none;">
+                    <div class="stat-icon success"><i class="fa-solid fa-circle-check"></i></div>
+                    <div class="stat-meta">
+                        <div class="stat-value" style="font-size:1.2rem;">842</div>
+                        <div class="stat-label">Active</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* ---------- NOTIFICATIONS ---------- *@
+<div class="tab-panel" id="notificationsPanel">
+    <div class="chart-card">
+        <div class="chart-head">
+            <div>
+                <h4>Notification Settings</h4>
+                <p class="chart-sub">Choose which notifications the system sends.</p>
+            </div>
+        </div>
+
+        <div class="grid grid-2" style="gap:24px;">
+            <div>
+                <label class="switch"><input type="checkbox" checked /><span class="track"></span><span class="switch-label">Email notifications</span></label>
+                <label class="switch" style="margin-top:14px;display:flex;"><input type="checkbox" checked /><span class="track"></span><span class="switch-label">SMS notifications</span></label>
+                <label class="switch" style="margin-top:14px;display:flex;"><input type="checkbox" checked /><span class="track"></span><span class="switch-label">Payment alerts</span></label>
+            </div>
+            <div>
+                <label class="switch"><input type="checkbox" checked /><span class="track"></span><span class="switch-label">New order alerts</span></label>
+                <label class="switch" style="margin-top:14px;display:flex;"><input type="checkbox" checked /><span class="track"></span><span class="switch-label">Technical alerts</span></label>
+                <label class="switch" style="margin-top:14px;display:flex;"><input type="checkbox" /><span class="track"></span><span class="switch-label">Marketing notifications</span></label>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* ---------- SERVICES ---------- *@
+<div class="tab-panel" id="servicePanel">
+    <div class="chart-card">
+        <div class="chart-head">
+            <div>
+                <h4>Service Settings</h4>
+                <p class="chart-sub">Configure which services are active and their defaults.</p>
+            </div>
+        </div>
+
+        <div class="summary-rows">
+            <div>
+                <span><i class="fa-solid fa-wifi" style="color:var(--nexus-blue);"></i> Broadband Service</span>
+                <label class="switch"><input type="checkbox" checked /><span class="track"></span></label>
+            </div>
+            <div>
+                <span><i class="fa-solid fa-bolt" style="color:var(--nexus-blue);"></i> Fiber Service</span>
+                <label class="switch"><input type="checkbox" checked /><span class="track"></span></label>
+            </div>
+            <div>
+                <span><i class="fa-solid fa-tower-broadcast" style="color:var(--nexus-blue);"></i> Wireless Service</span>
+                <label class="switch"><input type="checkbox" checked /><span class="track"></span></label>
+            </div>
+            <div>
+                <span><i class="fa-solid fa-briefcase" style="color:var(--nexus-blue);"></i> Business Service</span>
+                <label class="switch"><input type="checkbox" checked /><span class="track"></span></label>
+            </div>
+        </div>
+
+        <div class="form-row" style="margin-top:20px;">
+            <div class="form-group">
+                <label for="defaultService">Default Service</label>
+                <select id="defaultService">
+                    <option selected>Broadband</option>
+                    <option>Fiber</option>
+                    <option>Wireless</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="defaultInstallFee">Installation Fee (PKR)</label>
+                <input type="number" id="defaultInstallFee" value="0" min="0" />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="billingCycle">Default Billing Cycle</label>
+                <select id="billingCycle">
+                    <option selected>Monthly</option>
+                    <option>Quarterly</option>
+                    <option>Yearly</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="supportHours">Support Availability</label>
+                <select id="supportHours">
+                    <option selected>24/7</option>
+                    <option>Business hours only</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* ---------- SECURITY ---------- *@
+<div class="tab-panel" id="securityPanel">
+    <div class="chart-card">
+        <div class="chart-head">
+            <div>
+                <h4>Security Settings</h4>
+                <p class="chart-sub">Session, password and login policies.</p>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="sessionTimeout">Session Timeout (minutes)</label>
+                <input type="number" id="sessionTimeout" value="30" min="5" max="240" />
+            </div>
+            <div class="form-group">
+                <label for="loginAttempts">Login Attempt Limit</label>
+                <input type="number" id="loginAttempts" value="5" min="3" max="10" />
+            </div>
+        </div>
+
+        <div class="info-card" style="margin-bottom:20px;">
+            <div class="icon"><i class="fa-solid fa-key"></i></div>
+            <div>
+                <h5>Password Policy</h5>
+                <p>Minimum 8 characters · At least one uppercase, lowercase, number and symbol.</p>
+            </div>
+        </div>
+
+        <div class="summary-rows">
+            <div>
+                <span>Two-Factor Authentication</span>
+                <label class="switch"><input type="checkbox" /><span class="track"></span></label>
+            </div>
+            <div>
+                <span>Security Notifications</span>
+                <label class="switch"><input type="checkbox" checked /><span class="track"></span></label>
+            </div>
+        </div>
+
+        <p class="muted small" style="margin-top:20px;">
+            <i class="fa-solid fa-circle-info"></i>
+            These are demo values — real authentication will be implemented by the backend developer.
+        </p>
+    </div>
+</div>
+
+@* ---------- SYSTEM ---------- *@
+<div class="tab-panel" id="systemPanel">
+    <div class="chart-card">
+        <div class="chart-head">
+            <div>
+                <h4>System Information</h4>
+                <p class="chart-sub">Build, environment and runtime details.</p>
+            </div>
+            <span class="badge badge-success"><i class="fa-solid fa-circle"></i> Healthy</span>
+        </div>
+
+        <div class="summary-rows">
+            <div><span>Application</span><strong>NEXUS Service Marketing System</strong></div>
+            <div><span>Version</span><strong>1.0.0</strong></div>
+            <div><span>Framework</span><strong>ASP.NET Core MVC · .NET 8</strong></div>
+            <div><span>Environment</span><strong>Development</strong></div>
+            <div><span>Frontend Status</span><span class="badge badge-success">Operational</span></div>
+            <div><span>API Status</span><span class="badge badge-muted">Mock / Demo</span></div>
+            <div><span>Last Updated</span><strong>@DateTime.Now.ToString("dd MMM yyyy, HH:mm")</strong></div>
+        </div>
+    </div>
+</div>
+
+@* ---------- MAINTENANCE ---------- *@
+<div class="tab-panel" id="maintenancePanel">
+    <div class="chart-card">
+        <div class="chart-head">
+            <div>
+                <h4>Maintenance</h4>
+                <p class="chart-sub">System maintenance and demo data controls.</p>
+            </div>
+        </div>
+
+        <div class="summary-rows">
+            <div>
+                <span>Maintenance Mode</span>
+                <label class="switch"><input type="checkbox" /><span class="track"></span></label>
+            </div>
+            <div>
+                <span>System Health</span>
+                <span class="badge badge-success">All systems operational</span>
+            </div>
+        </div>
+
+        <div class="flex gap-2" style="margin-top:22px;flex-wrap:wrap;">
+            <button type="button" class="btn btn-outline" data-clear-cache>
+                <i class="fa-solid fa-broom"></i> Clear Cache
+            </button>
+            <button type="button" class="btn btn-outline" data-refresh-demo>
+                <i class="fa-solid fa-rotate"></i> Refresh Demo Data
+            </button>
+            <button type="button" class="btn btn-outline" data-check-health>
+                <i class="fa-solid fa-heart-pulse"></i> Check System Health
+            </button>
+        </div>
+
+        <p class="muted small" style="margin-top:20px;">
+            <i class="fa-solid fa-circle-info"></i>
+            Maintenance actions are demo only — no server-side operation is performed.
+        </p>
+    </div>
+</div>
+
+@* =========================================================
+   FOOTER ACTION BAR
+   ========================================================= *@
+<div class="card reveal" style="margin-top:22px;">
+    <div class="flex-between" style="gap:16px;flex-wrap:wrap;">
+        <div>
+            <strong style="color:var(--nexus-navy);">Ready to apply your changes?</strong>
+            <p class="muted small" style="margin:4px 0 0;">Frontend demo only — no changes are persisted to a database.</p>
+        </div>
+        <div class="flex gap-2" style="flex-wrap:wrap;">
+            <button class="btn btn-outline" data-settings-cancel>Cancel</button>
+            <button class="btn btn-outline" data-settings-reset><i class="fa-solid fa-rotate-left"></i> Reset</button>
+            <button class="btn btn-primary" data-settings-save><i class="fa-solid fa-floppy-disk"></i> Save Changes</button>
+        </div>
+    </div>
+</div>
+
+@section DashboardScripts {
+    <script>
+        // Tab switching
+        document.querySelectorAll('.tabs .tab').forEach(function (tab) {
+            tab.addEventListener('click', function () {
+                document.querySelectorAll('.tabs .tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+                tab.classList.add('active');
+                var target = document.querySelector(tab.getAttribute('data-tab-target'));
+                if (target) target.classList.add('active');
+            });
+        });
+
+        // Demo actions
+        document.addEventListener('click', function (e) {
+            if (e.target.closest('[data-settings-save]')) {
+                e.preventDefault();
+                NEXUS.toast('Settings saved successfully in demo mode.', 'success');
+            }
+            if (e.target.closest('[data-settings-reset]')) {
+                e.preventDefault();
+                NEXUS.toast('Settings restored to demo defaults.', 'info');
+            }
+            if (e.target.closest('[data-settings-cancel]')) {
+                e.preventDefault();
+                NEXUS.toast('Changes discarded (demo).', 'info');
+            }
+            if (e.target.closest('[data-clear-cache]')) {
+                e.preventDefault();
+                NEXUS.toast('Cache cleared (demo).', 'success');
+            }
+            if (e.target.closest('[data-refresh-demo]')) {
+                e.preventDefault();
+                NEXUS.toast('Demo data refreshed (demo).', 'info');
+            }
+            if (e.target.closest('[data-check-health]')) {
+                e.preventDefault();
+                NEXUS.toast('All systems operational. Health check passed.', 'success');
+            }
+        });
+    </script>
+}

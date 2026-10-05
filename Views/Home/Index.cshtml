@@ -1,0 +1,630 @@
+﻿@{
+    ViewData["Title"] = "NEXUS — Connecting You to a Better Tomorrow";
+    ViewData["BodyClass"] = "public-body";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/pricing.css" />
+    <link rel="stylesheet" href="~/css/services.css" />
+    <link rel="stylesheet" href="~/css/home.css" />
+}
+
+@* =========================================================
+   1. HERO — TITLE SIDE + BIG PICTURE
+   ========================================================= *@
+<section class="home-hero">
+    <div class="container">
+        <div class="home-hero-grid">
+
+            @* ---------- LEFT: TITLE ---------- *@
+            <div class="hero-copy">
+                <span class="hero-badge">
+                    <i class="fa-solid fa-bolt"></i> Pakistan's Smarter Connectivity
+                </span>
+
+                <h1>
+                    Powering Your<br />
+                    World With<br />
+                    <span class="shine">Smarter Connectivity</span>
+                </h1>
+
+                <p class="hero-lead">
+                    Reliable telecommunication and high-speed internet for homes,
+                    businesses and communities across Pakistan — engineered for the
+                    way you live, work and stream.
+                </p>
+
+                <div class="hero-actions">
+                    <a href="/Orders/New" class="btn btn-primary btn-lg">
+                        <i class="fa-solid fa-plug-circle-plus"></i> Get New Connection
+                    </a>
+                    <a href="/Plans" class="btn btn-outline-light btn-lg">
+                        Explore Plans <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="hero-trust">
+                    <div class="hero-trust-item">
+                        <span class="ic"><i class="fa-solid fa-wifi"></i></span>
+                        <div class="txt">
+                            <strong>High-Speed</strong>
+                            <span>5–100 Mbps</span>
+                        </div>
+                    </div>
+                    <div class="hero-trust-item">
+                        <span class="ic"><i class="fa-solid fa-tower-broadcast"></i></span>
+                        <div class="txt">
+                            <strong>42 Cities</strong>
+                            <span>Nationwide</span>
+                        </div>
+                    </div>
+                    <div class="hero-trust-item">
+                        <span class="ic"><i class="fa-solid fa-headset"></i></span>
+                        <div class="txt">
+                            <strong>24/7 Support</strong>
+                            <span>Always here</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @* ---------- RIGHT: BIG Picture ---------- *@
+            <div class="hero-visual">
+                <div class="hero-media">
+                    <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=1200&q=90"
+                         alt="NEXUS fiber optic infrastructure" loading="eager" />
+                </div>
+
+                <span class="hero-live-badge">
+                    <span class="dot"></span> Live Network
+                </span>
+
+                <div class="hero-float-card">
+                    <span class="ic"><i class="fa-solid fa-circle-check"></i></span>
+                    <div class="meta">
+                        <strong>Connection Active</strong>
+                        <span>1,245+ online</span>
+                    </div>
+                </div>
+
+                <div class="hero-float-card speed">
+                    <span class="ic"><i class="fa-solid fa-gauge-high"></i></span>
+                    <div class="meta">
+                        <strong>Up to 1 Gbps</strong>
+                        <span>Fiber-ready</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+@* =========================================================
+   2. STATS STRIP
+   ========================================================= *@
+<section class="home-stats-strip">
+    <div class="container">
+        <div class="home-stats-card reveal">
+            <div class="home-stat-item">
+                <div class="num" data-count="1245">0</div>
+                <span class="label">Active Customers</span>
+            </div>
+            <div class="home-stat-item">
+                <div class="num" data-count="42">0</div>
+                <span class="label">Cities Covered</span>
+            </div>
+            <div class="home-stat-item">
+                <div class="num" data-count="15">0</div>
+                <span class="label">Available Plans</span>
+            </div>
+            <div class="home-stat-item">
+                <div class="num">24<span class="unit">/7</span></div>
+                <span class="label">Support Availability</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* =========================================================
+   3. ABOUT SPLIT
+   ========================================================= *@
+<section class="pps-section">
+    <div class="container">
+        <div class="split-row">
+            <div class="split-media reveal-left">
+                <img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=1000&q=85"
+                     alt="NEXUS technician" loading="lazy" />
+                <div class="img-badge">
+                    <span class="ic"><i class="fa-solid fa-award"></i></span>
+                    <div>
+                        <strong>Trusted Provider</strong>
+                        <span>4.8★ rating</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="split-copy reveal-right">
+                <span class="eyebrow">About NEXUS</span>
+                <h2>Built for the way Pakistan connects today</h2>
+                <p class="lead">
+                    NEXUS delivers broadband, fiber and dedicated internet to homes
+                    and businesses across the country — engineered for reliability
+                    and everyday performance.
+                </p>
+
+                <ul class="check-list">
+                    <li><i class="fa-solid fa-check"></i> Fiber-ready national backbone</li>
+                    <li><i class="fa-solid fa-check"></i> 24/7 network monitoring &amp; support</li>
+                    <li><i class="fa-solid fa-check"></i> Transparent monthly billing</li>
+                    <li><i class="fa-solid fa-check"></i> Certified installation technicians</li>
+                </ul>
+
+                <div class="flex gap-2" style="flex-wrap:wrap;">
+                    <a href="/Services" class="btn btn-primary">Our Services <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="/Account/Status" class="btn btn-outline">Check Status</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* =========================================================
+   4. SERVICE CARDS — CHOTE
+   ========================================================= *@
+<section class="pps-section alt">
+    <div class="container">
+        <div class="pps-head reveal">
+            <span class="eyebrow">Our Services</span>
+            <h2>Internet Services for Every Need</h2>
+            <p>From homes to enterprises, NEXUS has a service built for you.</p>
+        </div>
+
+        <div class="rich-services-grid">
+            <article class="rich-service reveal">
+                <div class="rs-media">
+                    <img src="https://images.unsplash.com/photo-1606904825846-647eb07f5be2?w=800&q=80"
+                         alt="Broadband" loading="lazy" />
+                    <span class="rs-icon"><i class="fa-solid fa-wifi"></i></span>
+                </div>
+                <div class="rs-body">
+                    <h4>Broadband Internet</h4>
+                    <p>Always-on high-speed connectivity for browsing, streaming and work.</p>
+                    <div class="rs-meta">
+                        <span class="badge badge-info">5–30 Mbps</span>
+                    </div>
+                    <a href="/Services" class="btn btn-outline btn-sm">Learn More <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </article>
+
+            <article class="rich-service reveal delay-1">
+                <div class="rs-media">
+                    <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&q=80"
+                         alt="Fiber" loading="lazy" />
+                    <span class="rs-icon"><i class="fa-solid fa-bolt"></i></span>
+                </div>
+                <div class="rs-body">
+                    <h4>Fiber Internet</h4>
+                    <p>Symmetrical fiber speeds for gaming, 4K streaming and video calls.</p>
+                    <div class="rs-meta">
+                        <span class="badge badge-info">25–100 Mbps</span>
+                    </div>
+                    <a href="/Services" class="btn btn-outline btn-sm">Learn More <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </article>
+
+            <article class="rich-service reveal delay-2">
+                <div class="rs-media">
+                    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80"
+                         alt="Business" loading="lazy" />
+                    <span class="rs-icon"><i class="fa-solid fa-briefcase"></i></span>
+                </div>
+                <div class="rs-body">
+                    <h4>Business Connectivity</h4>
+                    <p>Priority bandwidth, static IPs and uptime SLAs for offices.</p>
+                    <div class="rs-meta">
+                        <span class="badge badge-info">20–200 Mbps</span>
+                    </div>
+                    <a href="/Services" class="btn btn-outline btn-sm">Learn More <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </article>
+        </div>
+
+        <div class="text-center reveal" style="margin-top:34px;">
+            <a href="/Services" class="btn btn-primary">
+                View All Services <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+@* =========================================================
+   5. SPLIT FEATURE — FASTER
+   ========================================================= *@
+<section class="pps-section">
+    <div class="container">
+        <div class="split-row reverse">
+            <div class="split-copy reveal-left">
+                <span class="eyebrow">Blazing Fast</span>
+                <h2>Speeds that keep up with your life</h2>
+                <p class="lead">
+                    From 5 Mbps entry-level to 1 Gbps fiber-ready connections,
+                    NEXUS delivers consistent speeds for streaming, gaming and work.
+                </p>
+
+                <ul class="check-list">
+                    <li><i class="fa-solid fa-check"></i> Symmetrical upload &amp; download on fiber</li>
+                    <li><i class="fa-solid fa-check"></i> Ultra-low latency for gaming</li>
+                    <li><i class="fa-solid fa-check"></i> Smooth 4K streaming on multiple devices</li>
+                    <li><i class="fa-solid fa-check"></i> Free Wi-Fi 6 router with every plan</li>
+                </ul>
+
+                <a href="/Plans" class="btn btn-primary">
+                    Compare Plans <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="split-media reveal-right">
+                <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1000&q=85"
+                     alt="Data center" loading="lazy" />
+                <div class="img-badge">
+                    <span class="ic"><i class="fa-solid fa-gauge-high"></i></span>
+                    <div>
+                        <strong>Up to 1 Gbps</strong>
+                        <span>Fiber backbone</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* =========================================================
+   6. SPLIT FEATURE — RELIABLE
+   ========================================================= *@
+<section class="pps-section blue-tint">
+    <div class="container">
+        <div class="split-row">
+            <div class="split-media reveal-left">
+                <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?w=1000&q=85"
+                     alt="Support" loading="lazy" />
+                <div class="img-badge">
+                    <span class="ic"><i class="fa-solid fa-headset"></i></span>
+                    <div>
+                        <strong>24/7 Support</strong>
+                        <span>Always here</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="split-copy reveal-right">
+                <span class="eyebrow">Reliability First</span>
+                <h2>Support that never sleeps</h2>
+                <p class="lead">
+                    Our support team is reachable by phone, email or chat — with
+                    average first-response under 15 minutes during business hours.
+                </p>
+
+                <ul class="check-list">
+                    <li><i class="fa-solid fa-check"></i> Phone, email and live chat support</li>
+                    <li><i class="fa-solid fa-check"></i> Remote diagnostics and quick fixes</li>
+                    <li><i class="fa-solid fa-check"></i> Onsite escalation for complex issues</li>
+                    <li><i class="fa-solid fa-check"></i> Free for all active customers</li>
+                </ul>
+
+                <a href="/Home/Contact" class="btn btn-primary">
+                    Contact Support <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* =========================================================
+   7. WHY CHOOSE NEXUS
+   ========================================================= *@
+<section class="pps-section navy">
+    <div class="container">
+        <div class="pps-head reveal">
+            <span class="eyebrow" style="color:var(--nexus-accent);">Why NEXUS</span>
+            <h2>Why Thousands Choose NEXUS</h2>
+            <p>Everything you'd expect from a modern internet provider — and more.</p>
+        </div>
+
+        <div class="why-cards-grid">
+            <div class="why-c reveal">
+                <div class="ic"><i class="fa-solid fa-tower-broadcast"></i></div>
+                <h4>Reliable Connectivity</h4>
+                <p>Monitored 24/7 with proactive maintenance and a fiber-ready backbone.</p>
+            </div>
+            <div class="why-c reveal delay-1">
+                <div class="ic"><i class="fa-solid fa-gauge-high"></i></div>
+                <h4>Fast Speeds</h4>
+                <p>From 5 Mbps for homes to uncontended 1 Gbps for enterprises.</p>
+            </div>
+            <div class="why-c reveal delay-2">
+                <div class="ic"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+                <h4>Transparent Plans</h4>
+                <p>Clear pricing, no hidden charges, itemised monthly invoices.</p>
+            </div>
+            <div class="why-c reveal">
+                <div class="ic"><i class="fa-solid fa-headset"></i></div>
+                <h4>Professional Support</h4>
+                <p>Phone, email and chat support with fast first-response times.</p>
+            </div>
+            <div class="why-c reveal delay-1">
+                <div class="ic"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+                <h4>Easy Installation</h4>
+                <p>Certified technicians typically complete installation in one visit.</p>
+            </div>
+            <div class="why-c reveal delay-2">
+                <div class="ic"><i class="fa-solid fa-layer-group"></i></div>
+                <h4>Flexible Packages</h4>
+                <p>Upgrade, downgrade or add services any time from your dashboard.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* =========================================================
+   8. PLANS PREVIEW
+   ========================================================= *@
+<section class="pps-section alt">
+    <div class="container">
+        <div class="pps-head reveal">
+            <span class="eyebrow">Pricing</span>
+            <h2>Featured Plans</h2>
+            <p>Simple monthly pricing. No hidden fees. Upgrade any time.</p>
+        </div>
+
+        <div class="home-plans-grid">
+            <article class="pricing-card reveal">
+                <div class="plan-name">Basic</div>
+                <div class="plan-tagline">Light browsing &amp; email.</div>
+                <div class="plan-speed"><strong>5</strong><span>Mbps</span></div>
+                <div class="plan-price">
+                    <span class="currency">Starting from</span>
+                    <span class="amount">Rs. 1,200</span>
+                    <span class="per">/month</span>
+                </div>
+                <ul class="plan-features">
+                    <li><i class="fa-solid fa-check"></i> Unlimited Data</li>
+                    <li><i class="fa-solid fa-check"></i> Free Wi-Fi Router</li>
+                    <li><i class="fa-solid fa-check"></i> 24/7 Support</li>
+                </ul>
+                <a href="/Plans/Details/1" class="btn btn-outline btn-block">View Details</a>
+            </article>
+
+            <article class="pricing-card popular reveal delay-1">
+                <span class="popular-badge">Most Popular</span>
+                <div class="plan-name">Standard</div>
+                <div class="plan-tagline">Best for families.</div>
+                <div class="plan-speed"><strong>15</strong><span>Mbps</span></div>
+                <div class="plan-price">
+                    <span class="currency">Starting from</span>
+                    <span class="amount">Rs. 2,000</span>
+                    <span class="per">/month</span>
+                </div>
+                <ul class="plan-features">
+                    <li><i class="fa-solid fa-check"></i> Unlimited Data</li>
+                    <li><i class="fa-solid fa-check"></i> HD Streaming</li>
+                    <li><i class="fa-solid fa-check"></i> Free Wi-Fi Router</li>
+                    <li><i class="fa-solid fa-check"></i> 24/7 Support</li>
+                </ul>
+                <a href="/Plans/Details/2" class="btn btn-primary btn-block">View Details</a>
+            </article>
+
+            <article class="pricing-card reveal delay-2">
+                <div class="plan-name">Premium</div>
+                <div class="plan-tagline">For heavy usage.</div>
+                <div class="plan-speed"><strong>30</strong><span>Mbps</span></div>
+                <div class="plan-price">
+                    <span class="currency">Starting from</span>
+                    <span class="amount">Rs. 3,500</span>
+                    <span class="per">/month</span>
+                </div>
+                <ul class="plan-features">
+                    <li><i class="fa-solid fa-check"></i> Unlimited Data</li>
+                    <li><i class="fa-solid fa-check"></i> Gaming &amp; 4K</li>
+                    <li><i class="fa-solid fa-check"></i> Priority Support</li>
+                </ul>
+                <a href="/Plans/Details/3" class="btn btn-outline btn-block">View Details</a>
+            </article>
+        </div>
+
+        <div class="text-center reveal" style="margin-top:34px;">
+            <a href="/Plans" class="btn btn-primary">
+                View All Plans <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+@* =========================================================
+   9. IMAGE MOSAIC
+   ========================================================= *@
+<section class="pps-section">
+    <div class="container">
+        <div class="pps-head reveal">
+            <span class="eyebrow">Our Network</span>
+            <h2>Infrastructure You Can Rely On</h2>
+            <p>A nationwide backbone engineered for speed, stability and scale.</p>
+        </div>
+
+        <div class="image-mosaic reveal">
+            <div class="m-item large">
+                <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=1200&q=85"
+                     alt="Fiber backbone" loading="lazy" />
+                <div class="overlay">
+                    <div>
+                        <h5>Fiber Backbone</h5>
+                        <span>Gigabit-ready</span>
+                    </div>
+                </div>
+            </div>
+            <div class="m-item">
+                <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=900&q=85"
+                     alt="Data centers" loading="lazy" />
+                <div class="overlay">
+                    <div><h5>Data Centers</h5><span>Redundant</span></div>
+                </div>
+            </div>
+            <div class="m-item">
+                <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?w=900&q=85"
+                     alt="Support team" loading="lazy" />
+                <div class="overlay">
+                    <div><h5>Support Team</h5><span>Fast response</span></div>
+                </div>
+            </div>
+            <div class="m-item">
+                <img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=900&q=85"
+                     alt="Field team" loading="lazy" />
+                <div class="overlay">
+                    <div><h5>Field Team</h5><span>Certified</span></div>
+                </div>
+            </div>
+            <div class="m-item">
+                <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=900&q=85"
+                     alt="Business" loading="lazy" />
+                <div class="overlay">
+                    <div><h5>Business</h5><span>Enterprise SLAs</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* =========================================================
+   10. HOW IT WORKS
+   ========================================================= *@
+<section class="pps-section alt">
+    <div class="container">
+        <div class="pps-head reveal">
+            <span class="eyebrow">Process</span>
+            <h2>How NEXUS Works</h2>
+            <p>From order to activation in four simple steps.</p>
+        </div>
+
+        <div class="how-grid">
+            <div class="how-step reveal">
+                <div class="step-circle">
+                    <i class="fa-solid fa-layer-group"></i>
+                    <span class="step-num">01</span>
+                </div>
+                <h4>Choose Plan</h4>
+                <p>Compare plans and pick what fits your home.</p>
+            </div>
+
+            <div class="how-step reveal delay-1">
+                <div class="step-circle">
+                    <i class="fa-solid fa-file-pen"></i>
+                    <span class="step-num">02</span>
+                </div>
+                <h4>Submit Order</h4>
+                <p>Complete the online form in five minutes.</p>
+            </div>
+
+            <div class="how-step reveal delay-2">
+                <div class="step-circle">
+                    <i class="fa-solid fa-screwdriver-wrench"></i>
+                    <span class="step-num">03</span>
+                </div>
+                <h4>Installation</h4>
+                <p>Technician installs and verifies on-site.</p>
+            </div>
+
+            <div class="how-step reveal delay-3">
+                <div class="step-circle">
+                    <i class="fa-solid fa-rocket"></i>
+                    <span class="step-num">04</span>
+                </div>
+                <h4>Get Connected</h4>
+                <p>Manage your connection from the dashboard.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* =========================================================
+   11. TESTIMONIALS
+   ========================================================= *@
+<section class="pps-section">
+    <div class="container">
+        <div class="pps-head reveal">
+            <span class="eyebrow">Customer Stories</span>
+            <h2>What Our Customers Say</h2>
+            <p>Real feedback from NEXUS customers across Pakistan.</p>
+        </div>
+
+        <div class="testimonials-rich">
+            <article class="testimonial-rich reveal">
+                <span class="qm"><i class="fa-solid fa-quote-right"></i></span>
+                <div class="stars">★★★★★</div>
+                <p>"Installation was quick and the connection has been rock-solid for months."</p>
+                <div class="author">
+                    <img src="https://i.pravatar.cc/96?img=15" alt="Bilal" loading="lazy" />
+                    <div><strong>Bilal Khan</strong><span>Broadband · Lahore</span></div>
+                </div>
+            </article>
+
+            <article class="testimonial-rich reveal delay-1">
+                <span class="qm"><i class="fa-solid fa-quote-right"></i></span>
+                <div class="stars">★★★★★</div>
+                <p>"Customer support answered my call within two minutes. That's rare."</p>
+                <div class="author">
+                    <img src="https://i.pravatar.cc/96?img=32" alt="Sana" loading="lazy" />
+                    <div><strong>Sana Iqbal</strong><span>Fiber · Karachi</span></div>
+                </div>
+            </article>
+
+            <article class="testimonial-rich reveal delay-2">
+                <span class="qm"><i class="fa-solid fa-quote-right"></i></span>
+                <div class="stars">★★★★☆</div>
+                <p>"We run a small office on NEXUS Business. Reliable, priced fairly."</p>
+                <div class="author">
+                    <img src="https://i.pravatar.cc/96?img=45" alt="Usman" loading="lazy" />
+                    <div><strong>Usman Ahmed</strong><span>Business · Islamabad</span></div>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+@* =========================================================
+   12. FINAL CTA
+   ========================================================= *@
+<section class="hero-cta-final">
+    <div class="cta-bg" style="background-image:url('https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?w=1920&q=90');" aria-hidden="true"></div>
+    <div class="cta-overlay" aria-hidden="true"></div>
+    <div class="cta-shine" aria-hidden="true"></div>
+
+    <div class="container">
+        <h2>Ready to Get <span class="shine">Connected?</span></h2>
+        <p>Join over 1,200 customers across 42 cities already enjoying NEXUS.</p>
+        <div class="cta-actions">
+            <a href="/Orders/New" class="btn btn-primary btn-lg">
+                <i class="fa-solid fa-plug-circle-plus"></i> Get New Connection
+            </a>
+            <a href="/Plans" class="btn btn-outline-light btn-lg">
+                Explore Plans <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(function () {
+                if (window.NEXUS && NEXUS.toast) {
+                    NEXUS.toast({
+                        title: 'Welcome to NEXUS',
+                        message: 'Explore our plans and get connected today.',
+                        type: 'info',
+                        duration: 4500
+                    });
+                }
+            }, 1200);
+        });
+    </script>
+}

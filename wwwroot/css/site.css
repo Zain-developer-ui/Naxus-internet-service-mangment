@@ -1,0 +1,720 @@
+/* =========================================================
+   NEXUS — site.css
+   Luxury Design System Foundation
+   -----------------------------------------
+   This file defines the SINGLE SOURCE OF TRUTH for:
+   - Colors (CSS variables)
+   - Typography
+   - Spacing
+   - Border radius
+   - Shadows
+   - Motion
+   - Reset
+   - Global utilities
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   1. GOOGLE FONTS
+   --------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* ---------------------------------------------------------
+   2. DESIGN TOKENS
+   --------------------------------------------------------- */
+:root {
+    /* ---------- Brand Colors ---------- */
+    --nexus-navy: #0A1F44;
+    --nexus-navy-dark: #061631;
+    --nexus-navy-mid: #0F2A5C;
+    --nexus-blue: #1E6FE5;
+    --nexus-blue-dark: #1558B8;
+    --nexus-blue-light: #E8F1FD;
+    --nexus-accent: #38BDF8;
+    --nexus-accent-soft: #BAE6FD;
+    /* ---------- Surfaces ---------- */
+    --nexus-background: #F5F8FC;
+    --nexus-surface: #FFFFFF;
+    --nexus-surface-2: #FAFBFD;
+    --nexus-surface-3: #F1F5F9;
+    /* ---------- Text ---------- */
+    --nexus-text: #0A1F44;
+    --nexus-text-soft: #334155;
+    --nexus-muted: #64748B;
+    --nexus-muted-light: #94A3B8;
+    /* ---------- Borders ---------- */
+    --nexus-border: #E2E8F0;
+    --nexus-border-soft: #EEF2F7;
+    --nexus-border-strong: #CBD5E1;
+    /* ---------- Status ---------- */
+    --nexus-success: #10B981;
+    --nexus-success-dark: #059669;
+    --nexus-success-bg: #D1FAE5;
+    --nexus-warning: #F59E0B;
+    --nexus-warning-dark: #D97706;
+    --nexus-warning-bg: #FEF3C7;
+    --nexus-danger: #EF4444;
+    --nexus-danger-dark: #DC2626;
+    --nexus-danger-bg: #FEE2E2;
+    --nexus-info: #0284C7;
+    --nexus-info-bg: #E0F2FE;
+    /* ---------- Radius ---------- */
+    --radius-xs: 4px;
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --radius-full: 999px;
+    /* ---------- Shadows ---------- */
+    --shadow-xs: 0 1px 2px rgba(10, 31, 68, 0.04);
+    --shadow-sm: 0 2px 6px rgba(10, 31, 68, 0.06);
+    --shadow-md: 0 8px 24px rgba(10, 31, 68, 0.08);
+    --shadow-lg: 0 20px 40px rgba(10, 31, 68, 0.12);
+    --shadow-xl: 0 28px 60px rgba(10, 31, 68, 0.16);
+    /* ---------- Motion ---------- */
+    --ease-fast: 0.15s ease;
+    --ease: 0.25s ease;
+    --ease-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-bounce: 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+    /* ---------- Layout ---------- */
+    --container-max: 1240px;
+    --nav-height: 80px;
+    --sidebar-width: 260px;
+    --topbar-height: 72px;
+    /* ---------- Legacy aliases (kept for compatibility with older CSS) ---------- */
+    --primary: var(--nexus-navy);
+    --primary-dark: var(--nexus-navy-dark);
+    --primary-mid: var(--nexus-navy-mid);
+    --primary-light: var(--nexus-blue);
+    --secondary: var(--nexus-blue);
+    --secondary-dark: var(--nexus-blue-dark);
+    --secondary-light: var(--nexus-blue-light);
+    --accent: var(--nexus-accent);
+    --accent-soft: var(--nexus-accent-soft);
+    --background: var(--nexus-background);
+    --surface: var(--nexus-surface);
+    --surface-2: var(--nexus-surface-2);
+    --text: var(--nexus-text);
+    --text-soft: var(--nexus-text-soft);
+    --muted: var(--nexus-muted);
+    --border: var(--nexus-border);
+    --border-strong: var(--nexus-border-strong);
+    --success: var(--nexus-success);
+    --success-bg: var(--nexus-success-bg);
+    --warning: var(--nexus-warning);
+    --warning-bg: var(--nexus-warning-bg);
+    --danger: var(--nexus-danger);
+    --danger-bg: var(--nexus-danger-bg);
+    --info: var(--nexus-info);
+    --info-bg: var(--nexus-info-bg);
+    --radius: var(--radius-md);
+    --shadow: var(--shadow-md);
+    --transition-fast: var(--ease-fast);
+    --transition: var(--ease);
+    --transition-slow: var(--ease-slow);
+}
+
+/* ---------------------------------------------------------
+   3. RESET
+   --------------------------------------------------------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: var(--nexus-text);
+    background: var(--nexus-background);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+img, svg {
+    max-width: 100%;
+    display: block;
+}
+
+a {
+    color: var(--nexus-blue-dark);
+    text-decoration: none;
+    transition: color var(--ease-fast);
+}
+
+    a:hover {
+        color: var(--nexus-navy);
+    }
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+}
+
+/* ---------------------------------------------------------
+   4. TYPOGRAPHY
+   --------------------------------------------------------- */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--nexus-text);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    margin: 0 0 0.6em;
+}
+
+h1 {
+    font-size: clamp(2.25rem, 4.5vw, 4.25rem);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+}
+
+h2 {
+    font-size: clamp(1.75rem, 3vw, 2.75rem);
+    font-weight: 800;
+    line-height: 1.15;
+}
+
+h3 {
+    font-size: clamp(1.35rem, 2vw, 1.75rem);
+    font-weight: 700;
+}
+
+h4 {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+h5 {
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+h6 {
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+p {
+    margin: 0 0 1em;
+}
+
+.lead {
+    font-size: 1.125rem;
+    line-height: 1.65;
+    color: var(--nexus-text-soft);
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--nexus-blue-dark);
+    margin-bottom: 14px;
+}
+
+    .eyebrow i {
+        font-size: 0.85rem;
+    }
+
+/* ---------------------------------------------------------
+   5. LAYOUT PRIMITIVES
+   --------------------------------------------------------- */
+.container {
+    width: 100%;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.page-wrapper {
+    min-height: 60vh;
+    padding-bottom: 40px;
+}
+
+.section {
+    padding: 96px 0;
+}
+
+.section-sm {
+    padding: 60px 0;
+}
+
+.section-lg {
+    padding: 128px 0;
+}
+
+.section-heading {
+    max-width: 780px;
+    margin: 0 auto 60px;
+    text-align: center;
+}
+
+    .section-heading h2 {
+        margin-bottom: 14px;
+    }
+
+    .section-heading p {
+        font-size: 1.075rem;
+        color: var(--nexus-muted);
+        margin: 0;
+        line-height: 1.6;
+    }
+
+    .section-heading.left {
+        text-align: left;
+        margin-left: 0;
+    }
+
+.grid {
+    display: grid;
+    gap: 28px;
+}
+
+.grid-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.grid-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gap-1 {
+    gap: 0.5rem;
+}
+
+.gap-2 {
+    gap: 1rem;
+}
+
+.gap-3 {
+    gap: 1.5rem;
+}
+
+/* ---------------------------------------------------------
+   6. UTILITIES
+   --------------------------------------------------------- */
+.muted {
+    color: var(--nexus-muted);
+}
+
+.small {
+    font-size: 0.85rem;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-white {
+    color: #fff;
+}
+
+.mt-0 {
+    margin-top: 0;
+}
+
+.mt-1 {
+    margin-top: 0.5rem;
+}
+
+.mt-2 {
+    margin-top: 1rem;
+}
+
+.mt-3 {
+    margin-top: 1.5rem;
+}
+
+.mt-4 {
+    margin-top: 2rem;
+}
+
+.mb-0 {
+    margin-bottom: 0;
+}
+
+.mb-1 {
+    margin-bottom: 0.5rem;
+}
+
+.mb-2 {
+    margin-bottom: 1rem;
+}
+
+.mb-3 {
+    margin-bottom: 1.5rem;
+}
+
+.mb-4 {
+    margin-bottom: 2rem;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ---------------------------------------------------------
+   7. GRADIENT BACKGROUNDS
+   --------------------------------------------------------- */
+.bg-gradient-primary {
+    background: linear-gradient(135deg, var(--nexus-navy) 0%, var(--nexus-navy-mid) 100%);
+}
+
+.bg-gradient-blue {
+    background: linear-gradient(135deg, var(--nexus-blue) 0%, var(--nexus-accent) 100%);
+}
+
+.bg-gradient-hero {
+    background: radial-gradient(1200px 500px at 20% 10%, rgba(56, 189, 248, 0.18), transparent 60%), radial-gradient(900px 500px at 90% 80%, rgba(30, 111, 229, 0.22), transparent 60%), linear-gradient(140deg, var(--nexus-navy) 0%, var(--nexus-navy-dark) 100%);
+}
+
+/* ---------------------------------------------------------
+   8. FOCUS STATES (accessibility)
+   --------------------------------------------------------- */
+:focus {
+    outline: none;
+}
+
+:focus-visible {
+    outline: 3px solid var(--nexus-blue);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+}
+
+/* ---------------------------------------------------------
+   9. SCROLLBAR (subtle brand touch)
+   --------------------------------------------------------- */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--nexus-surface-2);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--nexus-border-strong);
+    border-radius: 10px;
+    border: 2px solid var(--nexus-surface-2);
+}
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--nexus-muted);
+    }
+
+/* ---------------------------------------------------------
+   10. SELECTION
+   --------------------------------------------------------- */
+::selection {
+    background: var(--nexus-blue-light);
+    color: var(--nexus-navy);
+}
+
+/* ---------------------------------------------------------
+   11. REDUCED MOTION
+   --------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* ---------------------------------------------------------
+   12. PRINT
+   --------------------------------------------------------- */
+@media print {
+    .nexus-navbar,
+    .nexus-footer,
+    .dashboard-sidebar,
+    .dashboard-topbar,
+    .fab {
+        display: none !important;
+    }
+
+    body {
+        background: #fff;
+    }
+}
+
+/* =========================================================
+   NEXUS — Public Footer (Luxury)
+   ========================================================= */
+
+.nexus-footer {
+    position: relative;
+    margin-top: 80px;
+    padding-top: 70px;
+    background: linear-gradient(180deg, var(--nexus-navy) 0%, var(--nexus-navy-dark) 100%);
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 0.92rem;
+    overflow: hidden;
+}
+
+    /* Decorative blue glow at top */
+    .nexus-footer::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 20%;
+        width: 600px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(56, 189, 248, 0.08), transparent 70%);
+        pointer-events: none;
+    }
+
+    .nexus-footer .footer-grid {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: 1.6fr 1fr 1fr 1.2fr;
+        gap: 48px;
+        padding-bottom: 56px;
+    }
+
+    /* Brand column */
+    .nexus-footer .footer-brand .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: #fff;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        font-size: 1.2rem;
+        margin-bottom: 18px;
+    }
+
+    .nexus-footer .footer-brand .brand-mark {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 11px;
+        background: linear-gradient(135deg, var(--nexus-blue), var(--nexus-accent));
+        color: #fff;
+        font-weight: 800;
+        font-size: 1.05rem;
+        box-shadow: 0 8px 20px rgba(30, 111, 229, 0.4);
+    }
+
+    .nexus-footer .footer-brand .brand-text {
+        color: #fff;
+        font-size: 1.15rem;
+    }
+
+    .nexus-footer .footer-brand p {
+        margin: 0 0 10px;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9rem;
+        line-height: 1.65;
+        max-width: 320px;
+    }
+
+    /* Social icons */
+    .nexus-footer .social-row {
+        display: flex;
+        gap: 10px;
+        margin-top: 22px;
+    }
+
+        .nexus-footer .social-row a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 0.9rem;
+            transition: all var(--ease-fast);
+        }
+
+            .nexus-footer .social-row a:hover {
+                background: var(--nexus-blue);
+                border-color: var(--nexus-blue);
+                transform: translateY(-3px);
+                color: #fff;
+                box-shadow: 0 8px 18px rgba(30, 111, 229, 0.4);
+            }
+
+    /* Column headings */
+    .nexus-footer h5 {
+        position: relative;
+        color: #fff;
+        font-size: 0.95rem;
+        font-weight: 700;
+        margin: 0 0 20px;
+        padding-bottom: 12px;
+        letter-spacing: 0.02em;
+    }
+
+        .nexus-footer h5::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 30px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--nexus-blue), var(--nexus-accent));
+            border-radius: 3px;
+        }
+
+    /* Link lists */
+    .nexus-footer ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+        .nexus-footer ul li {
+            color: rgba(255, 255, 255, 0.72);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+            .nexus-footer ul li a {
+                color: rgba(255, 255, 255, 0.72);
+                text-decoration: none;
+                transition: color var(--ease-fast), padding-left var(--ease-fast);
+                display: inline-block;
+            }
+
+                .nexus-footer ul li a:hover {
+                    color: var(--nexus-accent);
+                    padding-left: 4px;
+                }
+
+    /* Contact list */
+    .nexus-footer .contact-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        line-height: 1.55;
+    }
+
+        .nexus-footer .contact-list li i {
+            color: var(--nexus-accent);
+            font-size: 0.92rem;
+            margin-top: 3px;
+            width: 18px;
+            flex-shrink: 0;
+        }
+
+    /* Bottom bar */
+    .nexus-footer .footer-bottom {
+        position: relative;
+        z-index: 1;
+        padding: 24px 0;
+        font-size: 0.84rem;
+        color: rgba(255, 255, 255, 0.55);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(0, 0, 0, 0.15);
+    }
+
+        .nexus-footer .footer-bottom .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+    .nexus-footer .footer-legal a {
+        color: rgba(255, 255, 255, 0.6);
+        margin: 0 6px;
+        text-decoration: none;
+        transition: color var(--ease-fast);
+    }
+
+        .nexus-footer .footer-legal a:hover {
+            color: var(--nexus-accent);
+        }
+
+/* Hide footer on dashboard pages */
+.dashboard-body .nexus-footer {
+    display: none;
+}
+
+/* Footer responsive */
+@media (max-width: 992px) {
+    .nexus-footer .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 36px;
+    }
+
+    .nexus-footer .footer-brand {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 576px) {
+    .nexus-footer {
+        padding-top: 50px;
+        margin-top: 56px;
+    }
+
+        .nexus-footer .footer-grid {
+            grid-template-columns: 1fr;
+            gap: 32px;
+            padding-bottom: 40px;
+        }
+
+        .nexus-footer .footer-bottom .container {
+            flex-direction: column;
+            text-align: center;
+            gap: 10px;
+        }
+}

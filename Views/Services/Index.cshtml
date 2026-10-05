@@ -1,0 +1,474 @@
+﻿@model List<NEXUS.Models.ViewModels.ServiceViewModel>
+@{
+    ViewData["Title"] = "Our Services — NEXUS";
+    ViewData["BodyClass"] = "public-body";
+
+    var internetServices = Model?.Where(m => m.Category == "Internet").ToList() ?? new();
+    var supportServices = Model?.Where(m => m.Category != "Internet").ToList() ?? new();
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/home.css" />
+    <link rel="stylesheet" href="~/css/public-pages.css" />
+}
+
+@* =========================================================
+   1. HERO — Same style as Home (title left, big picture right)
+   ========================================================= *@
+<section class="home-hero">
+    <div class="container">
+        <div class="home-hero-grid">
+
+            @* ---------- LEFT: Title ---------- *@
+            <div class="hero-copy">
+                <span class="hero-badge">
+                    <i class="fa-solid fa-layer-group"></i> Our Services
+                </span>
+
+                <h1>
+                    Internet Built<br />
+                    For Every Need<br />
+                    <span class="shine">You Can Imagine</span>
+                </h1>
+
+                <p class="hero-lead">
+                    From entry-level broadband to enterprise-grade fiber, NEXUS
+                    delivers reliable connectivity for homes, businesses and
+                    communities across Pakistan — engineered to keep you online.
+                </p>
+
+                <div class="hero-actions">
+                    <a href="/Orders/New" class="btn btn-primary btn-lg">
+                        <i class="fa-solid fa-plug-circle-plus"></i> Get Connected
+                    </a>
+                    <a href="/Plans" class="btn btn-outline-light btn-lg">
+                        View Plans <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="hero-trust">
+                    <div class="hero-trust-item">
+                        <span class="ic"><i class="fa-solid fa-gauge-high"></i></span>
+                        <div class="txt">
+                            <strong>Up to 1 Gbps</strong>
+                            <span>Fiber-ready speed</span>
+                        </div>
+                    </div>
+                    <div class="hero-trust-item">
+                        <span class="ic"><i class="fa-solid fa-city"></i></span>
+                        <div class="txt">
+                            <strong>42 Cities</strong>
+                            <span>Nationwide coverage</span>
+                        </div>
+                    </div>
+                    <div class="hero-trust-item">
+                        <span class="ic"><i class="fa-solid fa-headset"></i></span>
+                        <div class="txt">
+                            <strong>24/7 Support</strong>
+                            <span>Always here</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @* ---------- RIGHT: BIG Picture ---------- *@
+            <div class="hero-visual">
+                <div class="hero-media">
+                    <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&q=90"
+                         alt="NEXUS network infrastructure" loading="eager" />
+                </div>
+
+                <span class="hero-live-badge">
+                    <span class="dot"></span> Live Network
+                </span>
+
+                <div class="hero-float-card">
+                    <span class="ic"><i class="fa-solid fa-wifi"></i></span>
+                    <div class="meta">
+                        <strong>Broadband + Fiber</strong>
+                        <span>Best of both worlds</span>
+                    </div>
+                </div>
+
+                <div class="hero-float-card speed">
+                    <span class="ic"><i class="fa-solid fa-bolt"></i></span>
+                    <div class="meta">
+                        <strong>Low Latency</strong>
+                        <span>Gaming-grade connection</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+@* =========================================================
+   2. STATS STRIP
+   ========================================================= *@
+<section class="home-stats-strip">
+    <div class="container">
+        <div class="home-stats-card reveal">
+            <div class="home-stat-item">
+                <div class="num" data-count="9">0</div>
+                <span class="label">Service Types</span>
+            </div>
+            <div class="home-stat-item">
+                <div class="num" data-count="1245">0</div>
+                <span class="label">Active Customers</span>
+            </div>
+            <div class="home-stat-item">
+                <div class="num" data-count="42">0</div>
+                <span class="label">Cities Covered</span>
+            </div>
+            <div class="home-stat-item">
+                <div class="num">24<span class="unit">/7</span></div>
+                <span class="label">Support Available</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* =========================================================
+   3. INTRODUCTION
+   ========================================================= *@
+<section class="pps-section alt">
+    <div class="container">
+        <div class="pps-head reveal">
+            <span class="eyebrow">Why Choose NEXUS Services</span>
+            <h2>Built for reliability, engineered for you</h2>
+            <p>Every NEXUS service is designed with one goal — keeping you connected, always.</p>
+        </div>
+
+        <div class="why-cards-grid" style="background:#0A1F44;padding:40px;border-radius:24px;">
+            <div class="why-c reveal">
+                <div class="ic"><i class="fa-solid fa-bolt"></i></div>
+                <h4>Fast &amp; Stable</h4>
+                <p>Low latency, high uptime — engineered for real-world reliability.</p>
+            </div>
+            <div class="why-c reveal delay-1">
+                <div class="ic"><i class="fa-solid fa-tag"></i></div>
+                <h4>Affordable Packages</h4>
+                <p>Transparent pricing with no hidden charges or surprise caps.</p>
+            </div>
+            <div class="why-c reveal delay-2">
+                <div class="ic"><i class="fa-solid fa-headset"></i></div>
+                <h4>24/7 Support</h4>
+                <p>Phone, email and chat — our support team never sleeps.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* =========================================================
+   4. SERVICES GRID — All from ViewModel
+   ========================================================= *@
+<section class="pps-section">
+    <div class="container">
+        <div class="pps-head reveal">
+            <span class="eyebrow">Our Catalogue</span>
+            <h2>Complete Service Range</h2>
+            <p>Explore every NEXUS connectivity and support option.</p>
+        </div>
+
+        <div class="rich-services-grid">
+            @{
+                var i = 0;
+            }
+            @foreach (var s in Model ?? new List<NEXUS.Models.ViewModels.ServiceViewModel>())
+            {
+                var delay = "delay-" + Math.Min(i, 5);
+                <article class="rich-service reveal @delay">
+                    <div class="rs-media">
+                        <img src="@s.ImageUrl" alt="@s.Name" loading="lazy" />
+                        <span class="rs-icon"><i class="@s.IconClass"></i></span>
+                    </div>
+                    <div class="rs-body">
+                        <h4>@s.Name</h4>
+                        <p>@s.ShortDescription</p>
+                        <div class="rs-meta">
+                            <span class="badge badge-info">@s.SpeedRange</span>
+                            <span class="badge badge-muted">@s.Availability</span>
+                        </div>
+                        <a href="#service-@s.Id" class="btn btn-outline btn-sm">
+                            Learn More <i class="fa-solid fa-arrow-down"></i>
+                        </a>
+                    </div>
+                </article>
+                i++;
+            }
+        </div>
+    </div>
+</section>
+
+@* =========================================================
+   5. ALTERNATING DETAILS — Same split layout as Home
+   ========================================================= *@
+@if (internetServices.Any())
+{
+    <section class="pps-section alt">
+        <div class="container">
+            <div class="pps-head reveal">
+                <span class="eyebrow">Deep Dive</span>
+                <h2>Service Details</h2>
+                <p>A closer look at each NEXUS connectivity option.</p>
+            </div>
+
+            @{
+                var row = 0;
+            }
+            @foreach (var s in internetServices)
+            {
+                var reverse = row % 2 == 1 ? "reverse" : "";
+                <div class="split-row @reverse" id="service-@s.Id">
+                    <div class="split-media reveal-left">
+                        <img src="@s.ImageUrl" alt="@s.Name" loading="lazy" />
+                        <div class="img-badge">
+                            <span class="ic"><i class="@s.IconClass"></i></span>
+                            <div>
+                                <strong>@s.SpeedRange</strong>
+                                <span>@s.Availability</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="split-copy reveal-right">
+                        <span class="eyebrow">
+                            <i class="@s.IconClass"></i> @s.Category
+                        </span>
+                        <h2>@s.Name</h2>
+                        <p class="lead">@s.FullDescription</p>
+
+                        <ul class="check-list">
+                            @foreach (var f in s.Features)
+                            {
+                                <li><i class="fa-solid fa-check"></i> @f</li>
+                            }
+                        </ul>
+
+                        <div class="flex gap-2" style="flex-wrap:wrap;">
+                            <a href="/Orders/New" class="btn btn-primary">
+                                Order This Service <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                            <a href="/Plans" class="btn btn-outline">View Plans</a>
+                        </div>
+                    </div>
+                </div>
+                row++;
+            }
+        </div>
+    </section>
+}
+
+@* =========================================================
+   6. SUPPORT SERVICES
+   ========================================================= *@
+@if (supportServices.Any())
+{
+    <section class="pps-section">
+        <div class="container">
+            <div class="pps-head reveal">
+                <span class="eyebrow">Support Services</span>
+                <h2>Support &amp; Installation</h2>
+                <p>Everything you need to keep your NEXUS connection running smoothly.</p>
+            </div>
+
+            <div class="rich-services-grid">
+                @foreach (var s in supportServices)
+                {
+                    <article class="rich-service reveal">
+                        <div class="rs-media" style="background:linear-gradient(135deg,#E8F1FD,#BAE6FD);display:flex;align-items:center;justify-content:center;">
+                            <i class="@s.IconClass" style="font-size:3rem;color:#1558B8;"></i>
+                        </div>
+                        <div class="rs-body">
+                            <h4>@s.Name</h4>
+                            <p>@s.ShortDescription</p>
+                            <ul class="check-list" style="list-style:none;padding:0;margin:6px 0;display:grid;gap:8px;">
+                                @foreach (var f in s.Features)
+                                {
+                                    <li style="display:flex;gap:10px;color:#334155;font-size:0.88rem;">
+                                        <i class="fa-solid fa-circle-check" style="color:#059669;margin-top:3px;"></i>
+                                        <span>@f</span>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </article>
+                }
+            </div>
+        </div>
+    </section>
+}
+
+@* =========================================================
+   7. COMPARISON TABLE
+   ========================================================= *@
+<section class="pps-section alt">
+    <div class="container">
+        <div class="pps-head reveal">
+            <span class="eyebrow">Compare</span>
+            <h2>Compare Connection Types</h2>
+            <p>Not sure which service fits you best? Here's a quick comparison.</p>
+        </div>
+
+        <div class="compare-table reveal" style="background:#FFFFFF;border-radius:16px;overflow:hidden;box-shadow:0 12px 30px rgba(10,31,68,0.08);">
+            <table style="width:100%;border-collapse:collapse;">
+                <thead>
+                    <tr style="background:#0A1F44;color:#fff;">
+                        <th style="text-align:left;padding:16px;font-size:0.82rem;text-transform:uppercase;letter-spacing:0.06em;">Feature</th>
+                        <th style="padding:16px;font-size:0.82rem;text-transform:uppercase;letter-spacing:0.06em;">Broadband</th>
+                        <th style="padding:16px;font-size:0.82rem;text-transform:uppercase;letter-spacing:0.06em;background:#1E6FE5;">Fiber</th>
+                        <th style="padding:16px;font-size:0.82rem;text-transform:uppercase;letter-spacing:0.06em;">Wireless</th>
+                        <th style="padding:16px;font-size:0.82rem;text-transform:uppercase;letter-spacing:0.06em;">Business</th>
+                    </tr>
+                </thead>
+                <tbody style="font-size:0.92rem;color:#334155;">
+                    <tr style="border-bottom:1px solid #EEF2F7;">
+                        <td style="padding:14px 16px;font-weight:600;color:#0A1F44;">Typical Speed</td>
+                        <td style="padding:14px;text-align:center;">5–30 Mbps</td>
+                        <td style="padding:14px;text-align:center;background:#E8F1FD;font-weight:600;">25–100 Mbps</td>
+                        <td style="padding:14px;text-align:center;">4–20 Mbps</td>
+                        <td style="padding:14px;text-align:center;">20–200 Mbps</td>
+                    </tr>
+                    <tr style="border-bottom:1px solid #EEF2F7;">
+                        <td style="padding:14px 16px;font-weight:600;color:#0A1F44;">Symmetrical</td>
+                        <td style="padding:14px;text-align:center;color:#CBD5E1;">✕</td>
+                        <td style="padding:14px;text-align:center;background:#E8F1FD;color:#059669;font-weight:700;">✓</td>
+                        <td style="padding:14px;text-align:center;color:#CBD5E1;">✕</td>
+                        <td style="padding:14px;text-align:center;color:#059669;font-weight:700;">✓</td>
+                    </tr>
+                    <tr style="border-bottom:1px solid #EEF2F7;">
+                        <td style="padding:14px 16px;font-weight:600;color:#0A1F44;">Free Router</td>
+                        <td style="padding:14px;text-align:center;color:#059669;font-weight:700;">✓</td>
+                        <td style="padding:14px;text-align:center;background:#E8F1FD;color:#059669;font-weight:700;">✓</td>
+                        <td style="padding:14px;text-align:center;color:#059669;font-weight:700;">✓</td>
+                        <td style="padding:14px;text-align:center;color:#059669;font-weight:700;">✓</td>
+                    </tr>
+                    <tr style="border-bottom:1px solid #EEF2F7;">
+                        <td style="padding:14px 16px;font-weight:600;color:#0A1F44;">Static IP</td>
+                        <td style="padding:14px;text-align:center;color:#CBD5E1;">✕</td>
+                        <td style="padding:14px;text-align:center;background:#E8F1FD;color:#059669;font-weight:700;">✓</td>
+                        <td style="padding:14px;text-align:center;color:#CBD5E1;">✕</td>
+                        <td style="padding:14px;text-align:center;color:#059669;font-weight:700;">✓</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:14px 16px;font-weight:600;color:#0A1F44;">Best For</td>
+                        <td style="padding:14px;text-align:center;">Homes</td>
+                        <td style="padding:14px;text-align:center;background:#E8F1FD;font-weight:600;">Families &amp; Gaming</td>
+                        <td style="padding:14px;text-align:center;">Remote Areas</td>
+                        <td style="padding:14px;text-align:center;">Businesses</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+@* =========================================================
+   8. FAQ
+   ========================================================= *@
+<section class="pps-section">
+    <div class="container" style="max-width:820px;">
+        <div class="pps-head reveal">
+            <span class="eyebrow">FAQs</span>
+            <h2>Service FAQs</h2>
+            <p>Common questions about NEXUS services.</p>
+        </div>
+
+        <div class="faq-list reveal">
+            <div class="faq-item">
+                <button class="faq-question" type="button">
+                    Which service should I choose for a small office?
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    For most small offices, Fiber or Business Internet is the best fit —
+                    they offer the reliability and priority bandwidth that business
+                    operations depend on.
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" type="button">
+                    Do I need a landline for broadband?
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    No. Broadband, fiber and wireless services are all independent of a
+                    landline. Only the Dial-Up option requires an active phone line.
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" type="button">
+                    Is there a contract or minimum term?
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    Monthly plans have no long-term contract. You can upgrade, downgrade or
+                    cancel with 30 days' notice.
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" type="button">
+                    How soon can installation happen?
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    In most cities we offer same-day or next-day installation slots. You can
+                    pick your preferred window during checkout.
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* =========================================================
+   9. FINAL CTA — Same style as Home
+   ========================================================= *@
+<section class="hero-cta-final">
+    <div class="cta-bg" style="background-image:url('https://images.unsplash.com/photo-1580894732444-8ecded7900cd?w=1920&q=85');" aria-hidden="true"></div>
+    <div class="cta-overlay" aria-hidden="true"></div>
+    <div class="cta-shine" aria-hidden="true"></div>
+
+    <div class="container">
+        <h2>Ready to Order a <span class="shine">Service?</span></h2>
+        <p>Submit a new connection request and we'll handle the rest — installation typically within 24–48 hours.</p>
+        <div class="cta-actions">
+            <a href="/Orders/New" class="btn btn-primary btn-lg">
+                <i class="fa-solid fa-plug-circle-plus"></i> Get New Connection
+            </a>
+            <a href="/Plans" class="btn btn-outline-light btn-lg">
+                Compare Plans <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        // FAQ accordion
+        document.addEventListener('click', function (e) {
+            var q = e.target.closest('.faq-question');
+            if (!q) return;
+            var item = q.parentElement;
+            var isOpen = item.classList.contains('open');
+            document.querySelectorAll('.faq-item.open').forEach(function (i) {
+                if (i !== item) i.classList.remove('open');
+            });
+            item.classList.toggle('open', !isOpen);
+        });
+
+        // Toast on load
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(function () {
+                if (window.NEXUS && NEXUS.toast) {
+                    NEXUS.toast({
+                        title: 'Our Services',
+                        message: 'Explore every NEXUS connectivity option.',
+                        type: 'info',
+                        duration: 4000
+                    });
+                }
+            }, 800);
+        });
+    </script>
+}
