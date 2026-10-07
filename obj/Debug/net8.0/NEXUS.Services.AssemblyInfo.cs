@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NEXUS.Services")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3d074d6154440dff550653554c815e45f882da76")]
 [assembly: System.Reflection.AssemblyProductAttribute("NEXUS.Services")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NEXUS.Services")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

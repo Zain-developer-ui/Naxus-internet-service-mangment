@@ -1,0 +1,217 @@
+@model NEXUS.Models.ViewModels.OrderReview
+@using NEXUS.Common.Constants
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = $"Order {Model.OrderId} — NEXUS";
+    ViewData["ActiveSidebar"] = "operations";
+}
+
+@section DashboardStyles {
+    <link rel="stylesheet" href="~/css/billing.css" />
+}
+
+<a href="/Operations" class="back-link">
+    <i class="fa-solid fa-arrow-left"></i> Back to queue
+</a>
+
+<div class="page-head">
+    <div>
+        <h1>@Model.OrderId</h1>
+        <p class="muted">@Model.CustomerName · @Model.ConnectionTypeName · @Model.PlanName</p>
+    </div>
+    <span class="badge badge-ghost">@Model.StatusLabel</span>
+</div>
+
+<div class="split-panels">
+    <div class="panel">
+        <div class="panel-head"><h3>Order details</h3></div>
+        <dl class="meta-list">
+            <div><dt>Customer</dt><dd>@Model.CustomerName</dd></div>
+            <div><dt>Account</dt><dd class="mono">@Model.AccountId</dd></div>
+            <div><dt>CNIC</dt><dd class="mono">@Model.Cnic</dd></div>
+            <div><dt>Phone</dt><dd>@Model.Phone</dd></div>
+            <div><dt>Plan</dt><dd>@Model.PlanName (@Model.BillingCycleName)</dd></div>
+            <div><dt>Installation address</dt><dd>@Model.Address, @Model.CityName</dd></div>
+            @if (!string.IsNullOrWhiteSpace(Model.LandlineNumber))
+            {
+                <div><dt>Landline</dt><dd class="mono">@Model.LandlineNumber</dd></div>
+            }
+            @if (!string.IsNullOrWhiteSpace(Model.PreferredSlot))
+            {
+                <div><dt>Preferred slot</dt><dd>@Model.PreferredSlot</dd></div>
+            }
+            <div><dt>Quoted amount</dt><dd>$@Model.QuotedAmount.ToString("N2")</dd></div>
+            <div><dt>Placed</dt><dd>@Model.CreatedAt.ToLocalTime().ToString("dd MMM yyyy HH:mm")</dd></div>
+            @if (Model.ScheduledFor is DateTime scheduled)
+            {
+                <div><dt>Installation date</dt><dd>@scheduled.ToString("dd MMM yyyy")</dd></div>
+            }
+        </dl>
+
+        @if (!string.IsNullOrWhiteSpace(Model.Notes))
+        {
+            <div class="panel-note">
+                <strong>Notes</strong>
+                <p>@Model.Notes</p>
+            </div>
+        }
+    </div>
+
+    <div class="panel">
+        <div class="panel-head"><h3>Survey</h3></div>
+
+        @if (Model.CheckResult != FeasibilityResult.Pending)
+        {
+            <dl class="meta-list">
+                <div>
+                    <dt>Outcome</dt>
+                    <dd>
+                        <span class="badge @(Model.CheckResult == FeasibilityResult.Passed ? "badge-success" : "badge-danger")">
+                            @Model.CheckLabel
+                        </span>
+                    </dd>
+                </div>
+                @if (Model.DistanceKm is double km)
+                {
+                    <div><dt>Distance</dt><dd>@km.ToString("0.#") km</dd></div>
+                }
+                <div><dt>Exchange capacity</dt><dd>@(Model.ExchangeHasCapacity ? "Available" : "None")</dd></div>
+                <div><dt>Landline verified</dt><dd>@(Model.LandlineVerified ? "Yes" : "No")</dd></div>
+                @if (Model.CheckedAt is DateTime checkedAt)
+                {
+                    <div><dt>Checked</dt><dd>@checkedAt.ToLocalTime().ToString("dd MMM yyyy HH:mm")</dd></div>
+                }
+            </dl>
+            @if (!string.IsNullOrWhiteSpace(Model.CheckRemarks))
+            {
+                <div class="panel-note">
+                    <strong>Surveyor remarks</strong>
+                    <p>@Model.CheckRemarks</p>
+                </div>
+            }
+        }
+
+        @if (Model.NeedsSurvey)
+        {
+            <form method="post" action="/Operations/RecordCheck" class="stack-form">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="OrderId" value="@Model.Id" />
+
+                <div class="form-group">
+                    <label for="DistanceFromExchangeKm">Distance from exchange (km)</label>
+                    <input type="number" step="0.1" min="0" max="100" required
+                           id="DistanceFromExchangeKm" name="DistanceFromExchangeKm"
+                           value="@(Model.DistanceKm?.ToString("0.#"))" />
+                    <span class="hint">Over 5 km cannot be served. Over 3.5 km passes with a booster note.</span>
+                </div>
+
+                <label class="check-row">
+                    <input type="checkbox" name="ExchangeHasCapacity" value="true" checked />
+                    <span>Exchange has spare capacity</span>
+                </label>
+
+                @if (Model.NeedsLandline)
+                {
+                    <label class="check-row">
+                        <input type="checkbox" name="LandlineVerified" value="true" />
+                        <span>Landline verified at the address</span>
+                    </label>
+                    <p class="hint">A @Model.ConnectionTypeName connection needs an existing landline (rule V1).</p>
+                }
+                else
+                {
+                    <input type="hidden" name="LandlineVerified" value="true" />
+                }
+
+                <div class="form-group">
+                    <label for="Remarks">Remarks</label>
+                    <textarea id="Remarks" name="Remarks" rows="3" maxlength="500"
+                              placeholder="Anything the installer should know."></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-clipboard-check"></i> Record survey
+                </button>
+            </form>
+        }
+    </div>
+</div>
+
+<div class="panel">
+    <div class="panel-head"><h3>Progress</h3></div>
+
+    <ol class="flow-steps">
+        <li class="done"><i class="fa-solid fa-check"></i> Order placed</li>
+        <li class="@(Model.Status != OrderStatus.AwaitingFeasibility ? "done" : "current")">
+            Survey @(Model.CheckResult == FeasibilityResult.Failed ? "failed" : "outcome")
+        </li>
+        <li class="@(Model.Status is OrderStatus.Confirmed or OrderStatus.Installing or OrderStatus.Completed ? "done" : Model.Status == OrderStatus.FeasibilityPassed ? "current" : "")">
+            Confirmed &amp; scheduled
+        </li>
+        <li class="@(Model.Status is OrderStatus.Installing or OrderStatus.Completed ? "done" : Model.Status == OrderStatus.Confirmed ? "current" : "")">
+            Installation
+        </li>
+        <li class="@(Model.Status == OrderStatus.Completed ? "done" : "")">Line created</li>
+    </ol>
+
+    <div class="action-row">
+        @if (Model.CanConfirm)
+        {
+            <form method="post" action="/Operations/Confirm" class="inline-form">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="OrderId" value="@Model.Id" />
+                <input type="date" name="ScheduledFor" required
+                       value="@(Model.ScheduledFor?.ToString("yyyy-MM-dd") ?? DateTime.UtcNow.Date.AddDays(3).ToString("yyyy-MM-dd"))" />
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-calendar-check"></i> Confirm order
+                </button>
+            </form>
+        }
+
+        @if (Model.CanInstall)
+        {
+            <form method="post" action="/Operations/StartInstallation" class="inline-form">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="orderId" value="@Model.Id" />
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-play"></i> Start installation
+                </button>
+            </form>
+        }
+
+        @if (Model.CanComplete)
+        {
+            <form method="post" action="/Operations/CompleteInstallation" class="inline-form">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="orderId" value="@Model.Id" />
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-circle-check"></i> Complete &amp; create line
+                </button>
+            </form>
+        }
+
+        @if (Model.HasConnection)
+        {
+            <a href="/Operations/Connection/@Model.ConnectionId" class="btn btn-outline">
+                <i class="fa-solid fa-plug"></i> Open connection @Model.ConnectionNumber
+                <span class="badge badge-ghost">@Model.ConnectionStatusLabel</span>
+            </a>
+        }
+    </div>
+
+    @if (Model.CanCancel)
+    {
+        <form method="post" action="/Operations/CancelOrder" class="cancel-form">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="OrderId" value="@Model.Id" />
+            <div class="form-group">
+                <label for="Reason">Cancel this order</label>
+                <input type="text" id="Reason" name="Reason" maxlength="300" required
+                       placeholder="Reason for cancelling" />
+            </div>
+            <button type="submit" class="btn btn-danger btn-sm">
+                <i class="fa-solid fa-ban"></i> Cancel order
+            </button>
+        </form>
+    }
+</div>

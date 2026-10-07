@@ -403,13 +403,6 @@ select {
     line-height: 1;
 }
 
-    .choice-speed::after {
-        content: ' Mbps';
-        font-size: 0.72rem;
-        font-weight: 600;
-        opacity: 0.7;
-    }
-
 .choice-price {
     margin-top: 10px;
     font-size: 1rem;

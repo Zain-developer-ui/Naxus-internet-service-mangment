@@ -20,16 +20,16 @@
     <link rel="stylesheet" href="~/css/forms.css" />
     <link rel="stylesheet" href="~/css/tables.css" />
     <link rel="stylesheet" href="~/css/sidebar.css" />
+    <link rel="stylesheet" href="~/css/animations.css" />
+    <link rel="stylesheet" href="~/css/toast.css" />
     <link rel="stylesheet" href="~/css/dashboard.css" />
     <link rel="stylesheet" href="~/css/services.css" />
     <link rel="stylesheet" href="~/css/pricing.css" />
-    <link rel="stylesheet" href="~/css/animations.css" />
-    <link rel="stylesheet" href="~/css/responsive.css" />
-    <link rel="stylesheet" href="~/css/toast.css" />
-    <link rel="stylesheet" href="~/css/home.css" />
+    <link rel="stylesheet" href="~/css/dashboards-luxury.css" />
     <link rel="stylesheet" href="~/css/public-pages.css" />
     <link rel="stylesheet" href="~/css/orders.css" />
-    <link rel="stylesheet" href="~/css/dashboards-luxury.css" />
+    <link rel="stylesheet" href="~/css/home.css" />
+    <link rel="stylesheet" href="~/css/responsive.css" />
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body class="@ViewData["BodyClass"]">
@@ -37,8 +37,7 @@
     @await Html.PartialAsync("_Alerts")
 
     <main class="page-wrapper">
-        @RenderBody()
-    </main>
+        @RenderBody() </main>
 
     @await Html.PartialAsync("_Footer")
 
@@ -52,7 +51,6 @@
     <script src="~/js/forms.js"></script>
     <script src="~/js/dashboard.js"></script>
     <script src="~/js/charts.js"></script>
-    <script src="~/js/orders.js"></script>
     <script src="~/js/bills.js"></script>
     <script src="~/js/search.js"></script>
 

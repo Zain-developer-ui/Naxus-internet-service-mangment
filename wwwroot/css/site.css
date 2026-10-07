@@ -1,5 +1,5 @@
 /* =========================================================
-   NEXUS — site.css
+   NEXUS ï¿½ site.css
    Luxury Design System Foundation
    -----------------------------------------
    This file defines the SINGLE SOURCE OF TRUTH for:
@@ -31,14 +31,18 @@
     --nexus-blue-light: #E8F1FD;
     --nexus-accent: #38BDF8;
     --nexus-accent-soft: #BAE6FD;
+    --nexus-accent-bright: #7DD3FC;
+    --nexus-info-ink: #075985;
     /* ---------- Surfaces ---------- */
     --nexus-background: #F5F8FC;
+    --nexus-background-alt: #F4F7FB;
     --nexus-surface: #FFFFFF;
     --nexus-surface-2: #FAFBFD;
     --nexus-surface-3: #F1F5F9;
     /* ---------- Text ---------- */
     --nexus-text: #0A1F44;
     --nexus-text-soft: #334155;
+    --nexus-text-invert: #FFFFFF;
     --nexus-muted: #64748B;
     --nexus-muted-light: #94A3B8;
     /* ---------- Borders ---------- */
@@ -485,7 +489,7 @@ p {
 }
 
 /* =========================================================
-   NEXUS — Public Footer (Luxury)
+   NEXUS ï¿½ Public Footer (Luxury)
    ========================================================= */
 
 .nexus-footer {

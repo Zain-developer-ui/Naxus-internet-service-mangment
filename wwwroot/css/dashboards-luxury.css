@@ -879,3 +879,12 @@
             text-align: left;
         }
 }
+
+/* Avatar shown on the profile banner. Inherits the banner's
+   dark backdrop, so it needs its own contrast treatment. */
+.banner-avatar {
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--nexus-text-invert);
+    border: 3px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}

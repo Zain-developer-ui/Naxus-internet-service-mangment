@@ -1,0 +1,130 @@
+@model NEXUS.Models.ViewModels.OrderQueuePage
+@using NEXUS.Common.Constants
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Survey Queue — NEXUS";
+    ViewData["ActiveSidebar"] = "operations";
+}
+
+@section DashboardStyles {
+    <link rel="stylesheet" href="~/css/billing.css" />
+}
+
+<div class="page-head">
+    <div>
+        <h1>Survey &amp; Installation Queue</h1>
+        <p class="muted">Orders waiting on a feasibility check, or on installation.</p>
+    </div>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon warning"><i class="fa-solid fa-clipboard-check"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value">@Model.AwaitingCount</div>
+            <div class="stat-label">Awaiting Survey</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon navy"><i class="fa-solid fa-calendar-check"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value">@Model.ConfirmedCount</div>
+            <div class="stat-label">Confirmed</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon success"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value">@Model.InstallingCount</div>
+            <div class="stat-label">Being Installed</div>
+        </div>
+    </div>
+</div>
+
+<div class="filter-bar">
+    <form method="get" class="filter-form">
+        <div class="filter-field">
+            <label for="status">Status</label>
+            <select id="status" name="status">
+                <option value="">Open queue</option>
+                @foreach (var status in Enum.GetValues<OrderStatus>())
+                {
+                    <option value="@status" selected="@(Model.Filter == status)">@status.DisplayName()</option>
+                }
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary btn-sm">Apply</button>
+        @if (Model.Filter is not null)
+        {
+            <a href="/Operations" class="btn btn-ghost btn-sm">Clear</a>
+        }
+    </form>
+</div>
+
+@if (Model.IsEmpty)
+{
+    <div class="empty-state">
+        <i class="fa-solid fa-inbox"></i>
+        <h3>Nothing in the queue</h3>
+        <p>New orders land here as soon as a customer applies.</p>
+    </div>
+}
+else
+{
+    <div class="panel">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th scope="col">Order</th>
+                    <th scope="col">Customer</th>
+                    <th scope="col">Plan</th>
+                    <th scope="col">City</th>
+                    <th scope="col">Survey</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Placed</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in Model.Orders)
+                {
+                    <tr>
+                        <td class="mono">@order.OrderId</td>
+                        <td>
+                            <strong>@order.CustomerName</strong>
+                            <div class="muted small mono">@order.AccountId</div>
+                        </td>
+                        <td>
+                            @order.PlanName
+                            <div class="muted small">@order.ConnectionTypeName</div>
+                        </td>
+                        <td>@order.CityName</td>
+                        <td>
+                            @if (order.CheckResult == FeasibilityResult.Pending)
+                            {
+                                <span class="badge badge-muted">Pending</span>
+                            }
+                            else if (order.CheckResult == FeasibilityResult.Passed)
+                            {
+                                <span class="badge badge-success">Passed</span>
+                                @if (order.DistanceKm is double km)
+                                {
+                                    <div class="muted small">@km.ToString("0.#") km</div>
+                                }
+                            }
+                            else
+                            {
+                                <span class="badge badge-danger">Failed</span>
+                            }
+                        </td>
+                        <td><span class="badge badge-ghost">@order.StatusLabel</span></td>
+                        <td>@order.CreatedAt.ToLocalTime().ToString("dd MMM yyyy")</td>
+                        <td>
+                            <a href="/Operations/Review/@order.Id" class="btn btn-outline btn-sm">Review</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

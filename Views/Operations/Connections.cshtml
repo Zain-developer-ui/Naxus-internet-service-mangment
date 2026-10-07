@@ -1,0 +1,141 @@
+@model NEXUS.Models.ViewModels.ConnectionListPage
+@using NEXUS.Common.Constants
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Connections — NEXUS";
+    ViewData["ActiveSidebar"] = "connections";
+}
+
+@section DashboardStyles {
+    <link rel="stylesheet" href="~/css/billing.css" />
+}
+
+<div class="page-head">
+    <div>
+        <h1>Connections</h1>
+        <p class="muted">Every line on the network and whether it is currently billable.</p>
+    </div>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon success"><i class="fa-solid fa-plug-circle-check"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value">@Model.Totals.Active</div>
+            <div class="stat-label">Active</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon warning"><i class="fa-solid fa-hourglass-half"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value">@Model.Totals.Pending</div>
+            <div class="stat-label">Pending Activation</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon navy"><i class="fa-solid fa-plug-circle-xmark"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value">@Model.Totals.Suspended</div>
+            <div class="stat-label">Temporarily Inactive</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon success"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value">@Model.Totals.Billable</div>
+            <div class="stat-label">Billable</div>
+        </div>
+    </div>
+</div>
+
+<div class="filter-bar">
+    <form method="get" class="filter-form">
+        <div class="filter-field">
+            <label for="status">Status</label>
+            <select id="status" name="status">
+                <option value="">All statuses</option>
+                @foreach (var status in Enum.GetValues<ConnectionStatus>())
+                {
+                    <option value="@status" selected="@(Model.Filter == status)">@status.DisplayName()</option>
+                }
+            </select>
+        </div>
+        <div class="filter-field">
+            <label for="search">Search</label>
+            <input type="search" id="search" name="search" value="@Model.Search"
+                   placeholder="Line number, name or account ID" />
+        </div>
+        <button type="submit" class="btn btn-primary btn-sm">Apply</button>
+        @if (Model.Filter is not null || !string.IsNullOrWhiteSpace(Model.Search))
+        {
+            <a href="/Operations/Connections" class="btn btn-ghost btn-sm">Clear</a>
+        }
+    </form>
+</div>
+
+@if (Model.IsEmpty)
+{
+    <div class="empty-state">
+        <i class="fa-solid fa-plug"></i>
+        <h3>No connections</h3>
+        <p>A line appears here once an installation is completed.</p>
+    </div>
+}
+else
+{
+    <div class="panel">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th scope="col">Line</th>
+                    <th scope="col">Customer</th>
+                    <th scope="col">Plan</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Billable</th>
+                    <th scope="col">Activated</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var line in Model.Connections)
+                {
+                    <tr>
+                        <td class="mono">@line.ConnectionNumber</td>
+                        <td>
+                            <strong>@line.CustomerName</strong>
+                            <div class="muted small mono">@line.AccountId</div>
+                        </td>
+                        <td>
+                            @line.PlanName
+                            <div class="muted small">@line.ConnectionTypeName</div>
+                        </td>
+                        <td>
+                            @line.Address
+                            <div class="muted small">@line.CityName</div>
+                        </td>
+                        <td>
+                            <span class="badge @(line.Status == ConnectionStatus.Active ? "badge-success" : line.Status == ConnectionStatus.TemporarilyInactive ? "badge-warning" : "badge-muted")">
+                                @line.StatusLabel
+                            </span>
+                        </td>
+                        <td>
+                            @if (line.IsBillable)
+                            {
+                                <span class="badge badge-success">Yes</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-muted">No</span>
+                            }
+                        </td>
+                        <td>@line.ActivatedOn.ToLocalTime().ToString("dd MMM yyyy")</td>
+                        <td>
+                            <a href="/Operations/Connection/@line.Id" class="btn btn-outline btn-sm">Manage</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

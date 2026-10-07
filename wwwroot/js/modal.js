@@ -1,181 +1,73 @@
-﻿/* =========================================================
-   NEXUS — validation.js
-   Lightweight client-side validation.
-   Works alongside ASP.NET Core MVC validation attributes.
-   Uses `.field-error` spans and `.input-error` class from forms.css.
+/* =========================================================
+   NEXUS — modal.js
+   Open/close for .modal-backdrop panels. The markup contract
+   is defined in css/components.css; this only handles the
+   open class, focus and the escape/backdrop dismissal.
    ========================================================= */
 
 (function () {
     'use strict';
-    const NEXUS = window.NEXUS;
 
-    // Regular expressions
-    const RE = {
-        email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-        phonePK: /^03\d{9}$/,
-        cnic: /^\d{5}-\d{7}-\d$/,
-        postal: /^\d{5}$/
-    };
+    const NEXUS = window.NEXUS = window.NEXUS || {};
 
-    // ---------------------------------------------------------
-    // Show / clear inline error on an input
-    // ---------------------------------------------------------
-    function setError(input, message) {
-        input.classList.add('input-error');
-        let err = input.parentElement.querySelector('.field-error');
-        if (!err) {
-            err = document.createElement('span');
-            err.className = 'field-error';
-            input.parentElement.appendChild(err);
+    let lastFocused = null;
+
+    function open(backdrop) {
+        if (!backdrop) return;
+
+        lastFocused = document.activeElement;
+        backdrop.classList.add('open');
+
+        // Focus the first control so keyboard users are not stranded behind
+        // the overlay.
+        const target = backdrop.querySelector(
+            '[autofocus], .modal-close, button, [href], input, select, textarea'
+        );
+        if (target) target.focus();
+
+        document.body.style.overflow = 'hidden';
+    }
+
+    function close(backdrop) {
+        if (!backdrop) return;
+
+        backdrop.classList.remove('open');
+        document.body.style.overflow = '';
+
+        if (lastFocused && typeof lastFocused.focus === 'function') {
+            lastFocused.focus();
         }
-        err.textContent = message;
+        lastFocused = null;
     }
 
-    function clearError(input) {
-        input.classList.remove('input-error');
-        const err = input.parentElement.querySelector('.field-error');
-        if (err) err.textContent = '';
+    function closeAll() {
+        document.querySelectorAll('.modal-backdrop.open').forEach(close);
     }
 
-    // ---------------------------------------------------------
-    // Field-level validators
-    // ---------------------------------------------------------
-    const rules = {
-        required(input) {
-            const v = (input.value || '').trim();
-            if (!v) return 'This field is required';
-            return null;
-        },
-        email(input) {
-            if (!input.value) return null;
-            return RE.email.test(input.value) ? null : 'Enter a valid email address';
-        },
-        phone(input) {
-            if (!input.value) return null;
-            return RE.phonePK.test(input.value) ? null : 'Format: 03001234567';
-        },
-        cnic(input) {
-            if (!input.value) return null;
-            return RE.cnic.test(input.value) ? null : 'Format: 35202-1234567-1';
-        },
-        postal(input) {
-            if (!input.value) return null;
-            return RE.postal.test(input.value) ? null : 'Enter a 5-digit postal code';
-        },
-        minlength(input) {
-            const min = Number(input.getAttribute('minlength')) || 0;
-            if (!input.value) return null;
-            return input.value.length >= min ? null : `Must be at least ${min} characters`;
-        },
-        password(input) {
-            if (!input.value) return null;
-            if (input.value.length < 6) return 'Password must be at least 6 characters';
-            return null;
-        },
-        confirm(input) {
-            const targetId = input.getAttribute('data-confirm-target');
-            if (!targetId) return null;
-            const target = document.getElementById(targetId);
-            if (!target) return null;
-            return input.value === target.value ? null : 'Passwords do not match';
+    NEXUS.modal = { open, close, closeAll };
+
+    document.addEventListener('click', function (e) {
+        const trigger = e.target.closest('[data-modal-open]');
+        if (trigger) {
+            e.preventDefault();
+            open(document.getElementById(trigger.getAttribute('data-modal-open')));
+            return;
         }
-    };
 
-    // ---------------------------------------------------------
-    // Determine which rules to apply based on input attributes
-    // ---------------------------------------------------------
-    function validateField(input) {
-        const type = (input.getAttribute('type') || '').toLowerCase();
-        const name = (input.getAttribute('name') || '').toLowerCase();
-        const explicit = input.getAttribute('data-validate');
-
-        // Skip hidden / disabled / non-form fields
-        if (input.disabled || type === 'hidden') return true;
-
-        const checks = [];
-
-        if (input.hasAttribute('required') || input.hasAttribute('data-required')) checks.push('required');
-
-        if (type === 'email' || name.includes('email')) checks.push('email');
-        if (name.includes('phone') || name.includes('mobile') || name.includes('contact')) checks.push('phone');
-        if (name.includes('cnic')) checks.push('cnic');
-        if (name.includes('postal') || name.includes('zip')) checks.push('postal');
-        if (input.hasAttribute('minlength')) checks.push('minlength');
-        if (type === 'password' && name !== 'confirmpassword') checks.push('password');
-        if (input.hasAttribute('data-confirm-target')) checks.push('confirm');
-
-        // Explicit override: space-separated list in data-validate
-        if (explicit) explicit.split(/\s+/).forEach(r => rules[r] && checks.push(r));
-
-        for (const ruleName of checks) {
-            const fn = rules[ruleName];
-            if (!fn) continue;
-            const err = fn(input);
-            if (err) {
-                setError(input, err);
-                return false;
-            }
+        const dismiss = e.target.closest('[data-modal-close]');
+        if (dismiss) {
+            e.preventDefault();
+            close(dismiss.closest('.modal-backdrop'));
+            return;
         }
-        clearError(input);
-        return true;
-    }
 
-    // ---------------------------------------------------------
-    // Validate entire form (only [data-validate-form] opt-in)
-    // ---------------------------------------------------------
-    function validateForm(form) {
-        const fields = Array.from(
-            form.querySelectorAll('input, select, textarea')
-        ).filter(f => f.type !== 'submit' && f.type !== 'button' && f.type !== 'hidden');
-
-        let firstInvalid = null;
-        fields.forEach(f => {
-            const ok = validateField(f);
-            if (!ok && !firstInvalid) firstInvalid = f;
-        });
-
-        if (firstInvalid) {
-            firstInvalid.focus();
-            firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            return false;
+        // A click on the backdrop itself (not the panel) dismisses.
+        if (e.target.classList.contains('modal-backdrop')) {
+            close(e.target);
         }
-        return true;
-    }
+    });
 
-    // ---------------------------------------------------------
-    // Wire up
-    // ---------------------------------------------------------
-    function init() {
-        // Live validation on blur
-        document.addEventListener('blur', (e) => {
-            const t = e.target;
-            if (!t.matches || !t.matches('input, select, textarea')) return;
-            const form = t.closest('form');
-            if (!form || !form.hasAttribute('data-validate-form')) return;
-            validateField(t);
-        }, true);
-
-        // Clear on input
-        document.addEventListener('input', (e) => {
-            const t = e.target;
-            if (!t.matches || !t.matches('input, select, textarea')) return;
-            if (t.classList.contains('input-error')) clearError(t);
-        });
-
-        // Block submit if invalid
-        document.addEventListener('submit', (e) => {
-            const form = e.target;
-            if (!form.hasAttribute('data-validate-form')) return;
-            if (!validateForm(form)) {
-                e.preventDefault();
-                e.stopPropagation();
-                NEXUS.toast('Please correct the highlighted fields.', 'warning');
-            }
-        }, true);
-    }
-
-    NEXUS.validation = { validateForm, validateField, setError, clearError };
-
-    NEXUS.ready(init);
-
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeAll();
+    });
 })();

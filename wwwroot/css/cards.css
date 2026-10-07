@@ -489,11 +489,16 @@
         }
 
 .stars {
+    display: inline-flex;
+    gap: 3px;
     color: var(--nexus-warning);
-    letter-spacing: 2px;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     margin-bottom: 12px;
 }
+
+    .stars .star-off {
+        opacity: 0.25;
+    }
 
 /* INFO CARD */
 .info-card {

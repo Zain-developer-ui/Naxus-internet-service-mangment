@@ -1,4 +1,4 @@
-﻿@model NEXUS.Models.ViewModels.AccountViewModel
+@model NEXUS.Models.ViewModels.AccountViewModel
 @{
     ViewData["Title"] = "Account Status — NEXUS";
     ViewData["BodyClass"] = "public-body";
@@ -45,85 +45,61 @@
             @* ---------- LEFT: Title ---------- *@
             <div class="hero-copy">
                 <span class="hero-badge">
-                    <i class="fa-regular fa-user"></i> Account Status
-                </span>
+                    <i class="fa-regular fa-user"></i> Account Status </span>
 
                 <h1>
                     Check Your<br />
                     NEXUS Account<br />
-                    <span class="shine">In Seconds</span>
-                </h1>
+                    <span class="shine">In Seconds</span></h1>
 
                 <p class="hero-lead">
                     Enter your Account ID, Mobile Number or CNIC to view your
                     connection status, plan details, billing information and
-                    service health — all in one quick check.
-                </p>
+                    service health — all in one quick check. </p>
 
                 <div class="hero-actions">
                     <a href="#status-form" class="btn btn-primary btn-lg">
-                        <i class="fa-solid fa-magnifying-glass"></i> Check Status
-                    </a>
+                        <i class="fa-solid fa-magnifying-glass"></i> Check Status </a>
                     <a href="/Account/Login" class="btn btn-outline-light btn-lg">
-                        Customer Portal <i class="fa-solid fa-arrow-right"></i>
-                    </a>
-                </div>
+                        Customer Portal <i class="fa-solid fa-arrow-right"></i> </a> </div>
 
                 <div class="hero-trust">
                     <div class="hero-trust-item">
                         <span class="ic"><i class="fa-solid fa-shield-halved"></i></span>
                         <div class="txt">
                             <strong>Secure</strong>
-                            <span>Your data is safe</span>
-                        </div>
-                    </div>
+                            <span>Your data is safe</span> </div> </div>
                     <div class="hero-trust-item">
                         <span class="ic"><i class="fa-solid fa-bolt"></i></span>
                         <div class="txt">
                             <strong>Instant</strong>
-                            <span>Real-time results</span>
-                        </div>
-                    </div>
+                            <span>Real-time results</span> </div> </div>
                     <div class="hero-trust-item">
                         <span class="ic"><i class="fa-solid fa-headset"></i></span>
                         <div class="txt">
                             <strong>24/7 Support</strong>
-                            <span>Always here</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                            <span>Always here</span> </div> </div> </div> </div>
 
             @* ---------- RIGHT: BIG Picture (square) ---------- *@
             <div class="hero-visual">
                 <div class="hero-media">
-                    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1000&q=85"
-                         alt="NEXUS account status check" loading="eager" />
-                </div>
+                    <img src="~/images/circuit-board.jpg"
+                         alt="NEXUS account status check" loading="eager" /> </div>
 
                 <span class="hero-live-badge">
-                    <span class="dot"></span> Live Status
-                </span>
+                    <span class="dot"></span> Live Status </span>
 
                 <div class="hero-float-card">
                     <span class="ic"><i class="fa-solid fa-circle-check"></i></span>
                     <div class="meta">
                         <strong>Active Connection</strong>
-                        <span>All systems normal</span>
-                    </div>
-                </div>
+                        <span>All systems normal</span> </div> </div>
 
                 <div class="hero-float-card speed">
                     <span class="ic"><i class="fa-solid fa-file-invoice-dollar"></i></span>
                     <div class="meta">
                         <strong>Billing Paid</strong>
-                        <span>No dues pending</span>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
+                        <span>No dues pending</span> </div> </div> </div> </div> </div>
 </section>
 
 @* =========================================================
@@ -133,23 +109,17 @@
     <div class="container">
         <div class="home-stats-card reveal">
             <div class="home-stat-item">
-                <div class="num" data-count="1245">0</div>
-                <span class="label">Active Accounts</span>
-            </div>
+                <div class="num"><i class="fa-solid fa-bolt"></i></div>
+                <span class="label">Instant Status Lookup</span> </div>
             <div class="home-stat-item">
-                <div class="num">99.5<span class="unit">%</span></div>
-                <span class="label">Network Uptime</span>
-            </div>
+                <div class="num"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+                <span class="label">Live Due Amount</span> </div>
             <div class="home-stat-item">
-                <div class="num" data-count="42">0</div>
-                <span class="label">Cities Covered</span>
-            </div>
+                <div class="num"><i class="fa-solid fa-plug"></i></div>
+                <span class="label">Three Connection Types</span> </div>
             <div class="home-stat-item">
                 <div class="num">24<span class="unit">/7</span></div>
-                <span class="label">Support Available</span>
-            </div>
-        </div>
-    </div>
+                <span class="label">Support Available</span> </div> </div> </div>
 </section>
 
 @* =========================================================
@@ -160,8 +130,7 @@
         <div class="pps-head reveal">
             <span class="eyebrow">Search Account</span>
             <h2>Enter Your Details</h2>
-            <p>Any one field is enough — Account ID, Mobile Number or CNIC.</p>
-        </div>
+            <p>Any one field is enough — Account ID, Mobile Number or CNIC.</p> </div>
 
         <div class="card reveal" style="padding:32px 34px;border-radius:16px;background:#FFFFFF;box-shadow:0 12px 30px rgba(10,31,68,0.08);">
             <form asp-controller="Account" asp-action="Status" method="post" data-validate-form novalidate>
@@ -172,16 +141,13 @@
                         <label for="accountId" style="font-size:0.88rem;font-weight:600;color:#334155;margin-bottom:8px;display:block;">Account ID</label>
                         <input type="text" id="accountId" name="accountId"
                                placeholder="NX12345678"
-                               style="width:100%;padding:13px 16px;border:1.5px solid #E2E8F0;border-radius:10px;font-size:0.95rem;outline:none;" />
-                    </div>
+                               style="width:100%;padding:13px 16px;border:1.5px solid #E2E8F0;border-radius:10px;font-size:0.95rem;outline:none;" /> </div>
                     <div class="form-group" style="margin:0;">
                         <label for="phone" style="font-size:0.88rem;font-weight:600;color:#334155;margin-bottom:8px;display:block;">Mobile Number</label>
                         <input type="tel" id="phone" name="phone"
                                placeholder="03001234567"
                                data-validate="phone"
-                               style="width:100%;padding:13px 16px;border:1.5px solid #E2E8F0;border-radius:10px;font-size:0.95rem;outline:none;" />
-                    </div>
-                </div>
+                               style="width:100%;padding:13px 16px;border:1.5px solid #E2E8F0;border-radius:10px;font-size:0.95rem;outline:none;" /> </div> </div>
 
                 <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:22px;">
                     <div class="form-group" style="margin:0;">
@@ -189,22 +155,14 @@
                         <input type="text" id="cnic" name="cnic"
                                placeholder="35202-1234567-1"
                                data-validate="cnic"
-                               style="width:100%;padding:13px 16px;border:1.5px solid #E2E8F0;border-radius:10px;font-size:0.95rem;outline:none;" />
-                    </div>
+                               style="width:100%;padding:13px 16px;border:1.5px solid #E2E8F0;border-radius:10px;font-size:0.95rem;outline:none;" /> </div>
                     <div class="form-group" style="margin:0;display:flex;align-items:flex-end;">
                         <button type="submit" class="btn btn-primary btn-lg" style="width:100%;padding:14px 28px;">
-                            <i class="fa-solid fa-magnifying-glass"></i> Search Account
-                        </button>
-                    </div>
-                </div>
+                            <i class="fa-solid fa-magnifying-glass"></i> Search Account </button> </div> </div>
 
                 <p style="color:#64748B;font-size:0.85rem;margin:8px 0 0;">
                     <i class="fa-solid fa-circle-info" style="color:#1E6FE5;"></i>
-                    Demo mode — enter any value to see a sample result.
-                </p>
-            </form>
-        </div>
-    </div>
+                    Demo mode — enter any value to see a sample result. </p> </form> </div> </div>
 </section>
 
 @* =========================================================
@@ -219,74 +177,51 @@
 
             <div style="display:flex;align-items:center;gap:20px;position:relative;z-index:1;">
                 <div style="width:68px;height:68px;border-radius:50%;background:linear-gradient(135deg,#1E6FE5,#38BDF8);display:inline-flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:1.5rem;flex-shrink:0;box-shadow:0 12px 30px rgba(30,111,229,0.45);border:3px solid rgba(255,255,255,0.15);">
-                    @initials
-                </div>
+                    @initials </div>
                 <div>
                     <h2 style="color:#fff;margin:0 0 6px;font-size:1.4rem;">@acc.CustomerName</h2>
                     <p style="color:rgba(255,255,255,0.78);margin:0;font-size:0.9rem;font-family:monospace;">Account: @acc.AccountId</p>
                     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">
                         <span class="badge badge-success" style="background:rgba(16,185,129,0.25);color:#D1FAE5;border:1px solid rgba(16,185,129,0.4);padding:5px 12px;border-radius:999px;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;">
-                            <i class="fa-solid fa-circle-check"></i> @acc.Status
-                        </span>
+                            <i class="fa-solid fa-circle-check"></i> @acc.Status </span>
                         <span class="badge @(acc.BillingStatus == "Paid" ? "badge-success" : "badge-warning")" style="background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.25);padding:5px 12px;border-radius:999px;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;">
-                            <i class="fa-solid fa-file-invoice"></i> @acc.BillingStatus
-                        </span>
-                    </div>
-                </div>
-            </div>
+                            <i class="fa-solid fa-file-invoice"></i> @acc.BillingStatus </span> </div> </div> </div>
 
             <div style="display:flex;gap:10px;flex-wrap:wrap;position:relative;z-index:1;">
                 <a href="/Bills" class="btn btn-outline-light btn-sm" style="padding:10px 18px;border:1px solid rgba(255,255,255,0.4);color:#fff;background:transparent;border-radius:8px;text-decoration:none;font-size:0.85rem;font-weight:600;">
-                    <i class="fa-solid fa-file-invoice-dollar"></i> View Bills
-                </a>
+                    <i class="fa-solid fa-file-invoice-dollar"></i> View Bills </a>
                 <a href="/Account/Login" class="btn btn-primary btn-sm" style="padding:10px 18px;background:#1E6FE5;color:#fff;border:none;border-radius:8px;text-decoration:none;font-size:0.85rem;font-weight:600;">
-                    <i class="fa-solid fa-right-to-bracket"></i> Full Portal
-                </a>
-            </div>
-        </div>
+                    <i class="fa-solid fa-right-to-bracket"></i> Full Portal </a> </div> </div>
 
         @* ---------- KPI CARDS ---------- *@
         <div class="stats-grid reveal" style="margin-top:26px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;">
             <div style="background:#fff;border:1px solid #E2E8F0;border-radius:16px;padding:22px;display:flex;align-items:center;gap:16px;">
                 <div style="width:52px;height:52px;border-radius:14px;background:#D1FAE5;color:#065F46;display:inline-flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;">
-                    <i class="fa-solid fa-circle-check"></i>
-                </div>
+                    <i class="fa-solid fa-circle-check"></i> </div>
                 <div>
                     <div style="font-size:1.2rem;font-weight:800;color:#0A1F44;line-height:1.1;">@acc.Status</div>
-                    <div style="font-size:0.72rem;color:#64748B;text-transform:uppercase;letter-spacing:0.06em;font-weight:600;margin-top:4px;">Connection Status</div>
-                </div>
-            </div>
+                    <div style="font-size:0.72rem;color:#64748B;text-transform:uppercase;letter-spacing:0.06em;font-weight:600;margin-top:4px;">Connection Status</div> </div> </div>
 
             <div style="background:#fff;border:1px solid #E2E8F0;border-radius:16px;padding:22px;display:flex;align-items:center;gap:16px;">
                 <div style="width:52px;height:52px;border-radius:14px;background:#E8F1FD;color:#1558B8;display:inline-flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;">
-                    <i class="fa-solid fa-wifi"></i>
-                </div>
+                    <i class="fa-solid fa-wifi"></i> </div>
                 <div>
                     <div style="font-size:1.2rem;font-weight:800;color:#0A1F44;line-height:1.1;">@acc.ConnectionType</div>
-                    <div style="font-size:0.72rem;color:#64748B;text-transform:uppercase;letter-spacing:0.06em;font-weight:600;margin-top:4px;">Connection Type</div>
-                </div>
-            </div>
+                    <div style="font-size:0.72rem;color:#64748B;text-transform:uppercase;letter-spacing:0.06em;font-weight:600;margin-top:4px;">Connection Type</div> </div> </div>
 
             <div style="background:#fff;border:1px solid #E2E8F0;border-radius:16px;padding:22px;display:flex;align-items:center;gap:16px;">
                 <div style="width:52px;height:52px;border-radius:14px;background:rgba(10,31,68,0.08);color:#0A1F44;display:inline-flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;">
-                    <i class="fa-solid fa-gauge-high"></i>
-                </div>
+                    <i class="fa-solid fa-gauge-high"></i> </div>
                 <div>
                     <div style="font-size:1.2rem;font-weight:800;color:#0A1F44;line-height:1.1;">@acc.Speed</div>
-                    <div style="font-size:0.72rem;color:#64748B;text-transform:uppercase;letter-spacing:0.06em;font-weight:600;margin-top:4px;">@acc.Plan</div>
-                </div>
-            </div>
+                    <div style="font-size:0.72rem;color:#64748B;text-transform:uppercase;letter-spacing:0.06em;font-weight:600;margin-top:4px;">@acc.Plan</div> </div> </div>
 
             <div style="background:#fff;border:1px solid #E2E8F0;border-radius:16px;padding:22px;display:flex;align-items:center;gap:16px;">
                 <div style="width:52px;height:52px;border-radius:14px;background:#FEF3C7;color:#78350F;display:inline-flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;">
-                    <i class="fa-solid fa-file-invoice-dollar"></i>
-                </div>
+                    <i class="fa-solid fa-file-invoice-dollar"></i> </div>
                 <div>
                     <div style="font-size:1.2rem;font-weight:800;color:#0A1F44;line-height:1.1;">@acc.BillingStatus</div>
-                    <div style="font-size:0.72rem;color:#64748B;text-transform:uppercase;letter-spacing:0.06em;font-weight:600;margin-top:4px;">Billing Status</div>
-                </div>
-            </div>
-        </div>
+                    <div style="font-size:0.72rem;color:#64748B;text-transform:uppercase;letter-spacing:0.06em;font-weight:600;margin-top:4px;">Billing Status</div> </div> </div> </div>
 
         @* ---------- DETAILS + HEALTH ---------- *@
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:26px;">
@@ -294,86 +229,59 @@
             @* Account details *@
             <div class="card reveal" style="background:#fff;border:1px solid #E2E8F0;border-radius:16px;padding:26px;">
                 <h4 style="margin:0 0 18px;font-size:1.08rem;color:#0A1F44;display:flex;align-items:center;gap:10px;">
-                    <i class="fa-regular fa-address-card" style="color:#1E6FE5;"></i> Account Details
-                </h4>
+                    <i class="fa-regular fa-address-card" style="color:#1E6FE5;"></i> Account Details </h4>
                 <div style="display:grid;gap:12px;">
                     <div style="display:flex;justify-content:space-between;gap:12px;padding-bottom:10px;border-bottom:1px dashed #E2E8F0;font-size:0.92rem;">
                         <span style="color:#64748B;">Customer Name</span>
-                        <strong style="color:#0A1F44;text-align:right;">@acc.CustomerName</strong>
-                    </div>
+                        <strong style="color:#0A1F44;text-align:right;">@acc.CustomerName</strong> </div>
                     <div style="display:flex;justify-content:space-between;gap:12px;padding-bottom:10px;border-bottom:1px dashed #E2E8F0;font-size:0.92rem;">
                         <span style="color:#64748B;">Account ID</span>
-                        <strong style="font-family:monospace;color:#0A1F44;">@acc.AccountId</strong>
-                    </div>
+                        <strong style="font-family:monospace;color:#0A1F44;">@acc.AccountId</strong> </div>
                     <div style="display:flex;justify-content:space-between;gap:12px;padding-bottom:10px;border-bottom:1px dashed #E2E8F0;font-size:0.92rem;">
                         <span style="color:#64748B;">Mobile</span>
-                        <strong style="color:#0A1F44;">@acc.Phone</strong>
-                    </div>
+                        <strong style="color:#0A1F44;">@acc.Phone</strong> </div>
                     <div style="display:flex;justify-content:space-between;gap:12px;padding-bottom:10px;border-bottom:1px dashed #E2E8F0;font-size:0.92rem;">
                         <span style="color:#64748B;">Email</span>
-                        <strong style="color:#0A1F44;text-align:right;">@acc.Email</strong>
-                    </div>
+                        <strong style="color:#0A1F44;text-align:right;">@acc.Email</strong> </div>
                     <div style="display:flex;justify-content:space-between;gap:12px;padding-bottom:10px;border-bottom:1px dashed #E2E8F0;font-size:0.92rem;">
                         <span style="color:#64748B;">Address</span>
-                        <strong style="color:#0A1F44;text-align:right;">@acc.Address</strong>
-                    </div>
+                        <strong style="color:#0A1F44;text-align:right;">@acc.Address</strong> </div>
                     <div style="display:flex;justify-content:space-between;gap:12px;font-size:0.92rem;">
                         <span style="color:#64748B;">Service Area</span>
-                        <strong style="color:#0A1F44;text-align:right;">@acc.ServiceArea</strong>
-                    </div>
-                </div>
-            </div>
+                        <strong style="color:#0A1F44;text-align:right;">@acc.ServiceArea</strong> </div> </div> </div>
 
             @* Service health *@
             <div class="card reveal delay-1" style="background:#fff;border:1px solid #E2E8F0;border-radius:16px;padding:26px;">
                 <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:18px;flex-wrap:wrap;">
                     <h4 style="margin:0;font-size:1.08rem;color:#0A1F44;display:flex;align-items:center;gap:10px;">
-                        <i class="fa-solid fa-shield-halved" style="color:#1E6FE5;"></i> Service Health
-                    </h4>
+                        <i class="fa-solid fa-shield-halved" style="color:#1E6FE5;"></i> Service Health </h4>
                     <span class="badge badge-success" style="background:#D1FAE5;color:#065F46;padding:5px 12px;border-radius:999px;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;">
-                        All Good
-                    </span>
-                </div>
+                        All Good </span> </div>
 
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
                     <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 16px;background:#F4F7FB;border-radius:10px;">
                         <span style="display:flex;align-items:center;gap:10px;font-size:0.9rem;color:#334155;font-weight:500;">
-                            <i class="fa-solid fa-signal" style="color:#1E6FE5;"></i> Connection
-                        </span>
+                            <i class="fa-solid fa-signal" style="color:#1E6FE5;"></i> Connection </span>
                         <span class="badge badge-success" style="background:#D1FAE5;color:#065F46;padding:4px 10px;border-radius:999px;font-size:0.7rem;font-weight:700;text-transform:uppercase;">
-                            @acc.Status
-                        </span>
-                    </div>
+                            @acc.Status </span> </div>
 
                     <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 16px;background:#F4F7FB;border-radius:10px;">
                         <span style="display:flex;align-items:center;gap:10px;font-size:0.9rem;color:#334155;font-weight:500;">
-                            <i class="fa-solid fa-file-invoice" style="color:#1E6FE5;"></i> Billing
-                        </span>
+                            <i class="fa-solid fa-file-invoice" style="color:#1E6FE5;"></i> Billing </span>
                         <span class="badge @(acc.BillingStatus == "Paid" ? "badge-success" : "badge-warning")" style="background:#D1FAE5;color:#065F46;padding:4px 10px;border-radius:999px;font-size:0.7rem;font-weight:700;text-transform:uppercase;">
-                            @acc.BillingStatus
-                        </span>
-                    </div>
+                            @acc.BillingStatus </span> </div>
 
                     <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 16px;background:#F4F7FB;border-radius:10px;">
                         <span style="display:flex;align-items:center;gap:10px;font-size:0.9rem;color:#334155;font-weight:500;">
-                            <i class="fa-solid fa-screwdriver-wrench" style="color:#1E6FE5;"></i> Installation
-                        </span>
+                            <i class="fa-solid fa-screwdriver-wrench" style="color:#1E6FE5;"></i> Installation </span>
                         <span class="badge badge-success" style="background:#D1FAE5;color:#065F46;padding:4px 10px;border-radius:999px;font-size:0.7rem;font-weight:700;text-transform:uppercase;">
-                            @acc.InstallationStatus
-                        </span>
-                    </div>
+                            @acc.InstallationStatus </span> </div>
 
                     <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 16px;background:#F4F7FB;border-radius:10px;">
                         <span style="display:flex;align-items:center;gap:10px;font-size:0.9rem;color:#334155;font-weight:500;">
-                            <i class="fa-solid fa-gauge-high" style="color:#1E6FE5;"></i> Speed
-                        </span>
+                            <i class="fa-solid fa-gauge-high" style="color:#1E6FE5;"></i> Speed </span>
                         <span class="badge badge-info" style="background:#E0F2FE;color:#075985;padding:4px 10px;border-radius:999px;font-size:0.7rem;font-weight:700;text-transform:uppercase;">
-                            @acc.Speed
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
+                            @acc.Speed </span> </div> </div> </div> </div>
 
         @* ---------- EQUIPMENT + TIMELINE ---------- *@
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:22px;">
@@ -381,35 +289,26 @@
             @* Equipment *@
             <div class="card reveal" style="background:#fff;border:1px solid #E2E8F0;border-radius:16px;padding:26px;">
                 <h4 style="margin:0 0 18px;font-size:1.08rem;color:#0A1F44;display:flex;align-items:center;gap:10px;">
-                    <i class="fa-solid fa-router" style="color:#1E6FE5;"></i> Equipment
-                </h4>
+                    <i class="fa-solid fa-router" style="color:#1E6FE5;"></i> Equipment </h4>
 
                 <div style="display:flex;gap:14px;padding:16px;background:#F4F7FB;border-radius:10px;margin-bottom:12px;">
                     <div style="width:46px;height:46px;border-radius:12px;background:#E8F1FD;color:#1558B8;display:inline-flex;align-items:center;justify-content:center;font-size:1.05rem;flex-shrink:0;">
-                        <i class="fa-solid fa-wifi"></i>
-                    </div>
+                        <i class="fa-solid fa-wifi"></i> </div>
                     <div>
                         <h5 style="margin:0 0 4px;font-size:0.95rem;color:#0A1F44;font-weight:700;">@acc.RouterModel</h5>
-                        <p style="margin:0;color:#64748B;font-size:0.86rem;">Provided free with your plan · Maintained by NEXUS.</p>
-                    </div>
-                </div>
+                        <p style="margin:0;color:#64748B;font-size:0.86rem;">Provided free with your plan · Maintained by NEXUS.</p> </div> </div>
 
                 <div style="display:flex;gap:14px;padding:16px;background:#F4F7FB;border-radius:10px;">
                     <div style="width:46px;height:46px;border-radius:12px;background:#E8F1FD;color:#1558B8;display:inline-flex;align-items:center;justify-content:center;font-size:1.05rem;flex-shrink:0;">
-                        <i class="fa-solid fa-plug"></i>
-                    </div>
+                        <i class="fa-solid fa-plug"></i> </div>
                     <div>
                         <h5 style="margin:0 0 4px;font-size:0.95rem;color:#0A1F44;font-weight:700;">Broadband Modem</h5>
-                        <p style="margin:0;color:#64748B;font-size:0.86rem;">VDSL2 modem · Supports up to 100 Mbps.</p>
-                    </div>
-                </div>
-            </div>
+                        <p style="margin:0;color:#64748B;font-size:0.86rem;">VDSL2 modem · Supports up to 100 Mbps.</p> </div> </div> </div>
 
             @* Timeline *@
             <div class="card reveal delay-1" style="background:#fff;border:1px solid #E2E8F0;border-radius:16px;padding:26px;">
                 <h4 style="margin:0 0 18px;font-size:1.08rem;color:#0A1F44;display:flex;align-items:center;gap:10px;">
-                    <i class="fa-solid fa-clock-rotate-left" style="color:#1E6FE5;"></i> Account Timeline
-                </h4>
+                    <i class="fa-solid fa-clock-rotate-left" style="color:#1E6FE5;"></i> Account Timeline </h4>
 
                 <div style="position:relative;padding-left:34px;">
                     <div style="position:absolute;left:12px;top:6px;bottom:6px;width:2px;background:#E2E8F0;"></div>
@@ -417,62 +316,47 @@
                     <div style="position:relative;padding-bottom:22px;">
                         <div style="position:absolute;left:-28px;top:4px;width:14px;height:14px;border-radius:50%;background:#10B981;border:3px solid #10B981;box-shadow:0 0 0 4px rgba(16,185,129,0.15);"></div>
                         <h4 style="margin:0 0 4px;font-size:0.98rem;color:#0A1F44;">Account Created</h4>
-                        <div style="font-size:0.8rem;color:#64748B;font-weight:500;">@(acc.InstallationDate?.ToString("dd MMM yyyy") ?? "10 Jan 2025")</div>
-                    </div>
+                        <div style="font-size:0.8rem;color:#64748B;font-weight:500;">@(acc.InstallationDate?.ToString("dd MMM yyyy") ?? "10 Jan 2025")</div> </div>
 
                     <div style="position:relative;padding-bottom:22px;">
                         <div style="position:absolute;left:-28px;top:4px;width:14px;height:14px;border-radius:50%;background:#10B981;border:3px solid #10B981;box-shadow:0 0 0 4px rgba(16,185,129,0.15);"></div>
                         <h4 style="margin:0 0 4px;font-size:0.98rem;color:#0A1F44;">Service Activated</h4>
-                        <div style="font-size:0.8rem;color:#64748B;font-weight:500;">@(acc.ActivationDate?.ToString("dd MMM yyyy") ?? "12 Jan 2025")</div>
-                    </div>
+                        <div style="font-size:0.8rem;color:#64748B;font-weight:500;">@(acc.ActivationDate?.ToString("dd MMM yyyy") ?? "12 Jan 2025")</div> </div>
 
                     <div style="position:relative;padding-bottom:22px;">
                         <div style="position:absolute;left:-28px;top:4px;width:14px;height:14px;border-radius:50%;background:#10B981;border:3px solid #10B981;box-shadow:0 0 0 4px rgba(16,185,129,0.15);"></div>
                         <h4 style="margin:0 0 4px;font-size:0.98rem;color:#0A1F44;">Last Billing Cycle</h4>
-                        <div style="font-size:0.8rem;color:#64748B;font-weight:500;">25 Sep 2025 · Paid</div>
-                    </div>
+                        <div style="font-size:0.8rem;color:#64748B;font-weight:500;">25 Sep 2025 · Paid</div> </div>
 
                     <div style="position:relative;">
                         <div style="position:absolute;left:-28px;top:4px;width:14px;height:14px;border-radius:50%;background:#1E6FE5;border:3px solid #1E6FE5;box-shadow:0 0 0 6px rgba(30,111,229,0.18);"></div>
                         <h4 style="margin:0 0 4px;font-size:0.98rem;color:#0A1F44;">Next Billing Cycle</h4>
-                        <div style="font-size:0.8rem;color:#64748B;font-weight:500;">25 Oct 2025 · Expected Rs. 2,450</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                        <div style="font-size:0.8rem;color:#64748B;font-weight:500;">25 Oct 2025 · Expected $2,450.00</div> </div> </div> </div> </div>
 
         @* ---------- QUICK ACTIONS ---------- *@
         <div class="card reveal" style="margin-top:22px;background:#fff;border:1px solid #E2E8F0;border-radius:16px;padding:26px;">
             <h4 style="margin:0 0 18px;font-size:1.08rem;color:#0A1F44;display:flex;align-items:center;gap:10px;">
-                <i class="fa-solid fa-bolt" style="color:#1E6FE5;"></i> Quick Actions
-            </h4>
+                <i class="fa-solid fa-bolt" style="color:#1E6FE5;"></i> Quick Actions </h4>
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;">
                 <a href="/Bills" class="quick-action" style="display:flex;flex-direction:column;align-items:center;gap:10px;padding:22px 14px;background:#fff;border:1px solid #E2E8F0;border-radius:10px;text-decoration:none;color:#334155;text-align:center;transition:all 0.25s ease;">
                     <i class="fa-solid fa-file-invoice-dollar" style="width:46px;height:46px;border-radius:12px;background:#E8F1FD;color:#1558B8;display:inline-flex;align-items:center;justify-content:center;font-size:1.1rem;"></i>
-                    <span style="font-size:0.85rem;font-weight:600;">View Bills</span>
-                </a>
+                    <span style="font-size:0.85rem;font-weight:600;">View Bills</span> </a>
                 <a href="/Account/Login" class="quick-action" style="display:flex;flex-direction:column;align-items:center;gap:10px;padding:22px 14px;background:#fff;border:1px solid #E2E8F0;border-radius:10px;text-decoration:none;color:#334155;text-align:center;transition:all 0.25s ease;">
                     <i class="fa-solid fa-gauge-high" style="width:46px;height:46px;border-radius:12px;background:#E8F1FD;color:#1558B8;display:inline-flex;align-items:center;justify-content:center;font-size:1.1rem;"></i>
-                    <span style="font-size:0.85rem;font-weight:600;">My Connection</span>
-                </a>
+                    <span style="font-size:0.85rem;font-weight:600;">My Connection</span> </a>
                 <a href="/Home/Contact" class="quick-action" style="display:flex;flex-direction:column;align-items:center;gap:10px;padding:22px 14px;background:#fff;border:1px solid #E2E8F0;border-radius:10px;text-decoration:none;color:#334155;text-align:center;transition:all 0.25s ease;">
                     <i class="fa-solid fa-headset" style="width:46px;height:46px;border-radius:12px;background:#E8F1FD;color:#1558B8;display:inline-flex;align-items:center;justify-content:center;font-size:1.1rem;"></i>
-                    <span style="font-size:0.85rem;font-weight:600;">Contact Support</span>
-                </a>
+                    <span style="font-size:0.85rem;font-weight:600;">Contact Support</span> </a>
                 <a href="/Account/Login" class="quick-action" style="display:flex;flex-direction:column;align-items:center;gap:10px;padding:22px 14px;background:#fff;border:1px solid #E2E8F0;border-radius:10px;text-decoration:none;color:#334155;text-align:center;transition:all 0.25s ease;">
                     <i class="fa-solid fa-right-to-bracket" style="width:46px;height:46px;border-radius:12px;background:#E8F1FD;color:#1558B8;display:inline-flex;align-items:center;justify-content:center;font-size:1.1rem;"></i>
-                    <span style="font-size:0.85rem;font-weight:600;">Customer Portal</span>
-                </a>
-            </div>
-        </div>
-    </div>
+                    <span style="font-size:0.85rem;font-weight:600;">Customer Portal</span> </a> </div> </div> </div>
 </section>
 
 @* =========================================================
    5. FINAL CTA
    ========================================================= *@
 <section class="hero-cta-final">
-    <div class="cta-bg" style="background-image:url('https://images.unsplash.com/photo-1518770660439-4636190af475?w=1920&q=85');" aria-hidden="true"></div>
+    <div class="cta-bg" style="background-image:url('~/images/circuit-board.jpg');" aria-hidden="true"></div>
     <div class="cta-overlay" aria-hidden="true"></div>
     <div class="cta-shine" aria-hidden="true"></div>
 
@@ -481,13 +365,9 @@
         <p>Sign in to your Customer Portal to manage bills, upgrade plans and reach support.</p>
         <div class="cta-actions">
             <a href="/Account/Login" class="btn btn-primary btn-lg">
-                <i class="fa-solid fa-right-to-bracket"></i> Open Customer Portal
-            </a>
+                <i class="fa-solid fa-right-to-bracket"></i> Open Customer Portal </a>
             <a href="/Plans" class="btn btn-outline-light btn-lg">
-                Upgrade Plan <i class="fa-solid fa-arrow-right"></i>
-            </a>
-        </div>
-    </div>
+                Upgrade Plan <i class="fa-solid fa-arrow-right"></i> </a> </div> </div>
 </section>
 
 @section Scripts {
@@ -510,6 +390,5 @@
         document.querySelector('a[href="#status-form"]')?.addEventListener('click', function (e) {
             e.preventDefault();
             document.getElementById('status-form').scrollIntoView({ behavior: 'smooth' });
-        });
-    </script>
+        }); </script>
 }

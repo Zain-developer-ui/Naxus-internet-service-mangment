@@ -1,14 +1,14 @@
-﻿@model NEXUS.Models.ViewModels.OrderViewModel
+﻿@model NEXUS.Models.ViewModels.OrderTrackingViewModel
 @{
     ViewData["Title"] = "Track Your Order — NEXUS";
     ViewData["BodyClass"] = "public-body";
 
-    var orderId      = (string)(ViewBag.OrderId ?? "NX-ORD-1001");
-    var customerName = Model?.FullName ?? "Ahmed Khan";
-    var service      = Model?.ServiceType ?? "Broadband";
-    var plan         = (Model?.PlanName ?? "Standard") + " Plan";
-    var speed        = Model?.Speed ?? "15 Mbps";
-    var city         = Model?.City ?? "Lahore";
+    var orderId      = Model?.OrderId ?? (string?)ViewBag.OrderId ?? "—";
+    var customerName = Model?.CustomerName ?? "—";
+    var service      = Model?.ConnectionType ?? "—";
+    var plan         = Model?.PlanName ?? "—";
+    var city         = Model?.City ?? "—";
+    var status       = Model?.Status ?? "Not found";
 }
 
 @section Styles {
@@ -27,85 +27,61 @@
             @* ---------- LEFT: Title ---------- *@
             <div class="hero-copy">
                 <span class="hero-badge">
-                    <i class="fa-solid fa-truck-fast"></i> Order Tracking
-                </span>
+                    <i class="fa-solid fa-truck-fast"></i> Order Tracking </span>
 
                 <h1>
                     Track Your<br />
                     NEXUS Order<br />
-                    <span class="shine">In Real Time</span>
-                </h1>
+                    <span class="shine">In Real Time</span></h1>
 
                 <p class="hero-lead">
                     Enter your Order ID, Account ID or Mobile Number below to
                     see the live status of your connection request — from order
-                    received to installation complete.
-                </p>
+                    received to installation complete. </p>
 
                 <div class="hero-actions">
                     <a href="#track-form" class="btn btn-primary btn-lg">
-                        <i class="fa-solid fa-magnifying-glass"></i> Track Now
-                    </a>
+                        <i class="fa-solid fa-magnifying-glass"></i> Track Now </a>
                     <a href="/Orders/New" class="btn btn-outline-light btn-lg">
-                        New Order <i class="fa-solid fa-arrow-right"></i>
-                    </a>
-                </div>
+                        New Order <i class="fa-solid fa-arrow-right"></i> </a> </div>
 
                 <div class="hero-trust">
                     <div class="hero-trust-item">
                         <span class="ic"><i class="fa-solid fa-clock"></i></span>
                         <div class="txt">
                             <strong>Real-Time</strong>
-                            <span>Live status updates</span>
-                        </div>
-                    </div>
+                            <span>Live status updates</span> </div> </div>
                     <div class="hero-trust-item">
                         <span class="ic"><i class="fa-solid fa-bell"></i></span>
                         <div class="txt">
                             <strong>SMS Alerts</strong>
-                            <span>At every step</span>
-                        </div>
-                    </div>
+                            <span>At every step</span> </div> </div>
                     <div class="hero-trust-item">
                         <span class="ic"><i class="fa-solid fa-headset"></i></span>
                         <div class="txt">
                             <strong>24/7 Support</strong>
-                            <span>Always here</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                            <span>Always here</span> </div> </div> </div> </div>
 
             @* ---------- RIGHT: BIG Picture (smaller now) ---------- *@
             <div class="hero-visual">
                 <div class="hero-media">
-                    <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=1000&q=85"
-                         alt="NEXUS order tracking" loading="eager" />
-                </div>
+                    <img src="~/images/technician.jpg"
+                         alt="NEXUS order tracking" loading="eager" /> </div>
 
                 <span class="hero-live-badge">
-                    <span class="dot"></span> Live Status
-                </span>
+                    <span class="dot"></span> Live Status </span>
 
                 <div class="hero-float-card">
                     <span class="ic"><i class="fa-solid fa-circle-check"></i></span>
                     <div class="meta">
                         <strong>Order Active</strong>
-                        <span>Installation scheduled</span>
-                    </div>
-                </div>
+                        <span>Installation scheduled</span> </div> </div>
 
                 <div class="hero-float-card speed">
                     <span class="ic"><i class="fa-solid fa-truck-fast"></i></span>
                     <div class="meta">
                         <strong>On Track</strong>
-                        <span>Expected 48 hours</span>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
+                        <span>Expected 48 hours</span> </div> </div> </div> </div> </div>
 </section>
 
 @* =========================================================
@@ -116,22 +92,16 @@
         <div class="home-stats-card reveal">
             <div class="home-stat-item">
                 <div class="num" data-count="5">0</div>
-                <span class="label">Tracking Steps</span>
-            </div>
+                <span class="label">Tracking Steps</span> </div>
             <div class="home-stat-item">
                 <div class="num" data-count="48" data-suffix="h">0</div>
-                <span class="label">Average Install</span>
-            </div>
+                <span class="label">Average Install</span> </div>
             <div class="home-stat-item">
                 <div class="num" data-count="42">0</div>
-                <span class="label">Cities Covered</span>
-            </div>
+                <span class="label">Cities Covered</span> </div>
             <div class="home-stat-item">
                 <div class="num">24<span class="unit">/7</span></div>
-                <span class="label">Support Available</span>
-            </div>
-        </div>
-    </div>
+                <span class="label">Support Available</span> </div> </div> </div>
 </section>
 
 @* =========================================================
@@ -142,40 +112,29 @@
         <div class="pps-head reveal">
             <span class="eyebrow">Search Order</span>
             <h2>Enter Your Details</h2>
-            <p>Any one field is enough — order ID, account ID or mobile number.</p>
-        </div>
+            <p>Any one field is enough — order ID, account ID or mobile number.</p> </div>
 
         <div class="card reveal" style="padding:32px 34px;border-radius:16px;background:#FFFFFF;box-shadow:0 12px 30px rgba(10,31,68,0.08);">
             <form method="get" action="/Orders/Tracking" data-tracking-form data-validate-form novalidate>
 
                 <div class="form-group" style="margin-bottom:18px;">
                     <label for="orderId" style="font-size:0.88rem;font-weight:600;color:#334155;margin-bottom:8px;display:block;">
-                        Order Number, Account ID or Mobile
-                    </label>
+                        Order Number, Account ID or Mobile </label>
                     <div class="input-group" style="display:flex;border:1.5px solid #E2E8F0;border-radius:10px;overflow:hidden;background:#fff;">
                         <span class="input-icon" style="padding:0 16px;display:inline-flex;align-items:center;background:#F4F7FB;border-right:1px solid #E2E8F0;color:#64748B;">
-                            <i class="fa-solid fa-hashtag"></i>
-                        </span>
+                            <i class="fa-solid fa-hashtag"></i> </span>
                         <input type="text" id="orderId" name="id"
                                value="@orderId"
                                placeholder="e.g. NX-ORD-1001"
                                required
-                               style="flex:1;border:none;padding:14px 16px;font-size:0.95rem;outline:none;" />
-                    </div>
-                    <span class="field-error"></span>
-                </div>
+                               style="flex:1;border:none;padding:14px 16px;font-size:0.95rem;outline:none;" /> </div>
+                    <span class="field-error"></span> </div>
 
                 <div class="flex gap-2" style="flex-wrap:wrap;">
                     <button type="submit" class="btn btn-primary btn-lg" style="padding:14px 28px;">
-                        <i class="fa-solid fa-magnifying-glass"></i> Track Order
-                    </button>
+                        <i class="fa-solid fa-magnifying-glass"></i> Track Order </button>
                     <a href="/Account/Status" class="btn btn-outline btn-lg" style="padding:14px 28px;">
-                        <i class="fa-regular fa-user"></i> By Account ID
-                    </a>
-                </div>
-            </form>
-        </div>
-    </div>
+                        <i class="fa-regular fa-user"></i> By Account ID </a> </div> </form> </div> </div>
 </section>
 
 @* =========================================================
@@ -189,65 +148,45 @@
             <div style="position:relative;z-index:1;">
                 <span class="badge badge-info" style="background:rgba(56,189,248,0.2);color:#BAE6FD;border:1px solid rgba(56,189,248,0.4);display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;font-size:0.72rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;">
                     <i class="fa-solid fa-box"></i>
-                    Order <strong style="margin-left:6px;font-family:monospace;">@orderId</strong>
-                </span>
+                    Order <strong style="margin-left:6px;font-family:monospace;">@orderId</strong> </span>
                 <h2 style="color:#fff;margin:14px 0 6px;font-size:1.5rem;">Installation Scheduled</h2>
                 <p style="color:rgba(255,255,255,0.8);margin:0;font-size:0.95rem;">
-                    Your connection is scheduled for installation. Our technician will contact you shortly.
-                </p>
-            </div>
+                    Your connection is scheduled for installation. Our technician will contact you shortly. </p> </div>
             <div style="display:flex;gap:10px;flex-wrap:wrap;position:relative;z-index:1;">
                 <a href="/Account/Login" class="btn btn-outline-light btn-sm" style="padding:9px 16px;border:1px solid rgba(255,255,255,0.4);color:#fff;background:transparent;border-radius:8px;text-decoration:none;font-size:0.85rem;font-weight:600;">
-                    <i class="fa-solid fa-right-to-bracket"></i> Login
-                </a>
+                    <i class="fa-solid fa-right-to-bracket"></i> Login </a>
                 <a href="/Orders/New" class="btn btn-primary btn-sm" style="padding:9px 16px;background:#1E6FE5;color:#fff;border:none;border-radius:8px;text-decoration:none;font-size:0.85rem;font-weight:600;">
-                    <i class="fa-solid fa-plus"></i> New Order
-                </a>
-            </div>
-        </div>
+                    <i class="fa-solid fa-plus"></i> New Order </a> </div> </div>
 
         @* ---------- KPI CARDS ---------- *@
         <div class="stats-grid reveal" style="margin-top:26px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;">
             <div class="stat-card" style="background:#fff;border:1px solid #E2E8F0;border-radius:16px;padding:20px;display:flex;align-items:center;gap:14px;">
                 <div class="stat-icon navy" style="width:48px;height:48px;border-radius:12px;background:rgba(10,31,68,0.08);color:#0A1F44;display:inline-flex;align-items:center;justify-content:center;font-size:1.15rem;flex-shrink:0;">
-                    <i class="fa-regular fa-user"></i>
-                </div>
+                    <i class="fa-regular fa-user"></i> </div>
                 <div>
                     <div style="font-size:1rem;font-weight:700;color:#0A1F44;">@customerName</div>
-                    <div style="font-size:0.72rem;color:#64748B;text-transform:uppercase;letter-spacing:0.06em;font-weight:600;margin-top:3px;">Customer</div>
-                </div>
-            </div>
+                    <div style="font-size:0.72rem;color:#64748B;text-transform:uppercase;letter-spacing:0.06em;font-weight:600;margin-top:3px;">Customer</div> </div> </div>
 
             <div class="stat-card" style="background:#fff;border:1px solid #E2E8F0;border-radius:16px;padding:20px;display:flex;align-items:center;gap:14px;">
                 <div class="stat-icon blue" style="width:48px;height:48px;border-radius:12px;background:#E8F1FD;color:#1558B8;display:inline-flex;align-items:center;justify-content:center;font-size:1.15rem;flex-shrink:0;">
-                    <i class="fa-solid fa-wifi"></i>
-                </div>
+                    <i class="fa-solid fa-wifi"></i> </div>
                 <div>
                     <div style="font-size:1rem;font-weight:700;color:#0A1F44;">@service</div>
-                    <div style="font-size:0.72rem;color:#64748B;text-transform:uppercase;letter-spacing:0.06em;font-weight:600;margin-top:3px;">Service Type</div>
-                </div>
-            </div>
+                    <div style="font-size:0.72rem;color:#64748B;text-transform:uppercase;letter-spacing:0.06em;font-weight:600;margin-top:3px;">Service Type</div> </div> </div>
 
             <div class="stat-card" style="background:#fff;border:1px solid #E2E8F0;border-radius:16px;padding:20px;display:flex;align-items:center;gap:14px;">
                 <div class="stat-icon success" style="width:48px;height:48px;border-radius:12px;background:#D1FAE5;color:#065F46;display:inline-flex;align-items:center;justify-content:center;font-size:1.15rem;flex-shrink:0;">
-                    <i class="fa-solid fa-gauge-high"></i>
-                </div>
+                    <i class="fa-solid fa-gauge-high"></i> </div>
                 <div>
                     <div style="font-size:1rem;font-weight:700;color:#0A1F44;">@plan</div>
-                    <div style="font-size:0.72rem;color:#64748B;text-transform:uppercase;letter-spacing:0.06em;font-weight:600;margin-top:3px;">@speed</div>
-                </div>
-            </div>
+                    <div style="font-size:0.72rem;color:#64748B;text-transform:uppercase;letter-spacing:0.06em;font-weight:600;margin-top:3px;">@service</div> </div> </div>
 
             <div class="stat-card" style="background:#fff;border:1px solid #E2E8F0;border-radius:16px;padding:20px;display:flex;align-items:center;gap:14px;">
                 <div class="stat-icon warning" style="width:48px;height:48px;border-radius:12px;background:#FEF3C7;color:#78350F;display:inline-flex;align-items:center;justify-content:center;font-size:1.15rem;flex-shrink:0;">
-                    <i class="fa-solid fa-location-dot"></i>
-                </div>
+                    <i class="fa-solid fa-location-dot"></i> </div>
                 <div>
                     <div style="font-size:1rem;font-weight:700;color:#0A1F44;">@city</div>
-                    <div style="font-size:0.72rem;color:#64748B;text-transform:uppercase;letter-spacing:0.06em;font-weight:600;margin-top:3px;">Installation City</div>
-                </div>
-            </div>
-        </div>
+                    <div style="font-size:0.72rem;color:#64748B;text-transform:uppercase;letter-spacing:0.06em;font-weight:600;margin-top:3px;">Installation City</div> </div> </div> </div>
 
         @* ---------- MAIN GRID ---------- *@
         <div style="display:grid;grid-template-columns:2fr 1fr;gap:22px;margin-top:26px;" class="dash-grid-2">
@@ -257,14 +196,10 @@
                 <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:20px;flex-wrap:wrap;">
                     <div>
                         <h4 style="margin:0;font-size:1.08rem;color:#0A1F44;display:flex;align-items:center;gap:10px;">
-                            <i class="fa-solid fa-list-check" style="color:#1E6FE5;"></i> Order Progress
-                        </h4>
-                        <p style="font-size:0.83rem;color:#64748B;margin:6px 0 0;">Live status of your NEXUS connection request.</p>
-                    </div>
+                            <i class="fa-solid fa-list-check" style="color:#1E6FE5;"></i> Order Progress </h4>
+                        <p style="font-size:0.83rem;color:#64748B;margin:6px 0 0;">Live status of your NEXUS connection request.</p> </div>
                     <span class="badge badge-warning" style="background:#FEF3C7;color:#78350F;padding:5px 12px;border-radius:999px;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;">
-                        In Progress
-                    </span>
-                </div>
+                        In Progress </span> </div>
 
                 @* Progress bar with stages *@
                 <div class="order-stage-bar" style="margin:20px 0 30px;">
@@ -274,38 +209,25 @@
 
                         <div class="stage done" style="position:relative;z-index:2;">
                             <span style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#10B981,#059669);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:0.85rem;box-shadow:0 6px 16px rgba(16,185,129,0.3);">
-                                <i class="fa-solid fa-check"></i>
-                            </span>
-                        </div>
+                                <i class="fa-solid fa-check"></i> </span> </div>
                         <div class="stage done" style="position:relative;z-index:2;">
                             <span style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#10B981,#059669);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:0.85rem;box-shadow:0 6px 16px rgba(16,185,129,0.3);">
-                                <i class="fa-solid fa-check"></i>
-                            </span>
-                        </div>
+                                <i class="fa-solid fa-check"></i> </span> </div>
                         <div class="stage done" style="position:relative;z-index:2;">
                             <span style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#10B981,#059669);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:0.85rem;box-shadow:0 6px 16px rgba(16,185,129,0.3);">
-                                <i class="fa-solid fa-check"></i>
-                            </span>
-                        </div>
+                                <i class="fa-solid fa-check"></i> </span> </div>
                         <div class="stage active" style="position:relative;z-index:2;">
                             <span style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#1E6FE5,#1558B8);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:0.85rem;box-shadow:0 0 0 6px rgba(30,111,229,0.18),0 8px 20px rgba(30,111,229,0.4);animation:nexus-pulse-ring 2s ease-out infinite;">
-                                <i class="fa-solid fa-screwdriver-wrench"></i>
-                            </span>
-                        </div>
+                                <i class="fa-solid fa-screwdriver-wrench"></i> </span> </div>
                         <div class="stage" style="position:relative;z-index:2;">
                             <span style="width:40px;height:40px;border-radius:50%;background:#fff;border:3px solid #CBD5E1;color:#64748B;display:inline-flex;align-items:center;justify-content:center;font-size:0.85rem;">
-                                <i class="fa-solid fa-rocket"></i>
-                            </span>
-                        </div>
-                    </div>
+                                <i class="fa-solid fa-rocket"></i> </span> </div> </div>
                     <div style="display:flex;justify-content:space-between;padding:14px 4px 0;font-size:0.78rem;color:#64748B;font-weight:500;">
                         <span style="flex:1;text-align:center;">Received</span>
                         <span style="flex:1;text-align:center;">Verified</span>
                         <span style="flex:1;text-align:center;">Reviewed</span>
                         <span style="flex:1;text-align:center;color:#1558B8;font-weight:700;">Scheduled</span>
-                        <span style="flex:1;text-align:center;">Activated</span>
-                    </div>
-                </div>
+                        <span style="flex:1;text-align:center;">Activated</span> </div> </div>
 
                 @* Timeline *@
                 <div class="order-timeline" style="position:relative;padding-left:34px;">
@@ -315,38 +237,31 @@
                         <div style="position:absolute;left:-28px;top:4px;width:14px;height:14px;border-radius:50%;background:#10B981;border:3px solid #10B981;box-shadow:0 0 0 4px rgba(16,185,129,0.15);"></div>
                         <h4 style="margin:0 0 4px;font-size:1rem;color:#0A1F44;">Order Submitted</h4>
                         <div style="font-size:0.82rem;color:#64748B;font-weight:500;">02 Oct 2025 · 10:14 AM</div>
-                        <p style="margin:6px 0 0;color:#334155;font-size:0.92rem;">We received your connection request.</p>
-                    </div>
+                        <p style="margin:6px 0 0;color:#334155;font-size:0.92rem;">We received your connection request.</p> </div>
 
                     <div class="t-item done" style="position:relative;padding-bottom:26px;">
                         <div style="position:absolute;left:-28px;top:4px;width:14px;height:14px;border-radius:50%;background:#10B981;border:3px solid #10B981;box-shadow:0 0 0 4px rgba(16,185,129,0.15);"></div>
                         <h4 style="margin:0 0 4px;font-size:1rem;color:#0A1F44;">Order Verified</h4>
                         <div style="font-size:0.82rem;color:#64748B;font-weight:500;">02 Oct 2025 · 02:40 PM</div>
-                        <p style="margin:6px 0 0;color:#334155;font-size:0.92rem;">Your details and CNIC were verified by our team.</p>
-                    </div>
+                        <p style="margin:6px 0 0;color:#334155;font-size:0.92rem;">Your details and CNIC were verified by our team.</p> </div>
 
                     <div class="t-item done" style="position:relative;padding-bottom:26px;">
                         <div style="position:absolute;left:-28px;top:4px;width:14px;height:14px;border-radius:50%;background:#10B981;border:3px solid #10B981;box-shadow:0 0 0 4px rgba(16,185,129,0.15);"></div>
                         <h4 style="margin:0 0 4px;font-size:1rem;color:#0A1F44;">Technical Review</h4>
                         <div style="font-size:0.82rem;color:#64748B;font-weight:500;">03 Oct 2025 · 09:05 AM</div>
-                        <p style="margin:6px 0 0;color:#334155;font-size:0.92rem;">Feasibility check completed for your area.</p>
-                    </div>
+                        <p style="margin:6px 0 0;color:#334155;font-size:0.92rem;">Feasibility check completed for your area.</p> </div>
 
                     <div class="t-item active" style="position:relative;padding-bottom:26px;">
                         <div style="position:absolute;left:-28px;top:4px;width:14px;height:14px;border-radius:50%;background:#1E6FE5;border:3px solid #1E6FE5;box-shadow:0 0 0 6px rgba(30,111,229,0.18);"></div>
                         <h4 style="margin:0 0 4px;font-size:1rem;color:#0A1F44;">Installation Scheduled</h4>
                         <div style="font-size:0.82rem;color:#64748B;font-weight:500;">Expected: 05 Oct 2025 · 10:00 AM</div>
-                        <p style="margin:6px 0 0;color:#334155;font-size:0.92rem;">Technician: <strong>Usman Ahmed</strong> · Slot: Morning (9am–12pm)</p>
-                    </div>
+                        <p style="margin:6px 0 0;color:#334155;font-size:0.92rem;">Technician: <strong>Usman Ahmed</strong> · Slot: Morning (9am–12pm)</p> </div>
 
                     <div class="t-item" style="position:relative;">
                         <div style="position:absolute;left:-28px;top:4px;width:14px;height:14px;border-radius:50%;background:#fff;border:3px solid #CBD5E1;"></div>
                         <h4 style="margin:0 0 4px;font-size:1rem;color:#64748B;">Connection Activated</h4>
                         <div style="font-size:0.82rem;color:#94A3B8;font-weight:500;">Pending</div>
-                        <p style="margin:6px 0 0;color:#64748B;font-size:0.92rem;">You'll be notified once your connection is live.</p>
-                    </div>
-                </div>
-            </div>
+                        <p style="margin:6px 0 0;color:#64748B;font-size:0.92rem;">You'll be notified once your connection is live.</p> </div> </div> </div>
 
             @* RIGHT — Sidebar *@
             <div>
@@ -354,119 +269,86 @@
                 @* Order details *@
                 <div class="chart-card reveal" style="background:#fff;border:1px solid #E2E8F0;border-radius:16px;padding:24px;">
                     <h4 style="margin:0 0 16px;font-size:1.05rem;color:#0A1F44;display:flex;align-items:center;gap:10px;">
-                        <i class="fa-solid fa-circle-info" style="color:#1E6FE5;"></i> Order Details
-                    </h4>
+                        <i class="fa-solid fa-circle-info" style="color:#1E6FE5;"></i> Order Details </h4>
                     <div style="display:grid;gap:12px;">
                         <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;border-bottom:1px dashed #E2E8F0;font-size:0.92rem;">
                             <span style="color:#64748B;">Order ID</span>
-                            <strong style="font-family:monospace;color:#0A1F44;">@orderId</strong>
-                        </div>
+                            <strong style="font-family:monospace;color:#0A1F44;">@orderId</strong> </div>
                         <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;border-bottom:1px dashed #E2E8F0;font-size:0.92rem;">
                             <span style="color:#64748B;">Order Date</span>
-                            <strong style="color:#0A1F44;">02 Oct 2025</strong>
-                        </div>
+                            <strong style="color:#0A1F44;">02 Oct 2025</strong> </div>
                         <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;border-bottom:1px dashed #E2E8F0;font-size:0.92rem;">
                             <span style="color:#64748B;">Service</span>
-                            <strong style="color:#0A1F44;">@service</strong>
-                        </div>
+                            <strong style="color:#0A1F44;">@service</strong> </div>
                         <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;border-bottom:1px dashed #E2E8F0;font-size:0.92rem;">
                             <span style="color:#64748B;">Plan</span>
-                            <strong style="color:#0A1F44;">@plan</strong>
-                        </div>
+                            <strong style="color:#0A1F44;">@plan</strong> </div>
                         <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;border-bottom:1px dashed #E2E8F0;font-size:0.92rem;">
-                            <span style="color:#64748B;">Speed</span>
-                            <strong style="color:#0A1F44;">@speed</strong>
-                        </div>
+                            <span style="color:#64748B;">City</span>
+                            <strong style="color:#0A1F44;">@city</strong> </div>
                         <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.92rem;padding-top:6px;border-top:2px solid #E2E8F0;">
                             <span style="color:#0A1F44;font-weight:700;">Status</span>
-                            <strong style="color:#D97706;font-size:1rem;">Installation Scheduled</strong>
-                        </div>
-                    </div>
-                </div>
+                            <strong style="color:#D97706;font-size:1rem;">@status</strong> </div> </div> </div>
 
                 @* Technician *@
-                <div class="chart-card reveal delay-1" style="background:#fff;border:1px solid #E2E8F0;border-radius:16px;padding:24px;margin-top:14px;">
-                    <h4 style="margin:0 0 16px;font-size:1.05rem;color:#0A1F44;display:flex;align-items:center;gap:10px;">
-                        <i class="fa-solid fa-user-gear" style="color:#1E6FE5;"></i> Assigned Technician
-                    </h4>
-                    <div style="display:flex;align-items:center;gap:14px;">
-                        <img src="https://i.pravatar.cc/96?img=32" alt="Usman Ahmed"
-                             style="width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid #E8F1FD;" />
+                <div class="chart-card reveal delay-1">
+                    <h4 class="card-title">
+                        <i class="fa-solid fa-user-gear"></i> Assigned Technician </h4>
+                    <div class="technician-row">
+                        <span class="avatar-initials avatar-lg" aria-hidden="true">UA</span>
                         <div>
-                            <strong style="display:block;color:#0A1F44;font-size:0.98rem;">Usman Ahmed</strong>
-                            <span style="color:#64748B;font-size:0.83rem;">Senior Field Technician</span>
-                        </div>
-                    </div>
-                    <p style="color:#64748B;font-size:0.82rem;margin:14px 0 0;">
-                        <i class="fa-solid fa-circle-info" style="color:#1E6FE5;"></i>
-                        Contact will be shared 1 hour before arrival.
-                    </p>
-                </div>
+                            <strong class="technician-name">Usman Ahmed</strong>
+                            <span class="technician-role">Senior Field Technician</span> </div> </div>
+                    <p class="technician-note">
+                        <i class="fa-solid fa-circle-info"></i>
+                        Contact will be shared 1 hour before arrival. </p> </div>
 
                 @* Need help *@
                 <div class="chart-card reveal delay-2" style="background:#fff;border:1px solid #E2E8F0;border-radius:16px;padding:24px;margin-top:14px;">
                     <h4 style="margin:0 0 12px;font-size:1.05rem;color:#0A1F44;display:flex;align-items:center;gap:10px;">
-                        <i class="fa-solid fa-headset" style="color:#1E6FE5;"></i> Need Help?
-                    </h4>
+                        <i class="fa-solid fa-headset" style="color:#1E6FE5;"></i> Need Help? </h4>
                     <p style="color:#64748B;font-size:0.86rem;margin:0 0 12px;">Our support team is available 24/7.</p>
                     <p style="font-size:0.92rem;margin:0 0 8px;color:#0A1F44;">
                         <i class="fa-solid fa-phone" style="color:#1E6FE5;"></i>
-                        <strong style="margin-left:8px;">111-NEXUS-1</strong>
-                    </p>
+                        <strong style="margin-left:8px;">111-NEXUS-1</strong> </p>
                     <p style="font-size:0.92rem;margin:0;color:#0A1F44;">
                         <i class="fa-solid fa-envelope" style="color:#1E6FE5;"></i>
-                        <strong style="margin-left:8px;">support@nexus.example</strong>
-                    </p>
-                </div>
-            </div>
-        </div>
+                        <strong style="margin-left:8px;">support@nexus.example</strong> </p> </div> </div> </div>
 
         @* ---------- NEXT STEPS ---------- *@
         <div class="pps-head reveal" style="margin-top:60px;">
             <span class="eyebrow">Next Steps</span>
             <h2>What Happens Next?</h2>
-            <p>Here's what you can expect from this point onwards.</p>
-        </div>
+            <p>Here's what you can expect from this point onwards.</p> </div>
 
         <div class="rich-services-grid reveal">
             <article class="rich-service">
                 <div class="rs-media" style="height:150px;background:linear-gradient(135deg,#E8F1FD,#BAE6FD);display:flex;align-items:center;justify-content:center;">
-                    <i class="fa-solid fa-phone" style="font-size:3rem;color:#1558B8;"></i>
-                </div>
+                    <i class="fa-solid fa-phone" style="font-size:3rem;color:#1558B8;"></i> </div>
                 <div class="rs-body">
                     <h4>Technician Call</h4>
-                    <p>You'll receive a confirmation call before installation.</p>
-                </div>
-            </article>
+                    <p>You'll receive a confirmation call before installation.</p> </div> </article>
 
             <article class="rich-service">
                 <div class="rs-media" style="height:150px;background:linear-gradient(135deg,#E8F1FD,#BAE6FD);display:flex;align-items:center;justify-content:center;">
-                    <i class="fa-solid fa-screwdriver-wrench" style="font-size:3rem;color:#1558B8;"></i>
-                </div>
+                    <i class="fa-solid fa-screwdriver-wrench" style="font-size:3rem;color:#1558B8;"></i> </div>
                 <div class="rs-body">
                     <h4>Installation Visit</h4>
-                    <p>Onsite router setup and signal verification — usually 60–90 minutes.</p>
-                </div>
-            </article>
+                    <p>Onsite router setup and signal verification — usually 60–90 minutes.</p> </div> </article>
 
             <article class="rich-service">
                 <div class="rs-media" style="height:150px;background:linear-gradient(135deg,#E8F1FD,#BAE6FD);display:flex;align-items:center;justify-content:center;">
-                    <i class="fa-solid fa-circle-check" style="font-size:3rem;color:#1558B8;"></i>
-                </div>
+                    <i class="fa-solid fa-circle-check" style="font-size:3rem;color:#1558B8;"></i> </div>
                 <div class="rs-body">
                     <h4>Connection Activated</h4>
-                    <p>You'll receive an SMS with your account ID and login credentials.</p>
-                </div>
-            </article>
-        </div>
-    </div>
+                    <p>You'll receive an SMS with your account ID and login credentials.</p> </div> </article> </div> </div>
 </section>
 
 @* =========================================================
    5. FINAL CTA
    ========================================================= *@
 <section class="hero-cta-final">
-    <div class="cta-bg" style="background-image:url('https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=1920&q=85');" aria-hidden="true"></div>
+    <div class="cta-bg" style="background-image:url('~/images/technician.jpg');" aria-hidden="true"></div>
     <div class="cta-overlay" aria-hidden="true"></div>
     <div class="cta-shine" aria-hidden="true"></div>
 
@@ -475,13 +357,9 @@
         <p>Our team is here 24/7 — call, email or chat with us anytime.</p>
         <div class="cta-actions">
             <a href="/Home/Contact" class="btn btn-primary btn-lg">
-                <i class="fa-solid fa-headset"></i> Contact Support
-            </a>
+                <i class="fa-solid fa-headset"></i> Contact Support </a>
             <a href="/Account/Login" class="btn btn-outline-light btn-lg">
-                Customer Portal <i class="fa-solid fa-arrow-right"></i>
-            </a>
-        </div>
-    </div>
+                Customer Portal <i class="fa-solid fa-arrow-right"></i> </a> </div> </div>
 </section>
 
 @section Scripts {
@@ -504,6 +382,5 @@
         document.querySelector('a[href="#track-form"]')?.addEventListener('click', function (e) {
             e.preventDefault();
             document.getElementById('track-form').scrollIntoView({ behavior: 'smooth' });
-        });
-    </script>
+        }); </script>
 }

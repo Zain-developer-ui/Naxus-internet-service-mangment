@@ -1,335 +1,212 @@
-﻿@model NEXUS.Models.ViewModels.BillDetailsViewModel
+@model NEXUS.Models.ViewModels.BillDetailPage
+@using NEXUS.Common.Constants
+@using NEXUS.Common.Extensions
 @{
     Layout = "_DashboardLayout";
-    ViewData["Title"] = "Invoice " + (Model?.BillNo ?? "") + " — NEXUS";
-    ViewData["UserRole"] = "Customer";
+    var bill = Model.Bill.Bill;
+    ViewData["Title"] = $"Invoice {bill.BillNumber} — NEXUS";
     ViewData["ActiveSidebar"] = "bills";
 
-    var b = Model ?? new NEXUS.Models.ViewModels.BillDetailsViewModel
-    {
-        BillNo = "INV-1003",
-        AccountId = "NX12345678",
-        CustomerName = "Ahmed Khan",
-        BillingPeriod = "Sep 2025",
-        BillDate = new DateTime(2025, 9, 1),
-        DueDate = new DateTime(2025, 9, 25),
-        Status = "Due",
-        MonthlyRental = 2000m,
-        SecurityDeposit = 450m,
-        PreviousDues = 0m,
-        Taxes = 0m,
-        Discounts = 0m,
-        Adjustments = 0m,
-        PaymentHistory = new()
-        {
-            new() { BillNo = "INV-1002", PaidOn = new DateTime(2025, 9, 12), Amount = 2450m, Method = "Credit Card", Status = "Paid" },
-            new() { BillNo = "INV-1001", PaidOn = new DateTime(2025, 8, 10), Amount = 2450m, Method = "Bank Transfer", Status = "Paid" }
-        }
-    };
-
-    var statusClass = b.Status == "Paid" ? "badge-success"
-                    : b.Status == "Overdue" ? "badge-danger" : "badge-warning";
+    var owner = Model.Bill;
+    var discountRate = bill.SubTotal > 0 ? bill.DiscountAmount / bill.SubTotal : 0m;
 }
 
 @section DashboardStyles {
-    <link rel="stylesheet" href="~/css/home.css" />
     <link rel="stylesheet" href="~/css/dashboards-luxury.css" />
-    <style>
-        .invoice-card {
-            padding: 34px;
-            background: #FFFFFF;
-            border: 1px solid #E2E8F0;
-            border-radius: 16px;
-            box-shadow: 0 12px 30px rgba(10,31,68,0.08);
-        }
-
-        .invoice-header {
-            display: flex;
-            justify-content: space-between;
-            gap: 24px;
-            flex-wrap: wrap;
-        }
-
-        .invoice-meta {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-        }
-
-        .invoice-total td {
-            padding-top: 14px;
-            border-top: 2px solid #E2E8F0;
-            font-size: 1.1rem;
-        }
-
-        .invoice-total strong {
-            color: #1558B8;
-        }
-
-        @@media print {
-            body {
-                background: #fff;
-            }
-
-            .no-print, .dashboard-sidebar, .dashboard-topbar, .nexus-navbar, .dashboard-footer {
-                display: none !important;
-            }
-
-            .dashboard-main {
-                margin-left: 0;
-            }
-
-            .dashboard-content {
-                padding: 0;
-            }
-
-            .invoice-card {
-                box-shadow: none;
-                border: none;
-                padding: 0;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="~/css/billing.css" />
 }
 
-@* ===== HERO ===== *@
-<section class="home-hero" style="min-height:auto;padding:60px 0 50px;">
-    <div class="container">
-        <div class="home-hero-grid">
-            <div class="hero-copy">
-                <span class="hero-badge">
-                    <i class="fa-solid fa-file-invoice"></i> Invoice
-                </span>
-                <h1 style="font-size:clamp(1.7rem,3.2vw,2.4rem);">
-                    @b.BillNo<br />
-                    <span class="shine">@b.BillingPeriod</span>
-                </h1>
-                <p class="hero-lead">
-                    Billing period @b.BillingPeriod · Issued @b.BillDate.ToString("dd MMM yyyy") · Due @b.DueDate.ToString("dd MMM yyyy")
+<a href="/Bills" class="back-link reveal">
+    <i class="fa-solid fa-arrow-left"></i> Back to invoices
+</a>
+
+<div class="invoice-shell reveal">
+    <header class="invoice-head">
+        <div>
+            <span class="brand-mark">N</span>
+            <div>
+                <h1>@bill.BillNumber</h1>
+                <p class="muted">
+                    Issued @bill.IssuedOn.ToString("dd MMM yyyy") &middot;
+                    due @bill.DueOn.ToString("dd MMM yyyy")
                 </p>
-                <div class="hero-actions">
-                    <button class="btn btn-outline-light btn-lg" data-print-invoice>
-                        <i class="fa-solid fa-print"></i> Print
-                    </button>
-                    <button class="btn btn-outline-light btn-lg" data-download-invoice>
-                        <i class="fa-solid fa-download"></i> Download
-                    </button>
-                    @if (b.Status != "Paid")
-                    {
-                        <button class="btn btn-primary btn-lg" data-modal-target="#paymentModal" data-pay-now
-                                data-amount="@b.Total.ToString("0")" data-bill-no="@b.BillNo">
-                            <i class="fa-solid fa-credit-card"></i> Pay Now
-                        </button>
-                    }
-                </div>
-                <div class="hero-trust">
-                    <div class="hero-trust-item">
-                        <span class="ic"><i class="fa-solid fa-money-bill-wave"></i></span>
-                        <div class="txt"><strong>Rs. @b.Total.ToString("N0")</strong><span>Total Amount</span></div>
-                    </div>
-                    <div class="hero-trust-item">
-                        <span class="ic"><i class="fa-solid fa-user"></i></span>
-                        <div class="txt"><strong>@b.CustomerName</strong><span>Billed To</span></div>
-                    </div>
-                    <div class="hero-trust-item">
-                        <span class="ic"><i class="fa-solid fa-hashtag"></i></span>
-                        <div class="txt"><strong style="font-family:monospace;">@b.AccountId</strong><span>Account</span></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="hero-visual">
-                <div class="hero-media">
-                    <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1000&q=85"
-                         alt="Invoice" loading="eager" />
-                </div>
-                <span class="hero-live-badge"><span class="dot"></span> Invoice</span>
-                <div class="hero-float-card">
-                    <span class="ic"><i class="fa-solid fa-circle-check"></i></span>
-                    <div class="meta"><strong>@b.Status</strong><span>Payment Status</span></div>
-                </div>
-                <div class="hero-float-card speed">
-                    <span class="ic"><i class="fa-solid fa-calendar"></i></span>
-                    <div class="meta"><strong>@b.DueDate.ToString("dd MMM")</strong><span>Due Date</span></div>
-                </div>
             </div>
         </div>
-    </div>
-</section>
+        <span class="badge @bill.StatusBadge">@bill.StatusLabel</span>
+    </header>
 
-@* ===== PRINTABLE INVOICE ===== *@
-<section style="padding:26px 0;">
-    <div class="container" style="padding:0 24px;">
-        <div class="invoice-card reveal" id="invoice-area">
-
-            @* Header *@
-            <div class="invoice-header">
-                <div>
-                    <div class="brand" style="color:#0A1F44;">
-                        <span class="brand-mark" style="display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:11px;background:linear-gradient(135deg,#1E6FE5,#38BDF8);color:#fff;font-weight:800;font-size:1.05rem;">N</span>
-                        <span class="brand-text" style="color:#0A1F44;font-weight:800;letter-spacing:0.08em;margin-left:10px;">NEXUS</span>
-                    </div>
-                    <p style="color:#64748B;font-size:0.85rem;margin:12px 0 0;line-height:1.6;">
-                        Connecting You to a Better Tomorrow<br />
-                        Gulberg III, Lahore · Pakistan<br />
-                        111-NEXUS-1 · support@nexus.example
-                    </p>
-                </div>
-                <div style="text-align:right;">
-                    <h2 style="margin:0 0 6px;color:#0A1F44;font-size:1.35rem;">INVOICE</h2>
-                    <div style="font-family:monospace;font-size:1.05rem;font-weight:700;color:#0A1F44;">@b.BillNo</div>
-                    <span class="badge @statusClass" style="margin-top:10px;">@b.Status</span>
-                </div>
-            </div>
-
-            <div style="height:1px;background:#E2E8F0;margin:26px 0;"></div>
-
-            @* Customer + Invoice meta *@
-            <div class="invoice-meta">
-                <div>
-                    <h5 style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:#64748B;margin:0 0 8px;">Billed To</h5>
-                    <p style="margin:0 0 4px;color:#0A1F44;"><strong>@b.CustomerName</strong></p>
-                    <p style="color:#64748B;font-size:0.85rem;margin:0;">Account: <span style="font-family:monospace;">@b.AccountId</span></p>
-                </div>
-                <div>
-                    <h5 style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:#64748B;margin:0 0 8px;">Invoice Details</h5>
-                    <p style="color:#334155;margin:0 0 4px;font-size:0.9rem;"><span style="color:#64748B;">Issue Date:</span> @b.BillDate.ToString("dd MMM yyyy")</p>
-                    <p style="color:#334155;margin:0 0 4px;font-size:0.9rem;"><span style="color:#64748B;">Due Date:</span> @b.DueDate.ToString("dd MMM yyyy")</p>
-                    <p style="color:#334155;margin:0;font-size:0.9rem;"><span style="color:#64748B;">Period:</span> @b.BillingPeriod</p>
-                </div>
-            </div>
-
-            <div style="height:1px;background:#E2E8F0;margin:26px 0;"></div>
-
-            @* Line items *@
-            <h4 style="color:#0A1F44;margin:0 0 12px;">Billing Breakdown</h4>
-            <div class="table-wrap" style="margin-top:8px;">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Description</th>
-                            <th style="text-align:right;">Amount</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Monthly Plan Rental</td>
-                            <td style="text-align:right;"><strong>Rs. @b.MonthlyRental.ToString("N0")</strong></td>
-                        </tr>
-                        @if (b.InstallationCharges > 0)
-                        {
-                            <tr><td>Installation Charges</td><td style="text-align:right;"><strong>Rs. @b.InstallationCharges.ToString("N0")</strong></td></tr>
-                        }
-                        @if (b.SecurityDeposit > 0)
-                        {
-                            <tr><td>Security Deposit (Refundable)</td><td style="text-align:right;"><strong>Rs. @b.SecurityDeposit.ToString("N0")</strong></td></tr>
-                        }
-                        @if (b.PreviousDues > 0)
-                        {
-                            <tr><td>Previous Dues</td><td style="text-align:right;"><strong>Rs. @b.PreviousDues.ToString("N0")</strong></td></tr>
-                        }
-                        @if (b.Adjustments != 0)
-                        {
-                            <tr><td>Adjustments</td><td style="text-align:right;"><strong>Rs. @b.Adjustments.ToString("N0")</strong></td></tr>
-                        }
-                        @if (b.Taxes > 0)
-                        {
-                            <tr><td>Taxes</td><td style="text-align:right;"><strong>Rs. @b.Taxes.ToString("N0")</strong></td></tr>
-                        }
-                        @if (b.Discounts > 0)
-                        {
-                            <tr><td>Discounts</td><td style="text-align:right;"><strong style="color:#059669;">- Rs. @b.Discounts.ToString("N0")</strong></td></tr>
-                        }
-                        <tr class="invoice-total">
-                            <td><strong>Total Amount</strong></td>
-                            <td style="text-align:right;"><strong>Rs. @b.Total.ToString("N0")</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            @* Payment History *@
-            @if (b.PaymentHistory != null && b.PaymentHistory.Any())
+    <div class="invoice-parties">
+        <div>
+            <span class="meta-label">Billed To</span>
+            <strong>@owner.CustomerName</strong>
+            @if (!string.IsNullOrWhiteSpace(owner.OrganisationName))
             {
-                <div style="height:1px;background:#E2E8F0;margin:26px 0;"></div>
-                <h4 style="color:#0A1F44;margin:0 0 12px;">Payment History</h4>
-                <div class="table-wrap" style="margin-top:8px;">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Invoice</th>
-                                <th>Paid On</th>
-                                <th>Method</th>
-                                <th>Status</th>
-                                <th style="text-align:right;">Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var p in b.PaymentHistory)
-                            {
-                                <tr>
-                                    <td><strong style="font-family:monospace;">@p.BillNo</strong></td>
-                                    <td>@p.PaidOn.ToString("dd MMM yyyy")</td>
-                                    <td>@p.Method</td>
-                                    <td><span class="badge badge-success">@p.Status</span></td>
-                                    <td style="text-align:right;"><strong>Rs. @p.Amount.ToString("N0")</strong></td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                <span class="muted">@owner.OrganisationName</span>
             }
-
-            <div style="height:1px;background:#E2E8F0;margin:26px 0;"></div>
-            <p style="color:#64748B;font-size:0.85rem;margin:0;">
-                Thank you for choosing NEXUS. If you have any questions about this invoice,
-                contact support at 111-NEXUS-1 or support@nexus.example.
-            </p>
+            <span class="muted">@owner.CustomerAddress</span>
+            <span class="muted">@owner.City</span>
+            <span class="mono muted">@bill.AccountId</span>
+        </div>
+        <div>
+            <span class="meta-label">Service</span>
+            <strong>@(bill.ConnectionNumber ?? "Not linked to a connection")</strong>
+            <span class="muted">
+                Billing period
+                @bill.PeriodStart.ToString("dd MMM yyyy") — @bill.PeriodEnd.ToString("dd MMM yyyy")
+            </span>
         </div>
     </div>
+
+    <div class="table-wrap">
+        <table class="data-table invoice-lines">
+            <thead>
+                <tr>
+                    <th scope="col">Description</th>
+                    <th scope="col">Type</th>
+                    <th scope="col" class="num">Qty</th>
+                    <th scope="col" class="num">Rate</th>
+                    <th scope="col" class="num">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var line in owner.Lines)
+                {
+                    <tr>
+                        <td>@line.Description</td>
+                        <td><span class="badge badge-neutral">@line.ChargeType</span></td>
+                        <td class="num">@line.Quantity.ToString("0.##")</td>
+                        <td class="num">@line.UnitAmount.ToString("C")</td>
+                        <td class="num">@line.LineAmount.ToString("C")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="invoice-totals">
+        <div class="totals-row">
+            <span>Subtotal</span>
+            <span>@bill.SubTotal.ToString("C")</span>
+        </div>
+        @if (bill.DiscountAmount > 0)
+        {
+            <div class="totals-row discount">
+                <span>Bulk discount (@discountRate.ToString("P0"))</span>
+                <span>-@bill.DiscountAmount.ToString("C")</span>
+            </div>
+        }
+        <div class="totals-row">
+            <span>Taxable amount</span>
+            <span>@bill.TaxableAmount.ToString("C")</span>
+        </div>
+        <div class="totals-row">
+            <span>@TaxConstants.ServiceTaxLabel</span>
+            <span>@bill.ServiceTaxAmount.ToString("C")</span>
+        </div>
+        <div class="totals-row grand">
+            <span>Total</span>
+            <span>@bill.TotalAmount.ToString("C")</span>
+        </div>
+        @if (bill.AmountPaid > 0)
+        {
+            <div class="totals-row">
+                <span>Paid to date</span>
+                <span>-@bill.AmountPaid.ToString("C")</span>
+            </div>
+            <div class="totals-row outstanding">
+                <span>Outstanding</span>
+                <span>@bill.OutstandingAmount.ToString("C")</span>
+            </div>
+        }
+    </div>
+</div>
+
+<section class="panel reveal">
+    <div class="panel-head">
+        <h2>Payment History</h2>
+    </div>
+
+    @if (Model.Payments.Count == 0)
+    {
+        <div class="empty-state compact">
+            <i class="fa-solid fa-receipt"></i>
+            <h3>No payments recorded</h3>
+            <p>Once a payment is taken, its receipt number appears here.</p>
+        </div>
+    }
+    else
+    {
+        <div class="table-wrap">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Receipt</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Method</th>
+                        <th scope="col">Reference</th>
+                        <th scope="col" class="num">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var payment in Model.Payments)
+                    {
+                        <tr>
+                            <td><span class="mono">@payment.ReceiptNumber</span></td>
+                            <td>@payment.PaidOn.ToString("dd MMM yyyy HH:mm")</td>
+                            <td>@payment.Method.DisplayName()</td>
+                            <td>@(payment.Reference ?? "—")</td>
+                            <td class="num">@payment.Amount.ToString("C")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
 </section>
 
-@* ===== PAYMENT MODAL ===== *@
-<div class="modal-backdrop" id="paymentModal" aria-hidden="true">
-    <div class="modal" role="dialog" aria-modal="true">
-        <div class="modal-header">
-            <h3><i class="fa-solid fa-credit-card" style="color:#1E6FE5;"></i> Pay Invoice @b.BillNo</h3>
-            <button class="modal-close" data-modal-close><i class="fa-solid fa-xmark"></i></button>
+@if (Model.CanRecordPayment && Model.Outstanding > 0 && bill.Status != BillStatus.Draft)
+{
+    <section class="panel reveal" id="record-payment">
+        <div class="panel-head">
+            <h2>Record a Payment</h2>
+            <span class="muted">Outstanding @Model.Outstanding.ToString("C")</span>
         </div>
-        <form data-payment-form data-validate-form novalidate>
-            <div class="modal-body">
-                <div class="alert alert-info">
-                    <i class="fa-solid fa-circle-info"></i>
-                    <span>Demo payment — no real transaction is processed.</span>
+
+        <form method="post" action="/Bills/RecordPayment" class="payment-form">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="BillId" value="@bill.Id" />
+
+            <div class="form-grid">
+                <div class="field">
+                    <label for="Amount">Amount (USD)</label>
+                    <input id="Amount" name="Amount" type="number" step="0.01" min="0.01"
+                           max="@Model.Outstanding" value="@Model.Outstanding.ToString("0.00")" />
+                    <span class="field-error">@Html.ValidationMessage("Amount")</span>
                 </div>
-                <div class="form-group">
-                    <label for="billNo2">Invoice</label>
-                    <input type="text" id="billNo2" name="billNo" readonly value="@b.BillNo" />
+
+                <div class="field">
+                    <label for="Method">Method</label>
+                    <select id="Method" name="Method"
+                            asp-items="Html.GetEnumSelectList<PaymentMethod>()"></select>
                 </div>
-                <div class="form-group">
-                    <label for="amount2">Amount (PKR)</label>
-                    <input type="number" id="amount2" name="amount" required data-validate="required"
-                           value="@b.Total.ToString("0")" />
-                    <span class="field-error"></span>
+
+                <div class="field">
+                    <label for="Reference">Reference</label>
+                    <input id="Reference" name="Reference" placeholder="Cheque number, transfer ref" />
+                    <span class="hint">Required for cheque payments.</span>
                 </div>
-                <div class="form-group">
-                    <label for="method2">Payment Method</label>
-                    <select id="method2" name="method" required data-validate="required">
-                        <option value="">— Select method —</option>
-                        <option>Credit Card</option>
-                        <option>Bank Transfer</option>
-                        <option>JazzCash</option>
-                        <option>EasyPaisa</option>
-                    </select>
-                    <span class="field-error"></span>
+
+                <div class="field span-2">
+                    <label for="Remarks">Remarks</label>
+                    <input id="Remarks" name="Remarks" placeholder="Optional note for the ledger" />
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline" data-modal-close>Cancel</button>
+
+            <div class="form-actions">
                 <button type="submit" class="btn btn-primary">
-                    <i class="fa-solid fa-lock"></i> Confirm Payment
+                    <i class="fa-solid fa-receipt"></i> Record Payment
                 </button>
             </div>
         </form>
-    </div>
-</div>
+    </section>
+}

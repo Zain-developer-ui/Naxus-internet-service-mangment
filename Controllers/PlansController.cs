@@ -1,25 +1,41 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NEXUS.Services.Api;
+using NEXUS.Models.ViewModels;
+using NEXUS.Services.Catalog;
 
 namespace NEXUS.Controllers
 {
     public class PlansController : Controller
     {
-        private readonly IApiService _api;
-        public PlansController(IApiService api) => _api = api;
+        private readonly IPlanCatalogService _catalog;
 
-        public async Task<IActionResult> Index(string? type)
+        public PlansController(IPlanCatalogService catalog) => _catalog = catalog;
+
+        public async Task<IActionResult> Index(string? type, CancellationToken ct)
         {
-            var plans = await _api.GetPlansAsync(type);
-            ViewBag.ServiceType = string.IsNullOrWhiteSpace(type) ? "Broadband" : type;
-            return View(plans);
+            var result = await _catalog.GetCatalogueAsync(type, ct);
+
+            return result.IsSuccess
+                ? View(result.Value)
+                : View(new PlanCatalogue(Array.Empty<PublicPlan>(), Array.Empty<string>(), null));
         }
 
-        public async Task<IActionResult> Details(int id = 2)
+        public async Task<IActionResult> Details(int id, CancellationToken ct)
         {
-            var plan = await _api.GetPlanAsync(id);
-            if (plan == null) return NotFound();
-            return View(plan);
+            var result = await _catalog.GetAsync(id, ct);
+            if (!result.IsSuccess) return NotFound();
+
+            // The comparison row under the detail page shows what else is on
+            // offer; the same catalogue call keeps it consistent with /Plans.
+            var catalogue = await _catalog.GetCatalogueAsync(null, ct);
+            if (catalogue.IsSuccess && catalogue.Value is { } page)
+            {
+                ViewBag.Related = page.Plans
+                    .Where(p => p.Id != id)
+                    .Take(3)
+                    .ToList();
+            }
+
+            return View(result.Value);
         }
     }
 }

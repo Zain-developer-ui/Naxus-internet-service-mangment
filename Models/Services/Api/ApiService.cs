@@ -30,7 +30,7 @@ namespace NEXUS.Services.Api
                 {
                     Id = 1, Name = "Broadband Internet", Category = "Internet",
                     IconClass = "fa-solid fa-wifi",
-                    ImageUrl = "https://images.unsplash.com/photo-1606904825846-647eb07f5be2?w=900&q=80",
+                    ImageUrl = "~/images/broadband.jpg",
                     ShortDescription = "Always-on high-speed internet for homes and small offices.",
                     FullDescription = "NEXUS Broadband brings reliable, always-on internet to your home with speeds ranging from 5 Mbps up to 30 Mbps. Our copper and hybrid infrastructure delivers consistent performance for browsing, streaming and remote work.",
                     SpeedRange = "5–30 Mbps", Availability = "Nationwide",
@@ -41,7 +41,7 @@ namespace NEXUS.Services.Api
                 {
                     Id = 2, Name = "Fiber Internet", Category = "Internet",
                     IconClass = "fa-solid fa-bolt",
-                    ImageUrl = "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=900&q=80",
+                    ImageUrl = "~/images/fiber-backbone.jpg",
                     ShortDescription = "Next-generation fiber-optic connectivity for maximum speed.",
                     FullDescription = "NEXUS Fiber uses pure fiber-optic lines to deliver symmetrical speeds up to 100 Mbps with ultra-low latency. Ideal for HD streaming, online gaming and multiple devices working simultaneously.",
                     SpeedRange = "25–100 Mbps", Availability = "Major cities",
@@ -52,7 +52,7 @@ namespace NEXUS.Services.Api
                 {
                     Id = 3, Name = "Wireless Internet", Category = "Internet",
                     IconClass = "fa-solid fa-tower-broadcast",
-                    ImageUrl = "https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?w=900&q=80",
+                    ImageUrl = "~/images/wireless.jpg",
                     ShortDescription = "Fast wireless coverage for areas without wired infrastructure.",
                     FullDescription = "Our wireless network reaches homes and businesses where cable or fiber is unavailable. A discreet outdoor CPE combined with a home Wi-Fi router delivers solid day-to-day performance.",
                     SpeedRange = "4–20 Mbps", Availability = "Selected regions",
@@ -63,7 +63,7 @@ namespace NEXUS.Services.Api
                 {
                     Id = 4, Name = "Home Internet", Category = "Internet",
                     IconClass = "fa-solid fa-house-signal",
-                    ImageUrl = "https://images.unsplash.com/photo-1585141445799-4bcd9a18e35c?w=900&q=80",
+                    ImageUrl = "~/images/home-internet.jpg",
                     ShortDescription = "Family-friendly internet plans for streaming and study.",
                     FullDescription = "NEXUS Home Internet bundles the right speed for families with multiple devices, giving everyone a smooth experience from video calls to cartoons and homework research.",
                     SpeedRange = "10–50 Mbps", Availability = "Nationwide",
@@ -74,7 +74,7 @@ namespace NEXUS.Services.Api
                 {
                     Id = 5, Name = "Business Internet", Category = "Internet",
                     IconClass = "fa-solid fa-briefcase",
-                    ImageUrl = "https://images.unsplash.com/photo-1497366216548-37526070297c?w=900&q=80",
+                    ImageUrl = "~/images/business-office.jpg",
                     ShortDescription = "Dedicated bandwidth for offices, retail and enterprise.",
                     FullDescription = "NEXUS Business Internet delivers priority bandwidth, static IP addressing, uptime SLAs and dedicated account managers so your organization stays online when it matters most.",
                     SpeedRange = "20–200 Mbps", Availability = "Major cities",
@@ -85,7 +85,7 @@ namespace NEXUS.Services.Api
                 {
                     Id = 6, Name = "Dedicated Internet", Category = "Internet",
                     IconClass = "fa-solid fa-server",
-                    ImageUrl = "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=900&q=80",
+                    ImageUrl = "~/images/data-center.jpg",
                     ShortDescription = "Uncontended 1:1 bandwidth for critical operations.",
                     FullDescription = "Pure dedicated internet access — no contention, no downtime surprises. Built for data centers, call centers and enterprises that demand guaranteed throughput.",
                     SpeedRange = "50 Mbps – 1 Gbps", Availability = "On request",
@@ -96,7 +96,7 @@ namespace NEXUS.Services.Api
                 {
                     Id = 7, Name = "Technical Support", Category = "Support",
                     IconClass = "fa-solid fa-headset",
-                    ImageUrl = "https://images.unsplash.com/photo-1552664730-d307ca884978?w=900&q=80",
+                    ImageUrl = "~/images/installation.jpg",
                     ShortDescription = "Fast, friendly assistance whenever you need it.",
                     FullDescription = "Our 24/7 support team can be reached by phone, email or through your customer dashboard. Average first-response time is under 15 minutes during business hours.",
                     SpeedRange = "—", Availability = "24/7",
@@ -107,7 +107,7 @@ namespace NEXUS.Services.Api
                 {
                     Id = 8, Name = "Installation Service", Category = "Installation",
                     IconClass = "fa-solid fa-screwdriver-wrench",
-                    ImageUrl = "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=900&q=80",
+                    ImageUrl = "~/images/field-team.jpg",
                     ShortDescription = "Professional onsite installation by certified technicians.",
                     FullDescription = "Our certified technicians install your router, run cabling, verify signal quality and confirm activation — usually within a single visit. Same-day slots are available in most cities.",
                     SpeedRange = "—", Availability = "Nationwide",
@@ -118,7 +118,7 @@ namespace NEXUS.Services.Api
                 {
                     Id = 9, Name = "Network Maintenance", Category = "Support",
                     IconClass = "fa-solid fa-network-wired",
-                    ImageUrl = "https://images.unsplash.com/photo-1597733336794-12d05021d510?w=900&q=80",
+                    ImageUrl = "~/images/network-maintenance.jpg",
                     ShortDescription = "Scheduled maintenance and proactive network monitoring.",
                     FullDescription = "We monitor our network 24/7 and perform scheduled maintenance to keep your connection fast and stable. Business customers can opt-in to advance maintenance notifications.",
                     SpeedRange = "—", Availability = "Nationwide",
@@ -148,8 +148,8 @@ namespace NEXUS.Services.Api
                     SpeedMbps = 5, MonthlyRental = 1200m, SecurityDeposit = 450m,
                     Tagline = "Perfect for light browsing",
                     Description = "Entry-level broadband for email, browsing and social media.",
-                    ImageUrl = "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&q=80",
-                    RouterImageUrl = "https://images.unsplash.com/photo-1544428571-95f3fb8c4f2f?w=600&q=80",
+                    ImageUrl = "~/images/plan-basic.jpg",
+                    RouterImageUrl = "~/images/router-1.jpg",
                     Features = new() { "Unlimited Data", "Email & Browsing", "Free Router", "24/7 Support" },
                     Benefits = new() { "Lowest monthly rental", "No data caps", "Simple setup" }
                 },
@@ -159,8 +159,8 @@ namespace NEXUS.Services.Api
                     SpeedMbps = 15, MonthlyRental = 2000m, SecurityDeposit = 450m, IsPopular = true,
                     Tagline = "Most popular choice",
                     Description = "Balanced speed for streaming, work and multiple devices.",
-                    ImageUrl = "https://images.unsplash.com/photo-1606904825846-647eb07f5be2?w=800&q=80",
-                    RouterImageUrl = "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=600&q=80",
+                    ImageUrl = "~/images/broadband.jpg",
+                    RouterImageUrl = "~/images/router-2.jpg",
                     Features = new() { "Unlimited Data", "HD Streaming", "Social Media", "Free Router", "24/7 Support" },
                     Benefits = new() { "Stream on multiple screens", "Great for families", "Best value" }
                 },
@@ -170,8 +170,8 @@ namespace NEXUS.Services.Api
                     SpeedMbps = 30, MonthlyRental = 3500m, SecurityDeposit = 450m,
                     Tagline = "Built for power users",
                     Description = "Top-tier speed for 4K streaming, gaming and heavy multitasking.",
-                    ImageUrl = "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&q=80",
-                    RouterImageUrl = "https://images.unsplash.com/photo-1606904825846-647eb07f5be2?w=600&q=80",
+                    ImageUrl = "~/images/plan-premium.jpg",
+                    RouterImageUrl = "~/images/broadband.jpg",
                     Features = new() { "Unlimited Data", "Gaming & Streaming", "Multiple Devices", "Free Router", "24/7 Support" },
                     Benefits = new() { "Lowest latency", "4K-ready", "Priority support" }
                 }
@@ -228,31 +228,34 @@ namespace NEXUS.Services.Api
         // ================================================================
         // ORDERS
         // ================================================================
-        public Task<OrderViewModel?> GetOrderAsync(string orderId)
+        public Task<OrderTrackingViewModel?> GetOrderAsync(string orderId)
         {
-            var order = new OrderViewModel
-            {
-                FullName = "Ahmed Khan",
-                Phone = "03001234567",
-                Email = "ahmed.khan@example.com",
-                City = "Lahore",
-                Area = "Gulberg III",
-                Address = "House 12, Street 4",
-                ServiceType = "Broadband",
-                PlanName = "Standard",
-                Speed = "15 Mbps",
-                PreferredInstallDate = DateTime.Today.AddDays(3),
-                PreferredTime = "Morning (9am–12pm)",
-                EstimatedTotal = 2450m,
-                AcceptTerms = true
-            };
-            return Task.FromResult<OrderViewModel?>(order);
-        }
+            var placed = DateTime.Today.AddDays(-2);
 
-        public Task<bool> SubmitOrderAsync(OrderViewModel order)
-        {
-            _logger.LogInformation("Mock order submitted: {Name} / {Plan}", order.FullName, order.PlanName);
-            return Task.FromResult(true);
+            var tracking = new OrderTrackingViewModel
+            {
+                OrderId = orderId,
+                CustomerName = "Ahmed Khan",
+                ConnectionType = "Broadband",
+                PlanName = "Broadband 30 Hours",
+                City = "Lahore",
+                Address = "House 12, Street 4, Gulberg III",
+                Status = "Awaiting Feasibility Check",
+                StatusBadge = "badge-warning",
+                PlacedAt = placed,
+                ScheduledFor = DateTime.Today.AddDays(3),
+                MonthlyRate = 45m,
+                SecurityDeposit = 500m,
+                Timeline = new[]
+                {
+                    new TrackingStep("Order Received", "We have received your application.", "done"),
+                    new TrackingStep("Feasibility Check", "Our team is verifying coverage at your address.", "active"),
+                    new TrackingStep("Installation Scheduled", "We will contact you to confirm a slot.", ""),
+                    new TrackingStep("Connection Activated", "You will be notified once the line is live.", "")
+                }
+            };
+
+            return Task.FromResult<OrderTrackingViewModel?>(tracking);
         }
 
         // ================================================================

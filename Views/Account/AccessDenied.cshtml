@@ -1,0 +1,25 @@
+@{
+    ViewData["Title"] = "Access Denied — NEXUS";
+    ViewData["BodyClass"] = "public-body";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/public-pages.css" />
+}
+
+<div class="page-shell narrow error-page">
+    <div class="error-code">403</div>
+    <h1>Access denied</h1>
+    <p class="lead">
+        Your account does not have permission to open this page.
+        If you believe this is a mistake, contact the administrator.
+    </p>
+
+    <div class="error-actions">
+        <a href="/" class="btn btn-primary">Back to home</a>
+        <form asp-controller="Account" asp-action="Logout" method="post" class="inline-form">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-outline">Sign out</button>
+        </form>
+    </div>
+</div>

@@ -125,6 +125,17 @@
     flex-shrink: 0;
 }
 
+    .nav-actions .nav-logout {
+        margin: 0;
+        display: inline-flex;
+    }
+
+        .nav-actions .nav-logout .btn {
+            border: 0;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
     .nav-actions .btn-ghost {
         color: rgba(255, 255, 255, 0.85);
         background: transparent;

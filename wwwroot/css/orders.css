@@ -160,7 +160,7 @@
    --------------------------------------------------------- */
 .plan-choice-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
     gap: 16px;
     margin-top: 8px;
 }
@@ -170,7 +170,7 @@
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    padding: 22px 18px 20px;
+    padding: 24px 18px 20px;
     background: var(--nexus-surface);
     border: 2px solid var(--nexus-border);
     border-radius: var(--radius-md);
@@ -186,16 +186,48 @@
         box-shadow: 0 12px 24px rgba(30, 111, 229, 0.12);
     }
 
+    /* The radio is visually hidden, so the card itself carries the selected
+       state. Border, fill and the corner tick all change together so the
+       choice is unmissable even at a glance. */
     .plan-choice.selected {
         border-color: var(--nexus-blue);
         background: linear-gradient(180deg, var(--nexus-blue-light) 0%, var(--nexus-surface) 100%);
         box-shadow: 0 12px 28px rgba(30, 111, 229, 0.18);
     }
 
+        .plan-choice.selected::after {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: #fff;
+            background: var(--nexus-blue);
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(30, 111, 229, 0.4);
+        }
+
+        .plan-choice.selected .choice-name {
+            color: var(--nexus-blue-dark);
+        }
+
     .plan-choice input[type="radio"] {
         position: absolute;
         opacity: 0;
         pointer-events: none;
+    }
+
+    /* Keyboard users get the same affordance the mouse gets on hover. */
+    .plan-choice:has(input[type="radio"]:focus-visible) {
+        outline: 2px solid var(--nexus-blue);
+        outline-offset: 3px;
     }
 
     .plan-choice .choice-badge {
@@ -223,21 +255,16 @@
         margin-bottom: 12px;
     }
 
+    /* The text here is already a human label ("30 hours", "Unlimited"), so no
+       unit is appended - the old Mbps suffix was left over from the plans the
+       frontend shipped with before the SRS pricing replaced them. */
     .plan-choice .choice-speed {
-        font-size: 2rem;
+        font-size: 1.4rem;
         font-weight: 800;
         color: var(--nexus-blue-dark);
-        line-height: 1;
-        letter-spacing: -0.02em;
+        line-height: 1.2;
+        letter-spacing: -0.01em;
     }
-
-        .plan-choice .choice-speed::after {
-            content: ' Mbps';
-            font-size: 0.72rem;
-            font-weight: 600;
-            opacity: 0.65;
-            letter-spacing: 0;
-        }
 
     .plan-choice .choice-price {
         margin-top: 12px;
@@ -815,4 +842,44 @@ form[data-step="4"] [data-step-next] {
 
 form[data-step="4"] [data-step-submit] {
     display: inline-flex !important;
+}
+/* ---------------------------------------------------------
+   TECHNICIAN CARD (order tracking)
+   --------------------------------------------------------- */
+.technician-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.technician-name {
+    display: block;
+    color: var(--nexus-text);
+    font-size: 0.98rem;
+}
+
+.technician-role {
+    color: var(--nexus-muted);
+    font-size: 0.83rem;
+}
+
+.technician-note {
+    color: var(--nexus-muted);
+    font-size: 0.82rem;
+    margin: 14px 0 0;
+}
+
+/* ---------------------------------------------------------
+   APPLICATION BODY
+   Replaces the inline padding that used to sit on the section
+   wrapping the New Connection form.
+   --------------------------------------------------------- */
+.order-page-body {
+    padding: 0 0 90px;
+}
+
+@media (max-width: 640px) {
+    .order-page-body {
+        padding-bottom: 60px;
+    }
 }

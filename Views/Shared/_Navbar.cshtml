@@ -1,31 +1,52 @@
-﻿@* Public navigation — hidden automatically inside dashboards *@
+﻿@using NEXUS.Common.Constants
+@using NEXUS.Common.Extensions
+@{
+    var signedIn = User.Identity?.IsAuthenticated == true;
+    var role = User.RoleName();
+    var dashboard = role switch
+    {
+        NexusRoles.Admin => "/Admin/Dashboard",
+        NexusRoles.Accounts => "/Accounts/Dashboard",
+        NexusRoles.Technical => "/Technical/Dashboard",
+        NexusRoles.Retail => "/Retail/Dashboard",
+        _ => "/Customer/Dashboard"
+    };
+}
+
+@* Public navigation — hidden automatically inside dashboards *@
 <header class="nexus-navbar">
     <div class="container nav-inner">
         <a href="/" class="brand" aria-label="NEXUS Home">
             <span class="brand-mark">N</span>
-            <span class="brand-text">NEXUS</span>
-        </a>
+            <span class="brand-text">NEXUS</span> </a>
 
         <button class="nav-toggle" aria-label="Toggle navigation" data-nav-toggle>
-            <i class="fa-solid fa-bars"></i>
-        </button>
+            <i class="fa-solid fa-bars"></i> </button>
 
         <nav class="nav-links" data-nav-links aria-label="Primary">
             <a href="/">Home</a>
             <a href="/Services">Services</a>
             <a href="/Plans">Plans</a>
-            <a href="/Orders/New">New Connection</a>
             <a href="/Orders/Tracking">Track Order</a>
-            <a href="/Account/Status">Account Status</a>
-        </nav>
+            <a href="/Account/Status">Account Status</a> </nav>
 
         <div class="nav-actions">
-            <a href="/Account/Login" class="btn btn-ghost btn-sm">
-                <i class="fa-solid fa-right-to-bracket"></i> Login
-            </a>
-            <a href="/Orders/New" class="btn btn-primary btn-sm">
-                Get a Connection
-            </a>
+            @if (signedIn)
+            {
+                <a href="@dashboard" class="btn btn-ghost btn-sm">
+                    <i class="fa-solid fa-gauge-high"></i> My Dashboard </a>
+                <form asp-controller="Account" asp-action="Logout" method="post" class="nav-logout">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-primary btn-sm">
+                        <i class="fa-solid fa-right-from-bracket"></i> Logout </button> </form>
+            }
+            else
+            {
+                <a href="/Account/Login" class="btn btn-ghost btn-sm">
+                    <i class="fa-solid fa-right-to-bracket"></i> Login </a>
+                <a href="/Orders/New" class="btn btn-primary btn-sm">
+                    <i class="fa-solid fa-plug-circle-plus"></i> New Connection </a>
+            }
         </div>
     </div>
 </header>

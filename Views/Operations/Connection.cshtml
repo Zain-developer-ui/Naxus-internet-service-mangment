@@ -1,0 +1,126 @@
+@model NEXUS.Models.ViewModels.ConnectionDetail
+@using NEXUS.Common.Constants
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = $"Connection {Model.ConnectionNumber} — NEXUS";
+    ViewData["ActiveSidebar"] = "connections";
+}
+
+@section DashboardStyles {
+    <link rel="stylesheet" href="~/css/billing.css" />
+}
+
+<a href="/Operations/Connections" class="back-link">
+    <i class="fa-solid fa-arrow-left"></i> Back to connections
+</a>
+
+<div class="page-head">
+    <div>
+        <h1 class="mono">@Model.ConnectionNumber</h1>
+        <p class="muted">@Model.CustomerName · @Model.ConnectionTypeName · @Model.PlanName</p>
+    </div>
+    <span class="badge @(Model.Status == ConnectionStatus.Active ? "badge-success" : Model.Status == ConnectionStatus.TemporarilyInactive ? "badge-warning" : "badge-muted")">
+        @Model.StatusLabel
+    </span>
+</div>
+
+<div class="split-panels">
+    <div class="panel">
+        <div class="panel-head"><h3>Line details</h3></div>
+        <dl class="meta-list">
+            <div><dt>Customer</dt><dd>@Model.CustomerName</dd></div>
+            <div><dt>Account</dt><dd class="mono">@Model.AccountId</dd></div>
+            <div><dt>Phone</dt><dd>@Model.Phone</dd></div>
+            <div><dt>Email</dt><dd>@Model.Email</dd></div>
+            <div><dt>Plan</dt><dd>@Model.PlanName</dd></div>
+            <div><dt>Order</dt><dd class="mono">@Model.OrderId</dd></div>
+            <div><dt>Service address</dt><dd>@Model.Address, @Model.CityName</dd></div>
+            @if (!string.IsNullOrWhiteSpace(Model.LandlineNumber))
+            {
+                <div><dt>Landline</dt><dd class="mono">@Model.LandlineNumber</dd></div>
+            }
+            <div><dt>Activated</dt><dd>@Model.ActivatedOn.ToLocalTime().ToString("dd MMM yyyy HH:mm")</dd></div>
+            @if (Model.DeactivatedOn is DateTime off)
+            {
+                <div><dt>Deactivated</dt><dd>@off.ToLocalTime().ToString("dd MMM yyyy HH:mm")</dd></div>
+            }
+            <div><dt>Billable</dt><dd>@(Model.IsBillable ? "Yes" : "No — rule V9")</dd></div>
+        </dl>
+    </div>
+
+    <div class="panel">
+        <div class="panel-head"><h3>Billing</h3></div>
+        <dl class="meta-list">
+            <div><dt>Invoices raised</dt><dd>@Model.BillCount</dd></div>
+            <div><dt>Outstanding</dt><dd>$@Model.Outstanding.ToString("N2")</dd></div>
+        </dl>
+        <a href="/Bills?search=@Model.AccountId" class="btn btn-outline btn-sm">
+            <i class="fa-solid fa-file-invoice"></i> View invoices
+        </a>
+
+        @if (Model.AllowedMoves.Count > 0)
+        {
+            <form method="post" action="/Operations/ChangeStatus" class="stack-form">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="ConnectionId" value="@Model.Id" />
+
+                <div class="form-group">
+                    <label for="Target">Change status</label>
+                    <select id="Target" name="Target" required>
+                        @foreach (var move in Model.AllowedMoves)
+                        {
+                            <option value="@move.Target">@move.Label</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="Reason">Reason</label>
+                    <input type="text" id="Reason" name="Reason" required maxlength="300"
+                           placeholder="Why is this line changing?" />
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-sm">
+                    <i class="fa-solid fa-arrow-right-arrow-left"></i> Apply change
+                </button>
+            </form>
+        }
+        else
+        {
+            <p class="hint">This line is permanently closed and cannot be reopened.</p>
+        }
+    </div>
+</div>
+
+<div class="panel">
+    <div class="panel-head"><h3>Status history</h3></div>
+
+    @if (Model.History.Count == 0)
+    {
+        <p class="hint">No status changes recorded yet.</p>
+    }
+    else
+    {
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th scope="col">When</th>
+                    <th scope="col">From</th>
+                    <th scope="col">To</th>
+                    <th scope="col">Reason</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var change in Model.History)
+                {
+                    <tr>
+                        <td>@change.ChangedAt.ToLocalTime().ToString("dd MMM yyyy HH:mm")</td>
+                        <td>@change.FromLabel</td>
+                        <td><strong>@change.ToLabel</strong></td>
+                        <td>@change.Reason</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

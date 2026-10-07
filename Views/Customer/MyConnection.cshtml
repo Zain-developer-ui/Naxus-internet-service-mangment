@@ -1,10 +1,8 @@
-﻿@model NEXUS.Models.ViewModels.AccountViewModel
+@model NEXUS.Models.ViewModels.AccountViewModel
 @{
     Layout = "_DashboardLayout";
     ViewData["Title"] = "My Connection — NEXUS";
-    ViewData["UserRole"] = "Customer";
     ViewData["ActiveSidebar"] = "myconnection";
-    ViewData["UserName"] = Model?.CustomerName ?? "Ahmed Khan";
 
     var acc = Model ?? new NEXUS.Models.ViewModels.AccountViewModel
     {
@@ -37,34 +35,23 @@
     <div class="banner-flex">
         <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
             <div style="width:76px;height:76px;border-radius:50%;background:linear-gradient(135deg,var(--nexus-blue),var(--nexus-accent));display:inline-flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:1.6rem;flex-shrink:0;box-shadow:0 12px 30px rgba(30,111,229,0.45);border:3px solid rgba(255,255,255,0.2);">
-                @initials
-            </div>
+                @initials </div>
             <div>
-                <h1 style="margin:0 0 6px;">My Connection 🔌</h1>
+                <h1 style="margin:0 0 6px;">My Connection</h1>
                 <p style="margin:0 0 12px;">
                     Account <strong style="font-family:monospace;">@acc.AccountId</strong> ·
-                    @acc.ConnectionType · @acc.Plan
-                </p>
+                    @acc.ConnectionType · @acc.Plan </p>
                 <div class="banner-actions">
                     <span class="badge badge-success"><i class="fa-solid fa-circle-check"></i> @acc.Status</span>
                     <span class="badge" style="background:rgba(255,255,255,0.15);color:#fff;">
-                        <i class="fa-solid fa-gauge-high"></i> @acc.Speed
-                    </span>
+                        <i class="fa-solid fa-gauge-high"></i> @acc.Speed </span>
                     <span class="badge" style="background:rgba(255,255,255,0.15);color:#fff;">
-                        <i class="fa-regular fa-calendar"></i> Active since @(acc.ActivationDate?.ToString("dd MMM yyyy") ?? "12 Jan 2025")
-                    </span>
-                </div>
-            </div>
-        </div>
+                        <i class="fa-regular fa-calendar"></i> Active since @(acc.ActivationDate?.ToString("dd MMM yyyy") ?? "12 Jan 2025") </span> </div> </div> </div>
         <div class="banner-actions">
             <a href="/Bills" class="btn btn-outline-light">
-                <i class="fa-solid fa-file-invoice"></i> View Bills
-            </a>
+                <i class="fa-solid fa-file-invoice"></i> View Bills </a>
             <a href="/Home/Contact" class="btn btn-primary">
-                <i class="fa-solid fa-headset"></i> Request Support
-            </a>
-        </div>
-    </div>
+                <i class="fa-solid fa-headset"></i> Request Support </a> </div> </div>
 </div>
 
 @* =========================================================
@@ -74,19 +61,14 @@
     <div class="ch-flex">
         <div>
             <span class="badge" style="background:rgba(56,189,248,0.25);color:#fff;">
-                <i class="fa-solid fa-circle-check"></i> @acc.Status
-            </span>
+                <i class="fa-solid fa-circle-check"></i> @acc.Status </span>
             <h2>@acc.ConnectionType</h2>
             <p class="meta">@acc.Plan · <strong>@acc.Speed</strong> download</p>
             <p class="meta" style="margin-top:6px;font-size:0.85rem;opacity:0.75;">
-                Account ID <span style="font-family:monospace;">@acc.AccountId</span>
-            </p>
-        </div>
+                Account ID <span style="font-family:monospace;">@acc.AccountId</span> </p> </div>
         <div class="side-meta">
             <div class="label">Active Since</div>
-            <div class="value">@(acc.ActivationDate?.ToString("dd MMM yyyy") ?? "12 Jan 2025")</div>
-        </div>
-    </div>
+            <div class="value">@(acc.ActivationDate?.ToString("dd MMM yyyy") ?? "12 Jan 2025")</div> </div> </div>
 </div>
 
 @* =========================================================
@@ -97,30 +79,22 @@
         <div class="stat-icon navy"><i class="fa-solid fa-layer-group"></i></div>
         <div class="stat-meta">
             <div class="stat-value" style="font-size:1.15rem;">@acc.ConnectionType</div>
-            <div class="stat-label">Connection Type</div>
-        </div>
-    </div>
+            <div class="stat-label">Connection Type</div> </div> </div>
     <div class="stat-card">
         <div class="stat-icon blue"><i class="fa-solid fa-gauge-high"></i></div>
         <div class="stat-meta">
             <div class="stat-value" style="font-size:1.15rem;">@acc.Speed</div>
-            <div class="stat-label">Download Speed</div>
-        </div>
-    </div>
+            <div class="stat-label">Download Speed</div> </div> </div>
     <div class="stat-card">
         <div class="stat-icon success"><i class="fa-solid fa-screwdriver-wrench"></i></div>
         <div class="stat-meta">
             <div class="stat-value" style="font-size:1.05rem;">@(acc.InstallationDate?.ToString("dd MMM yyyy") ?? "10 Jan 2025")</div>
-            <div class="stat-label">Installation Date</div>
-        </div>
-    </div>
+            <div class="stat-label">Installation Date</div> </div> </div>
     <div class="stat-card">
         <div class="stat-icon warning"><i class="fa-solid fa-location-dot"></i></div>
         <div class="stat-meta">
             <div class="stat-value" style="font-size:1.05rem;">@(acc.ServiceArea ?? "Gulberg III")</div>
-            <div class="stat-label">Service Area</div>
-        </div>
-    </div>
+            <div class="stat-label">Service Area</div> </div> </div>
 </div>
 
 @* =========================================================
@@ -131,10 +105,8 @@
         <div class="card-header">
             <div>
                 <h4><i class="fa-solid fa-star" style="color:var(--nexus-blue);"></i> Plan Features</h4>
-                <p>Everything included in your @acc.Plan</p>
-            </div>
-            <span class="badge badge-primary">@acc.Plan</span>
-        </div>
+                <p>Everything included in your @acc.Plan</p> </div>
+            <span class="badge badge-primary">@acc.Plan</span> </div>
 
         <ul class="check-list">
             <li><i class="fa-solid fa-circle-check"></i> Unlimited data (no caps, no throttling)</li>
@@ -142,51 +114,37 @@
             <li><i class="fa-solid fa-circle-check"></i> HD streaming &amp; social media</li>
             <li><i class="fa-solid fa-circle-check"></i> 24/7 customer &amp; technical support</li>
             <li><i class="fa-solid fa-circle-check"></i> Free standard installation</li>
-            <li><i class="fa-solid fa-circle-check"></i> Upgrade available any time</li>
-        </ul>
+            <li><i class="fa-solid fa-circle-check"></i> Upgrade available any time</li> </ul>
 
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;">
             <a href="/Plans/Details/2" class="btn btn-outline btn-sm">
-                <i class="fa-regular fa-eye"></i> View Full Plan
-            </a>
+                <i class="fa-regular fa-eye"></i> View Full Plan </a>
             <a href="/Plans" class="btn btn-primary btn-sm">
-                <i class="fa-solid fa-arrow-up"></i> Upgrade Plan
-            </a>
-        </div>
-    </div>
+                <i class="fa-solid fa-arrow-up"></i> Upgrade Plan </a> </div> </div>
 
     <div class="card reveal delay-1">
         <div class="card-header">
             <div>
                 <h4><i class="fa-solid fa-shield-halved" style="color:var(--nexus-blue);"></i> Service Health</h4>
-                <p>Live status of your connection</p>
-            </div>
-            <span class="badge badge-success">All Good</span>
-        </div>
+                <p>Live status of your connection</p> </div>
+            <span class="badge badge-success">All Good</span> </div>
 
         <div class="summary-rows">
             <div>
                 <span><i class="fa-solid fa-signal" style="color:var(--nexus-blue);"></i> Internet Connection</span>
-                <span class="badge badge-success">@acc.Status</span>
-            </div>
+                <span class="badge badge-success">@acc.Status</span> </div>
             <div>
                 <span><i class="fa-solid fa-network-wired" style="color:var(--nexus-blue);"></i> Network</span>
-                <span class="badge badge-success">Stable</span>
-            </div>
+                <span class="badge badge-success">Stable</span> </div>
             <div>
                 <span><i class="fa-solid fa-file-invoice" style="color:var(--nexus-blue);"></i> Billing</span>
-                <span class="badge @(acc.BillingStatus == "Paid" ? "badge-success" : "badge-warning")">@acc.BillingStatus</span>
-            </div>
+                <span class="badge @(acc.BillingStatus == "Paid" ? "badge-success" : "badge-warning")">@acc.BillingStatus</span> </div>
             <div>
                 <span><i class="fa-regular fa-user" style="color:var(--nexus-blue);"></i> Account</span>
-                <span class="badge badge-info">Verified</span>
-            </div>
+                <span class="badge badge-info">Verified</span> </div>
             <div>
                 <span><i class="fa-solid fa-screwdriver-wrench" style="color:var(--nexus-blue);"></i> Installation</span>
-                <span class="badge badge-success">@acc.InstallationStatus</span>
-            </div>
-        </div>
-    </div>
+                <span class="badge badge-success">@acc.InstallationStatus</span> </div> </div> </div>
 </div>
 
 @* =========================================================
@@ -196,32 +154,24 @@
     <div class="chart-head">
         <div>
             <h4><i class="fa-solid fa-router" style="color:var(--nexus-blue);"></i> Connection Equipment</h4>
-            <p class="chart-sub">Devices provided by NEXUS with your plan.</p>
-        </div>
-        <span class="badge badge-info">Provided by NEXUS</span>
-    </div>
+            <p class="chart-sub">Devices provided by NEXUS with your plan.</p> </div>
+        <span class="badge badge-info">Provided by NEXUS</span> </div>
 
     <div class="dash-grid-2" style="gap:18px;">
         <div class="info-card">
             <div class="icon"><i class="fa-solid fa-wifi"></i></div>
             <div>
                 <h5>@(acc.RouterModel ?? "NEXUS Router R2 (Wi-Fi 6)")</h5>
-                <p>Dual-band Wi-Fi 6 router · Included free with your plan · Maintained by NEXUS.</p>
-            </div>
-        </div>
+                <p>Dual-band Wi-Fi 6 router · Included free with your plan · Maintained by NEXUS.</p> </div> </div>
         <div class="info-card">
             <div class="icon"><i class="fa-solid fa-plug"></i></div>
             <div>
                 <h5>Broadband Modem</h5>
-                <p>VDSL2 modem · Supports up to 100 Mbps · Provided at activation.</p>
-            </div>
-        </div>
-    </div>
+                <p>VDSL2 modem · Supports up to 100 Mbps · Provided at activation.</p> </div> </div> </div>
 
     <p class="muted small" style="margin:16px 0 0;">
         <i class="fa-solid fa-circle-info"></i>
-        Demo equipment information shown for reference. Contact support if you need a replacement.
-    </p>
+        Demo equipment information shown for reference. Contact support if you need a replacement. </p>
 </div>
 
 @* =========================================================
@@ -231,38 +181,30 @@
     <div class="chart-head">
         <div>
             <h4><i class="fa-solid fa-clock-rotate-left" style="color:var(--nexus-blue);"></i> Connection Timeline</h4>
-            <p class="chart-sub">From order to activation — full journey.</p>
-        </div>
-        <span class="badge badge-success"><i class="fa-solid fa-circle"></i> Active</span>
-    </div>
+            <p class="chart-sub">From order to activation — full journey.</p> </div>
+        <span class="badge badge-success"><i class="fa-solid fa-circle"></i> Active</span> </div>
 
     <div class="timeline" style="margin-top:14px;">
         <div class="timeline-item done">
             <h4>Order Submitted</h4>
             <div class="when">08 Jan 2025 · 10:14 AM</div>
-            <p>NEXUS received your connection request.</p>
-        </div>
+            <p>NEXUS received your connection request.</p> </div>
         <div class="timeline-item done">
             <h4>Verified</h4>
             <div class="when">09 Jan 2025 · 02:30 PM</div>
-            <p>Your CNIC and address were verified.</p>
-        </div>
+            <p>Your CNIC and address were verified.</p> </div>
         <div class="timeline-item done">
             <h4>Installation Completed</h4>
             <div class="when">@(acc.InstallationDate?.ToString("dd MMM yyyy") ?? "10 Jan 2025") · 11:00 AM</div>
-            <p>Technician <strong>@(acc.TechnicianName ?? "Usman Ahmed")</strong> installed and configured your router.</p>
-        </div>
+            <p>Technician <strong>@(acc.TechnicianName ?? "Usman Ahmed")</strong> installed and configured your router.</p> </div>
         <div class="timeline-item done">
             <h4>Connection Activated</h4>
             <div class="when">@(acc.ActivationDate?.ToString("dd MMM yyyy") ?? "12 Jan 2025") · 09:45 AM</div>
-            <p>Your NEXUS connection went live.</p>
-        </div>
+            <p>Your NEXUS connection went live.</p> </div>
         <div class="timeline-item active">
             <h4>Current Service</h4>
             <div class="when">Active · @acc.Status</div>
-            <p>Enjoying @acc.Plan at @acc.Speed.</p>
-        </div>
-    </div>
+            <p>Enjoying @acc.Plan at @acc.Speed.</p> </div> </div>
 </div>
 
 @* =========================================================
@@ -271,52 +213,36 @@
 <div class="dash-grid-2" style="margin-top:22px;">
     <div class="card reveal">
         <div class="card-header">
-            <h4><i class="fa-solid fa-bolt" style="color:var(--nexus-blue);"></i> Quick Actions</h4>
-        </div>
+            <h4><i class="fa-solid fa-bolt" style="color:var(--nexus-blue);"></i> Quick Actions</h4> </div>
         <div class="quick-actions">
             <a href="/Bills" class="quick-action">
-                <i class="fa-solid fa-file-invoice-dollar"></i><span>View Bills</span>
-            </a>
+                <i class="fa-solid fa-file-invoice-dollar"></i><span>View Bills</span> </a>
             <a href="/Home/Contact" class="quick-action">
-                <i class="fa-solid fa-headset"></i><span>Support</span>
-            </a>
+                <i class="fa-solid fa-headset"></i><span>Support</span> </a>
             <a href="/Feedback" class="quick-action">
-                <i class="fa-regular fa-comment-dots"></i><span>Feedback</span>
-            </a>
+                <i class="fa-regular fa-comment-dots"></i><span>Feedback</span> </a>
             <a href="/Plans" class="quick-action">
-                <i class="fa-solid fa-arrow-up"></i><span>Upgrade</span>
-            </a>
-        </div>
-    </div>
+                <i class="fa-solid fa-arrow-up"></i><span>Upgrade</span> </a> </div> </div>
 
     <div class="card reveal delay-1">
         <div class="card-header">
-            <h4><i class="fa-regular fa-circle-question" style="color:var(--nexus-blue);"></i> Connection FAQs</h4>
-        </div>
+            <h4><i class="fa-regular fa-circle-question" style="color:var(--nexus-blue);"></i> Connection FAQs</h4> </div>
         <div class="faq-list" style="margin-top:14px;">
             <div class="faq-item">
                 <button class="faq-question" type="button">
                     How do I restart my router?
-                    <i class="fa-solid fa-chevron-down"></i>
-                </button>
-                <div class="faq-answer">Unplug the power cable for 30 seconds, then plug it back in. The router takes about 60 seconds to fully boot.</div>
-            </div>
+                    <i class="fa-solid fa-chevron-down"></i> </button>
+                <div class="faq-answer">Unplug the power cable for 30 seconds, then plug it back in. The router takes about 60 seconds to fully boot.</div> </div>
             <div class="faq-item">
                 <button class="faq-question" type="button">
                     Can I move my connection to a new address?
-                    <i class="fa-solid fa-chevron-down"></i>
-                </button>
-                <div class="faq-answer">Yes. Contact support with your new address. A relocation fee may apply depending on distance.</div>
-            </div>
+                    <i class="fa-solid fa-chevron-down"></i> </button>
+                <div class="faq-answer">Yes. Contact support with your new address. A relocation fee may apply depending on distance.</div> </div>
             <div class="faq-item">
                 <button class="faq-question" type="button">
                     How do I upgrade my plan?
-                    <i class="fa-solid fa-chevron-down"></i>
-                </button>
-                <div class="faq-answer">Go to Plans, choose your new plan and click "Order Now". Upgrades take effect within minutes.</div>
-            </div>
-        </div>
-    </div>
+                    <i class="fa-solid fa-chevron-down"></i> </button>
+                <div class="faq-answer">Go to Plans, choose your new plan and click "Order Now". Upgrades take effect within minutes.</div> </div> </div> </div>
 </div>
 
 @* =========================================================
@@ -327,12 +253,9 @@
     <p>Our support team is available 24/7 — reach out any time.</p>
     <div class="hero-actions">
         <a href="/Home/Contact" class="btn btn-primary btn-lg">
-            <i class="fa-solid fa-headset"></i> Contact Support
-        </a>
+            <i class="fa-solid fa-headset"></i> Contact Support </a>
         <a href="/Feedback" class="btn btn-outline-light btn-lg">
-            <i class="fa-regular fa-comment-dots"></i> Send Feedback
-        </a>
-    </div>
+            <i class="fa-regular fa-comment-dots"></i> Send Feedback </a> </div>
 </div>
 
 @section DashboardScripts {
@@ -361,6 +284,5 @@
                     });
                 }
             }, 700);
-        });
-    </script>
+        }); </script>
 }

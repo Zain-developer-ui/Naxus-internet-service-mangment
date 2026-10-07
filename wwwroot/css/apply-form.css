@@ -1,0 +1,228 @@
+/* =========================================================
+   NEXUS — apply-form.css
+   Shared controls for the New Connection application and any
+   other long form: connection type picker, billing cycle picker,
+   password strength meter.
+   ========================================================= */
+
+/* ---------- Inline field errors ---------- */
+.apply-form .field-error {
+    display: block;
+    margin-top: 5px;
+    font-size: 0.78rem;
+    color: var(--nexus-danger);
+    line-height: 1.4;
+}
+
+.apply-form .field-error:empty,
+.apply-form .field-error.field-validation-valid {
+    display: none;
+}
+
+.apply-form .hint,
+.apply-form .form-hint {
+    display: block;
+    margin-top: 6px;
+    font-size: 0.76rem;
+    color: var(--nexus-muted);
+    line-height: 1.45;
+}
+
+.apply-form label .opt {
+    font-weight: 400;
+    color: var(--nexus-muted);
+    font-size: 0.75rem;
+}
+
+/* ---------- Connection type picker ---------- */
+.apply-form .type-picker {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.apply-form .type-picker input,
+.apply-form .cycle-picker input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.apply-form .type-picker label,
+.apply-form .cycle-picker label {
+    margin: 0;
+    padding: 12px 8px;
+    border: 1.5px solid var(--nexus-border);
+    border-radius: 11px;
+    background: var(--nexus-surface);
+    text-align: center;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--nexus-text-soft);
+    transition: border-color 0.18s ease, background 0.18s ease, color 0.18s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.apply-form .type-picker label i {
+    font-size: 1rem;
+    color: var(--nexus-muted);
+    transition: color 0.18s ease;
+}
+
+.apply-form .type-picker input:checked + label,
+.apply-form .cycle-picker input:checked + label {
+    border-color: var(--nexus-blue);
+    background: rgba(30, 111, 229, 0.07);
+    color: var(--nexus-blue-dark);
+    box-shadow: 0 0 0 3px rgba(30, 111, 229, 0.1);
+}
+
+.apply-form .type-picker input:checked + label i {
+    color: var(--nexus-blue);
+}
+
+.apply-form .type-picker input:focus-visible + label,
+.apply-form .cycle-picker input:focus-visible + label {
+    outline: 2px solid var(--nexus-blue);
+    outline-offset: 2px;
+}
+
+/* ---------- Billing cycle picker ---------- */
+.apply-form .cycle-picker {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.apply-form .cycle-picker label {
+    flex-direction: row;
+    justify-content: center;
+    padding: 10px 6px;
+}
+
+/* ---------- Plan grid: hidden options stay out of the layout ---------- */
+.apply-form .plan-choice[hidden] {
+    display: none;
+}
+
+.apply-form .plan-empty-note {
+    margin-top: 10px;
+}
+
+/* ---------- Password strength ---------- */
+.apply-form .strength {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.apply-form .strength[hidden] {
+    display: none;
+}
+
+.apply-form .strength-bar {
+    flex: 1;
+    height: 5px;
+    border-radius: 999px;
+    background: var(--nexus-border);
+    overflow: hidden;
+}
+
+.apply-form .strength-bar span {
+    display: block;
+    height: 100%;
+    width: 0;
+    border-radius: 999px;
+    background: var(--nexus-danger);
+    transition: width 0.25s ease, background 0.25s ease;
+}
+
+.apply-form .strength-label {
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: var(--nexus-muted);
+    min-width: 68px;
+    text-align: right;
+}
+
+/* ---------- Notes callout used on the account step ---------- */
+.apply-form .review-note {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 14px 16px;
+    margin-bottom: 22px;
+    border-radius: 11px;
+    background: var(--nexus-info-bg);
+    border-left: 4px solid var(--nexus-info);
+    color: var(--nexus-info-ink);
+    font-size: 0.85rem;
+    line-height: 1.55;
+}
+
+.apply-form .review-note i {
+    margin-top: 2px;
+}
+
+.apply-form .review-note em {
+    font-style: normal;
+    font-weight: 700;
+}
+
+/* ---------- Summary tweaks ---------- */
+.apply-form .order-summary .divider {
+    height: 1px;
+    background: var(--nexus-border);
+    border: none;
+    margin: 18px 0;
+}
+
+.apply-form .order-summary .summary-rows .free {
+    color: var(--nexus-success);
+}
+
+.apply-form .order-summary .summary-rows.total {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 2px solid var(--nexus-border);
+}
+
+.apply-form .order-summary .summary-rows.total strong {
+    font-size: 1.3rem;
+    color: var(--nexus-blue-dark);
+}
+
+.apply-form .cycle-group {
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px dashed var(--nexus-border-strong);
+}
+
+.apply-form .summary-help {
+    margin-top: 14px;
+}
+
+.apply-form .summary-help h4 {
+    font-size: 0.95rem;
+}
+
+.apply-form .summary-help p {
+    margin: 0 0 8px;
+}
+
+.apply-form .summary-help p:last-child {
+    margin-bottom: 0;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 640px) {
+    .apply-form .type-picker,
+    .apply-form .cycle-picker {
+        grid-template-columns: 1fr 1fr;
+    }
+}

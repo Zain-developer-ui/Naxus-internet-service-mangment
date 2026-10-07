@@ -11,7 +11,7 @@
     min-height: 100vh;
     overflow: hidden;
     isolation: isolate;
-    background: radial-gradient(ellipse at 20% 30%, rgba(30, 111, 229, 0.28), transparent 55%), radial-gradient(ellipse at 80% 70%, rgba(56, 189, 248, 0.22), transparent 55%), radial-gradient(ellipse at 50% 50%, rgba(15, 42, 92, 0.6), transparent 70%), linear-gradient(180deg, #061631 0%, #0A1F44 40%, #061631 100%);
+    background: radial-gradient(ellipse at 20% 30%, rgba(30, 111, 229, 0.28), transparent 55%), radial-gradient(ellipse at 80% 70%, rgba(56, 189, 248, 0.22), transparent 55%), radial-gradient(ellipse at 50% 50%, rgba(15, 42, 92, 0.6), transparent 70%), linear-gradient(180deg, var(--nexus-navy-dark) 0%, var(--nexus-navy) 40%, var(--nexus-navy-dark) 100%);
 }
 
     /* ---------------------------------------------------------
@@ -19,7 +19,7 @@
    --------------------------------------------------------- */
     .login-stars-page .star {
         position: absolute;
-        background: #FFFFFF;
+        background: var(--nexus-surface);
         border-radius: 50%;
         opacity: 0.8;
         animation: twinkle 3s infinite ease-in-out;
@@ -50,7 +50,7 @@
     position: absolute;
     width: 2px;
     height: 2px;
-    background: #FFFFFF;
+    background: var(--nexus-surface);
     border-radius: 50%;
     box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.15);
     animation: shoot 6s linear infinite;
@@ -118,7 +118,7 @@
     border-radius: 999px;
     background: rgba(56, 189, 248, 0.12);
     border: 1px solid rgba(56, 189, 248, 0.4);
-    color: #BAE6FD;
+    color: var(--nexus-accent-soft);
     font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.14em;
@@ -133,13 +133,13 @@
     font-weight: 800;
     line-height: 1.05;
     letter-spacing: -0.035em;
-    color: #FFFFFF;
+    color: var(--nexus-text-invert);
     margin: 0 0 16px;
     text-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
 }
 
     .login-stars-page .login-h1 .shine {
-        background: linear-gradient( 90deg, #38BDF8 0%, #FFFFFF 35%, #7DD3FC 50%, #FFFFFF 65%, #38BDF8 100% );
+        background: linear-gradient( 90deg, var(--nexus-accent) 0%, var(--nexus-surface) 35%, var(--nexus-accent-bright) 50%, var(--nexus-surface) 65%, var(--nexus-accent) 100% );
         background-size: 250% 100%;
         -webkit-background-clip: text;
         background-clip: text;
@@ -237,24 +237,24 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        color: #FFFFFF;
+        color: var(--nexus-text-invert);
         font-size: 0.95rem;
         flex-shrink: 0;
     }
 
         .login-stars-page .float-card .ic.green {
-            background: linear-gradient(135deg, #10B981, #059669);
+            background: linear-gradient(135deg, var(--nexus-success), var(--nexus-success-dark));
             box-shadow: 0 6px 14px rgba(16, 185, 129, 0.4);
         }
 
         .login-stars-page .float-card .ic.blue {
-            background: linear-gradient(135deg, #1E6FE5, #1558B8);
+            background: linear-gradient(135deg, var(--nexus-blue), var(--nexus-blue-dark));
             box-shadow: 0 6px 14px rgba(30, 111, 229, 0.4);
         }
 
     .login-stars-page .float-card .meta strong {
         display: block;
-        color: #0A1F44;
+        color: var(--nexus-navy);
         font-size: 0.85rem;
         font-weight: 700;
         line-height: 1.15;
@@ -262,7 +262,7 @@
 
     .login-stars-page .float-card .meta span {
         font-size: 0.72rem;
-        color: #64748B;
+        color: var(--nexus-muted);
     }
 
     .login-stars-page .float-card.tl {
@@ -293,8 +293,8 @@
     left: -16px;
     transform: translateY(-50%);
     padding: 9px 14px;
-    background: linear-gradient(135deg, #1E6FE5, #1558B8);
-    color: #FFFFFF;
+    background: linear-gradient(135deg, var(--nexus-blue), var(--nexus-blue-dark));
+    color: var(--nexus-text-invert);
     border-radius: 999px;
     font-size: 0.7rem;
     font-weight: 700;
@@ -312,7 +312,7 @@
     .login-stars-page .live-pill .dot {
         width: 7px;
         height: 7px;
-        background: #FFFFFF;
+        background: var(--nexus-surface);
         border-radius: 50%;
         animation: pulse 1.8s ease-in-out infinite;
     }
@@ -345,13 +345,13 @@
     .login-stars-page .login-form-card h2 {
         font-size: 1.5rem;
         font-weight: 800;
-        color: #0A1F44;
+        color: var(--nexus-navy);
         margin: 0 0 6px;
         letter-spacing: -0.02em;
     }
 
     .login-stars-page .login-form-card .sub {
-        color: #64748B;
+        color: var(--nexus-muted);
         font-size: 0.92rem;
         margin: 0 0 24px;
     }
@@ -377,29 +377,29 @@
         display: block;
         font-size: 0.86rem;
         font-weight: 600;
-        color: #334155;
+        color: var(--nexus-text-soft);
         margin-bottom: 8px;
     }
 
 .login-stars-page .input-wrap {
     display: flex;
-    border: 1.5px solid #E2E8F0;
+    border: 1.5px solid var(--nexus-border);
     border-radius: 10px;
-    background: #FFFFFF;
+    background: var(--nexus-surface);
     overflow: hidden;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
     .login-stars-page .input-wrap:focus-within {
-        border-color: #1E6FE5;
+        border-color: var(--nexus-blue);
         box-shadow: 0 0 0 4px rgba(30, 111, 229, 0.12);
     }
 
     .login-stars-page .input-wrap .ic {
         padding: 0 14px;
-        background: #F4F7FB;
-        border-right: 1px solid #E2E8F0;
-        color: #64748B;
+        background: var(--nexus-background-alt);
+        border-right: 1px solid var(--nexus-border);
+        color: var(--nexus-muted);
         display: inline-flex;
         align-items: center;
         font-size: 0.95rem;
@@ -412,7 +412,7 @@
         padding: 13px 14px;
         font-family: inherit;
         font-size: 0.94rem;
-        color: #0A1F44;
+        color: var(--nexus-navy);
         background: transparent;
     }
 
@@ -421,7 +421,7 @@
         background: transparent;
         padding: 0 14px;
         cursor: pointer;
-        color: #64748B;
+        color: var(--nexus-muted);
     }
 
 /* Row: remember + forgot */
@@ -439,20 +439,20 @@
     align-items: center;
     gap: 8px;
     font-size: 0.88rem;
-    color: #334155;
+    color: var(--nexus-text-soft);
     cursor: pointer;
 }
 
     .login-stars-page .checkbox-line input {
         width: 17px;
         height: 17px;
-        accent-color: #1E6FE5;
+        accent-color: var(--nexus-blue);
         cursor: pointer;
     }
 
 .login-stars-page .forgot {
     font-size: 0.85rem;
-    color: #1558B8;
+    color: var(--nexus-blue-dark);
     text-decoration: none;
     font-weight: 500;
 }
@@ -465,8 +465,8 @@
 .login-stars-page .btn-submit {
     width: 100%;
     padding: 15px 24px;
-    background: linear-gradient(135deg, #1E6FE5 0%, #1558B8 100%);
-    color: #FFFFFF;
+    background: linear-gradient(135deg, var(--nexus-blue) 0%, var(--nexus-blue-dark) 100%);
+    color: var(--nexus-text-invert);
     border: none;
     border-radius: 12px;
     font-family: inherit;
@@ -508,7 +508,7 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    color: #64748B;
+    color: var(--nexus-muted);
     font-size: 0.82rem;
     margin: 22px 0 18px;
 }
@@ -518,7 +518,7 @@
         content: '';
         flex: 1;
         height: 1px;
-        background: #E2E8F0;
+        background: var(--nexus-border);
     }
 
 /* Secondary button */
@@ -526,8 +526,8 @@
     width: 100%;
     padding: 13px 24px;
     background: transparent;
-    color: #0A1F44;
-    border: 1.5px solid #CBD5E1;
+    color: var(--nexus-navy);
+    border: 1.5px solid var(--nexus-border-strong);
     border-radius: 12px;
     font-family: inherit;
     font-size: 0.94rem;
@@ -541,9 +541,9 @@
 }
 
     .login-stars-page .btn-secondary:hover {
-        background: #0A1F44;
-        color: #FFFFFF;
-        border-color: #0A1F44;
+        background: var(--nexus-navy);
+        color: var(--nexus-text-invert);
+        border-color: var(--nexus-navy);
         transform: translateY(-2px);
     }
 
@@ -551,10 +551,10 @@
 .login-stars-page .demo-hint {
     margin-top: 22px;
     padding: 14px 18px;
-    background: #E0F2FE;
+    background: var(--nexus-info-bg);
     border-radius: 10px;
-    border-left: 4px solid #0284C7;
-    color: #075985;
+    border-left: 4px solid var(--nexus-info);
+    color: var(--nexus-info-ink);
     font-size: 0.82rem;
     line-height: 1.55;
 }
@@ -594,7 +594,7 @@
 }
 
     .login-stars-page .trust-item i {
-        color: #38BDF8;
+        color: var(--nexus-accent);
         font-size: 0.95rem;
     }
 

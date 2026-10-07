@@ -1,27 +1,18 @@
-﻿@model NEXUS.Models.ViewModels.OrderViewModel
+@model NEXUS.Models.ViewModels.OrderViewModel
+@using NEXUS.Common.Constants
+@using NEXUS.Common.Extensions
 @{
     Layout = "_DashboardLayout";
     ViewData["Title"] = "New Retail Order — NEXUS";
-    ViewData["UserRole"] = "Retail";
-    ViewData["ActiveSidebar"] = "neworder";
-    ViewData["UserName"] = "Hamza Tariq";
 
-    var demoPlans = new[]
-    {
-        new { Name = "Basic",    Speed = 5,  Monthly = 1200m, Popular = false, Tagline = "Light browsing" },
-        new { Name = "Standard", Speed = 15, Monthly = 2000m, Popular = true,  Tagline = "Families & work" },
-        new { Name = "Premium",  Speed = 30, Monthly = 3500m, Popular = false, Tagline = "Gaming & 4K" }
-    };
+    var cities = Model.Cities;
+    var plans = Model.Plans;
 }
 
 @section DashboardStyles {
-    <link rel="stylesheet" href="~/css/dashboards-luxury.css" />
-    <link rel="stylesheet" href="~/css/orders.css" />
+    <link rel="stylesheet" href="~/css/apply-form.css" />
 }
 
-@* =========================================================
-   PAGE HEADER
-   ========================================================= *@
 <nav class="breadcrumbs" aria-label="Breadcrumb">
     <a href="/Retail/Dashboard">Retail Dashboard</a>
     <span class="sep">/</span>
@@ -31,285 +22,350 @@
 <div class="page-header reveal">
     <div>
         <h1><i class="fa-solid fa-user-plus" style="color:var(--nexus-blue);"></i> New Customer Order</h1>
-        <p class="muted">Register a walk-in customer and submit a NEXUS connection request.</p>
-    </div>
+        <p class="muted">Register a walk-in customer and raise their NEXUS connection order. The account is created with it.</p> </div>
     <div class="page-header-actions">
         <div class="info-card" style="padding:12px 16px;">
             <div class="icon" style="width:36px;height:36px;font-size:0.95rem;">
-                <i class="fa-solid fa-store"></i>
-            </div>
+                <i class="fa-solid fa-user-tie"></i> </div>
             <div>
-                <h5 style="margin:0;font-size:0.85rem;">Gulberg Branch</h5>
-                <p style="margin:0;font-size:0.75rem;">Emp: E-EMP-1004 · Hamza Tariq</p>
-            </div>
-        </div>
-    </div>
+                <h5 style="margin:0;font-size:0.85rem;">@User.DisplayName()</h5>
+                <p style="margin:0;font-size:0.75rem;">Front desk</p> </div> </div> </div>
 </div>
 
-@* =========================================================
-   LAYOUT: FORM + STICKY SUMMARY
-   ========================================================= *@
-<section style="padding:0;">
-    <div class="order-layout">
+@if (TempData["Error"] is string err)
+{
+    <div class="alert alert-danger reveal" role="alert">
+        <i class="fa-solid fa-circle-exclamation"></i> @err </div>
+}
 
-        @* ---------- FORM ---------- *@
+<section style="padding:0;">
+    <div class="order-layout apply-form">
+
         <div>
             <form asp-controller="Retail" asp-action="NewOrder" method="post"
-                  data-validate-form data-loading-submit data-order-form novalidate>
+                  data-step-form data-order-form data-total-steps="4" novalidate>
 
                 @Html.AntiForgeryToken()
 
-                @* CUSTOMER *@
-                <div class="card reveal" style="margin-bottom:18px;">
-                    <div class="card-header">
-                        <div>
-                            <h4><i class="fa-regular fa-user" style="color:var(--nexus-blue);"></i> Customer Information</h4>
-                            <p>Enter details exactly as they appear on the CNIC.</p>
-                        </div>
-                    </div>
+                <div class="step-progress" aria-label="Order progress">
+                    <div class="step-bar-fill"></div>
 
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="FullName">Full Name <span class="req">*</span></label>
-                            <input type="text" id="FullName" name="FullName" placeholder="e.g. Ahmed Khan"
-                                   required data-validate="required" />
-                            <span class="field-error"></span>
-                        </div>
-                        <div class="form-group">
-                            <label for="Phone">Mobile Number <span class="req">*</span></label>
-                            <input type="tel" id="Phone" name="Phone" placeholder="03001234567"
-                                   required data-validate="required phone" />
-                            <span class="field-error"></span>
-                        </div>
+                    <div class="step active" data-step-indicator="1">
+                        <span class="step-num">1</span>
+                        <span class="step-label">Service</span>
                     </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="Email">Email <span class="req">*</span></label>
-                            <input type="email" id="Email" name="Email" placeholder="you@example.com"
-                                   required data-validate="required email" />
-                            <span class="field-error"></span>
-                        </div>
-                        <div class="form-group">
-                            <label for="Cnic">CNIC <span class="req">*</span></label>
-                            <input type="text" id="Cnic" name="Cnic" placeholder="35202-1234567-1"
-                                   required data-validate="required cnic" />
-                            <span class="field-error"></span>
-                        </div>
+                    <div class="step" data-step-indicator="2">
+                        <span class="step-num">2</span>
+                        <span class="step-label">Customer</span>
+                    </div>
+                    <div class="step" data-step-indicator="3">
+                        <span class="step-num">3</span>
+                        <span class="step-label">Installation</span>
+                    </div>
+                    <div class="step" data-step-indicator="4">
+                        <span class="step-num">4</span>
+                        <span class="step-label">Account</span>
                     </div>
                 </div>
 
-                @* ADDRESS *@
-                <div class="card reveal" style="margin-bottom:18px;">
-                    <div class="card-header">
-                        <div>
-                            <h4><i class="fa-solid fa-location-dot" style="color:var(--nexus-blue);"></i> Address</h4>
-                        </div>
-                    </div>
+                <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
 
-                    <div class="form-group">
-                        <label for="Address">Street Address <span class="req">*</span></label>
-                        <input type="text" id="Address" name="Address" placeholder="House / Flat / Street"
-                               required data-validate="required" />
-                        <span class="field-error"></span>
-                    </div>
+                @* ================= STEP 1 — SERVICE ================= *@
+                <div class="step-panel active" data-panel="1">
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h3><i class="fa-solid fa-layer-group"></i> Choose the Service</h3>
+                                <p>Pick the connection type, then a plan for the customer.</p> </div> </div>
 
-                    <div class="form-row-3 form-row">
                         <div class="form-group">
-                            <label for="Area">Area <span class="req">*</span></label>
-                            <input type="text" id="Area" name="Area" placeholder="Gulberg III" required data-validate="required" />
-                            <span class="field-error"></span>
-                        </div>
-                        <div class="form-group">
-                            <label for="City">City <span class="req">*</span></label>
-                            <select id="City" name="City" required data-validate="required">
-                                <option value="">— Select —</option>
-                                <option>Lahore</option>
-                                <option>Karachi</option>
-                                <option>Islamabad</option>
-                                <option>Rawalpindi</option>
-                                <option>Faisalabad</option>
-                                <option>Multan</option>
-                            </select>
-                            <span class="field-error"></span>
-                        </div>
-                        <div class="form-group">
-                            <label for="PostalCode">Postal Code <span class="req">*</span></label>
-                            <input type="text" id="PostalCode" name="PostalCode" placeholder="54000"
-                                   required data-validate="required postal" />
-                            <span class="field-error"></span>
-                        </div>
-                    </div>
-                </div>
-
-                @* SERVICE & PLAN *@
-                <div class="card reveal" style="margin-bottom:18px;">
-                    <div class="card-header">
-                        <div>
-                            <h4><i class="fa-solid fa-layer-group" style="color:var(--nexus-blue);"></i> Service &amp; Plan</h4>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="ServiceType">Connection Type <span class="req">*</span></label>
-                        <select id="ServiceType" name="ServiceType" required data-validate="required">
-                            <option value="">— Select —</option>
-                            <option value="Broadband" selected>Broadband</option>
-                            <option value="Dial-Up">Dial-Up</option>
-                        </select>
-                        <span class="field-error"></span>
-                    </div>
-
-                    <label class="form-label" style="margin-top:14px;">Choose a Plan <span class="req">*</span></label>
-                    <div class="plan-choice-grid">
-                        @foreach (var p in demoPlans)
-                        {
-                            var popular = p.Popular ? "popular" : "";
-                            var selected = p.Name == "Standard" ? "selected" : "";
-                            <label class="plan-choice @popular @selected">
-                                <input type="radio" name="PlanName" value="@p.Name"
-                                       @(p.Name == "Standard" ? "checked" : "") required data-validate="required"
-                                       data-plan-select data-speed-target="#Speed" />
-                                @if (p.Popular)
+                            <label>Connection Type <span class="req">*</span></label>
+                            <div class="type-picker">
+                                @foreach (var type in new[] { ConnectionType.Broadband, ConnectionType.DialUp, ConnectionType.Telephone })
                                 {
-                                    <span class="choice-badge">Popular</span>
+                                    var id = $"type-{type}";
+                                    <input type="radio" asp-for="ConnectionType" value="@type"
+                                           id="@id" data-conn-type />
+                                    <label for="@id">
+                                        <i class="fa-solid @(type == ConnectionType.Broadband ? "fa-wifi" : type == ConnectionType.DialUp ? "fa-phone-volume" : "fa-phone")"></i>
+                                        <span>@type.DisplayName()</span>
+                                    </label>
                                 }
-                                <div class="choice-name">@p.Name</div>
-                                <div class="choice-speed">@p.Speed</div>
-                                <div class="choice-price">Rs. @p.Monthly.ToString("N0")<span>/mo</span></div>
-                                <div class="choice-tagline">@p.Tagline</div>
+                            </div>
+                            <span asp-validation-for="ConnectionType" class="field-error"></span>
+                        </div>
+
+                        <label class="form-label">Plan <span class="req">*</span></label>
+                        <div class="plan-choice-grid" data-plan-grid>
+                            @foreach (var plan in plans)
+                            {
+                                <label class="plan-choice" data-plan-option data-type="@plan.ConnectionType"
+                                       data-monthly="@plan.MonthlyRate" data-deposit="@plan.SecurityDeposit">
+                                    <input type="radio" asp-for="PlanId" value="@plan.Id" data-plan-radio />
+                                    <div class="choice-name">@plan.Name</div>
+                                    <div class="choice-speed">@plan.Badge</div>
+                                    <div class="choice-price">
+                                        $@plan.MonthlyRate.ToString("N2")<span>/mo</span>
+                                    </div>
+                                    <div class="choice-tagline">
+                                        @(plan.SpeedKbps is int kbps ? $"{kbps} Kbps" : "No landline needed")
+                                    </div>
+                                </label>
+                            }
+                        </div>
+                        <span asp-validation-for="PlanId" class="field-error"></span>
+
+                        <div class="form-group plan-empty-note" data-plan-empty hidden>
+                            <p class="hint">No plans are offered for this connection type yet.</p>
+                        </div>
+
+                        <div class="form-group cycle-group">
+                            <label>Billing Cycle <span class="req">*</span></label>
+                            <div class="cycle-picker">
+                                @foreach (var cycle in new[] { BillingCycle.Monthly, BillingCycle.HalfYearly, BillingCycle.Yearly })
+                                {
+                                    var id = $"cycle-{cycle}";
+                                    <input type="radio" asp-for="BillingCycle" value="@cycle" id="@id" />
+                                    <label for="@id">@cycle.DisplayName()</label>
+                                }
+                            </div>
+                            <span asp-validation-for="BillingCycle" class="field-error"></span>
+                        </div>
+                    </div>
+                </div>
+
+                @* ================= STEP 2 — CUSTOMER ================= *@
+                <div class="step-panel" data-panel="2">
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h3><i class="fa-regular fa-user"></i> Customer Details</h3>
+                                <p>Exactly as they appear on the CNIC.</p> </div> </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label asp-for="FullName">Full Name <span class="req">*</span></label>
+                                <input asp-for="FullName" placeholder="Ahmed Raza Khan"
+                                       autocomplete="off" required />
+                                <span asp-validation-for="FullName" class="field-error"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Phone">Mobile Number <span class="req">*</span></label>
+                                <input asp-for="Phone" placeholder="0300-1234567"
+                                       inputmode="numeric" maxlength="12" required />
+                                <span asp-validation-for="Phone" class="field-error"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label asp-for="Cnic">CNIC <span class="req">*</span></label>
+                                <input asp-for="Cnic" placeholder="42101-1234567-1"
+                                       inputmode="numeric" maxlength="15" required />
+                                <span asp-validation-for="Cnic" class="field-error"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Email">Email <span class="opt">optional</span></label>
+                                <input asp-for="Email" type="email" placeholder="customer@example.com"
+                                       autocomplete="off" />
+                                <span asp-validation-for="Email" class="field-error"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="checkbox-line">
+                                <input asp-for="IsCorporate" data-corporate-toggle />
+                                <span>This is a corporate account</span>
                             </label>
-                        }
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="OrganisationName">Organisation Name <span class="req">*</span></label>
+                            <div data-org-field hidden>
+                                <input asp-for="OrganisationName" placeholder="Company or institution" />
+                            </div>
+                            <span asp-validation-for="OrganisationName" class="field-error"></span>
+                        </div>
                     </div>
-                    <span class="field-error"></span>
-                    <input type="hidden" id="Speed" name="Speed" value="15 Mbps" />
                 </div>
 
-                @* INSTALLATION *@
-                <div class="card reveal" style="margin-bottom:18px;">
-                    <div class="card-header">
-                        <div>
-                            <h4><i class="fa-solid fa-screwdriver-wrench" style="color:var(--nexus-blue);"></i> Installation</h4>
-                        </div>
-                    </div>
+                @* ================= STEP 3 — INSTALLATION ================= *@
+                <div class="step-panel" data-panel="3">
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h3><i class="fa-solid fa-screwdriver-wrench"></i> Installation</h3>
+                                <p>Where should the technician install the line?</p> </div> </div>
 
-                    <div class="form-row">
                         <div class="form-group">
-                            <label for="PreferredInstallDate">Preferred Date</label>
-                            <input type="date" id="PreferredInstallDate" name="PreferredInstallDate" />
+                            <label asp-for="Address">Installation Address <span class="req">*</span></label>
+                            <input asp-for="Address" placeholder="House / flat / street, nearest landmark"
+                                   required />
+                            <span asp-validation-for="Address" class="field-error"></span>
                         </div>
+
                         <div class="form-group">
-                            <label for="PreferredTime">Preferred Time</label>
-                            <select id="PreferredTime" name="PreferredTime">
-                                <option>Morning (9am–12pm)</option>
-                                <option>Afternoon (12pm–4pm)</option>
-                                <option>Evening (4pm–7pm)</option>
+                            <label asp-for="CityId">City <span class="req">*</span></label>
+                            <select asp-for="CityId" required>
+                                <option value="0">Select the city</option>
+                                @foreach (var city in cities)
+                                {
+                                    <option value="@city.Id">@city.Name — @city.Region</option>
+                                }
                             </select>
+                            <span asp-validation-for="CityId" class="field-error"></span>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <label for="Notes">Notes</label>
-                        <textarea id="Notes" name="Notes" rows="3" placeholder="Anything our technician should know…"></textarea>
+                        <div class="form-group">
+                            <label asp-for="LandlineNumber">Existing Landline <span class="req">*</span></label>
+                            <div data-landline-field hidden>
+                                <input asp-for="LandlineNumber" placeholder="021-1234567"
+                                       inputmode="numeric" maxlength="11" />
+                                <span class="hint">
+                                    Dial-Up and Telephone run over a landline the customer already holds with NEXUS.
+                                </span>
+                            </div>
+                            <span asp-validation-for="LandlineNumber" class="field-error"></span>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label asp-for="PreferredInstallDate">Preferred Date</label>
+                                <input asp-for="PreferredInstallDate" type="date" />
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="PreferredTime">Preferred Time</label>
+                                <select asp-for="PreferredTime">
+                                    <option value="Morning (9am-12pm)">Morning (9am–12pm)</option>
+                                    <option value="Afternoon (12pm-4pm)">Afternoon (12pm–4pm)</option>
+                                    <option value="Evening (4pm-7pm)">Evening (4pm–7pm)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Notes">Notes for the Technician</label>
+                            <textarea asp-for="Notes" rows="3"
+                                      placeholder="Gate code, floor, anything that helps on the day"></textarea>
+                        </div>
                     </div>
                 </div>
 
-                @* TERMS + SUBMIT *@
-                <div class="card reveal">
-                    <label class="checkbox">
-                        <input type="checkbox" name="AcceptTerms" value="true" required data-validate="required" />
-                        <span>Customer agrees to the NEXUS <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</span>
-                    </label>
-                    <span class="field-error"></span>
+                @* ================= STEP 4 — ACCOUNT ================= *@
+                <div class="step-panel" data-panel="4">
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h3><i class="fa-solid fa-key"></i> Account Credentials</h3>
+                                <p>Set the password the customer will sign in with, then hand it over at the desk.</p> </div> </div>
 
-                    <div style="margin-top:22px;display:flex;gap:10px;flex-wrap:wrap;">
-                        <a href="/Retail/Dashboard" class="btn btn-outline">
-                            <i class="fa-solid fa-arrow-left"></i> Cancel
-                        </a>
-                        <button type="submit" class="btn btn-primary" style="margin-left:auto;">
-                            <i class="fa-solid fa-circle-check"></i> Submit Order
+                        <div class="review-note">
+                            <i class="fa-solid fa-circle-info"></i>
+                            <span>
+                                Submitting creates the customer's NEXUS account <em>and</em> raises the
+                                installation order. The account ID appears on the next screen.
+                            </span>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label asp-for="Password">Password <span class="req">*</span></label>
+                                <div class="input-wrap">
+                                    <input asp-for="Password" type="password" id="Password"
+                                           placeholder="At least 8 characters"
+                                           autocomplete="new-password" required />
+                                    <button type="button" class="toggle" data-password-toggle="#Password"
+                                            aria-label="Show or hide password">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </button>
+                                </div>
+                                <div class="strength" data-strength hidden>
+                                    <div class="strength-bar"><span data-strength-fill></span></div>
+                                    <span class="strength-label" data-strength-label></span>
+                                </div>
+                                <span asp-validation-for="Password" class="field-error"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="ConfirmPassword">Confirm Password <span class="req">*</span></label>
+                                <input asp-for="ConfirmPassword" type="password" id="ConfirmPassword"
+                                       placeholder="Repeat the password"
+                                       autocomplete="new-password" required />
+                                <span asp-validation-for="ConfirmPassword" class="field-error"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="checkbox-line">
+                                <input asp-for="AcceptTerms" data-terms />
+                                <span>
+                                    Customer agrees to the NEXUS
+                                    <a href="/Home/Privacy">Terms of Service</a> and
+                                    <a href="/Home/Privacy">Privacy Policy</a>.
+                                </span>
+                            </label>
+                            <span asp-validation-for="AcceptTerms" class="field-error"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-actions">
+                    <button type="button" class="btn btn-outline" data-step-prev>
+                        <i class="fa-solid fa-arrow-left"></i> Previous
+                    </button>
+                    <div class="right">
+                        <a href="/Retail/Dashboard" class="btn btn-ghost">Cancel</a>
+                        <button type="button" class="btn btn-primary" data-step-next>
+                            Next <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                        <button type="submit" class="btn btn-primary" data-step-submit hidden>
+                            <i class="fa-solid fa-circle-check"></i> Create Order
                         </button>
                     </div>
                 </div>
             </form>
         </div>
 
-        @* ---------- STICKY SUMMARY ---------- *@
         <aside class="order-summary">
-            <div class="card reveal">
+            <div class="card">
                 <h4><i class="fa-solid fa-receipt"></i> Order Summary</h4>
-                <p class="muted small" style="margin:0 0 18px;">Live updates as you fill the form.</p>
+                <p class="muted small">Updates as you fill the form.</p>
 
                 <div class="summary-rows">
-                    <div><span>Service</span><strong data-summary="service">Broadband</strong></div>
-                    <div><span>Plan</span><strong data-summary="plan">Standard Plan</strong></div>
-                    <div><span>Speed</span><strong data-summary="speed">15 Mbps</strong></div>
+                    <div><span>Connection</span><strong data-summary="type">—</strong></div>
+                    <div><span>Plan</span><strong data-summary="plan">—</strong></div>
+                    <div><span>Cycle</span><strong data-summary="cycle">Monthly</strong></div>
                 </div>
 
-                <div class="divider" style="margin:20px 0;"></div>
+                <div class="divider"></div>
 
                 <div class="summary-rows">
-                    <div><span>Monthly Rental</span><strong data-summary="monthly">Rs. 2,000</strong></div>
-                    <div><span>Security Deposit</span><strong data-summary="deposit">Rs. 450</strong></div>
-                    <div><span>Installation</span><strong data-summary="install" style="color:var(--nexus-success);">Free</strong></div>
+                    <div><span>Monthly Rental</span><strong data-summary="monthly">$0.00</strong></div>
+                    <div><span>Security Deposit</span><strong data-summary="deposit">$0.00</strong></div>
+                    <div><span>Installation</span><strong class="free">Free</strong></div>
                 </div>
 
-                <div class="summary-rows total" style="margin-top:16px;">
-                    <div><span>Total Due</span><strong data-summary="total">Rs. 2,450</strong></div>
+                <div class="summary-rows total">
+                    <div>
+                        <span>Payable at Installation</span>
+                        <strong data-summary="total">$0.00</strong>
+                    </div>
                 </div>
             </div>
 
-            <div class="card reveal delay-1" style="margin-top:14px;">
-                <h4 style="font-size:0.95rem;"><i class="fa-solid fa-store"></i> Branch Info</h4>
-                <div class="summary-rows" style="margin-top:12px;">
-                    <div><span>Employee</span><strong>Hamza Tariq</strong></div>
-                    <div><span>Employee ID</span><strong>E-EMP-1004</strong></div>
-                    <div><span>Branch</span><strong>Gulberg III, Lahore</strong></div>
-                    <div><span>Date</span><strong>@DateTime.Now.ToString("dd MMM yyyy")</strong></div>
-                </div>
+            <div class="card summary-help">
+                <h4><i class="fa-solid fa-headset"></i> Need Help?</h4>
+                <p class="muted small">Support is available 24/7 while you take the order.</p>
+                <p class="small"><i class="fa-solid fa-phone"></i> 111-NEXUS-1</p>
+                <p class="small"><i class="fa-solid fa-envelope"></i> support@nexus.example</p>
             </div>
         </aside>
     </div>
 </section>
 
-@* =========================================================
-   SUCCESS MODAL
-   ========================================================= *@
-<div class="modal-backdrop" id="retailOrderSuccess" aria-hidden="true">
-    <div class="modal modal-lg" role="dialog" aria-modal="true">
-        <div class="modal-header">
-            <h3><i class="fa-solid fa-circle-check" style="color:var(--nexus-success);"></i> Order Submitted</h3>
-            <button class="modal-close" data-modal-close aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        <div class="modal-body">
-            <p>Retail order has been created (demo). The customer will receive a confirmation SMS shortly.</p>
-            <div class="info-card" style="margin-top:16px;">
-                <div class="icon"><i class="fa-solid fa-hashtag"></i></div>
-                <div>
-                    <h5>Generated Order ID</h5>
-                    <p style="font-family:monospace;font-size:1.1rem;color:var(--nexus-blue-dark);font-weight:700;">NX-ORD-1006</p>
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <a href="/Retail/Dashboard" class="btn btn-outline">Back to Dashboard</a>
-            <a href="/Orders/Tracking?id=NX-ORD-1006" class="btn btn-primary">
-                <i class="fa-solid fa-truck-fast"></i> Track Order
-            </a>
-        </div>
-    </div>
-</div>
-
 @section DashboardScripts {
-    <script>
-        // Intercept submit → show confirmation modal
-        var form = document.querySelector('form[data-order-form]');
-        if (form) {
-            form.addEventListener('submit', function (e) {
-                if (e.defaultPrevented) return;
-                e.preventDefault();
-                NEXUS.modal.open(document.getElementById('retailOrderSuccess'));
-            });
-        }
-    </script>
+    <script src="~/js/new-connection.js" asp-append-version="true"></script>
 }

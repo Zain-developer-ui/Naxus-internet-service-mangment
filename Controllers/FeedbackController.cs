@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using NEXUS.Models.ViewModels;
+using NEXUS.Common.Constants;
 using NEXUS.Services.Api;
 
 namespace NEXUS.Controllers
 {
+    [Authorize(Roles = NexusRoles.Customer + "," + NexusRoles.Admin)]
     public class FeedbackController : Controller
     {
         private readonly IApiService _api;

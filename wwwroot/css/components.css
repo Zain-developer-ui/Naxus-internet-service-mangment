@@ -747,3 +747,207 @@
         font-size: 0.95rem;
     }
 }
+
+/* ---------------------------------------------------------
+   INITIALS AVATAR
+   Used where no real profile photo exists. Avoids shipping
+   placeholder portraits of people who are not real users.
+   --------------------------------------------------------- */
+.avatar-initials {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+    border-radius: 50%;
+    background: var(--nexus-blue-light);
+    color: var(--nexus-blue-dark);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    user-select: none;
+}
+
+.avatar-initials.avatar-lg {
+    width: 64px;
+    height: 64px;
+    flex-basis: 64px;
+    font-size: 1.25rem;
+}
+
+.avatar-initials.avatar-xl {
+    width: 96px;
+    height: 96px;
+    flex-basis: 96px;
+    font-size: 1.8rem;
+}
+
+/* ---------- Topbar role pill ---------- */
+.role-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: var(--secondary-light);
+    color: var(--secondary-dark, var(--primary));
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+/* ---------- Account menu ---------- */
+.user-chip {
+    position: relative;
+}
+
+.user-chip-trigger {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 12px 5px 5px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    transition: background var(--transition-fast), border-color var(--transition-fast);
+}
+
+.user-chip-trigger:hover,
+.user-chip-trigger[aria-expanded="true"] {
+    background: var(--surface-2);
+    border-color: var(--border, var(--secondary));
+}
+
+.user-chip-trigger .fa-chevron-down {
+    font-size: 0.7rem;
+    color: var(--muted);
+    transition: transform var(--transition-fast);
+}
+
+.user-chip-trigger[aria-expanded="true"] .fa-chevron-down {
+    transform: rotate(180deg);
+}
+
+.user-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 208px;
+    padding: 6px;
+    background: var(--surface, #fff);
+    border: 1px solid var(--border, #E2E8F0);
+    border-radius: 12px;
+    box-shadow: 0 12px 32px rgba(10, 31, 68, 0.14);
+    display: none;
+    z-index: 60;
+}
+
+.user-chip.open .user-menu {
+    display: block;
+}
+
+.user-menu a,
+.user-menu button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 9px 12px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    font: inherit;
+    font-size: 0.87rem;
+    color: var(--text, var(--primary));
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.user-menu a:hover,
+.user-menu button:hover,
+.user-menu a:focus-visible,
+.user-menu button:focus-visible {
+    background: var(--surface-2, #F1F5F9);
+    outline: none;
+}
+
+.user-menu a i,
+.user-menu button i {
+    width: 16px;
+    color: var(--muted);
+}
+
+.user-menu form {
+    margin: 0;
+}
+
+/* ---------- Validation ---------- */
+.validation-summary {
+    padding: 12px 16px;
+    border-radius: 10px;
+    background: var(--danger-light, #FEE2E2);
+    border: 1px solid var(--danger, #FCA5A5);
+    color: var(--danger-ink, #7F1D1D);
+    font-size: 0.88rem;
+    margin-bottom: 18px;
+}
+
+.validation-summary:empty {
+    display: none;
+}
+
+.validation-summary ul {
+    margin: 0;
+    padding-left: 18px;
+}
+
+.req {
+    color: var(--danger, #EF4444);
+}
+
+/* ---------- Error pages ---------- */
+.error-page {
+    text-align: center;
+    padding: 72px 24px;
+}
+
+.error-code {
+    font-size: 4.5rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--nexus-blue, var(--primary));
+    opacity: 0.25;
+}
+
+.error-page h1 {
+    margin: 8px 0 12px;
+    font-size: 1.9rem;
+    color: var(--primary);
+}
+
+.error-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+}
+
+.error-actions .inline-form {
+    margin: 0;
+}
+
+.hint {
+    display: block;
+    margin-top: 6px;
+    font-size: 0.8rem;
+    color: var(--muted);
+}

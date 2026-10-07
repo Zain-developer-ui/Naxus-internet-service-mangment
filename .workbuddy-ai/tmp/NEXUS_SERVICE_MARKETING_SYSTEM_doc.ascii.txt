@@ -1,0 +1,88 @@
+bjbj
+Nexus SERVICE MARKETING SYSTEMTable of ContentIntroduction 
+...02Existing Scenario 
+..02Proposed Scenario 
+.02Non-Financial 
+..03Financial .
+..04Functional Requirements 
+..04Introduction : 
+Nexus Communication System is an Organization system that provides two services like the tele-communications and Internet Services. It is one of the major vendors at the local place. It has now extended its service all over the territory due to the increase in demand for the internet service.They actually provide two types of connections, one being the Dial 
+ Up connection (Landline phone of the same vendor is compulsory to have this type of internet connection) and the other being the Broadband connection. Due to the increase in demand for connection and as to increase the comfort level, they have opened the retail shops at each place so that the customer can enquire regarding the connection or place an order for the connection by directly visiting to the retail shops at their place in that city, instead of applying at the office at their city.After the order for a connection is received, they will check for the feasibility and if the area is feasible only then the customer will be provided with the connection. For a customer who has applied for the Dial 
+ Up connection, the feasibility check will be conducted for both the landline and as well for the internet connection incase if the customer has applied for both the phone and internet connection and if the customer is holding the landline from the same vendor and now applied for the internet connection then the feasibility test is to be conducted for the internet connection only. Feasibility check is to be conducted in order to check the distance as they consider the distance parameters for giving the connection, to check with the server availability, etc... as per the company patterns.They get the equipments like the modems, routers, etc. from different product manufacturing vendors. So they even need to track the details of the stock available and as well they check for the requests for connection that they have received, so that they can order for the equipments based on the orders received for the connection. The product details along with the details of Retail shops, Vendors and the purchasal lists are taken care by the Admin (Manager). Also the Employee details are maintained by the Admin solely.Existing Scenario : 
+Nexus Communication System, has expanded their service allover the territory and has even started the retail outlets at each place, so as to increase the comfort level of the customers where the customers can make the payment, also they can place an order or enquire for a new connection. They also recently started a bulk and corporate schemes, so as to retain the customers where they can avail a discount as per the option applied (i.e., if 10-15 connections are taken, they will be getting a discount of 25% in the advance and as well in the security deposit. If it is between 15-25 connections, then they will avail 50% discount and for 25-50 then they can avail 75% discount and if it is above 50 they will avail 100% discount). The details of the customers is maintained, including the payments (Monthly rentals, Security Deposit, dues if any, etc.) based on the plan and equipment (for the broadband and the dial-up customers the connection is provided by either the Modem or Router) as chosen by the customer. Also the customer personal details are also maintained and he/she is provided with some unique 10 digit account id so as to track the connection details easily. Also the details like the address proofs, application form and the receipts are to be filed along with the customer
+s records based on the year and area wise.Also the details of the product manufacturing vendors are maintained along with the orders placed, payment lists, name and contact details are maintained. So it includes huge amount of paper work as a whole, due to which slip ups take place.It maintains the records of its customers which includes huge amount of paper work. They also maintain the list of the products that are being provided at the time of providing the connection based on the plan chosen (as they provide different plans), also the details of the payments (security deposit, monthly rentals including the paid amount for the last month and the amount due, it also includes the charges for any replacement done where the equipment has been spoiled by the customer and as well the discounts, etc.).The details of the equipments (stock), employees, vendors are maintained and updated solely by the Admin (Manager). They also maintain the list of the applications for the connection, some customers try to change their plan, and as well some gets connection but some don
+t due to the feasibility reports, etc. Proposed Solution : 
+In order to avoid the slipups of the records and to bring the automation in the process, they want an online application to be build up which will update and maintains the records automatically. Also they want the separate login for the Admin to enter the details of the employee, Stock, vendors, retail shops.They also want a separate login for the employees to place the order, check the status of the order, and as well the bills, maintenance of the contact details, and as well they can have a clear idea about the plans. Once the customer places an order for the connection he will be assigned with a unique 11 digit code (Alpha numeric code in serial order, the first digit being D for dial up, T for only telephone connection, B for broadband connection, for example: for the first order for a dial-up connection it can be D0000000001) as the order id, through which the status of the order can be checked and once the customer is provided with the connection, he will be assigned with a unique 16 digit code as the account id (numeric code), through which his/her records will be accessed regarding the customer details like contact details, connection details, etc. They want a search option for searching the status of the order they had placed through the unique order id and the other being the one to search the status of the connection, including the due amount, status of the connection (active, permanently inactive, temporarily inactive) etc. through the unique account id.Note: For the account id, it should include the following coding procedureFirst one digit being the type of the connection (D-for dial-up, B-for broad band, and T-for only telephone connection), the next three digits indicating the city with in the territory (for each city with in the territory a three digit numeric code is to be assigned), and the next 12 digits being the numeric code in serial order of the connection assigned.The advanced search option should be included for checking the status of the order or the status of the connection with the options being the unique id as per the requirement, name on which the order is placed or the connection is taken, type of connection, date or period of application or received the connection, contact number which is provided at the time of applying for the connection.They as of now provide only the postpaid connection for which the bill will be generated based on which the status of the connection depends. There will be a separate login for the accounts department who will be calculating the charges as per the plan chosen by the customer, and based on the equipment, etc. After the bill is generated the details of the charges are needed to be updated in the site and this updating has to be done by the accounts department alone. Also the customer from his end can check for his/her contact details, place an order, also they can keep track of the status of the order placed, check their bills, etc. They can check the status of the order placed through the unique order id and the status of the connection through their unique account id.They want a database to hold all the details of the equipments, vendors, retail shops, employers and customers, and the connections provided and that of the applied (order) details, so that they can automate the system.The company is thus required to have an elaborate system for tracking down all the information, so as to respond to the customer queries and act based on their requirement
+ the payment details with respect to the billed amount.The employee details must include the admin, accounts department people, technical people, and the employees in the retail outlet. Each of the employees are to be provided with the user credentials, so as to login into the application for performing the respective functionalitiesThrough the application one should be able to place and order and check for its status. (Note: the members or the employees of the retail outlet can only place the orders)Through the employees of the retail outlet login, one should be able to keep track of the orders placed till date, status of the orders (like whether feasible or not, whether the customer is provided with the connection or not), connection details (like the details of the connections provided till date), the till date billing details with respect to the connections assigned, the till date payment details with respect to the bills generated.The details of the bills will be maintained by the accounts department. And the details of the payments will be maintained by the employees of the retail outlets and by the accounts department (if the payment is done at the office with in the city).The details of the charges that are levied for the connection or a plan, the new plans along with the detailed descriptions of each are to be maintained (insert, updated, deleted and searched) by the adminThrough the Technical people login one should be able to keep track of the orders, update the orders with the status (like whether the place is feasible or not, whether provided with the connection or not), create new connections (based on the orders received, once the area is feasible, the customers will be provided with the connection), making a connection inactive (both temporarily, or permanently). Also the technical people will maintain the details of the products or the equipments.Based on the plan chosen by the customer, the customer will be charged for the connection.The system should be updated with the details from time
+ly mentioned by the system indicating the amount paid and due amount. And the details of the charges levied for a particular plan, the details of the plans are to be maintained by the admin.The various plan details are as follows.Security Deposit: It is the charge that will be refunded back to the customer during the time of withdrawal or cancellation. In general it will be charged as follows for the type of the connectionDial 
+ Up Connection : 325$Broad Band Connection : 500$LandLine Connection : 250$Dial 
+ Up Connection :Hourly Basis10 Hrs. 
+ 50$ (validity is for one Month)30 Hrs. 
+ 130$ (validity is for 3 Months)60 Hrs. 
+ 260$ (validity is for 6 Months)Unlimited 28Kbps.Monthly 
+ 75$Quarterly 
+ 150$Unlimited 56 Kbps.Monthly 
+ 100$Quarterly 
+ 180$Broad Band ConnectionHourly Basis30 Hrs. 
+ 175$ (validity is for 1 Month)60 Hrs. 
+ 315$ (validity is for 6 Months)Unlimited 64Kbps.Monthly 
+ 225$ Quarterly 
+ 400$Unlimited 128 Kbps.Monthly 
+ 350$Quarterly 
+ 445$Land Line ConnectionLocal Plan = Rental + Call chargesUnlimited - 75$ (Valid for an year and this is the rental)The call charges are like this : 55cents / minuteMonthly Plan 
+ 35$ (Valid for a month and this is the rental)The call charges are like this : 75cents / minuteSTD Plan : Monthly 
+ 125$ (Valid for a month and this is the rental)The call charges are like this : Local : 70cents / minuteSTD : 2.25$ / minuteMessaging For Mobiles : 1.00$ / MinuteHalf - Yearly 
+ 420$ (Valid for a month and this is the rental)The call charges are like this : Local : 60cents / minuteSTD : 2.00$ / minuteMessaging For Mobiles : 1.15$ / MinuteYearly 
+ $ (Valid for an year and this is the rental)The call charges are like this : Local : 60cents / minuteSTD : 1.75$ / minute Messaging For Mobiles : 1.25$ / MinuteThe service tax is as per the government (12.24%) on the whole bill generated and will be charged to the customer.Functional Requirements : 
+hSmu
+hIB!
+hyNG
+gdSmu
+hILx
+hSmu
+hBLs
+gdHqi
+gdHqi
+hHqi
+hILx
+~x~tgtc
+ct_t_
+hjB
+gd)@
+gd)@
+gd)@
+gd)@
+gd)@
+gd)@
+gd)@
+gd)@
+gd)@
+gd)@
+gd)@
+gd)@
+gd)@
+gd)@
+gd)@
+gd)@
+gd)@
+gd)@
+gd)@
+gd)@
+hjB
+hW.~
+4Creation, maintenance and updating database, which contains Information Regarding the various plansDetails of retail storesDetails of the employeesDetails of customers, vendors are needed to be updated.Details of the orders generatedDetails of the productsDetails of the materials provided with the customerMaintaining the records of the orders generated for the customer regarding the connection, and the products, also the feedback from the customer is to be collectedThe billing for the order is to be calculated taking into account the customer entitlements in terms of discount and schemes chosen and the payment done previously
+gdR6
+gdR6
+{CZ#Z
+^y$6
+ COMMUNICATION MARKETING SYSTEM
+aparnat
+Normal
+aparnat
+Microsoft Word 10.0
+aptech
+ COMMUNICATION MARKETING SYSTEM
+Title
+Microsoft Word Document
+MSWordDoc
+Word.Document.8

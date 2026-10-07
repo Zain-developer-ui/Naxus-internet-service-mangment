@@ -22,8 +22,7 @@ namespace NEXUS.Services.Api
         Task<AccountViewModel?> GetCustomerByCnicAsync(string cnic);
 
         // ---------- Orders ----------
-        Task<OrderViewModel?> GetOrderAsync(string orderId);
-        Task<bool> SubmitOrderAsync(OrderViewModel order);
+        Task<OrderTrackingViewModel?> GetOrderAsync(string orderId);
 
         // ---------- Bills & payments ----------
         Task<List<BillViewModel>> GetBillsAsync(string accountId);

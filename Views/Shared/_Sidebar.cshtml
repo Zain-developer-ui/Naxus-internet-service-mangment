@@ -1,9 +1,11 @@
-﻿@*
-    Reusable sidebar. The active item is set via ViewData["ActiveSidebar"].
-    Links differ by role — pass ViewData["UserRole"] = "Customer|Admin|Technical|Accounts|Retail".
+@*
+    Reusable sidebar. The active item comes from ViewData["ActiveSidebar"].
+    The role is read from the signed-in identity so a page can never pick the
+    wrong menu by forgetting to set it.
 *@
+@using NEXUS.Common.Extensions
 @{
-    var role = (ViewData["UserRole"] as string ?? "Customer").ToLowerInvariant();
+    var role = User.SidebarRole().ToLowerInvariant();
     var active = (ViewData["ActiveSidebar"] as string ?? "").ToLowerInvariant();
 
     string IsActive(string key) => active == key ? "active" : "";
@@ -13,12 +15,9 @@
     <div class="sidebar-brand">
         <a href="/" class="brand">
             <span class="brand-mark">N</span>
-            <span class="brand-text">NEXUS</span>
-        </a>
+            <span class="brand-text">NEXUS</span> </a>
         <button class="sidebar-close" data-sidebar-close aria-label="Close sidebar">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
-    </div>
+            <i class="fa-solid fa-xmark"></i> </button> </div>
 
     @if (role == "customer")
     {
@@ -33,8 +32,9 @@
             <span class="nav-section">Support</span>
             <a href="/Orders/Tracking"><i class="fa-solid fa-truck-fast"></i> Track Order</a>
             <a href="/Account/Status"><i class="fa-solid fa-circle-info"></i> Account Status</a>
-            <a href="/Account/Login" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
-        </nav>
+            <form asp-controller="Account" asp-action="Logout" method="post" class="sidebar-logout">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</button> </form> </nav>
     }
     else if (role == "admin")
     {
@@ -44,17 +44,21 @@
             <a href="/Admin/Reports" class="@IsActive("reports")"><i class="fa-solid fa-chart-line"></i> Reports</a>
 
             <span class="nav-section">Operations</span>
-            <a href="/Retail/Search"><i class="fa-solid fa-users"></i> Customers</a>
-            <a href="/Retail/Dashboard"><i class="fa-solid fa-store"></i> Retail Sales</a>
-            <a href="/Plans"><i class="fa-solid fa-layer-group"></i> Plans</a>
-            <a href="/Orders/Tracking"><i class="fa-solid fa-box"></i> Orders</a>
-            <a href="/Technical/Dashboard"><i class="fa-solid fa-screwdriver-wrench"></i> Installations</a>
-            <a href="/Accounts/Dashboard"><i class="fa-solid fa-file-invoice"></i> Billing</a>
+            <a href="/Operations" class="@IsActive("operations")"><i class="fa-solid fa-clipboard-check"></i> Survey Queue</a>
+            <a href="/Operations/Connections" class="@IsActive("connections")"><i class="fa-solid fa-plug-circle-check"></i> Connections</a>
+            <a href="/Retail/Search" class="@IsActive("customers")"><i class="fa-solid fa-users"></i> Customers</a>
+            <a href="/Retail/Dashboard" class="@IsActive("retail")"><i class="fa-solid fa-store"></i> Retail Sales</a>
+            <a href="/Plans" class="@IsActive("plans")"><i class="fa-solid fa-layer-group"></i> Plans</a>
+            <a href="/Orders/Tracking" class="@IsActive("orders")"><i class="fa-solid fa-box"></i> Orders</a>
+            <a href="/Technical/Dashboard" class="@IsActive("technical")"><i class="fa-solid fa-screwdriver-wrench"></i> Installations</a>
+            <a href="/Accounts/Dashboard" class="@IsActive("billing")"><i class="fa-solid fa-file-invoice"></i> Billing</a>
 
             <span class="nav-section">System</span>
+            <a href="/Profile" class="@IsActive("profile")"><i class="fa-solid fa-id-card"></i> My Profile</a>
             <a href="/Admin/Settings" class="@IsActive("settings")"><i class="fa-solid fa-gear"></i> Settings</a>
-            <a href="/Account/Login" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
-        </nav>
+            <form asp-controller="Account" asp-action="Logout" method="post" class="sidebar-logout">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</button> </form> </nav>
     }
     else if (role == "technical")
     {
@@ -67,8 +71,9 @@
             <span class="nav-section">Support</span>
             <a href="/Feedback"><i class="fa-solid fa-comment-dots"></i> Feedback</a>
             <a href="/Admin/Reports"><i class="fa-solid fa-chart-line"></i> Reports</a>
-            <a href="/Account/Login" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
-        </nav>
+            <form asp-controller="Account" asp-action="Logout" method="post" class="sidebar-logout">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</button> </form> </nav>
     }
     else if (role == "accounts")
     {
@@ -81,8 +86,9 @@
 
             <span class="nav-section">Customers</span>
             <a href="/Retail/Search"><i class="fa-solid fa-users"></i> Customer Dues</a>
-            <a href="/Account/Login" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
-        </nav>
+            <form asp-controller="Account" asp-action="Logout" method="post" class="sidebar-logout">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</button> </form> </nav>
     }
     else
     {
@@ -95,7 +101,8 @@
 
             <span class="nav-section">Reports</span>
             <a href="/Admin/Reports"><i class="fa-solid fa-chart-line"></i> Sales Reports</a>
-            <a href="/Account/Login" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
-        </nav>
+            <form asp-controller="Account" asp-action="Logout" method="post" class="sidebar-logout">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</button> </form> </nav>
     }
 </aside>

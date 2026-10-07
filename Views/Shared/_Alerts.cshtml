@@ -5,9 +5,7 @@
         <div class="alert alert-success" role="alert">
             <i class="fa-solid fa-circle-check"></i>
             <span>@TempData["Success"]</span>
-            <button type="button" data-alert-close aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-    </div>
+            <button type="button" data-alert-close aria-label="Close"><i class="fa-solid fa-xmark"></i></button> </div> </div>
 }
 @if (TempData["Error"] != null)
 {
@@ -15,9 +13,7 @@
         <div class="alert alert-danger" role="alert">
             <i class="fa-solid fa-circle-exclamation"></i>
             <span>@TempData["Error"]</span>
-            <button type="button" data-alert-close aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-    </div>
+            <button type="button" data-alert-close aria-label="Close"><i class="fa-solid fa-xmark"></i></button> </div> </div>
 }
 @if (TempData["Info"] != null)
 {
@@ -25,7 +21,5 @@
         <div class="alert alert-info" role="alert">
             <i class="fa-solid fa-circle-info"></i>
             <span>@TempData["Info"]</span>
-            <button type="button" data-alert-close aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-    </div>
+            <button type="button" data-alert-close aria-label="Close"><i class="fa-solid fa-xmark"></i></button> </div> </div>
 }

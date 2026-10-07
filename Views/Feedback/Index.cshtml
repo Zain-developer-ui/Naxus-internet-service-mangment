@@ -1,10 +1,8 @@
-﻿@model NEXUS.Models.ViewModels.FeedbackViewModel
+@model NEXUS.Models.ViewModels.FeedbackViewModel
 @{
     Layout = "_DashboardLayout";
     ViewData["Title"] = "Feedback — NEXUS";
-    ViewData["UserRole"] = "Customer";
     ViewData["ActiveSidebar"] = "feedback";
-    ViewData["UserName"] = "Ahmed Khan";
 
     var sampleHistory = new[]
     {
@@ -23,21 +21,15 @@
 <div class="welcome-banner reveal">
     <div class="banner-flex">
         <div>
-            <h1>We Value Your Feedback 👋</h1>
+            <h1>We Value Your Feedback</h1>
             <p>Your opinion helps us serve you better — every submission is read by our team.</p>
             <div class="banner-actions">
-                <span class="badge badge-success"><i class="fa-solid fa-star"></i> 4.8 / 5 Average Rating</span>
+                <span class="badge badge-success"><i class="fa-solid fa-shield-halved"></i> Reviewed by our team</span>
                 <span class="badge" style="background:rgba(255,255,255,0.15);color:#fff;">
-                    <i class="fa-regular fa-clock"></i> 48h Response Time
-                </span>
-            </div>
-        </div>
+                    <i class="fa-regular fa-clock"></i> 48h Response Time </span> </div> </div>
         <div class="banner-actions">
             <a href="#feedback-form" class="btn btn-primary">
-                <i class="fa-solid fa-paper-plane"></i> Send Feedback
-            </a>
-        </div>
-    </div>
+                <i class="fa-solid fa-paper-plane"></i> Send Feedback </a> </div> </div>
 </div>
 
 @* =========================================================
@@ -45,33 +37,25 @@
    ========================================================= *@
 <div class="stats-grid reveal">
     <div class="stat-card">
-        <div class="stat-icon warning"><i class="fa-solid fa-star"></i></div>
+        <div class="stat-icon warning"><i class="fa-regular fa-comment-dots"></i></div>
         <div class="stat-meta">
-            <div class="stat-value">4.8 / 5</div>
-            <div class="stat-label">Your Average Rating</div>
-        </div>
-    </div>
+            <div class="stat-value">—</div>
+            <div class="stat-label">Feedback You Have Sent</div> </div> </div>
     <div class="stat-card">
         <div class="stat-icon blue"><i class="fa-regular fa-comments"></i></div>
         <div class="stat-meta">
             <div class="stat-value">2</div>
-            <div class="stat-label">Feedback Submitted</div>
-        </div>
-    </div>
+            <div class="stat-label">Feedback Submitted</div> </div> </div>
     <div class="stat-card">
         <div class="stat-icon success"><i class="fa-solid fa-circle-check"></i></div>
         <div class="stat-meta">
             <div class="stat-value" style="font-size:1.15rem;">Resolved</div>
-            <div class="stat-label">Last Response</div>
-        </div>
-    </div>
+            <div class="stat-label">Last Response</div> </div> </div>
     <div class="stat-card">
         <div class="stat-icon navy"><i class="fa-regular fa-clock"></i></div>
         <div class="stat-meta">
             <div class="stat-value" style="font-size:1.15rem;">&lt; 48h</div>
-            <div class="stat-label">Avg. Response Time</div>
-        </div>
-    </div>
+            <div class="stat-label">Avg. Response Time</div> </div> </div>
 </div>
 
 @* =========================================================
@@ -88,30 +72,25 @@
             <div class="card-header">
                 <div>
                     <h4><i class="fa-regular fa-comment-dots" style="color:var(--nexus-blue);"></i> Share Your Experience</h4>
-                    <p>Rate your overall experience and specific areas below.</p>
-                </div>
-            </div>
+                    <p>Rate your overall experience and specific areas below.</p> </div> </div>
 
             @* Overall rating *@
             <label style="font-size:0.9rem;font-weight:600;color:var(--nexus-text);margin:14px 0 8px;display:block;">
-                Overall Rating <span class="req">*</span>
-            </label>
+                Overall Rating <span class="req">*</span> </label>
             <div class="star-rating" data-star-rating style="display:flex;gap:8px;font-size:2.4rem;margin:10px 0 20px;">
                 <i class="fa-regular fa-star" data-star="1"></i>
                 <i class="fa-regular fa-star" data-star="2"></i>
                 <i class="fa-regular fa-star" data-star="3"></i>
                 <i class="fa-regular fa-star" data-star="4"></i>
                 <i class="fa-regular fa-star" data-star="5"></i>
-                <input type="hidden" name="OverallRating" value="0" required data-validate="required" />
-            </div>
+                <input type="hidden" name="OverallRating" value="0" required data-validate="required" /> </div>
             <span class="field-error" style="display:block;margin-bottom:14px;"></span>
 
             <div class="divider"></div>
 
             @* Specific ratings *@
             <label style="font-size:0.9rem;font-weight:600;color:var(--nexus-text);margin:0 0 12px;display:block;">
-                Rate Specific Areas
-            </label>
+                Rate Specific Areas </label>
 
             <div class="grid grid-3" style="gap:16px;margin-bottom:18px;">
                 <div>
@@ -122,9 +101,7 @@
                         <i class="fa-regular fa-star" data-star="3"></i>
                         <i class="fa-regular fa-star" data-star="4"></i>
                         <i class="fa-regular fa-star" data-star="5"></i>
-                        <input type="hidden" name="ServiceRating" value="0" />
-                    </div>
-                </div>
+                        <input type="hidden" name="ServiceRating" value="0" /> </div> </div>
                 <div>
                     <label style="font-size:0.78rem;font-weight:600;color:var(--nexus-muted);margin-bottom:6px;display:block;">Installation</label>
                     <div class="star-rating" data-star-rating style="display:flex;gap:4px;font-size:1.35rem;">
@@ -133,9 +110,7 @@
                         <i class="fa-regular fa-star" data-star="3"></i>
                         <i class="fa-regular fa-star" data-star="4"></i>
                         <i class="fa-regular fa-star" data-star="5"></i>
-                        <input type="hidden" name="InstallationRating" value="0" />
-                    </div>
-                </div>
+                        <input type="hidden" name="InstallationRating" value="0" /> </div> </div>
                 <div>
                     <label style="font-size:0.78rem;font-weight:600;color:var(--nexus-muted);margin-bottom:6px;display:block;">Customer Support</label>
                     <div class="star-rating" data-star-rating style="display:flex;gap:4px;font-size:1.35rem;">
@@ -144,10 +119,7 @@
                         <i class="fa-regular fa-star" data-star="3"></i>
                         <i class="fa-regular fa-star" data-star="4"></i>
                         <i class="fa-regular fa-star" data-star="5"></i>
-                        <input type="hidden" name="SupportRating" value="0" />
-                    </div>
-                </div>
-            </div>
+                        <input type="hidden" name="SupportRating" value="0" /> </div> </div> </div>
 
             <div class="divider"></div>
 
@@ -161,10 +133,8 @@
                     <option>Billing</option>
                     <option>Customer Support</option>
                     <option>Technical Issue</option>
-                    <option>Other</option>
-                </select>
-                <span class="field-error"></span>
-            </div>
+                    <option>Other</option> </select>
+                <span class="field-error"></span> </div>
 
             @* Message *@
             <div class="form-group">
@@ -174,47 +144,33 @@
                           required data-validate="required" maxlength="1000"></textarea>
                 <span class="form-hint" style="display:flex;justify-content:space-between;">
                     <span>Please be specific and constructive.</span>
-                    <span><span id="charCount">0</span> / 1000</span>
-                </span>
-                <span class="field-error"></span>
-            </div>
+                    <span><span id="charCount">0</span> / 1000</span> </span>
+                <span class="field-error"></span> </div>
 
             <button type="submit" class="btn btn-primary btn-lg btn-block">
-                <i class="fa-solid fa-paper-plane"></i> Submit Feedback
-            </button>
-        </form>
-    </div>
+                <i class="fa-solid fa-paper-plane"></i> Submit Feedback </button> </form> </div>
 
     @* Sidebar *@
     <aside>
         <div class="card reveal">
             <div class="card-header">
-                <h4><i class="fa-solid fa-lightbulb" style="color:var(--nexus-warning);"></i> Tips for Useful Feedback</h4>
-            </div>
+                <h4><i class="fa-solid fa-lightbulb" style="color:var(--nexus-warning);"></i> Tips for Useful Feedback</h4> </div>
             <ul class="check-list" style="margin-top:12px;">
                 <li><i class="fa-solid fa-check"></i> Be specific about what happened</li>
                 <li><i class="fa-solid fa-check"></i> Mention dates or invoice numbers if relevant</li>
                 <li><i class="fa-solid fa-check"></i> Describe the impact on your service</li>
-                <li><i class="fa-solid fa-check"></i> Suggest improvements where possible</li>
-            </ul>
-        </div>
+                <li><i class="fa-solid fa-check"></i> Suggest improvements where possible</li> </ul> </div>
 
         <div class="card reveal delay-1" style="margin-top:14px;">
             <div class="card-header">
-                <h4><i class="fa-regular fa-clock" style="color:var(--nexus-blue);"></i> Response Time</h4>
-            </div>
+                <h4><i class="fa-regular fa-clock" style="color:var(--nexus-blue);"></i> Response Time</h4> </div>
             <p class="muted" style="font-size:0.9rem;margin:14px 0 16px;">
-                We read every piece of feedback. Our team typically responds within 48 hours for requests that need a reply.
-            </p>
+                We read every piece of feedback. Our team typically responds within 48 hours for requests that need a reply. </p>
             <div class="info-card">
                 <div class="icon"><i class="fa-solid fa-headset"></i></div>
                 <div>
                     <h5>Need urgent help?</h5>
-                    <p>Call us at 111-NEXUS-1</p>
-                </div>
-            </div>
-        </div>
-    </aside>
+                    <p>Call us at 111-NEXUS-1</p> </div> </div> </div> </aside>
 </div>
 
 @* =========================================================
@@ -224,10 +180,8 @@
     <div class="chart-head">
         <div>
             <h4><i class="fa-regular fa-comments" style="color:var(--nexus-blue);"></i> Your Previous Feedback</h4>
-            <p class="chart-sub">Sample history shown for demonstration.</p>
-        </div>
-        <span class="badge badge-info">2 submissions</span>
-    </div>
+            <p class="chart-sub">Sample history shown for demonstration.</p> </div>
+        <span class="badge badge-info">2 submissions</span> </div>
 
     <div class="dash-grid-2">
         @foreach (var f in sampleHistory)
@@ -235,15 +189,17 @@
             <div class="card" style="border-left:4px solid var(--nexus-blue);">
                 <div class="flex-between" style="margin-bottom:12px;">
                     <span class="badge badge-info">@f.Category</span>
-                    <span class="stars">@(new string('★', f.Rating))@(new string('☆', 5 - f.Rating))</span>
+                    <span class="stars" aria-label="@f.Rating out of 5">
+                        @for (var i = 1; i <= 5; i++)
+                        {
+                            <i class="fa-solid fa-star @(i <= f.Rating ? "" : "star-off")" aria-hidden="true"></i>
+                        }
+                    </span>
                 </div>
                 <p style="color:var(--nexus-text-soft);margin:0 0 12px;font-size:0.94rem;line-height:1.6;">@f.Message</p>
                 <p class="muted small" style="margin:0;">
-                    <strong style="font-family:monospace;">@f.Id</strong> · @f.Date
-                </p>
-            </div>
-        }
-    </div>
+                    <strong style="font-family:monospace;">@f.Id</strong> · @f.Date </p> </div>
+        } </div>
 </div>
 
 @* =========================================================
@@ -254,12 +210,9 @@
     <p>Our support team is available 24/7 to help with any issue.</p>
     <div class="hero-actions">
         <a href="/Home/Contact" class="btn btn-primary btn-lg">
-            <i class="fa-solid fa-headset"></i> Contact Support
-        </a>
+            <i class="fa-solid fa-headset"></i> Contact Support </a>
         <a href="/Customer/MyConnection" class="btn btn-outline-light btn-lg">
-            My Connection
-        </a>
-    </div>
+            My Connection </a> </div>
 </div>
 
 @* =========================================================
@@ -271,23 +224,16 @@
         <div class="modal" role="dialog" aria-modal="true">
             <div class="modal-header">
                 <h3><i class="fa-solid fa-circle-check" style="color:var(--nexus-success);"></i> Thank You!</h3>
-                <button class="modal-close" data-modal-close aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
-            </div>
+                <button class="modal-close" data-modal-close aria-label="Close"><i class="fa-solid fa-xmark"></i></button> </div>
             <div class="modal-body">
                 <p>Your feedback has been received (demo). Reference ID:</p>
                 <div class="info-card" style="margin-top:16px;">
                     <div class="icon"><i class="fa-solid fa-hashtag"></i></div>
                     <div>
                         <h5>Feedback Reference</h5>
-                        <p style="font-family:monospace;font-size:1.05rem;color:var(--nexus-blue-dark);font-weight:700;">FB-1003</p>
-                    </div>
-                </div>
-            </div>
+                        <p style="font-family:monospace;font-size:1.05rem;color:var(--nexus-blue-dark);font-weight:700;">FB-1003</p> </div> </div> </div>
             <div class="modal-footer">
-                <a href="/Customer/Dashboard" class="btn btn-primary">Return to Dashboard</a>
-            </div>
-        </div>
-    </div>
+                <a href="/Customer/Dashboard" class="btn btn-primary">Return to Dashboard</a> </div> </div> </div>
 }
 
 @section DashboardScripts {
@@ -305,6 +251,5 @@
         document.querySelector('a[href="#feedback-form"]')?.addEventListener('click', function (e) {
             e.preventDefault();
             document.getElementById('feedback-form').scrollIntoView({ behavior: 'smooth' });
-        });
-    </script>
+        }); </script>
 }

@@ -30,9 +30,9 @@
         };
     };
 
-    NEXUS.formatPKR = function (value) {
+    NEXUS.formatMoney = function (value) {
         const n = Number(value) || 0;
-        return 'Rs. ' + n.toLocaleString('en-PK', { maximumFractionDigits: 0 });
+        return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     };
 
     NEXUS.formatDate = function (input) {
@@ -107,11 +107,9 @@
             <span class="toast-icon"><i class="fa-solid ${TOAST_ICONS[toastType] || TOAST_ICONS.info}"></i></span>
             <div class="toast-body">
                 <p class="toast-title">${escapeHtml(title)}</p>
-                <p class="toast-message">${escapeHtml(message)}</p>
-            </div>
+                <p class="toast-message">${escapeHtml(message)}</p> </div>
             <button type="button" class="toast-close" aria-label="Close notification">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
+                <i class="fa-solid fa-xmark"></i> </button>
             <span class="toast-progress" style="animation-duration:${duration}ms;"></span>
         `;
 
@@ -232,6 +230,69 @@
     }
 
     /* ---------------------------------------------------------
+       RELATIVE TIME
+       ---------------------------------------------------------
+       Used by dashboards for "2 hours ago" style stamps. Kept here
+       rather than in each page so the wording stays consistent.
+       --------------------------------------------------------- */
+    NEXUS.timeAgo = function (value) {
+        const then = new Date(value);
+        if (Number.isNaN(then.getTime())) return '';
+
+        const seconds = Math.floor((Date.now() - then.getTime()) / 1000);
+        if (seconds < 60) return 'just now';
+
+        const minutes = Math.floor(seconds / 60);
+        if (minutes < 60) return minutes + ' min ago';
+
+        const hours = Math.floor(minutes / 60);
+        if (hours < 24) return hours + (hours === 1 ? ' hour ago' : ' hours ago');
+
+        const days = Math.floor(hours / 24);
+        if (days < 30) return days + (days === 1 ? ' day ago' : ' days ago');
+
+        return then.toLocaleDateString();
+    };
+
+    /* ---------------------------------------------------------
+       USER MENU
+       ---------------------------------------------------------
+       The account menu on the dashboard topbar. Opens on click,
+       closes on outside click, on Escape, and returns focus to the
+       trigger so keyboard users are not stranded.
+       --------------------------------------------------------- */
+    function initUserMenu() {
+        document.querySelectorAll('[data-user-menu]').forEach(function (wrapper) {
+            const trigger = wrapper.querySelector('.user-chip-trigger');
+            const menu = wrapper.querySelector('.user-menu');
+            if (!trigger || !menu) return;
+
+            function close() {
+                wrapper.classList.remove('open');
+                trigger.setAttribute('aria-expanded', 'false');
+            }
+
+            trigger.addEventListener('click', function (event) {
+                event.stopPropagation();
+                const isOpen = wrapper.classList.toggle('open');
+                trigger.setAttribute('aria-expanded', String(isOpen));
+            });
+
+            menu.addEventListener('click', function (event) {
+                event.stopPropagation();
+            });
+
+            document.addEventListener('click', close);
+            document.addEventListener('keydown', function (event) {
+                if (event.key !== 'Escape') return;
+                if (!wrapper.classList.contains('open')) return;
+                close();
+                trigger.focus();
+            });
+        });
+    }
+
+    /* ---------------------------------------------------------
        BOOTSTRAP
        --------------------------------------------------------- */
     NEXUS.ready(function () {
@@ -239,6 +300,7 @@
         initSmoothScroll();
         initNavbarScroll();
         initAlerts();
+        initUserMenu();
     });
 
     NEXUS.refreshReveal = initScrollReveal;

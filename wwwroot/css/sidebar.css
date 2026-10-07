@@ -71,26 +71,35 @@
             margin-top: 6px;
         }
 
-    .sidebar-nav a {
+    .sidebar-nav a,
+    .sidebar-nav .sidebar-logout button {
         display: flex;
         align-items: center;
         gap: 12px;
+        width: 100%;
         padding: 11px 14px;
         font-size: .9rem;
+        font-family: inherit;
+        text-align: left;
         color: rgba(255,255,255,.82);
+        background: none;
+        border: 0;
+        cursor: pointer;
         border-radius: var(--radius);
         transition: all var(--transition-fast);
         position: relative;
     }
 
-        .sidebar-nav a i {
+        .sidebar-nav a i,
+        .sidebar-nav .sidebar-logout button i {
             width: 20px;
             text-align: center;
             font-size: .95rem;
             opacity: .9;
         }
 
-        .sidebar-nav a:hover {
+        .sidebar-nav a:hover,
+        .sidebar-nav .sidebar-logout button:hover {
             background: rgba(255,255,255,.08);
             color: #fff;
             transform: translateX(2px);
@@ -106,15 +115,19 @@
                 opacity: 1;
             }
 
-        .sidebar-nav a.logout {
-            margin-top: 12px;
-            color: rgba(255,180,180,.85);
+        .sidebar-nav .sidebar-logout {
+            margin: 0;
         }
 
-            .sidebar-nav a.logout:hover {
-                background: rgba(220,38,38,.2);
-                color: #fecaca;
+            .sidebar-nav .sidebar-logout button.logout {
+                margin-top: 12px;
+                color: rgba(255,180,180,.85);
             }
+
+                .sidebar-nav .sidebar-logout button.logout:hover {
+                    background: rgba(220,38,38,.2);
+                    color: #fecaca;
+                }
 
 /* ---------- Dashboard shell ---------- */
 .dashboard-shell {

@@ -15,8 +15,8 @@
     padding: 80px 0 60px;
     overflow: hidden;
     isolation: isolate;
-    background-color: #0A1F44;
-    background-image: radial-gradient(900px 500px at 85% 20%, rgba(56, 189, 248, 0.18), transparent 60%), radial-gradient(800px 500px at 10% 90%, rgba(30, 111, 229, 0.22), transparent 60%), linear-gradient(135deg, #0A1F44 0%, #061631 100%);
+    background-color: var(--nexus-navy);
+    background-image: radial-gradient(900px 500px at 85% 20%, rgba(56, 189, 248, 0.18), transparent 60%), radial-gradient(800px 500px at 10% 90%, rgba(30, 111, 229, 0.22), transparent 60%), linear-gradient(135deg, var(--nexus-navy) 0%, var(--nexus-navy-dark) 100%);
 }
 
     .home-hero::after {
@@ -71,7 +71,7 @@
     border-radius: 999px;
     background: rgba(56, 189, 248, 0.12);
     border: 1px solid rgba(56, 189, 248, 0.36);
-    color: #BAE6FD;
+    color: var(--nexus-accent-soft);
     font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.14em;
@@ -81,7 +81,7 @@
 }
 
 .hero-copy h1 {
-    color: #FFFFFF;
+    color: var(--nexus-text-invert);
     font-size: clamp(2.3rem, 5vw, 4rem);
     font-weight: 800;
     line-height: 1.02;
@@ -92,7 +92,7 @@
 }
 
     .hero-copy h1 .shine {
-        background: linear-gradient(90deg, #38BDF8 0%, #FFFFFF 35%, #7DD3FC 50%, #FFFFFF 65%, #38BDF8 100%);
+        background: linear-gradient(90deg, var(--nexus-accent) 0%, var(--nexus-surface) 35%, var(--nexus-accent-bright) 50%, var(--nexus-surface) 65%, var(--nexus-accent) 100%);
         background-size: 250% 100%;
         -webkit-background-clip: text;
         background-clip: text;
@@ -134,8 +134,8 @@
     }
 
     .hero-copy .hero-actions .btn-primary {
-        background: linear-gradient(135deg, #1E6FE5 0%, #1558B8 100%);
-        color: #FFFFFF;
+        background: linear-gradient(135deg, var(--nexus-blue) 0%, var(--nexus-blue-dark) 100%);
+        color: var(--nexus-text-invert);
         box-shadow: 0 12px 26px rgba(30, 111, 229, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.2);
         position: relative;
         overflow: hidden;
@@ -159,20 +159,20 @@
 
         .hero-copy .hero-actions .btn-primary:hover {
             transform: translateY(-2px);
-            color: #FFFFFF;
+            color: var(--nexus-text-invert);
             box-shadow: 0 18px 36px rgba(30, 111, 229, 0.52);
         }
 
     .hero-copy .hero-actions .btn-outline-light {
-        color: #FFFFFF;
+        color: var(--nexus-text-invert);
         border: 1.5px solid rgba(255, 255, 255, 0.4);
         background: rgba(255, 255, 255, 0.05);
     }
 
         .hero-copy .hero-actions .btn-outline-light:hover {
             background: rgba(255, 255, 255, 0.14);
-            border-color: #FFFFFF;
-            color: #FFFFFF;
+            border-color: var(--nexus-text-invert);
+            color: var(--nexus-text-invert);
         }
 
 /* Trust row */
@@ -197,7 +197,7 @@
         height: 38px;
         border-radius: 10px;
         background: rgba(56, 189, 248, 0.14);
-        color: #38BDF8;
+        color: var(--nexus-accent);
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -207,7 +207,7 @@
 
     .hero-trust-item .txt strong {
         display: block;
-        color: #FFFFFF;
+        color: var(--nexus-text-invert);
         font-size: 0.88rem;
         font-weight: 700;
         line-height: 1.2;
@@ -264,8 +264,8 @@
         width: 36px;
         height: 36px;
         border-radius: 10px;
-        background: linear-gradient(135deg, #10B981, #059669);
-        color: #FFFFFF;
+        background: linear-gradient(135deg, var(--nexus-success), var(--nexus-success-dark));
+        color: var(--nexus-text-invert);
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -275,7 +275,7 @@
 
     .hero-float-card .meta strong {
         display: block;
-        color: #0A1F44;
+        color: var(--nexus-navy);
         font-size: 0.82rem;
         font-weight: 700;
         line-height: 1.2;
@@ -283,7 +283,7 @@
 
     .hero-float-card .meta span {
         font-size: 0.7rem;
-        color: #64748B;
+        color: var(--nexus-muted);
     }
 
     .hero-float-card.speed {
@@ -295,7 +295,7 @@
     }
 
         .hero-float-card.speed .ic {
-            background: linear-gradient(135deg, #1E6FE5, #1558B8);
+            background: linear-gradient(135deg, var(--nexus-blue), var(--nexus-blue-dark));
         }
 
 /* Live badge */
@@ -305,9 +305,9 @@
     left: -18px;
     transform: translateY(-50%);
     padding: 9px 14px;
-    background: linear-gradient(135deg, #1E6FE5, #1558B8);
+    background: linear-gradient(135deg, var(--nexus-blue), var(--nexus-blue-dark));
     border-radius: 999px;
-    color: #FFFFFF;
+    color: var(--nexus-text-invert);
     font-size: 0.7rem;
     font-weight: 700;
     letter-spacing: 0.1em;
@@ -324,7 +324,7 @@
         width: 7px;
         height: 7px;
         border-radius: 50%;
-        background: #FFFFFF;
+        background: var(--nexus-surface);
         animation: nexus-pulse 1.8s ease-in-out infinite;
     }
 
@@ -341,17 +341,17 @@
 .home-stats-card {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    background: #FFFFFF;
+    background: var(--nexus-surface);
     border-radius: 24px;
     box-shadow: 0 24px 48px rgba(10, 31, 68, 0.14);
     overflow: hidden;
-    border: 1px solid #E2E8F0;
+    border: 1px solid var(--nexus-border);
 }
 
 .home-stat-item {
     padding: 26px 20px;
     text-align: center;
-    border-right: 1px solid #EEF2F7;
+    border-right: 1px solid var(--nexus-border-soft);
     transition: background 0.15s ease;
 }
 
@@ -360,20 +360,20 @@
     }
 
     .home-stat-item:hover {
-        background: linear-gradient(180deg, #E8F1FD 0%, transparent 100%);
+        background: linear-gradient(180deg, var(--nexus-blue-light) 0%, transparent 100%);
     }
 
     .home-stat-item .num {
         font-size: 1.9rem;
         font-weight: 800;
-        color: #0A1F44;
+        color: var(--nexus-navy);
         line-height: 1;
         letter-spacing: -0.03em;
     }
 
         .home-stat-item .num .unit {
             font-size: 0.9rem;
-            color: #1558B8;
+            color: var(--nexus-blue-dark);
             font-weight: 700;
             margin-left: 2px;
         }
@@ -382,7 +382,7 @@
         display: block;
         margin-top: 8px;
         font-size: 0.78rem;
-        color: #64748B;
+        color: var(--nexus-muted);
         font-weight: 500;
     }
 
@@ -393,24 +393,24 @@
     padding: 80px 0;
     position: relative;
     overflow: hidden;
-    background: #F5F8FC;
+    background: var(--nexus-background);
 }
 
     .pps-section.alt {
-        background: linear-gradient(180deg, #F5F8FC 0%, #E7EFF9 100%);
+        background: linear-gradient(180deg, var(--nexus-background) 0%, var(--nexus-blue-light) 100%);
     }
 
     .pps-section.blue-tint {
-        background: linear-gradient(180deg, #E8F1FD 0%, #F5F8FC 100%);
+        background: linear-gradient(180deg, var(--nexus-blue-light) 0%, var(--nexus-background) 100%);
     }
 
     .pps-section.navy {
-        background: linear-gradient(140deg, #0A1F44 0%, #061631 100%);
-        color: #FFFFFF;
+        background: linear-gradient(140deg, var(--nexus-navy) 0%, var(--nexus-navy-dark) 100%);
+        color: var(--nexus-text-invert);
     }
 
         .pps-section.navy h2 {
-            color: #FFFFFF;
+            color: var(--nexus-text-invert);
         }
 
         .pps-section.navy p {
@@ -431,11 +431,11 @@
     .pps-head h2 {
         margin: 10px 0 12px;
         font-size: clamp(1.5rem, 2.6vw, 2.2rem);
-        color: #0A1F44;
+        color: var(--nexus-navy);
     }
 
     .pps-head p {
-        color: #64748B;
+        color: var(--nexus-muted);
         font-size: 0.98rem;
         margin: 0;
         line-height: 1.6;
@@ -500,8 +500,8 @@
             width: 38px;
             height: 38px;
             border-radius: 10px;
-            background: linear-gradient(135deg, #1E6FE5, #1558B8);
-            color: #FFFFFF;
+            background: linear-gradient(135deg, var(--nexus-blue), var(--nexus-blue-dark));
+            color: var(--nexus-text-invert);
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -511,7 +511,7 @@
 
         .split-media .img-badge strong {
             display: block;
-            color: #0A1F44;
+            color: var(--nexus-navy);
             font-size: 0.88rem;
             font-weight: 700;
             line-height: 1.2;
@@ -519,19 +519,19 @@
 
         .split-media .img-badge span {
             font-size: 0.72rem;
-            color: #64748B;
+            color: var(--nexus-muted);
         }
 
 .split-copy h2 {
     margin-bottom: 14px;
     font-size: clamp(1.4rem, 2.4vw, 1.9rem);
-    color: #0A1F44;
+    color: var(--nexus-navy);
 }
 
 .split-copy .lead {
     margin-bottom: 20px;
     font-size: 0.98rem;
-    color: #334155;
+    color: var(--nexus-text-soft);
     line-height: 1.65;
 }
 
@@ -547,7 +547,7 @@
         display: flex;
         align-items: flex-start;
         gap: 10px;
-        color: #334155;
+        color: var(--nexus-text-soft);
         font-size: 0.92rem;
         line-height: 1.55;
     }
@@ -556,8 +556,8 @@
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background: #D1FAE5;
-            color: #059669;
+            background: var(--nexus-success-bg);
+            color: var(--nexus-success-dark);
             font-size: 0.68rem;
             display: inline-flex;
             align-items: center;
@@ -578,8 +578,8 @@
 .rich-service {
     display: flex;
     flex-direction: column;
-    background: #FFFFFF;
-    border: 1px solid #E2E8F0;
+    background: var(--nexus-surface);
+    border: 1px solid var(--nexus-border);
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(10, 31, 68, 0.04);
@@ -616,8 +616,8 @@
         width: 40px;
         height: 40px;
         border-radius: 11px;
-        background: linear-gradient(135deg, #1E6FE5, #1558B8);
-        color: #FFFFFF;
+        background: linear-gradient(135deg, var(--nexus-blue), var(--nexus-blue-dark));
+        color: var(--nexus-text-invert);
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -636,12 +636,12 @@
     .rich-service h4 {
         margin: 0;
         font-size: 1rem;
-        color: #0A1F44;
+        color: var(--nexus-navy);
     }
 
     .rich-service p {
         margin: 0;
-        color: #64748B;
+        color: var(--nexus-muted);
         font-size: 0.86rem;
         line-height: 1.5;
         flex: 1;
@@ -676,7 +676,7 @@
         height: 46px;
         border-radius: 12px;
         background: rgba(56, 189, 248, 0.2);
-        color: #38BDF8;
+        color: var(--nexus-accent);
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -690,7 +690,7 @@
     }
 
     .why-c h4 {
-        color: #FFFFFF;
+        color: var(--nexus-text-invert);
         margin: 0 0 8px;
         font-size: 0.98rem;
     }
@@ -759,12 +759,12 @@
             display: flex;
             align-items: flex-end;
             padding: 16px;
-            color: #FFFFFF;
+            color: var(--nexus-text-invert);
         }
 
             .image-mosaic .m-item .overlay h5 {
                 margin: 0;
-                color: #FFFFFF;
+                color: var(--nexus-text-invert);
                 font-size: 0.92rem;
                 font-weight: 700;
             }
@@ -800,22 +800,22 @@
         height: 64px;
         margin: 0 auto 16px;
         border-radius: 50%;
-        background: #FFFFFF;
-        border: 3px solid #E8F1FD;
+        background: var(--nexus-surface);
+        border: 3px solid var(--nexus-blue-light);
         display: inline-flex;
         align-items: center;
         justify-content: center;
         font-size: 1.4rem;
-        color: #1558B8;
+        color: var(--nexus-blue-dark);
         position: relative;
         transition: all 0.25s ease;
         box-shadow: 0 6px 18px rgba(30, 111, 229, 0.1);
     }
 
     .how-step:hover .step-circle {
-        background: linear-gradient(135deg, #1E6FE5, #1558B8);
-        color: #FFFFFF;
-        border-color: #1E6FE5;
+        background: linear-gradient(135deg, var(--nexus-blue), var(--nexus-blue-dark));
+        color: var(--nexus-text-invert);
+        border-color: var(--nexus-blue);
         transform: scale(1.08) rotate(-3deg);
     }
 
@@ -826,25 +826,25 @@
         width: 26px;
         height: 26px;
         border-radius: 50%;
-        background: #0A1F44;
-        color: #FFFFFF;
+        background: var(--nexus-navy);
+        color: var(--nexus-text-invert);
         font-size: 0.68rem;
         font-weight: 800;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        border: 2px solid #FFFFFF;
+        border: 2px solid var(--nexus-surface);
     }
 
     .how-step h4 {
         margin: 0 0 6px;
         font-size: 0.98rem;
-        color: #0A1F44;
+        color: var(--nexus-navy);
     }
 
     .how-step p {
         margin: 0;
-        color: #64748B;
+        color: var(--nexus-muted);
         font-size: 0.85rem;
         line-height: 1.5;
     }
@@ -861,8 +861,8 @@
 .testimonial-rich {
     position: relative;
     padding: 26px 24px;
-    background: #FFFFFF;
-    border: 1px solid #E2E8F0;
+    background: var(--nexus-surface);
+    border: 1px solid var(--nexus-border);
     border-radius: 16px;
     box-shadow: 0 4px 12px rgba(10, 31, 68, 0.04);
     transition: transform 0.25s ease, box-shadow 0.25s ease;
@@ -871,11 +871,11 @@
     .testimonial-rich:hover {
         transform: translateY(-5px);
         box-shadow: 0 20px 40px rgba(10, 31, 68, 0.12);
-        border-color: #1E6FE5;
+        border-color: var(--nexus-blue);
     }
 
     .testimonial-rich .stars {
-        color: #F59E0B;
+        color: var(--nexus-warning);
         letter-spacing: 2px;
         font-size: 0.88rem;
         margin-bottom: 10px;
@@ -883,7 +883,7 @@
 
     .testimonial-rich p {
         margin: 0 0 18px;
-        color: #334155;
+        color: var(--nexus-text-soft);
         font-size: 0.92rem;
         line-height: 1.6;
     }
@@ -893,7 +893,7 @@
         align-items: center;
         gap: 12px;
         padding-top: 16px;
-        border-top: 1px solid #EEF2F7;
+        border-top: 1px solid var(--nexus-border-soft);
     }
 
         .testimonial-rich .author img {
@@ -901,19 +901,19 @@
             height: 44px;
             border-radius: 50%;
             object-fit: cover;
-            border: 2px solid #E8F1FD;
+            border: 2px solid var(--nexus-blue-light);
         }
 
         .testimonial-rich .author strong {
             display: block;
-            color: #0A1F44;
+            color: var(--nexus-navy);
             font-size: 0.92rem;
             font-weight: 700;
         }
 
         .testimonial-rich .author span {
             font-size: 0.78rem;
-            color: #64748B;
+            color: var(--nexus-muted);
         }
 
 /* ---------------------------------------------------------
@@ -925,8 +925,8 @@
     overflow: hidden;
     isolation: isolate;
     text-align: center;
-    color: #FFFFFF;
-    background: #0A1F44;
+    color: var(--nexus-text-invert);
+    background: var(--nexus-navy);
 }
 
     .hero-cta-final .cta-bg {
@@ -957,14 +957,14 @@
 }
 
 .hero-cta-final h2 {
-    color: #FFFFFF;
+    color: var(--nexus-text-invert);
     font-size: clamp(1.6rem, 3.2vw, 2.4rem);
     margin-bottom: 12px;
     letter-spacing: -0.025em;
 }
 
     .hero-cta-final h2 .shine {
-        background: linear-gradient(90deg, #38BDF8 0%, #FFFFFF 40%, #38BDF8 60%, #FFFFFF 100%);
+        background: linear-gradient(90deg, var(--nexus-accent) 0%, var(--nexus-surface) 40%, var(--nexus-accent) 60%, var(--nexus-surface) 100%);
         background-size: 250% 100%;
         -webkit-background-clip: text;
         background-clip: text;
@@ -1053,7 +1053,7 @@
 
     .home-stat-item {
         border-right: none;
-        border-bottom: 1px solid #EEF2F7;
+        border-bottom: 1px solid var(--nexus-border-soft);
     }
 
         .home-stat-item:last-child {
@@ -1124,7 +1124,7 @@
     }
 
     .home-stat-item {
-        border-bottom: 1px solid #EEF2F7;
+        border-bottom: 1px solid var(--nexus-border-soft);
         padding: 18px 14px;
     }
 
@@ -1183,5 +1183,77 @@
     .home-hero .hero-visual .hero-media {
         aspect-ratio: 4 / 3;
         max-height: none;
+    }
+}
+/* ---------------------------------------------------------
+   ACCOUNT ENTRY
+   Sign in / sign up pair so a new visitor can tell the two
+   paths apart without hunting through the navbar.
+   --------------------------------------------------------- */
+.account-entry {
+    padding-top: 0;
+}
+
+.account-entry-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.account-card {
+    background: var(--nexus-surface);
+    border: 1px solid var(--nexus-border);
+    border-radius: 20px;
+    padding: 34px 32px 30px;
+    text-align: center;
+    box-shadow: 0 18px 40px rgba(10, 31, 68, 0.06);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.account-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--nexus-blue-light);
+    box-shadow: 0 26px 54px rgba(10, 31, 68, 0.12);
+}
+
+.account-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    background: linear-gradient(135deg, var(--nexus-blue), var(--nexus-blue-dark));
+    color: var(--nexus-text-invert);
+    margin-bottom: 18px;
+    box-shadow: 0 10px 24px rgba(30, 111, 229, 0.32);
+}
+
+.account-icon.alt {
+    background: linear-gradient(135deg, var(--nexus-navy), var(--nexus-navy-dark));
+    box-shadow: 0 10px 24px rgba(10, 31, 68, 0.32);
+}
+
+.account-card h3 {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--nexus-navy);
+    margin: 0 0 10px;
+    letter-spacing: -0.02em;
+}
+
+.account-card p {
+    color: var(--nexus-muted);
+    font-size: 0.92rem;
+    line-height: 1.65;
+    margin: 0 0 22px;
+}
+
+@media (max-width: 720px) {
+    .account-entry-grid {
+        grid-template-columns: 1fr;
     }
 }

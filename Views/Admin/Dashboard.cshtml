@@ -1,518 +1,332 @@
-﻿@{
+@model NEXUS.Models.ViewModels.AdminDashboardData
+@using NEXUS.Common.Extensions
+@{
     Layout = "_DashboardLayout";
     ViewData["Title"] = "Admin Dashboard — NEXUS";
-    ViewData["UserRole"] = "Admin";
     ViewData["ActiveSidebar"] = "dashboard";
-    ViewData["UserName"] = "Admin User";
-    ViewData["UserRoleLabel"] = "System Administrator";
+
+    var statusTone = (string token) => token switch
+    {
+        "Completed" => "success",
+        "Confirmed" => "info",
+        "Installing" => "warning",
+        "FeasibilityPassed" => "info",
+        "FeasibilityFailed" => "danger",
+        "Cancelled" => "danger",
+        _ => "muted"
+    };
 }
 
 @section DashboardStyles {
     <link rel="stylesheet" href="~/css/dashboards-luxury.css" />
 }
 
+@* Charts have no series until a reporting endpoint exists. An invented trend
+   line would look authoritative while being fiction. *@
 <script>
     window.NEXUS_CHART_DATA = {
-        months:        ['Apr','May','Jun','Jul','Aug','Sep'],
-        revenue:       [180000,195000,210000,225000,240000,258000],
-        customers:     [1050,1105,1140,1180,1215,1245],
-        orders:        [22,28,32,26,35,42],
-        distribution:  [540,260,120,65,120,85,40,15],
-        paymentStatus: [720,180,45]
+        months:        [],
+        revenue:       [],
+        customers:     [],
+        orders:        [],
+        distribution:  [],
+        paymentStatus: []
     };
 </script>
 
-@* =========================================================
-   WELCOME BANNER
-   ========================================================= *@
 <div class="welcome-banner reveal">
     <div class="banner-flex">
         <div>
-            <h1>Welcome, Administrator 👋</h1>
+            <h1>Welcome, @User.DisplayName()</h1>
             <p>NEXUS System Overview · @DateTime.Now.ToString("dddd, dd MMMM yyyy")</p>
             <div class="banner-actions">
-                <span class="badge badge-success"><i class="fa-solid fa-circle-check"></i> All Systems Operational</span>
+                <span class="badge badge-success"><i class="fa-solid fa-circle-check"></i> @Model.TotalCustomers customer@(Model.TotalCustomers == 1 ? "" : "s") on file</span>
                 <span class="badge" style="background:rgba(255,255,255,0.15);color:#fff;">
-                    <i class="fa-solid fa-users"></i> 1,245 Customers
-                </span>
-                <span class="badge" style="background:rgba(255,255,255,0.15);color:#fff;">
-                    <i class="fa-solid fa-clock"></i> 36 Pending Orders
-                </span>
-            </div>
-        </div>
+                    <i class="fa-solid fa-database"></i> Live database </span> </div> </div>
         <div class="banner-actions">
             <a href="/Admin/Reports" class="btn btn-outline-light"><i class="fa-solid fa-chart-line"></i> Reports</a>
-            <a href="/Admin/Settings" class="btn btn-primary"><i class="fa-solid fa-gear"></i> Settings</a>
-        </div>
-    </div>
+            <a href="/Admin/Settings" class="btn btn-primary"><i class="fa-solid fa-gear"></i> Settings</a> </div> </div>
 </div>
 
-@* =========================================================
-   KPI CARDS
-   ========================================================= *@
 <div class="stats-grid reveal">
     <div class="stat-card">
         <div class="stat-icon blue"><i class="fa-solid fa-users"></i></div>
         <div class="stat-meta">
-            <div class="stat-value" data-count="1245">0</div>
-            <div class="stat-label">Total Customers</div>
-            <div class="stat-trend up"><i class="fa-solid fa-arrow-up"></i> +30 this month</div>
-        </div>
-    </div>
+            <div class="stat-value">@Model.TotalCustomers</div>
+            <div class="stat-label">Total Customers</div> </div> </div>
     <div class="stat-card">
         <div class="stat-icon success"><i class="fa-solid fa-plug-circle-check"></i></div>
         <div class="stat-meta">
-            <div class="stat-value" data-count="842">0</div>
-            <div class="stat-label">Active Connections</div>
-            <div class="stat-trend up"><i class="fa-solid fa-arrow-up"></i> +12 this week</div>
-        </div>
-    </div>
+            <div class="stat-value">@Model.ActiveConnections</div>
+            <div class="stat-label">Active Connections</div> </div> </div>
     <div class="stat-card">
         <div class="stat-icon warning"><i class="fa-solid fa-clock"></i></div>
         <div class="stat-meta">
-            <div class="stat-value" data-count="36">0</div>
-            <div class="stat-label">Pending Orders</div>
-            <div class="stat-trend down"><i class="fa-solid fa-arrow-down"></i> -8 vs last week</div>
-        </div>
-    </div>
+            <div class="stat-value">@Model.PendingOrders</div>
+            <div class="stat-label">Orders In Progress</div> </div> </div>
     <div class="stat-card">
         <div class="stat-icon navy"><i class="fa-solid fa-money-bill-trend-up"></i></div>
         <div class="stat-meta">
-            <div class="stat-value" data-count="258000" data-prefix="Rs. ">Rs. 0</div>
-            <div class="stat-label">Monthly Revenue</div>
-            <div class="stat-trend up"><i class="fa-solid fa-arrow-up"></i> +7.5% MoM</div>
-        </div>
-    </div>
+            <div class="stat-value">@Model.MonthlyRevenue.ToString("C")</div>
+            <div class="stat-label">Revenue This Month</div> </div> </div>
 </div>
 
 <div class="stats-grid reveal">
     <div class="stat-card">
         <div class="stat-icon warning"><i class="fa-solid fa-file-invoice-dollar"></i></div>
         <div class="stat-meta">
-            <div class="stat-value" data-count="48">0</div>
-            <div class="stat-label">Outstanding Bills</div>
-        </div>
-    </div>
+            <div class="stat-value">@Model.OutstandingBills</div>
+            <div class="stat-label">Unpaid Bills</div> </div> </div>
     <div class="stat-card">
-        <div class="stat-icon danger"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        <div class="stat-icon navy"><i class="fa-solid fa-sack-dollar"></i></div>
         <div class="stat-meta">
-            <div class="stat-value" data-count="5">0</div>
-            <div class="stat-label">Open Technical Issues</div>
-        </div>
-    </div>
+            <div class="stat-value" style="font-size:1.15rem;">@Model.OutstandingAmount.ToString("C")</div>
+            <div class="stat-label">Outstanding Balance</div> </div> </div>
     <div class="stat-card">
         <div class="stat-icon success"><i class="fa-solid fa-screwdriver-wrench"></i></div>
         <div class="stat-meta">
-            <div class="stat-value" data-count="14">0</div>
-            <div class="stat-label">Active Installations</div>
-        </div>
-    </div>
+            <div class="stat-value">@Model.ActiveInstallations</div>
+            <div class="stat-label">Installations Running</div> </div> </div>
     <div class="stat-card">
-        <div class="stat-icon blue"><i class="fa-solid fa-headset"></i></div>
+        <div class="stat-icon blue"><i class="fa-solid fa-receipt"></i></div>
         <div class="stat-meta">
-            <div class="stat-value" data-count="9">0</div>
-            <div class="stat-label">Open Support Tickets</div>
-        </div>
-    </div>
+            <div class="stat-value">@Model.SuccessfulPayments</div>
+            <div class="stat-label">Payments Recorded</div> </div> </div>
 </div>
 
-@* =========================================================
-   CHARTS ROW 1 — Revenue + Customers
-   ========================================================= *@
 <div class="dash-grid-2 reveal" style="margin-top:22px;">
     <div class="chart-card">
         <div class="chart-head">
             <div>
                 <h4><i class="fa-solid fa-chart-line"></i> Revenue Trend</h4>
-                <p class="chart-sub">Monthly revenue — last 6 months (PKR).</p>
-            </div>
-            <span class="badge badge-success"><i class="fa-solid fa-arrow-up"></i> +7.5%</span>
-        </div>
+                <p class="chart-sub">Monthly revenue — last 6 months.</p> </div>
+            <span class="badge badge-muted">Awaiting report endpoint</span> </div>
         <div class="chart-body">
-            <canvas id="revenueChart" data-chart="line" data-label="Revenue" data-key="revenue" data-prefix="Rs. " data-legend></canvas>
-        </div>
-    </div>
+            <canvas id="revenueChart" data-chart="line" data-label="Revenue" data-key="revenue" data-prefix="$" data-legend></canvas> </div> </div>
 
     <div class="chart-card">
         <div class="chart-head">
             <div>
                 <h4><i class="fa-solid fa-chart-area"></i> Customer Growth</h4>
-                <p class="chart-sub">Active customers month over month.</p>
-            </div>
-            <span class="badge badge-info">1,245 total</span>
-        </div>
+                <p class="chart-sub">Customers added month over month.</p> </div>
+            <span class="badge badge-muted">Awaiting report endpoint</span> </div>
         <div class="chart-body">
-            <canvas id="customerChart" data-chart="line" data-label="Customers" data-key="customers"></canvas>
-        </div>
-    </div>
+            <canvas id="customerChart" data-chart="line" data-label="Customers" data-key="customers"></canvas> </div> </div>
 </div>
 
-@* =========================================================
-   CHARTS ROW 2 — Orders + Distribution + Payment
-   ========================================================= *@
 <div class="dash-grid-3 reveal" style="margin-top:22px;">
     <div class="chart-card" style="margin-bottom:0;">
         <div class="chart-head">
             <div>
                 <h4><i class="fa-solid fa-chart-bar"></i> Orders by Month</h4>
-                <p class="chart-sub">Monthly new connection orders.</p>
-            </div>
-        </div>
+                <p class="chart-sub">New connection orders per month.</p> </div>
+            <span class="badge badge-muted">Awaiting report endpoint</span> </div>
         <div class="chart-body sm">
-            <canvas id="ordersChart" data-chart="bar" data-label="Orders" data-key="orders"></canvas>
-        </div>
-    </div>
+            <canvas id="ordersChart" data-chart="bar" data-label="Orders" data-key="orders"></canvas> </div> </div>
 
     <div class="chart-card" style="margin-bottom:0;">
         <div class="chart-head">
             <div>
-                <h4><i class="fa-solid fa-chart-pie"></i> Service Distribution</h4>
-                <p class="chart-sub">Active connections by type.</p>
-            </div>
-        </div>
-        <div class="chart-body sm">
-            <canvas id="distributionChart" data-chart="doughnut"></canvas>
-        </div>
-    </div>
+                <h4><i class="fa-solid fa-chart-pie"></i> Service Mix</h4>
+                <p class="chart-sub">Lines on the network by type.</p> </div> </div>
+        <div class="chart-body sm" style="display:flex;align-items:center;justify-content:center;">
+            @if (Model.HasAnyConnection)
+            {
+                <div style="display:grid;gap:14px;width:100%;">
+                    <div class="summary-rows" style="margin:0;">
+                        <div><span>Broadband</span><strong>@Model.BroadbandConnections</strong></div>
+                        <div><span>Dial-Up</span><strong>@Model.DialUpConnections</strong></div>
+                        <div><span>Telephone</span><strong>@Model.TelephoneConnections</strong></div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <p class="muted small" style="margin:0;">No connections provisioned yet.</p>
+            } </div> </div>
 
     <div class="chart-card" style="margin-bottom:0;">
         <div class="chart-head">
             <div>
-                <h4><i class="fa-solid fa-chart-pie"></i> Payment Status</h4>
-                <p class="chart-sub">Current billing cycle.</p>
-            </div>
-        </div>
-        <div class="chart-body sm">
-            <canvas id="paymentStatusChart" data-chart="pie"></canvas>
-        </div>
-    </div>
+                <h4><i class="fa-solid fa-file-invoice-dollar"></i> Billing Position</h4>
+                <p class="chart-sub">Open versus settled invoices.</p> </div> </div>
+        <div class="chart-body sm" style="display:flex;align-items:center;justify-content:center;">
+            <div class="summary-rows" style="margin:0;width:100%;">
+                <div><span>Unpaid bills</span><strong>@Model.OutstandingBills</strong></div>
+                <div><span>Outstanding</span><strong>@Model.OutstandingAmount.ToString("C")</strong></div>
+                <div><span>Payments recorded</span><strong>@Model.SuccessfulPayments</strong></div>
+            </div> </div> </div>
 </div>
 
-@* =========================================================
-   RECENT CUSTOMERS + RECENT ORDERS
-   ========================================================= *@
 <div class="dash-grid-2 reveal" style="margin-top:22px;">
     <div class="chart-card" style="margin-bottom:0;">
         <div class="chart-head">
             <div>
                 <h4><i class="fa-solid fa-user-plus"></i> Recent Registrations</h4>
-                <p class="chart-sub">Latest customer sign-ups.</p>
-            </div>
-            <a href="/Retail/Search" class="btn btn-ghost btn-sm">View all</a>
-        </div>
+                <p class="chart-sub">Latest customer sign-ups.</p> </div>
+            <a href="/Retail/Search" class="btn btn-ghost btn-sm">View all</a> </div>
 
-        <div class="table-wrap">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Account</th>
-                        <th>Customer</th>
-                        <th>Plan</th>
-                        <th class="hide-sm">City</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong style="font-family:monospace;">NX12345678</strong></td>
-                        <td>Ahmed Khan</td>
-                        <td>Standard 15 Mbps</td>
-                        <td class="hide-sm">Lahore</td>
-                        <td><span class="badge badge-success">Active</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong style="font-family:monospace;">NX12345679</strong></td>
-                        <td>Ali Raza</td>
-                        <td>Premium 30 Mbps</td>
-                        <td class="hide-sm">Karachi</td>
-                        <td><span class="badge badge-success">Active</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong style="font-family:monospace;">NX12345680</strong></td>
-                        <td>Usman Ahmed</td>
-                        <td>Basic 5 Mbps</td>
-                        <td class="hide-sm">Islamabad</td>
-                        <td><span class="badge badge-warning">Pending</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong style="font-family:monospace;">NX12345681</strong></td>
-                        <td>Hassan Shah</td>
-                        <td>Standard 15 Mbps</td>
-                        <td class="hide-sm">Lahore</td>
-                        <td><span class="badge badge-success">Active</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong style="font-family:monospace;">NX12345682</strong></td>
-                        <td>Bilal Khan</td>
-                        <td>Premium 30 Mbps</td>
-                        <td class="hide-sm">Rawalpindi</td>
-                        <td><span class="badge badge-success">Active</span></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+        @if (Model.HasAnyCustomer)
+        {
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Account</th>
+                            <th scope="col">Customer</th>
+                            <th scope="col">Service</th>
+                            <th scope="col" class="hide-sm">City</th>
+                            <th scope="col">Joined</th> </tr> </thead>
+                    <tbody>
+                        @foreach (var c in Model.RecentCustomers)
+                        {
+                            <tr>
+                                <td><strong style="font-family:monospace;">@c.AccountId</strong></td>
+                                <td>@c.FullName</td>
+                                <td>@c.ConnectionTypeName</td>
+                                <td class="hide-sm">@c.CityName</td>
+                                <td>@c.CreatedAt.ToLocalTime().ToString("dd MMM yyyy")</td> </tr>
+                        } </tbody> </table> </div>
+        }
+        else
+        {
+            <p class="muted small" style="padding:16px 0;">No customers registered yet.</p>
+        } </div>
 
     <div class="chart-card" style="margin-bottom:0;">
         <div class="chart-head">
             <div>
                 <h4><i class="fa-solid fa-box"></i> Recent Orders</h4>
-                <p class="chart-sub">Latest connection requests.</p>
-            </div>
-            <a href="/Orders/Tracking" class="btn btn-ghost btn-sm">View all</a>
-        </div>
+                <p class="chart-sub">Latest connection requests.</p> </div>
+            <a href="/Operations" class="btn btn-ghost btn-sm">View queue</a> </div>
 
-        <div class="table-wrap">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Order ID</th>
-                        <th>Customer</th>
-                        <th>Plan</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong style="font-family:monospace;">NX-ORD-1001</strong></td>
-                        <td>Ahmed Khan</td>
-                        <td>Standard</td>
-                        <td><span class="badge badge-success">Completed</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong style="font-family:monospace;">NX-ORD-1002</strong></td>
-                        <td>Ali Raza</td>
-                        <td>Premium</td>
-                        <td><span class="badge badge-warning">Installation</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong style="font-family:monospace;">NX-ORD-1003</strong></td>
-                        <td>Usman Ahmed</td>
-                        <td>Basic</td>
-                        <td><span class="badge badge-info">Verification</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong style="font-family:monospace;">NX-ORD-1004</strong></td>
-                        <td>Hassan Shah</td>
-                        <td>Standard</td>
-                        <td><span class="badge badge-warning">Scheduled</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong style="font-family:monospace;">NX-ORD-1005</strong></td>
-                        <td>Bilal Khan</td>
-                        <td>Premium</td>
-                        <td><span class="badge badge-info">Review</span></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+        @if (Model.HasAnyOrder)
+        {
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Order ID</th>
+                            <th scope="col">Customer</th>
+                            <th scope="col" class="hide-sm">Plan</th>
+                            <th scope="col">Status</th> </tr> </thead>
+                    <tbody>
+                        @foreach (var o in Model.RecentOrders)
+                        {
+                            <tr>
+                                <td><a href="/Operations/Review/@o.OrderId" style="font-family:monospace;font-weight:600;">@o.OrderId</a></td>
+                                <td>@o.CustomerName</td>
+                                <td class="hide-sm">@o.PlanName</td>
+                                <td><span class="badge badge-@statusTone(o.StatusToken)">@o.StatusLabel</span></td> </tr>
+                        } </tbody> </table> </div>
+        }
+        else
+        {
+            <p class="muted small" style="padding:16px 0;">No orders raised yet.</p>
+        } </div>
 </div>
 
-@* =========================================================
-   RECENT PAYMENTS + ACTIVITY
-   ========================================================= *@
 <div class="dash-grid-2 reveal" style="margin-top:22px;">
     <div class="chart-card" style="margin-bottom:0;">
         <div class="chart-head">
-            <h4><i class="fa-solid fa-money-bill-wave"></i> Recent Payments</h4>
-        </div>
-        <div class="table-wrap">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Customer</th>
-                        <th>Invoice</th>
-                        <th>Amount</th>
-                        <th class="hide-sm">Method</th>
-                        <th class="hide-sm">Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Ahmed Khan</td>
-                        <td><strong style="font-family:monospace;">INV-1002</strong></td>
-                        <td><strong>Rs. 2,450</strong></td>
-                        <td class="hide-sm">Credit Card</td>
-                        <td class="hide-sm">12 Sep</td>
-                    </tr>
-                    <tr>
-                        <td>Ali Raza</td>
-                        <td><strong style="font-family:monospace;">INV-1001</strong></td>
-                        <td><strong>Rs. 2,000</strong></td>
-                        <td class="hide-sm">Bank Transfer</td>
-                        <td class="hide-sm">10 Sep</td>
-                    </tr>
-                    <tr>
-                        <td>Hassan Shah</td>
-                        <td><strong style="font-family:monospace;">INV-1000</strong></td>
-                        <td><strong>Rs. 3,500</strong></td>
-                        <td class="hide-sm">JazzCash</td>
-                        <td class="hide-sm">08 Sep</td>
-                    </tr>
-                    <tr>
-                        <td>Bilal Khan</td>
-                        <td><strong style="font-family:monospace;">INV-0999</strong></td>
-                        <td><strong>Rs. 2,450</strong></td>
-                        <td class="hide-sm">EasyPaisa</td>
-                        <td class="hide-sm">05 Sep</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+            <h4><i class="fa-solid fa-money-bill-wave"></i> Recent Payments</h4> </div>
+        @if (Model.HasAnyPayment)
+        {
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Customer</th>
+                            <th scope="col">Receipt</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col" class="hide-sm">Method</th>
+                            <th scope="col" class="hide-sm">Date</th> </tr> </thead>
+                    <tbody>
+                        @foreach (var p in Model.RecentPayments)
+                        {
+                            <tr>
+                                <td>@p.CustomerName</td>
+                                <td><strong style="font-family:monospace;">@p.ReceiptNumber</strong></td>
+                                <td><strong>@p.Amount.ToString("C")</strong></td>
+                                <td class="hide-sm">@p.MethodName</td>
+                                <td class="hide-sm">@p.PaidOn.ToLocalTime().ToString("dd MMM")</td> </tr>
+                        } </tbody> </table> </div>
+        }
+        else
+        {
+            <p class="muted small" style="padding:16px 0;">No payments recorded yet.</p>
+        } </div>
 
     <div class="chart-card" style="margin-bottom:0;">
         <div class="chart-head">
-            <h4><i class="fa-solid fa-clock-rotate-left"></i> System Activity</h4>
-        </div>
-        <div class="activity-feed">
-            <div class="activity-item success">
-                <div class="icon"><i class="fa-solid fa-circle-check"></i></div>
-                <div class="meta">
-                    <strong>Payment received</strong>
-                    <p>Ahmed Khan paid Rs. 2,450 via Credit Card.</p>
-                </div>
-                <div class="when">2 min ago</div>
-            </div>
-            <div class="activity-item">
-                <div class="icon"><i class="fa-solid fa-user-plus"></i></div>
-                <div class="meta">
-                    <strong>New customer registered</strong>
-                    <p>Hassan Shah · Account NX12345681</p>
-                </div>
-                <div class="when">14 min ago</div>
-            </div>
-            <div class="activity-item warning">
-                <div class="icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
-                <div class="meta">
-                    <strong>Technical issue raised</strong>
-                    <p>Ticket #T-2043 · Slow speeds in Gulberg III.</p>
-                </div>
-                <div class="when">38 min ago</div>
-            </div>
-            <div class="activity-item">
-                <div class="icon"><i class="fa-solid fa-box"></i></div>
-                <div class="meta">
-                    <strong>New order received</strong>
-                    <p>NX-ORD-1005 · Bilal Khan · Premium plan.</p>
-                </div>
-                <div class="when">1 hr ago</div>
-            </div>
-            <div class="activity-item success">
-                <div class="icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
-                <div class="meta">
-                    <strong>Installation completed</strong>
-                    <p>Usman Ahmed · NX12345680 activated.</p>
-                </div>
-                <div class="when">3 hr ago</div>
-            </div>
-        </div>
-    </div>
+            <div>
+                <h4><i class="fa-solid fa-plug-circle-check"></i> Recent Connections</h4>
+                <p class="chart-sub">Lines most recently activated.</p> </div>
+            <a href="/Operations/Connections" class="btn btn-ghost btn-sm">View all</a> </div>
+        @if (Model.RecentConnections.Count > 0)
+        {
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Line</th>
+                            <th scope="col">Customer</th>
+                            <th scope="col" class="hide-sm">Plan</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Billable</th> </tr> </thead>
+                    <tbody>
+                        @foreach (var c in Model.RecentConnections)
+                        {
+                            <tr>
+                                <td><strong style="font-family:monospace;">@c.ConnectionNumber</strong></td>
+                                <td>@c.CustomerName</td>
+                                <td class="hide-sm">@c.PlanName</td>
+                                <td><span class="badge badge-@(c.StatusToken == "Active" ? "success" : c.StatusToken == "Pending" ? "warning" : "muted")">@c.StatusLabel</span></td>
+                                <td>
+                                    @if (c.IsBillable)
+                                    {
+                                        <span class="badge badge-success">Yes</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-muted">No</span>
+                                    } </td> </tr>
+                        } </tbody> </table> </div>
+        }
+        else
+        {
+            <p class="muted small" style="padding:16px 0;">No connections provisioned yet.</p>
+        } </div>
 </div>
 
-@* =========================================================
-   PENDING TASKS + QUICK ACTIONS
-   ========================================================= *@
 <div class="dash-grid-2 reveal" style="margin-top:22px;">
     <div class="chart-card" style="margin-bottom:0;">
         <div class="chart-head">
-            <h4><i class="fa-solid fa-list-check"></i> Pending Tasks</h4>
-            <span class="badge badge-warning">4 items</span>
-        </div>
+            <h4><i class="fa-solid fa-list-check"></i> Works In Flight</h4>
+            <span class="badge badge-warning">@Model.PendingOrders item@(Model.PendingOrders == 1 ? "" : "s")</span> </div>
 
         <div class="summary-rows">
             <div>
-                <span><i class="fa-solid fa-circle-exclamation" style="color:var(--nexus-warning);"></i> Approve new retail requests</span>
-                <strong>3 pending</strong>
-            </div>
+                <span><i class="fa-solid fa-clipboard-check" style="color:var(--nexus-warning);"></i> Orders awaiting survey</span>
+                <strong>@Model.PendingOrders</strong> </div>
             <div>
-                <span><i class="fa-solid fa-circle-exclamation" style="color:var(--nexus-warning);"></i> Review technical escalations</span>
-                <strong>2 pending</strong>
-            </div>
+                <span><i class="fa-solid fa-screwdriver-wrench" style="color:var(--nexus-warning);"></i> Installations running</span>
+                <strong>@Model.ActiveInstallations</strong> </div>
             <div>
-                <span><i class="fa-solid fa-circle-exclamation" style="color:var(--nexus-warning);"></i> Monthly performance report</span>
-                <strong>Due 30 Oct</strong>
-            </div>
+                <span><i class="fa-solid fa-file-invoice-dollar" style="color:var(--nexus-warning);"></i> Bills awaiting payment</span>
+                <strong>@Model.OutstandingBills</strong> </div>
             <div>
-                <span><i class="fa-solid fa-circle-exclamation" style="color:var(--nexus-danger);"></i> Overdue customer follow-up</span>
-                <strong>5 pending</strong>
-            </div>
-        </div>
-    </div>
+                <span><i class="fa-solid fa-plug-circle-check" style="color:var(--nexus-success);"></i> Lines live on the network</span>
+                <strong>@Model.ActiveConnections</strong> </div> </div> </div>
 
     <div class="chart-card" style="margin-bottom:0;">
         <div class="chart-head">
-            <h4><i class="fa-solid fa-bolt"></i> Admin Shortcuts</h4>
-        </div>
+            <h4><i class="fa-solid fa-bolt"></i> Admin Shortcuts</h4> </div>
         <div class="quick-actions">
+            <a href="/Operations" class="quick-action"><i class="fa-solid fa-clipboard-check"></i><span>Survey Queue</span></a>
+            <a href="/Operations/Connections" class="quick-action"><i class="fa-solid fa-plug-circle-check"></i><span>Connections</span></a>
             <a href="/Retail/NewOrder" class="quick-action"><i class="fa-solid fa-user-plus"></i><span>New Customer</span></a>
             <a href="/Retail/Search" class="quick-action"><i class="fa-solid fa-magnifying-glass"></i><span>Search</span></a>
-            <a href="/Orders/Tracking" class="quick-action"><i class="fa-solid fa-box"></i><span>Orders</span></a>
             <a href="/Admin/Reports" class="quick-action"><i class="fa-solid fa-chart-line"></i><span>Reports</span></a>
-            <a href="/Admin/Settings" class="quick-action"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
-            <a href="/Accounts/Dashboard" class="quick-action"><i class="fa-solid fa-file-invoice"></i><span>Billing</span></a>
-        </div>
-    </div>
+            <a href="/Accounts/Dashboard" class="quick-action"><i class="fa-solid fa-file-invoice"></i><span>Billing</span></a> </div> </div>
 </div>
-
-@* =========================================================
-   SERVICE PERFORMANCE
-   ========================================================= *@
-<div class="chart-card reveal" style="margin-top:22px;">
-    <div class="chart-head">
-        <div>
-            <h4><i class="fa-solid fa-signal"></i> Service Performance</h4>
-            <p class="chart-sub">Current network health across service types.</p>
-        </div>
-        <span class="badge badge-success">All Nominal</span>
-    </div>
-
-    <div class="stats-grid" style="margin-bottom:0;">
-        <div class="stat-card">
-            <div class="stat-icon success"><i class="fa-solid fa-wifi"></i></div>
-            <div class="stat-meta">
-                <div class="stat-value" style="font-size:1.15rem;">540</div>
-                <div class="stat-label">Broadband</div>
-            </div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-icon success"><i class="fa-solid fa-bolt"></i></div>
-            <div class="stat-meta">
-                <div class="stat-value" style="font-size:1.15rem;">260</div>
-                <div class="stat-label">Fiber</div>
-            </div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-icon success"><i class="fa-solid fa-tower-broadcast"></i></div>
-            <div class="stat-meta">
-                <div class="stat-value" style="font-size:1.15rem;">120</div>
-                <div class="stat-label">Wireless</div>
-            </div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-icon success"><i class="fa-solid fa-server"></i></div>
-            <div class="stat-meta">
-                <div class="stat-value" style="font-size:1.15rem;">65</div>
-                <div class="stat-label">Business</div>
-            </div>
-        </div>
-    </div>
-</div>
-
-@section DashboardScripts {
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            setTimeout(function () {
-                if (window.NEXUS && NEXUS.toast) {
-                    NEXUS.toast({
-                        title: 'Welcome, Admin',
-                        message: 'System overview loaded successfully.',
-                        type: 'success',
-                        duration: 3000
-                    });
-                }
-            }, 600);
-        });
-    </script>
-}

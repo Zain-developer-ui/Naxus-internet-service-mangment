@@ -1,343 +1,147 @@
-﻿@{
+@model NEXUS.Models.ViewModels.RetailDashboardData
+@using NEXUS.Common.Extensions
+@{
     Layout = "_DashboardLayout";
     ViewData["Title"] = "Retail Dashboard — NEXUS";
-    ViewData["UserRole"] = "Retail";
-    ViewData["ActiveSidebar"] = "dashboard";
-    ViewData["UserName"] = "Hamza Tariq";
-    ViewData["UserRoleLabel"] = "Retail Executive · Gulberg Branch";
 }
 
 @section DashboardStyles {
     <link rel="stylesheet" href="~/css/dashboards-luxury.css" />
 }
 
-<script>
-    window.NEXUS_CHART_DATA = {
-        months: ['Apr','May','Jun','Jul','Aug','Sep'],
-        orders: [12,15,18,14,22,26]
+@functions {
+    string OrderTone(string token) => token switch
+    {
+        "Completed" => "success",
+        "Installing" => "info",
+        "Confirmed" => "info",
+        "FeasibilityPassed" => "info",
+        "FeasibilityFailed" => "danger",
+        "Cancelled" => "danger",
+        _ => "warning"
     };
-</script>
+}
 
-@* =========================================================
-   WELCOME BANNER
-   ========================================================= *@
 <div class="welcome-banner reveal">
     <div class="banner-flex">
         <div>
-            <h1>Welcome back, Hamza 👋</h1>
-            <p>Gulberg Branch · @DateTime.Now.ToString("dddd, dd MMM yyyy")</p>
+            <h1>Welcome back, @User.DisplayName()</h1>
+            <p>Retail Front Desk · @DateTime.Now.ToString("dddd, dd MMM yyyy")</p>
             <div class="banner-actions">
                 <span class="badge badge-info" style="background:rgba(30,111,229,0.3);color:#fff;">
-                    <i class="fa-solid fa-user-plus"></i> 5 New Customers Today
-                </span>
+                    <i class="fa-solid fa-user-plus"></i> @Model.NewCustomersToday New Today </span>
                 <span class="badge badge-warning" style="background:rgba(245,158,11,0.3);color:#fff;">
-                    <i class="fa-solid fa-clock"></i> 3 Pending Verification
-                </span>
-                <span class="badge badge-success"><i class="fa-solid fa-circle-check"></i> 4 Orders Completed</span>
-            </div>
-        </div>
+                    <i class="fa-solid fa-clock"></i> @Model.PendingOrders In Progress </span>
+                <span class="badge badge-success"><i class="fa-solid fa-circle-check"></i> @Model.CompletedOrders Completed</span> </div> </div>
         <div class="banner-actions">
             <a href="/Retail/Search" class="btn btn-outline-light"><i class="fa-solid fa-magnifying-glass"></i> Search</a>
-            <a href="/Retail/NewOrder" class="btn btn-primary"><i class="fa-solid fa-user-plus"></i> New Order</a>
-        </div>
-    </div>
+            <a href="/Retail/NewOrder" class="btn btn-primary"><i class="fa-solid fa-user-plus"></i> New Order</a> </div> </div>
 </div>
 
-@* =========================================================
-   KPI CARDS
-   ========================================================= *@
 <div class="stats-grid reveal">
     <div class="stat-card">
         <div class="stat-icon blue"><i class="fa-solid fa-user-plus"></i></div>
         <div class="stat-meta">
-            <div class="stat-value" data-count="5">0</div>
-            <div class="stat-label">New Customers Today</div>
-        </div>
-    </div>
+            <div class="stat-value">@Model.NewCustomersToday</div>
+            <div class="stat-label">New Customers Today</div> </div> </div>
     <div class="stat-card">
         <div class="stat-icon navy"><i class="fa-solid fa-box"></i></div>
         <div class="stat-meta">
-            <div class="stat-value" data-count="8">0</div>
-            <div class="stat-label">Orders Created Today</div>
-        </div>
-    </div>
+            <div class="stat-value">@Model.OrdersToday</div>
+            <div class="stat-label">Orders Today</div> </div> </div>
     <div class="stat-card">
         <div class="stat-icon warning"><i class="fa-solid fa-clock"></i></div>
         <div class="stat-meta">
-            <div class="stat-value" data-count="3">0</div>
-            <div class="stat-label">Pending Verification</div>
-        </div>
-    </div>
+            <div class="stat-value">@Model.PendingOrders</div>
+            <div class="stat-label">Orders In Progress</div> </div> </div>
     <div class="stat-card">
-        <div class="stat-icon success"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+        <div class="stat-icon success"><i class="fa-solid fa-circle-check"></i></div>
         <div class="stat-meta">
-            <div class="stat-value" data-count="2">0</div>
-            <div class="stat-label">Installation Requests</div>
-        </div>
-    </div>
+            <div class="stat-value">@Model.CompletedOrders</div>
+            <div class="stat-label">Orders Completed</div> </div> </div>
 </div>
 
 <div class="stats-grid reveal">
     <div class="stat-card">
-        <div class="stat-icon success"><i class="fa-solid fa-circle-check"></i></div>
-        <div class="stat-meta">
-            <div class="stat-value" data-count="4">0</div>
-            <div class="stat-label">Orders Completed Today</div>
-        </div>
-    </div>
-    <div class="stat-card">
         <div class="stat-icon blue"><i class="fa-solid fa-calendar-week"></i></div>
         <div class="stat-meta">
-            <div class="stat-value" data-count="32">0</div>
-            <div class="stat-label">Orders This Week</div>
-        </div>
-    </div>
+            <div class="stat-value">@Model.OrdersThisWeek</div>
+            <div class="stat-label">Orders This Week</div> </div> </div>
     <div class="stat-card">
         <div class="stat-icon navy"><i class="fa-solid fa-money-bill"></i></div>
         <div class="stat-meta">
-            <div class="stat-value" data-count="89000" data-prefix="Rs. ">Rs. 0</div>
-            <div class="stat-label">Weekly Sales Volume</div>
-        </div>
-    </div>
-    <div class="stat-card">
-        <div class="stat-icon success"><i class="fa-solid fa-star"></i></div>
-        <div class="stat-meta">
-            <div class="stat-value">4.8 / 5</div>
-            <div class="stat-label">Customer Rating</div>
-        </div>
-    </div>
+            <div class="stat-value">@Model.SalesThisWeek.ToString("C")</div>
+            <div class="stat-label">Quoted This Week</div> </div> </div>
 </div>
 
-@* =========================================================
-   CHARTS
-   ========================================================= *@
-<div class="dash-grid-2 reveal" style="margin-top:22px;">
-    <div class="chart-card">
-        <div class="chart-head">
-            <div>
-                <h4><i class="fa-solid fa-chart-bar"></i> Monthly Orders</h4>
-                <p class="chart-sub">Your branch's performance this year.</p>
-            </div>
-        </div>
-        <div class="chart-body">
-            <canvas id="ordersChart" data-chart="bar" data-label="Orders" data-key="orders"></canvas>
-        </div>
-    </div>
-
-    <div class="chart-card">
-        <div class="chart-head">
-            <div>
-                <h4><i class="fa-solid fa-chart-pie"></i> Order Status</h4>
-                <p class="chart-sub">Current pipeline overview.</p>
-            </div>
-        </div>
-        <div class="chart-body">
-            <canvas id="statusChart" data-chart="doughnut"></canvas>
-        </div>
-    </div>
-</div>
-
-@* =========================================================
-   TODAY'S TASKS
-   ========================================================= *@
-<div class="chart-card reveal" style="margin-top:22px;">
-    <div class="chart-head">
-        <div>
-            <h4><i class="fa-solid fa-list-check"></i> Today's Tasks</h4>
-            <p class="chart-sub">Your retail front-desk priorities.</p>
-        </div>
-    </div>
-
-    <div class="summary-rows">
-        <div>
-            <span><i class="fa-solid fa-circle-exclamation" style="color:var(--nexus-warning);"></i> Follow up on 3 pending verifications</span>
-            <strong>Due 12:00 PM</strong>
-        </div>
-        <div>
-            <span><i class="fa-solid fa-circle-exclamation" style="color:var(--nexus-danger);"></i> Contact Kamran Ali — overdue bill</span>
-            <strong>Due 02:00 PM</strong>
-        </div>
-        <div>
-            <span><i class="fa-solid fa-circle-exclamation" style="color:var(--nexus-warning);"></i> Confirm installation for Sana Iqbal</span>
-            <strong>Due 04:00 PM</strong>
-        </div>
-        <div>
-            <span><i class="fa-solid fa-circle-exclamation" style="color:var(--nexus-info);"></i> Prepare end-of-day report</span>
-            <strong>Due 06:00 PM</strong>
-        </div>
-    </div>
-</div>
-
-@* =========================================================
-   NEW ORDERS TABLE
-   ========================================================= *@
-<div class="chart-card reveal" style="margin-top:22px;">
+<div class="chart-card reveal" style="margin-top:22px;" id="recentOrders">
     <div class="chart-head">
         <div>
             <h4><i class="fa-solid fa-box"></i> Recent Orders</h4>
-            <p class="chart-sub">Orders created today and yesterday.</p>
-        </div>
-        <a href="/Retail/Search" class="btn btn-ghost btn-sm">View all orders</a>
-    </div>
+            <p class="chart-sub">Newest connection requests through the desk.</p> </div>
+        <a href="/Retail/Search" class="btn btn-ghost btn-sm">View all orders</a> </div>
 
     <div class="table-wrap">
         <table>
             <thead>
                 <tr>
-                    <th>Order ID</th>
-                    <th>Customer</th>
-                    <th class="hide-sm">Service</th>
-                    <th>Plan</th>
-                    <th class="hide-sm">City</th>
-                    <th class="hide-sm">Date</th>
-                    <th>Status</th>
-                    <th></th>
-                </tr>
-            </thead>
+                    <th scope="col">Order ID</th>
+                    <th scope="col">Customer</th>
+                    <th scope="col" class="hide-sm">Account</th>
+                    <th scope="col">Plan</th>
+                    <th scope="col" class="hide-sm">Service</th>
+                    <th scope="col" class="hide-sm">City</th>
+                    <th scope="col" class="hide-sm">Date</th>
+                    <th scope="col">Status</th> </tr> </thead>
             <tbody>
-                <tr>
-                    <td><strong style="font-family:monospace;">NX-ORD-1005</strong></td>
-                    <td>Bilal Khan</td>
-                    <td class="hide-sm">Broadband</td>
-                    <td>Premium</td>
-                    <td class="hide-sm">Rawalpindi</td>
-                    <td class="hide-sm">Today</td>
-                    <td><span class="badge badge-info">Review</span></td>
-                    <td><button class="btn btn-ghost btn-sm">View</button></td>
-                </tr>
-                <tr>
-                    <td><strong style="font-family:monospace;">NX-ORD-1004</strong></td>
-                    <td>Hassan Shah</td>
-                    <td class="hide-sm">Broadband</td>
-                    <td>Standard</td>
-                    <td class="hide-sm">Lahore</td>
-                    <td class="hide-sm">Today</td>
-                    <td><span class="badge badge-warning">Scheduled</span></td>
-                    <td><button class="btn btn-ghost btn-sm">View</button></td>
-                </tr>
-                <tr>
-                    <td><strong style="font-family:monospace;">NX-ORD-1003</strong></td>
-                    <td>Usman Ahmed</td>
-                    <td class="hide-sm">Broadband</td>
-                    <td>Basic</td>
-                    <td class="hide-sm">Islamabad</td>
-                    <td class="hide-sm">Today</td>
-                    <td><span class="badge badge-info">Verification</span></td>
-                    <td><button class="btn btn-ghost btn-sm">View</button></td>
-                </tr>
-                <tr>
-                    <td><strong style="font-family:monospace;">NX-ORD-1002</strong></td>
-                    <td>Ali Raza</td>
-                    <td class="hide-sm">Broadband</td>
-                    <td>Premium</td>
-                    <td class="hide-sm">Karachi</td>
-                    <td class="hide-sm">Yesterday</td>
-                    <td><span class="badge badge-warning">Installation</span></td>
-                    <td><button class="btn btn-ghost btn-sm">View</button></td>
-                </tr>
-                <tr>
-                    <td><strong style="font-family:monospace;">NX-ORD-1001</strong></td>
-                    <td>Ahmed Khan</td>
-                    <td class="hide-sm">Broadband</td>
-                    <td>Standard</td>
-                    <td class="hide-sm">Lahore</td>
-                    <td class="hide-sm">Yesterday</td>
-                    <td><span class="badge badge-success">Completed</span></td>
-                    <td><button class="btn btn-ghost btn-sm">View</button></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+                @if (Model.HasAnyOrder)
+                {
+                    foreach (var o in Model.RecentOrders)
+                    {
+                        <tr>
+                            <td><strong style="font-family:monospace;">@o.OrderId</strong></td>
+                            <td>@o.CustomerName</td>
+                            <td class="hide-sm">@o.CustomerAccountId</td>
+                            <td>@o.PlanName</td>
+                            <td class="hide-sm">@o.ServiceTypeName</td>
+                            <td class="hide-sm">@o.CityName</td>
+                            <td class="hide-sm">@o.CreatedAt.ToLocalTime().ToString("dd MMM")</td>
+                            <td><span class="badge badge-@OrderTone(o.StatusToken)">@o.StatusLabel</span></td> </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="8" class="table-empty">No orders yet. Register the first walk-in customer.</td></tr>
+                } </tbody> </table> </div>
 </div>
 
-@* =========================================================
-   ACTIVITY + QUICK ACTIONS
-   ========================================================= *@
 <div class="dash-grid-2 reveal" style="margin-top:22px;">
     <div class="chart-card" style="margin-bottom:0;">
         <div class="chart-head">
-            <h4><i class="fa-solid fa-clock-rotate-left"></i> Recent Activity</h4>
-        </div>
-        <div class="activity-feed">
-            <div class="activity-item success">
-                <div class="icon"><i class="fa-solid fa-user-plus"></i></div>
-                <div class="meta">
-                    <strong>New customer registered</strong>
-                    <p>Bilal Khan · NX12345682 · Premium plan</p>
-                </div>
-                <div class="when">10 min ago</div>
-            </div>
-            <div class="activity-item">
-                <div class="icon"><i class="fa-solid fa-address-card"></i></div>
-                <div class="meta">
-                    <strong>CNIC verified</strong>
-                    <p>Hassan Shah · NX12345681</p>
-                </div>
-                <div class="when">45 min ago</div>
-            </div>
-            <div class="activity-item success">
-                <div class="icon"><i class="fa-solid fa-circle-check"></i></div>
-                <div class="meta">
-                    <strong>Installation scheduled</strong>
-                    <p>Usman Ahmed · NX12345680 · 05 Oct 2025</p>
-                </div>
-                <div class="when">2 hr ago</div>
-            </div>
-            <div class="activity-item">
-                <div class="icon"><i class="fa-solid fa-phone"></i></div>
-                <div class="meta">
-                    <strong>Follow-up call completed</strong>
-                    <p>Sana Iqbal · NX12345702</p>
-                </div>
-                <div class="when">3 hr ago</div>
-            </div>
-        </div>
-    </div>
+            <h4><i class="fa-solid fa-chart-simple"></i> Desk Snapshot</h4> </div>
+        <div class="summary-rows">
+            <div><span>Orders opened today</span><strong>@Model.OrdersToday</strong></div>
+            <div><span>Orders this week</span><strong>@Model.OrdersThisWeek</strong></div>
+            <div><span>Still moving through the pipeline</span><strong>@Model.PendingOrders</strong></div>
+            <div><span>Quoted value this week</span><strong>@Model.SalesThisWeek.ToString("C")</strong></div> </div> </div>
 
     <div class="chart-card" style="margin-bottom:0;">
         <div class="chart-head">
-            <h4><i class="fa-solid fa-bolt"></i> Quick Actions</h4>
-        </div>
+            <h4><i class="fa-solid fa-bolt"></i> Quick Actions</h4> </div>
         <div class="quick-actions">
             <a href="/Retail/NewOrder" class="quick-action"><i class="fa-solid fa-user-plus"></i><span>New Order</span></a>
             <a href="/Retail/Search" class="quick-action"><i class="fa-solid fa-magnifying-glass"></i><span>Search</span></a>
             <a href="/Orders/Tracking" class="quick-action"><i class="fa-solid fa-truck-fast"></i><span>Track Order</span></a>
             <a href="/Plans" class="quick-action"><i class="fa-solid fa-layer-group"></i><span>View Plans</span></a>
-            <a href="/Services" class="quick-action"><i class="fa-solid fa-wifi"></i><span>Services</span></a>
-            <a href="/Bills" class="quick-action"><i class="fa-solid fa-file-invoice-dollar"></i><span>Bills</span></a>
-        </div>
-    </div>
+            <a href="/Bills" class="quick-action"><i class="fa-solid fa-file-invoice-dollar"></i><span>Bills</span></a> </div> </div>
 </div>
 
-@* =========================================================
-   CTA
-   ========================================================= *@
 <div class="cta-banner reveal" style="margin-top:22px;">
     <h2>Ready to register a new customer?</h2>
     <p>Create a NEXUS connection order for a walk-in customer in under 5 minutes.</p>
     <div class="hero-actions">
         <a href="/Retail/NewOrder" class="btn btn-primary btn-lg">
-            <i class="fa-solid fa-user-plus"></i> Start New Order
-        </a>
+            <i class="fa-solid fa-user-plus"></i> Start New Order </a>
         <a href="/Retail/Search" class="btn btn-outline-light btn-lg">
-            <i class="fa-solid fa-magnifying-glass"></i> Search Existing
-        </a>
-    </div>
+            <i class="fa-solid fa-magnifying-glass"></i> Search Existing </a> </div>
 </div>
-
-@section DashboardScripts {
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            setTimeout(function () {
-                if (window.NEXUS && NEXUS.toast) {
-                    NEXUS.toast({
-                        title: 'Welcome, Hamza',
-                        message: 'Retail dashboard loaded successfully.',
-                        type: 'success',
-                        duration: 3000
-                    });
-                }
-            }, 600);
-        });
-    </script>
-}

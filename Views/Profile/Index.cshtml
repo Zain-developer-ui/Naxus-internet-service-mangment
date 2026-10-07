@@ -1,149 +1,121 @@
-﻿@model NEXUS.Models.ViewModels.ProfileViewModel
+@model NEXUS.Models.ViewModels.ProfileViewModel
 @{
     Layout = "_DashboardLayout";
     ViewData["Title"] = "Profile — NEXUS";
-    ViewData["UserRole"] = "Customer";
     ViewData["ActiveSidebar"] = "profile";
-    ViewData["UserName"] = Model?.FullName ?? "Ahmed Khan";
 
-    var p = Model ?? new NEXUS.Models.ViewModels.ProfileViewModel
-    {
-        FullName = "Ahmed Khan",
-        Email = "ahmed.khan@example.com",
-        Phone = "03001234567",
-        Cnic = "35202-1234567-1",
-        Address = "House 12, Street 4, Gulberg III, Lahore",
-        AvatarUrl = "https://i.pravatar.cc/160?img=12",
-        AccountId = "NX12345678",
-        MemberSince = "January 2025",
-        Documents = new()
-        {
-            new() { Name = "CNIC Copy", FileName = "cnic.pdf", UploadedOn = "10 Jan 2025" },
-            new() { Name = "Address Proof", FileName = "address.pdf", UploadedOn = "10 Jan 2025" },
-            new() { Name = "Application Form", FileName = "application.pdf", UploadedOn = "11 Jan 2025" }
-        }
-    };
-
-    var initials = string.Concat(p.FullName.Split(' ').Take(2).Select(w => w[0]));
+    var p = Model;
+    var nameParts = p.FullName.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+    var initials = nameParts.Length == 0
+        ? "?"
+        : string.Concat(nameParts.Take(2).Select(w => char.ToUpperInvariant(w[0])));
+    var lastLogin = p.LastLoginAt.HasValue
+        ? p.LastLoginAt.Value.ToLocalTime().ToString("dd MMM yyyy, h:mm tt")
+        : "This is your first session";
 }
 
 @section DashboardStyles {
     <link rel="stylesheet" href="~/css/dashboards-luxury.css" />
 }
 
-@* =========================================================
-   WELCOME BANNER (same as Dashboard)
-   ========================================================= *@
 <div class="welcome-banner reveal">
     <div class="banner-flex">
         <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
-            <img src="@p.AvatarUrl" alt="@p.FullName"
-                 style="width:76px;height:76px;border-radius:50%;object-fit:cover;border:3px solid rgba(255,255,255,0.25);box-shadow:0 12px 30px rgba(0,0,0,0.3);" />
+            <span class="avatar-initials avatar-xl banner-avatar" aria-hidden="true">@initials</span>
             <div>
                 <h1 style="margin:0 0 6px;">@p.FullName</h1>
                 <p style="margin:0 0 12px;">
-                    Account <strong style="font-family:monospace;">@p.AccountId</strong> · Member since @p.MemberSince
-                </p>
+                    Account <strong style="font-family:monospace;">@p.AccountId</strong> · Member since @p.MemberSince </p>
                 <div class="banner-actions">
-                    <span class="badge badge-success"><i class="fa-solid fa-circle-check"></i> Active Customer</span>
+                    @if (p.IsActive)
+                    {
+                        <span class="badge badge-success"><i class="fa-solid fa-circle-check"></i> Active</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger"><i class="fa-solid fa-circle-xmark"></i> Inactive</span>
+                    }
                     <span class="badge" style="background:rgba(255,255,255,0.15);color:#fff;">
-                        <i class="fa-regular fa-calendar"></i> Today · @DateTime.Now.ToString("dd MMM yyyy")
-                    </span>
-                </div>
-            </div>
-        </div>
-        <div class="banner-actions">
-            <button class="btn btn-outline-light" data-modal-target="#editProfileModal">
-                <i class="fa-regular fa-pen-to-square"></i> Edit Profile
-            </button>
-        </div>
+                        <i class="fa-solid fa-user-shield"></i> @p.RoleLabel </span> </div> </div> </div>
     </div>
 </div>
 
-@* =========================================================
-   KPI CARDS
-   ========================================================= *@
 <div class="stats-grid reveal">
     <div class="stat-card">
-        <div class="stat-icon blue"><i class="fa-solid fa-circle-check"></i></div>
+        <div class="stat-icon blue"><i class="fa-solid fa-user-shield"></i></div>
         <div class="stat-meta">
-            <div class="stat-value" style="font-size:1.15rem;">Verified</div>
-            <div class="stat-label">Account Status</div>
-        </div>
-    </div>
+            <div class="stat-value" style="font-size:1.15rem;">@p.RoleLabel</div>
+            <div class="stat-label">Account Role</div> </div> </div>
     <div class="stat-card">
-        <div class="stat-icon navy"><i class="fa-solid fa-id-card"></i></div>
+        <div class="stat-icon navy"><i class="fa-solid fa-hashtag"></i></div>
         <div class="stat-meta">
-            <div class="stat-value" style="font-size:1.05rem;font-family:monospace;">@p.Cnic</div>
-            <div class="stat-label">CNIC</div>
-        </div>
-    </div>
+            <div class="stat-value" style="font-size:1.05rem;font-family:monospace;">@p.AccountId</div>
+            <div class="stat-label">Account ID</div> </div> </div>
     <div class="stat-card">
-        <div class="stat-icon success"><i class="fa-regular fa-folder-open"></i></div>
+        <div class="stat-icon success"><i class="fa-solid fa-clock-rotate-left"></i></div>
         <div class="stat-meta">
-            <div class="stat-value" style="font-size:1.15rem;">@(p.Documents?.Count ?? 3)</div>
-            <div class="stat-label">Documents on File</div>
-        </div>
-    </div>
+            <div class="stat-value" style="font-size:.95rem;">@lastLogin</div>
+            <div class="stat-label">Last Login</div> </div> </div>
     <div class="stat-card">
         <div class="stat-icon warning"><i class="fa-solid fa-phone"></i></div>
         <div class="stat-meta">
-            <div class="stat-value" style="font-size:1.15rem;">@p.Phone</div>
-            <div class="stat-label">Primary Contact</div>
-        </div>
-    </div>
+            <div class="stat-value" style="font-size:1.15rem;">@(string.IsNullOrWhiteSpace(p.Phone) ? "—" : p.Phone)</div>
+            <div class="stat-label">Primary Contact</div> </div> </div>
 </div>
 
-@* =========================================================
-   PERSONAL + ACCOUNT INFO
-   ========================================================= *@
 <div class="dash-grid-2">
     <div class="card reveal">
         <div class="card-header">
             <div>
                 <h4><i class="fa-regular fa-user" style="color:var(--nexus-blue);"></i> Personal Information</h4>
-                <p>Your registered details with NEXUS.</p>
-            </div>
-        </div>
+                <p>@(p.IsStaff ? "The details we hold for your staff account." : "Your registered details with NEXUS.")</p> </div> </div>
         <div class="summary-rows">
             <div><span>Full Name</span><strong>@p.FullName</strong></div>
-            <div><span>CNIC</span><strong style="font-family:monospace;">@p.Cnic</strong></div>
-            <div><span>Email</span><strong>@p.Email</strong></div>
-            <div><span>Phone</span><strong>@p.Phone</strong></div>
-            <div><span>Address</span><strong style="text-align:right;max-width:60%;">@p.Address</strong></div>
+            <div><span>Email</span><strong>@(string.IsNullOrWhiteSpace(p.Email) ? "—" : p.Email)</strong></div>
+            <div><span>Phone</span><strong>@(string.IsNullOrWhiteSpace(p.Phone) ? "—" : p.Phone)</strong></div>
+            @if (!p.IsStaff)
+            {
+                <div><span>CNIC</span><strong style="font-family:monospace;">@p.Cnic</strong></div>
+                <div><span>Address</span><strong style="text-align:right;max-width:60%;">@p.Address</strong></div>
+            }
         </div>
     </div>
 
     <div class="card reveal delay-1">
         <div class="card-header">
             <div>
-                <h4><i class="fa-solid fa-wifi" style="color:var(--nexus-blue);"></i> Account Information</h4>
-                <p>Your NEXUS account snapshot.</p>
-            </div>
-        </div>
+                <h4><i class="fa-solid fa-id-badge" style="color:var(--nexus-blue);"></i> Account Information</h4>
+                <p>Your NEXUS account snapshot.</p> </div> </div>
         <div class="summary-rows">
             <div><span>Account ID</span><strong style="font-family:monospace;">@p.AccountId</strong></div>
-            <div><span>Service Type</span><strong>Broadband</strong></div>
-            <div><span>Current Plan</span><strong>Standard 15 Mbps</strong></div>
-            <div><span>Customer Status</span><span class="badge badge-success">Active</span></div>
+            <div><span>Role</span><strong>@p.RoleLabel</strong></div>
+            @if (p.IsStaff)
+            {
+                <div><span>Designation</span><strong>@(string.IsNullOrWhiteSpace(p.Designation) ? "—" : p.Designation)</strong></div>
+                <div><span>Employee Code</span><strong style="font-family:monospace;">@(string.IsNullOrWhiteSpace(p.EmployeeCode) ? "—" : p.EmployeeCode)</strong></div>
+            }
+            else
+            {
+                <div><span>Service Type</span><strong>@(string.IsNullOrWhiteSpace(p.ConnectionTypeName) ? "—" : p.ConnectionTypeName)</strong></div>
+                <div><span>City</span><strong>@(string.IsNullOrWhiteSpace(p.CityName) ? "—" : p.CityName)</strong></div>
+                <div><span>Connections</span><strong>@p.ConnectionCount</strong></div>
+                @if (p.IsCorporate)
+                {
+                    <div><span>Organisation</span><strong>@p.OrganisationName</strong></div>
+                }
+            }
             <div><span>Member Since</span><strong>@p.MemberSince</strong></div>
         </div>
     </div>
 </div>
 
-@* =========================================================
-   DOCUMENTS
-   ========================================================= *@
-@if (p.Documents != null && p.Documents.Any())
+@if (!p.IsStaff && p.Documents.Any())
 {
     <div class="chart-card reveal" style="margin-top:22px;">
         <div class="chart-head">
             <div>
                 <h4><i class="fa-regular fa-folder-open" style="color:var(--nexus-blue);"></i> Documents</h4>
-                <p class="chart-sub">Documents on file with your account.</p>
-            </div>
-            <span class="badge badge-info">Verified</span>
-        </div>
+                <p class="chart-sub">Documents on file with your account.</p> </div> </div>
 
         <div class="grid grid-3">
             @foreach (var d in p.Documents)
@@ -152,122 +124,32 @@
                     <div class="icon"><i class="fa-regular fa-file-lines"></i></div>
                     <div>
                         <h5>@d.Name</h5>
-                        <p class="muted small" style="margin-bottom:10px;">@d.FileName · @d.UploadedOn</p>
-                        <button class="btn btn-ghost btn-sm" type="button">
-                            <i class="fa-regular fa-eye"></i> View
-                        </button>
-                    </div>
-                </div>
-            }
-        </div>
-    </div>
+                        <p class="muted small" style="margin-bottom:10px;">@d.FileName · @d.UploadedOn</p> </div> </div>
+            } </div> </div>
 }
 
-@* =========================================================
-   SECURITY + NOTIFICATION PREFERENCES
-   ========================================================= *@
 <div class="dash-grid-2" style="margin-top:22px;">
     <div class="card reveal">
         <div class="card-header">
-            <h4><i class="fa-solid fa-shield-halved" style="color:var(--nexus-blue);"></i> Security</h4>
-        </div>
+            <h4><i class="fa-solid fa-shield-halved" style="color:var(--nexus-blue);"></i> Security</h4> </div>
         <div class="summary-rows">
-            <div><span>Two-Factor Auth</span><span class="badge badge-muted">Coming soon</span></div>
-            <div><span>Last Login</span><strong>Today, 09:12 AM</strong></div>
-            <div><span>Login IP</span><strong style="font-family:monospace;">103.25.xxx.xx</strong></div>
-        </div>
+            <div><span>Session</span><span class="badge badge-success">Signed in</span></div>
+            <div><span>Last Login</span><strong>@lastLogin</strong></div>
+            <div><span>Account Status</span><strong>@(p.IsActive ? "Active" : "Inactive")</strong></div> </div>
         <div style="margin-top:20px;">
-            <button class="btn btn-outline btn-sm" type="button">
-                <i class="fa-solid fa-key"></i> Change Password
-            </button>
-        </div>
-    </div>
+            <a href="/Account/ChangePassword" class="btn btn-outline btn-sm">
+                <i class="fa-solid fa-key"></i> Change Password </a> </div> </div>
 
     <div class="card reveal delay-1">
         <div class="card-header">
-            <h4><i class="fa-regular fa-bell" style="color:var(--nexus-blue);"></i> Notification Preferences</h4>
-        </div>
-        <div style="margin-top:6px;display:grid;gap:14px;">
-            <label class="switch">
-                <input type="checkbox" @(p.EmailNotifications ? "checked" : "") />
-                <span class="track"></span>
-                <span class="switch-label">Email notifications</span>
-            </label>
-            <label class="switch">
-                <input type="checkbox" @(p.SmsNotifications ? "checked" : "") />
-                <span class="track"></span>
-                <span class="switch-label">SMS notifications</span>
-            </label>
-            <label class="switch">
-                <input type="checkbox" @(p.PromoNotifications ? "checked" : "") />
-                <span class="track"></span>
-                <span class="switch-label">Promotional offers</span>
-            </label>
-        </div>
-    </div>
-</div>
-
-@* =========================================================
-   SUPPORT CTA
-   ========================================================= *@
-<div class="cta-banner reveal" style="margin-top:22px;">
-    <h2>Need to Update Something?</h2>
-    <p>Contact support for changes to your CNIC, address or account details.</p>
-    <div class="hero-actions">
-        <a href="/Home/Contact" class="btn btn-primary btn-lg">
-            <i class="fa-solid fa-headset"></i> Contact Support
-        </a>
-        <a href="/Feedback" class="btn btn-outline-light btn-lg">
-            <i class="fa-regular fa-comment-dots"></i> Send Feedback
-        </a>
-    </div>
-</div>
-
-@* =========================================================
-   EDIT PROFILE MODAL
-   ========================================================= *@
-<div class="modal-backdrop" id="editProfileModal" aria-hidden="true">
-    <div class="modal modal-lg" role="dialog" aria-modal="true">
-        <div class="modal-header">
-            <h3><i class="fa-regular fa-pen-to-square" style="color:var(--nexus-blue);"></i> Edit Profile</h3>
-            <button class="modal-close" data-modal-close aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        <form data-validate-form novalidate
-              onsubmit="event.preventDefault(); NEXUS.toast('Profile saved successfully (demo).', 'success'); NEXUS.modal.close(this.closest('.modal-backdrop'));">
-            <div class="modal-body">
-                <div class="alert alert-info">
-                    <i class="fa-solid fa-circle-info"></i>
-                    <span>Frontend demo — no changes are persisted.</span>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="fullName">Full Name</label>
-                        <input type="text" id="fullName" value="@p.FullName" required data-validate="required" />
-                        <span class="field-error"></span>
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">Phone</label>
-                        <input type="tel" id="phone" value="@p.Phone" required data-validate="required phone" />
-                        <span class="field-error"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" value="@p.Email" required data-validate="required email" />
-                    <span class="field-error"></span>
-                </div>
-                <div class="form-group">
-                    <label for="address">Address</label>
-                    <input type="text" id="address" value="@p.Address" required data-validate="required" />
-                    <span class="field-error"></span>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline" data-modal-close>Cancel</button>
-                <button type="submit" class="btn btn-primary">
-                    <i class="fa-solid fa-check"></i> Save Changes
-                </button>
-            </div>
-        </form>
-    </div>
+            <h4><i class="fa-solid fa-circle-question" style="color:var(--nexus-blue);"></i> Need a Change?</h4> </div>
+        <p class="muted" style="margin-top:6px;">
+            @(p.IsStaff
+                ? "Designation, contact details and role assignments are managed by the system administrator."
+                : "Contact support for changes to your CNIC, address or account details.") </p>
+        <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;">
+            <a href="/Home/Contact" class="btn btn-primary btn-sm">
+                <i class="fa-solid fa-headset"></i> Contact Support </a>
+            <a href="/Feedback" class="btn btn-outline btn-sm">
+                <i class="fa-regular fa-comment-dots"></i> Send Feedback </a> </div> </div>
 </div>

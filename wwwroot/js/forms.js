@@ -96,8 +96,7 @@
     /* ---------------------------------------------------------
        File drop zones
        Markup: <label class="file-drop" data-file-drop>
-                 <input type="file" hidden>
-               </label>
+                 <input type="file" hidden> </label>
        --------------------------------------------------------- */
     function initFileDrop() {
         NEXUS.$$('[data-file-drop]').forEach(drop => {
