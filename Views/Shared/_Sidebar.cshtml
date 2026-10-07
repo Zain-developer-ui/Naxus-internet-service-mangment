@@ -46,10 +46,10 @@
             <span class="nav-section">Operations</span>
             <a href="/Operations" class="@IsActive("operations")"><i class="fa-solid fa-clipboard-check"></i> Survey Queue</a>
             <a href="/Operations/Connections" class="@IsActive("connections")"><i class="fa-solid fa-plug-circle-check"></i> Connections</a>
-            <a href="/Retail/Search" class="@IsActive("customers")"><i class="fa-solid fa-users"></i> Customers</a>
-            <a href="/Retail/Dashboard" class="@IsActive("retail")"><i class="fa-solid fa-store"></i> Retail Sales</a>
-            <a href="/Plans" class="@IsActive("plans")"><i class="fa-solid fa-layer-group"></i> Plans</a>
-            <a href="/Orders/Tracking" class="@IsActive("orders")"><i class="fa-solid fa-box"></i> Orders</a>
+            <a href="/Retail/Search" class="@IsActive("search")"><i class="fa-solid fa-users"></i> Customers</a>
+            <a href="/Retail/Dashboard" class="@IsActive("dashboard")"><i class="fa-solid fa-store"></i> Retail Sales</a>
+            <a href="/Admin/Plans" class="@IsActive("plans")"><i class="fa-solid fa-layer-group"></i> Plans</a>
+            <a href="/Retail/Orders" class="@IsActive("orders")"><i class="fa-solid fa-box"></i> Orders</a>
             <a href="/Technical/Dashboard" class="@IsActive("technical")"><i class="fa-solid fa-screwdriver-wrench"></i> Installations</a>
             <a href="/Accounts/Dashboard" class="@IsActive("billing")"><i class="fa-solid fa-file-invoice"></i> Billing</a>
 
@@ -65,8 +65,8 @@
         <nav class="sidebar-nav" aria-label="Technical navigation">
             <span class="nav-section">Field Work</span>
             <a href="/Technical/Dashboard" class="@IsActive("dashboard")"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
-            <a href="/Orders/Tracking" class="@IsActive("installations")"><i class="fa-solid fa-screwdriver-wrench"></i> Installations</a>
-            <a href="/Retail/Search"><i class="fa-solid fa-users"></i> Customers</a>
+            <a href="/Operations" class="@IsActive("operations")"><i class="fa-solid fa-screwdriver-wrench"></i> Installations</a>
+            <a href="/Retail/Search" class="@IsActive("search")"><i class="fa-solid fa-users"></i> Customers</a>
 
             <span class="nav-section">Support</span>
             <a href="/Feedback"><i class="fa-solid fa-comment-dots"></i> Feedback</a>
@@ -81,11 +81,11 @@
             <span class="nav-section">Finance</span>
             <a href="/Accounts/Dashboard" class="@IsActive("dashboard")"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
             <a href="/Bills" class="@IsActive("bills")"><i class="fa-solid fa-file-invoice-dollar"></i> Bills</a>
-            <a href="/Bills/Details"><i class="fa-solid fa-receipt"></i> Invoices</a>
-            <a href="/Admin/Reports"><i class="fa-solid fa-chart-pie"></i> Reports</a>
+            <a href="/Bills?status=Overdue" class="@IsActive("invoices")"><i class="fa-solid fa-receipt"></i> Overdue</a>
+            <a href="/Admin/Reports" class="@IsActive("reports")"><i class="fa-solid fa-chart-pie"></i> Reports</a>
 
             <span class="nav-section">Customers</span>
-            <a href="/Retail/Search"><i class="fa-solid fa-users"></i> Customer Dues</a>
+            <a href="/Retail/Search" class="@IsActive("search")"><i class="fa-solid fa-users"></i> Customer Dues</a>
             <form asp-controller="Account" asp-action="Logout" method="post" class="sidebar-logout">
                 @Html.AntiForgeryToken()
                 <button type="submit" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</button> </form> </nav>

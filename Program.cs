@@ -3,10 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using NEXUS.Common.Abstractions;
 using NEXUS.Data;
 using NEXUS.Data.Seed;
-using NEXUS.Services.Api;
 using NEXUS.Services.Authentication;
 using NEXUS.Services.Billing;
 using NEXUS.Services.Catalog;
+using NEXUS.Services.Feedback;
+using NEXUS.Services.Orders;
 using NEXUS.Services.CustomerPortal;
 using NEXUS.Services.Dashboards;
 using NEXUS.Services.Feasibility;
@@ -39,7 +40,6 @@ builder.Services.AddDbContext<NexusDbContext>(options =>
         sql.CommandTimeout(30);
     }));
 
-builder.Services.AddSingleton<IApiService, ApiService>();
 builder.Services.AddSingleton<IPasswordService, PasswordService>();
 
 builder.Services.AddScoped<IUserAuthenticator, AuthenticationService>();
@@ -56,6 +56,11 @@ builder.Services.AddScoped<IAccountsDashboardService, AccountsDashboardService>(
 builder.Services.AddScoped<ITechnicalDashboardService, TechnicalDashboardService>();
 builder.Services.AddScoped<IRetailDashboardService, RetailDashboardService>();
 builder.Services.AddScoped<ISearchService, SearchService>();
+builder.Services.AddScoped<IPlanAdminService, PlanAdminService>();
+builder.Services.AddScoped<IOrderTrackingService, OrderTrackingService>();
+builder.Services.AddScoped<IServiceCatalogService, ServiceCatalogService>();
+builder.Services.AddScoped<IFeedbackService, FeedbackService>();
+builder.Services.AddScoped<IContactMessageService, ContactMessageService>();
 
 builder.Services
     .AddAuthentication(SignInService.Scheme)

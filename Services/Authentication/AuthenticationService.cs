@@ -21,6 +21,9 @@ public interface IUserAuthenticator
                                                              CancellationToken ct = default);
     Task RecordSuccessfulLoginAsync(int userId, CancellationToken ct = default);
     Task RecordFailedLoginAsync(int userId, CancellationToken ct = default);
+
+    Task<Result<bool>> ChangePasswordAsync(int userId, string currentPassword,
+                                           string newPassword, CancellationToken ct = default);
 }
 
 public sealed class AuthenticationService : IUserAuthenticator
@@ -102,6 +105,35 @@ public sealed class AuthenticationService : IUserAuthenticator
         user.LastLoginAt = DateTime.UtcNow;
 
         await _db.SaveChangesAsync(ct);
+    }
+
+    /**
+     * A self-service password change. The current password is re-verified here
+     * even though the caller is already signed in, so a borrowed session cannot
+     * lock the real owner out.
+     */
+    public async Task<Result<bool>> ChangePasswordAsync(int userId, string currentPassword,
+                                                        string newPassword,
+                                                        CancellationToken ct = default)
+    {
+        var user = await _db.Users
+            .IgnoreQueryFilters()
+            .FirstOrDefaultAsync(u => u.Id == userId, ct);
+
+        if (user is null) return Result<bool>.NotFound("Account");
+
+        if (!_passwords.Verify(currentPassword, user.PasswordHash))
+            return Result<bool>.Fail(nameof(currentPassword), "Current password is incorrect.");
+
+        if (_passwords.Verify(newPassword, user.PasswordHash))
+            return Result<bool>.Fail(nameof(newPassword),
+                "Choose a password different from the current one.");
+
+        user.PasswordHash = _passwords.Hash(newPassword);
+        user.MustChangePassword = false;
+
+        await _db.SaveChangesAsync(ct);
+        return Result<bool>.Ok(true);
     }
 
     public async Task RecordFailedLoginAsync(int userId, CancellationToken ct = default)

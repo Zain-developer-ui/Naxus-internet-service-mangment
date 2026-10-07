@@ -22,6 +22,8 @@ namespace NEXUS.Controllers
 
         public async Task<IActionResult> Index(OrderStatus? status, CancellationToken ct)
         {
+            ViewData.SetActiveItem("operations");
+
             var result = await _ops.GetQueueAsync(status, ct);
 
             if (!result.IsSuccess)
@@ -35,6 +37,8 @@ namespace NEXUS.Controllers
 
         public async Task<IActionResult> Review(int id, CancellationToken ct)
         {
+            ViewData.SetActiveItem("operations");
+
             var result = await _ops.GetOrderAsync(id, ct);
             if (!result.IsSuccess) return NotFound();
             return View(result.Value);
@@ -102,6 +106,8 @@ namespace NEXUS.Controllers
 
         public async Task<IActionResult> Connections(ConnectionStatus? status, string? search, CancellationToken ct)
         {
+            ViewData.SetActiveItem("connections");
+
             var result = await _ops.GetConnectionsAsync(status, search, ct);
             var totals = await _ops.GetConnectionTotalsAsync(ct);
 
@@ -121,6 +127,8 @@ namespace NEXUS.Controllers
 
         public async Task<IActionResult> Connection(int id, CancellationToken ct)
         {
+            ViewData.SetActiveItem("connections");
+
             var result = await _ops.GetConnectionAsync(id, ct);
             if (!result.IsSuccess) return NotFound();
             return View(result.Value);

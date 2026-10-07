@@ -116,13 +116,18 @@
 
     /* ---------------------------------------------------------
        Mark active nav link based on current path
+
+       The sidebar is marked server-side by SetActiveItem()/IsActive(),
+       which knows the route genuinely belongs to that section. Doing it
+       again here from the path prefix lights up every ancestor link on
+       nested routes - /Operations lights up alongside /Operations/Connections.
+       So this only runs for the public navbar.
        --------------------------------------------------------- */
     function initActiveLink() {
         const path = window.location.pathname.toLowerCase();
-        NEXUS.$$('.nav-links a, .sidebar-nav a').forEach(a => {
+        NEXUS.$$('.nav-links a').forEach(a => {
             const href = (a.getAttribute('href') || '').toLowerCase();
             if (!href || href === '#') return;
-            // Match if path equals href or starts with href (for nested routes)
             const isActive = path === href || (href !== '/' && path.startsWith(href));
             if (isActive) a.classList.add('active');
         });

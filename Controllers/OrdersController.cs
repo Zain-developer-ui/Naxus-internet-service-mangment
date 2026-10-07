@@ -4,25 +4,25 @@ using NEXUS.Common;
 using NEXUS.Common.Constants;
 using NEXUS.Common.Extensions;
 using NEXUS.Models.ViewModels;
-using NEXUS.Services.Api;
 using NEXUS.Services.Authentication;
+using NEXUS.Services.Orders;
 using NEXUS.Services.Registration;
 
 namespace NEXUS.Controllers
 {
     public class OrdersController : Controller
     {
-        private readonly IApiService _api;
+        private readonly IOrderTrackingService _tracking;
         private readonly IRegistrationService _registration;
         private readonly IUserAuthenticator _auth;
         private readonly ISignInService _signIn;
         private readonly ILogger<OrdersController> _logger;
 
-        public OrdersController(IApiService api, IRegistrationService registration,
+        public OrdersController(IOrderTrackingService tracking, IRegistrationService registration,
                                 IUserAuthenticator auth, ISignInService signIn,
                                 ILogger<OrdersController> logger)
         {
-            _api = api;
+            _tracking = tracking;
             _registration = registration;
             _auth = auth;
             _signIn = signIn;
@@ -99,14 +99,42 @@ namespace NEXUS.Controllers
             return RedirectToAction("Dashboard", "Customer");
         }
 
+        /**
+         * Track by reference. A customer sees only their own orders - retail,
+         * technical and admin are staff and may look up any reference.
+         */
         [Authorize(Roles = NexusRoles.Customer + "," + NexusRoles.Retail + "," +
                            NexusRoles.Technical + "," + NexusRoles.Admin)]
         [HttpGet]
-        public async Task<IActionResult> Tracking(string? id)
+        public async Task<IActionResult> Tracking(string? id, CancellationToken ct)
         {
-            ViewBag.OrderId = string.IsNullOrWhiteSpace(id) ? null : id.Trim();
-            var order = ViewBag.OrderId is null ? null : await _api.GetOrderAsync(ViewBag.OrderId);
-            return View(order);
+            ViewData.SetActiveItem("orders");
+
+            var scopedId = User.IsInRole(NexusRoles.Customer) ? User.CustomerId() : null;
+            var reference = string.IsNullOrWhiteSpace(id) ? null : id.Trim();
+
+            if (reference is null)
+            {
+                if (scopedId is not int customerId) return View(null);
+
+                var history = await _tracking.ForCustomerAsync(customerId, ct);
+                ViewBag.History = history.IsSuccess
+                    ? history.Value!
+                    : Array.Empty<OrderTrackingSummary>();
+
+                return View(null);
+            }
+
+            var result = await _tracking.GetAsync(reference, scopedId, ct);
+            if (!result.IsSuccess)
+            {
+                TempData["Error"] = result.Message;
+                ViewBag.OrderId = reference;
+                return View(null);
+            }
+
+            ViewBag.OrderId = result.Value!.OrderId;
+            return View(result.Value);
         }
 
         /**

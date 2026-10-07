@@ -4,30 +4,13 @@
     ViewData["BodyClass"] = "public-body";
 
     var searched = (bool?)ViewBag.Searched ?? false;
-    var found = searched && Model != null;
+    var error = ViewBag.Error as string;
+    var acc = Model;
 
-    // Demo fallback so the page renders meaningfully
-    var acc = Model ?? new NEXUS.Models.ViewModels.AccountViewModel
-    {
-        AccountId = "NX12345678",
-        CustomerName = "Ahmed Khan",
-        ConnectionType = "Broadband",
-        Plan = "Standard 15 Mbps",
-        Speed = "15 Mbps",
-        Status = "Active",
-        BillingStatus = "Paid",
-        InstallationStatus = "Completed",
-        Phone = "03001234567",
-        Email = "ahmed.khan@example.com",
-        Address = "House 12, Street 4, Gulberg III, Lahore",
-        InstallationDate = new DateTime(2025, 1, 10),
-        ActivationDate = new DateTime(2025, 1, 12),
-        RouterModel = "NEXUS Router R2 (Wi-Fi 6)",
-        ServiceArea = "Gulberg III, Lahore",
-        TechnicianName = "Usman Ahmed"
-    };
-
-    var initials = string.Concat(acc.CustomerName.Split(' ').Take(2).Select(w => w[0]));
+    var initials = acc is null
+        ? "?"
+        : string.Concat(acc.CustomerName.Split(' ', StringSplitOptions.RemoveEmptyEntries)
+            .Take(2).Select(w => w[0]));
 }
 
 @section Styles {
@@ -162,12 +145,29 @@
 
                 <p style="color:#64748B;font-size:0.85rem;margin:8px 0 0;">
                     <i class="fa-solid fa-circle-info" style="color:#1E6FE5;"></i>
-                    Demo mode — enter any value to see a sample result. </p> </form> </div> </div>
+                    Use the same details you gave us when the connection was ordered. </p> </form> </div> </div>
 </section>
 
 @* =========================================================
    4. STATUS RESULT
    ========================================================= *@
+@if (searched && error is not null)
+{
+    <section class="pps-section" style="padding:30px 0 90px;">
+        <div class="container" style="max-width:900px;">
+            <div class="alert alert-warning">
+                <i class="fa-solid fa-triangle-exclamation"></i> @error </div> </div> </section>
+}
+else if (searched && acc is null)
+{
+    <section class="pps-section" style="padding:30px 0 90px;">
+        <div class="container" style="max-width:900px;">
+            <div class="alert alert-info">
+                <i class="fa-solid fa-circle-info"></i> No account matched those details. Check the
+                Account ID, mobile number or CNIC and try again. </div> </div> </section>
+}
+else if (acc is not null)
+{
 <section class="pps-section" style="padding:30px 0 90px;">
     <div class="container">
 
@@ -291,19 +291,20 @@
                 <h4 style="margin:0 0 18px;font-size:1.08rem;color:#0A1F44;display:flex;align-items:center;gap:10px;">
                     <i class="fa-solid fa-router" style="color:#1E6FE5;"></i> Equipment </h4>
 
-                <div style="display:flex;gap:14px;padding:16px;background:#F4F7FB;border-radius:10px;margin-bottom:12px;">
-                    <div style="width:46px;height:46px;border-radius:12px;background:#E8F1FD;color:#1558B8;display:inline-flex;align-items:center;justify-content:center;font-size:1.05rem;flex-shrink:0;">
-                        <i class="fa-solid fa-wifi"></i> </div>
-                    <div>
-                        <h5 style="margin:0 0 4px;font-size:0.95rem;color:#0A1F44;font-weight:700;">@acc.RouterModel</h5>
-                        <p style="margin:0;color:#64748B;font-size:0.86rem;">Provided free with your plan · Maintained by NEXUS.</p> </div> </div>
-
-                <div style="display:flex;gap:14px;padding:16px;background:#F4F7FB;border-radius:10px;">
-                    <div style="width:46px;height:46px;border-radius:12px;background:#E8F1FD;color:#1558B8;display:inline-flex;align-items:center;justify-content:center;font-size:1.05rem;flex-shrink:0;">
-                        <i class="fa-solid fa-plug"></i> </div>
-                    <div>
-                        <h5 style="margin:0 0 4px;font-size:0.95rem;color:#0A1F44;font-weight:700;">Broadband Modem</h5>
-                        <p style="margin:0;color:#64748B;font-size:0.86rem;">VDSL2 modem · Supports up to 100 Mbps.</p> </div> </div> </div>
+                @if (!string.IsNullOrWhiteSpace(acc.RouterModel))
+                {
+                    <div style="display:flex;gap:14px;padding:16px;background:#F4F7FB;border-radius:10px;margin-bottom:12px;">
+                        <div style="width:46px;height:46px;border-radius:12px;background:#E8F1FD;color:#1558B8;display:inline-flex;align-items:center;justify-content:center;font-size:1.05rem;flex-shrink:0;">
+                            <i class="fa-solid fa-wifi"></i> </div>
+                        <div>
+                            <h5 style="margin:0 0 4px;font-size:0.95rem;color:#0A1F44;font-weight:700;">@acc.RouterModel</h5>
+                            <p style="margin:0;color:#64748B;font-size:0.86rem;">Provided with your plan and maintained by NEXUS.</p> </div> </div>
+                }
+                else
+                {
+                    <p style="margin:0;color:#64748B;font-size:0.9rem;">
+                        No equipment has been issued on this account yet. </p>
+                } </div>
 
             @* Timeline *@
             <div class="card reveal delay-1" style="background:#fff;border:1px solid #E2E8F0;border-radius:16px;padding:26px;">
@@ -313,25 +314,28 @@
                 <div style="position:relative;padding-left:34px;">
                     <div style="position:absolute;left:12px;top:6px;bottom:6px;width:2px;background:#E2E8F0;"></div>
 
-                    <div style="position:relative;padding-bottom:22px;">
-                        <div style="position:absolute;left:-28px;top:4px;width:14px;height:14px;border-radius:50%;background:#10B981;border:3px solid #10B981;box-shadow:0 0 0 4px rgba(16,185,129,0.15);"></div>
-                        <h4 style="margin:0 0 4px;font-size:0.98rem;color:#0A1F44;">Account Created</h4>
-                        <div style="font-size:0.8rem;color:#64748B;font-weight:500;">@(acc.InstallationDate?.ToString("dd MMM yyyy") ?? "10 Jan 2025")</div> </div>
+                    @if (acc.InstallationDate is DateTime ordered)
+                    {
+                        <div style="position:relative;padding-bottom:22px;">
+                            <div style="position:absolute;left:-28px;top:4px;width:14px;height:14px;border-radius:50%;background:#10B981;border:3px solid #10B981;box-shadow:0 0 0 4px rgba(16,185,129,0.15);"></div>
+                            <h4 style="margin:0 0 4px;font-size:0.98rem;color:#0A1F44;">Order Placed</h4>
+                            <div style="font-size:0.8rem;color:#64748B;font-weight:500;">@ordered.ToString("dd MMM yyyy")</div> </div>
+                    }
 
-                    <div style="position:relative;padding-bottom:22px;">
-                        <div style="position:absolute;left:-28px;top:4px;width:14px;height:14px;border-radius:50%;background:#10B981;border:3px solid #10B981;box-shadow:0 0 0 4px rgba(16,185,129,0.15);"></div>
-                        <h4 style="margin:0 0 4px;font-size:0.98rem;color:#0A1F44;">Service Activated</h4>
-                        <div style="font-size:0.8rem;color:#64748B;font-weight:500;">@(acc.ActivationDate?.ToString("dd MMM yyyy") ?? "12 Jan 2025")</div> </div>
-
-                    <div style="position:relative;padding-bottom:22px;">
-                        <div style="position:absolute;left:-28px;top:4px;width:14px;height:14px;border-radius:50%;background:#10B981;border:3px solid #10B981;box-shadow:0 0 0 4px rgba(16,185,129,0.15);"></div>
-                        <h4 style="margin:0 0 4px;font-size:0.98rem;color:#0A1F44;">Last Billing Cycle</h4>
-                        <div style="font-size:0.8rem;color:#64748B;font-weight:500;">25 Sep 2025 · Paid</div> </div>
-
-                    <div style="position:relative;">
-                        <div style="position:absolute;left:-28px;top:4px;width:14px;height:14px;border-radius:50%;background:#1E6FE5;border:3px solid #1E6FE5;box-shadow:0 0 0 6px rgba(30,111,229,0.18);"></div>
-                        <h4 style="margin:0 0 4px;font-size:0.98rem;color:#0A1F44;">Next Billing Cycle</h4>
-                        <div style="font-size:0.8rem;color:#64748B;font-weight:500;">25 Oct 2025 · Expected $2,450.00</div> </div> </div> </div> </div>
+                    @if (acc.ActivationDate is DateTime activated)
+                    {
+                        <div style="position:relative;">
+                            <div style="position:absolute;left:-28px;top:4px;width:14px;height:14px;border-radius:50%;background:#1E6FE5;border:3px solid #1E6FE5;box-shadow:0 0 0 6px rgba(30,111,229,0.18);"></div>
+                            <h4 style="margin:0 0 4px;font-size:0.98rem;color:#0A1F44;">Service Activated</h4>
+                            <div style="font-size:0.8rem;color:#64748B;font-weight:500;">@activated.ToString("dd MMM yyyy")</div> </div>
+                    }
+                    else
+                    {
+                        <div style="position:relative;">
+                            <div style="position:absolute;left:-28px;top:4px;width:14px;height:14px;border-radius:50%;background:#F59E0B;border:3px solid #F59E0B;box-shadow:0 0 0 6px rgba(245,158,11,0.18);"></div>
+                            <h4 style="margin:0 0 4px;font-size:0.98rem;color:#0A1F44;">Not Yet Activated</h4>
+                            <div style="font-size:0.8rem;color:#64748B;font-weight:500;">@acc.Status</div> </div>
+                    } </div> </div> </div>
 
         @* ---------- QUICK ACTIONS ---------- *@
         <div class="card reveal" style="margin-top:22px;background:#fff;border:1px solid #E2E8F0;border-radius:16px;padding:26px;">
@@ -351,6 +355,7 @@
                     <i class="fa-solid fa-right-to-bracket" style="width:46px;height:46px;border-radius:12px;background:#E8F1FD;color:#1558B8;display:inline-flex;align-items:center;justify-content:center;font-size:1.1rem;"></i>
                     <span style="font-size:0.85rem;font-weight:600;">Customer Portal</span> </a> </div> </div> </div>
 </section>
+}
 
 @* =========================================================
    5. FINAL CTA

@@ -152,24 +152,36 @@
                     Fill out the form below and our team will get back to you.
                     For urgent issues, please call us at 111-NEXUS-1. </p>
 
-                <form data-validate-form data-save-demo="Contact" novalidate
-                      style="background:#fff;border:1px solid #E2E8F0;border-radius:16px;padding:28px;box-shadow:0 12px 30px rgba(10,31,68,0.06);margin-top:20px;"
-                      onsubmit="event.preventDefault(); NEXUS.toast('Message sent successfully (demo).', 'success'); this.reset();">
+                @if (TempData["Success"] is string sent)
+                {
+                    <div class="alert alert-success" style="margin-top:20px;">
+                        <i class="fa-solid fa-circle-check"></i> @sent </div>
+                }
+                @if (TempData["Error"] is string failed)
+                {
+                    <div class="alert alert-danger" style="margin-top:20px;">
+                        <i class="fa-solid fa-triangle-exclamation"></i> @failed </div>
+                }
+
+                <form asp-controller="Home" asp-action="Contact" method="post"
+                      data-validate-form novalidate
+                      style="background:#fff;border:1px solid #E2E8F0;border-radius:16px;padding:28px;box-shadow:0 12px 30px rgba(10,31,68,0.06);margin-top:20px;">
+                    @Html.AntiForgeryToken()
 
                     <div class="form-row">
                         <div class="form-group">
                             <label for="contactName">Full Name <span style="color:#EF4444;">*</span></label>
-                            <input type="text" id="contactName" name="FullName" placeholder="e.g. Ahmed Khan" required data-validate="required" />
+                            <input type="text" id="contactName" name="FullName" placeholder="e.g. Ahmed Khan" required data-validate="required" maxlength="120" />
                             <span class="field-error"></span> </div>
                         <div class="form-group">
                             <label for="contactPhone">Phone <span style="color:#EF4444;">*</span></label>
-                            <input type="tel" id="contactPhone" name="Phone" placeholder="03001234567" required data-validate="required phone" />
+                            <input type="tel" id="contactPhone" name="Phone" placeholder="03001234567" required data-validate="required phone" maxlength="20" />
                             <span class="field-error"></span> </div> </div>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label for="contactEmail">Email <span style="color:#EF4444;">*</span></label>
-                            <input type="email" id="contactEmail" name="Email" placeholder="you@example.com" required data-validate="required email" />
+                            <input type="email" id="contactEmail" name="Email" placeholder="you@example.com" required data-validate="required email" maxlength="120" />
                             <span class="field-error"></span> </div>
                         <div class="form-group">
                             <label for="contactSubject">Subject <span style="color:#EF4444;">*</span></label>

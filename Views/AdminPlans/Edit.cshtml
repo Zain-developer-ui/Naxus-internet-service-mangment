@@ -1,0 +1,188 @@
+@model NEXUS.Models.ViewModels.PlanEditViewModel
+@using NEXUS.Common.Constants
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = Model.PageTitle + " — NEXUS";
+    ViewData["ActiveSidebar"] = "plans";
+
+    var types = new[]
+    {
+        ConnectionType.Broadband,
+        ConnectionType.DialUp,
+        ConnectionType.Telephone
+    };
+}
+
+@section DashboardStyles {
+    <link rel="stylesheet" href="~/css/dashboards-luxury.css" />
+    <link rel="stylesheet" href="~/css/plans-admin.css" />
+}
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/Admin/Dashboard">Admin</a>
+    <span class="sep">/</span>
+    <a href="@Url.Action("Index")">Plans</a>
+    <span class="sep">/</span>
+    <span class="current">@(Model.IsNew ? "New" : Model.Name)</span>
+</nav>
+
+<div class="page-header reveal">
+    <div>
+        <h1>
+            <i class="fa-solid @(Model.IsNew ? "fa-plus" : "fa-pen")" style="color:var(--nexus-blue);"></i>
+            @(Model.IsNew ? "New Plan" : Model.Name) </h1>
+        <p class="muted">
+            @(Model.IsNew
+                ? "Add a plan to the catalogue. It becomes orderable as soon as it is active."
+                : "Changes take effect on the next order. Existing orders keep the terms they were placed under.") </p> </div>
+    <div class="page-header-actions">
+        <a href="@Url.Action("Index")" class="btn btn-ghost">
+            <i class="fa-solid fa-arrow-left"></i> Back to plans </a> </div>
+</div>
+
+<form method="post" asp-action="@(Model.IsNew ? "Create" : "Edit")" asp-route-id="@Model.Id" novalidate>
+    @Html.AntiForgeryToken()
+
+    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+    <div class="edit-layout">
+        <div class="edit-main">
+
+            <div class="chart-card reveal">
+                <div class="chart-head">
+                    <div>
+                        <h4><i class="fa-solid fa-circle-info"></i> Plan Details</h4>
+                        <p class="chart-sub">What the plan is and who it is for.</p> </div> </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label asp-for="Code">Plan Code <span class="req">*</span></label>
+                        <input asp-for="Code" placeholder="BB-UNL-64K" autocomplete="off" required />
+                        <span class="form-hint">Short internal reference. Must be unique.</span>
+                        <span asp-validation-for="Code" class="field-error"></span> </div>
+
+                    <div class="form-group">
+                        <label asp-for="Name">Plan Name <span class="req">*</span></label>
+                        <input asp-for="Name" placeholder="Broadband Unlimited 64K" autocomplete="off" required />
+                        <span asp-validation-for="Name" class="field-error"></span> </div> </div>
+
+                <div class="form-group">
+                    <label asp-for="ConnectionType">Connection Type <span class="req">*</span></label>
+                    <div class="type-picker">
+                        @foreach (var t in types)
+                        {
+                            var id = $"type-{t}";
+                            <input type="radio" asp-for="ConnectionType" value="@t" id="@id" data-conn-type />
+                            <label for="@id">
+                                <i class="fa-solid @(t == ConnectionType.Broadband ? "fa-wifi" : t == ConnectionType.DialUp ? "fa-phone-volume" : "fa-phone")"></i>
+                                <span>@t.DisplayName()</span> </label>
+                        }
+                    </div>
+                    <span asp-validation-for="ConnectionType" class="field-error"></span> </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="checkbox-line">
+                            <input asp-for="IsUnlimited" data-unlimited-toggle />
+                            <span>Unlimited plan (no hour bundle)</span> </label> </div>
+
+                    <div class="form-group" data-hours-field>
+                        <label asp-for="HoursIncluded">Hours Included <span class="req">*</span></label>
+                        <input asp-for="HoursIncluded" type="number" min="1" max="10000" placeholder="64" />
+                        <span asp-validation-for="HoursIncluded" class="field-error"></span> </div> </div>
+
+                <div class="form-group">
+                    <label asp-for="SpeedKbps">Speed (Kbps) <span class="opt">optional</span></label>
+                    <input asp-for="SpeedKbps" type="number" min="1" placeholder="64000" />
+                    <span class="form-hint">Broadband plans only. Leave empty for dial-up and telephone.</span>
+                    <span asp-validation-for="SpeedKbps" class="field-error"></span> </div>
+
+                <div class="form-group">
+                    <label asp-for="Description">Description <span class="opt">optional</span></label>
+                    <textarea asp-for="Description" rows="3" maxlength="400"
+                              placeholder="Who this plan suits, in one line."></textarea>
+                    <span asp-validation-for="Description" class="field-error"></span> </div> </div>
+
+            <div class="chart-card reveal" style="margin-top:18px;">
+                <div class="chart-head">
+                    <div>
+                        <h4><i class="fa-solid fa-tag"></i> Pricing</h4>
+                        <p class="chart-sub">One rate per billing cycle. Switch a cycle off if it is not offered.</p> </div> </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th scope="col">Cycle</th>
+                                <th scope="col">Offered</th>
+                                <th scope="col">Rate (USD)</th>
+                                <th scope="col" class="hide-sm">Per Month</th> </tr> </thead>
+                        <tbody>
+                            @for (var i = 0; i < Model.Prices.Count; i++)
+                            {
+                                <tr>
+                                    <td>
+                                        <input type="hidden" asp-for="Prices[i].Cycle" />
+                                        <strong>@Model.Prices[i].CycleLabel</strong>
+                                        <div class="cell-sub">@Model.Prices[i].HelpText</div> </td>
+                                    <td>
+                                        <label class="switch">
+                                            <input type="checkbox" asp-for="Prices[i].IsAvailable" data-cycle-toggle />
+                                            <span class="track"></span> </label> </td>
+                                    <td>
+                                        <input asp-for="Prices[i].Amount" type="number" step="0.01" min="0"
+                                               class="rate-input" data-rate-input />
+                                        <span asp-validation-for="Prices[i].Amount" class="field-error"></span> </td>
+                                    <td class="hide-sm" data-per-month="@i">—</td> </tr>
+                            } </tbody> </table> </div>
+
+                <p class="form-hint" style="margin-top:12px;">
+                    <i class="fa-solid fa-circle-info"></i>
+                    The SRS rate is per billing cycle. A yearly figure of $X works out at $X÷12 per month. </p> </div>
+        </div>
+
+        <aside class="edit-side">
+            <div class="chart-card">
+                <div class="chart-head">
+                    <h4><i class="fa-solid fa-sliders"></i> Placement</h4> </div>
+
+                <div class="form-group">
+                    <label asp-for="SortOrder">Sort Order</label>
+                    <input asp-for="SortOrder" type="number" min="0" />
+                    <span class="form-hint">Lower numbers appear first within the connection type.</span>
+                    <span asp-validation-for="SortOrder" class="field-error"></span> </div>
+
+                <div class="form-group">
+                    <label asp-for="SecurityDeposit">Security Deposit (USD)</label>
+                    <input asp-for="SecurityDeposit" type="number" step="0.01" min="0" />
+                    <span class="form-hint">Refundable on permanent disconnection.</span>
+                    <span asp-validation-for="SecurityDeposit" class="field-error"></span> </div>
+
+                <div class="form-group">
+                    <label class="checkbox-line">
+                        <input asp-for="IsActive" />
+                        <span>Active — visible to customers</span> </label>
+                    <span class="form-hint">An inactive plan stays in the catalogue but cannot be ordered.</span> </div> </div>
+
+            <div class="chart-card" style="margin-top:18px;">
+                <div class="chart-head">
+                    <h4><i class="fa-solid fa-floppy-disk"></i> Save</h4> </div>
+                <div class="side-actions">
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <i class="fa-solid fa-circle-check"></i>
+                        @(Model.IsNew ? "Create Plan" : "Save Changes") </button>
+                    <a href="@Url.Action("Index")" class="btn btn-ghost btn-block">Cancel</a> </div>
+                @if (!Model.IsNew)
+                {
+                    <p class="form-hint" style="margin-top:12px;">
+                        <i class="fa-solid fa-eye"></i>
+                        <a href="/Plans/Details/@Model.Id" target="_blank" rel="noopener">View this plan as a customer</a>
+                    </p>
+                } </div>
+        </aside>
+    </div>
+</form>
+
+@section DashboardScripts {
+    <script src="~/js/plan-edit.js" asp-append-version="true"></script>
+}

@@ -4,11 +4,9 @@
     ViewData["Title"] = "Feedback — NEXUS";
     ViewData["ActiveSidebar"] = "feedback";
 
-    var sampleHistory = new[]
-    {
-        new { Id = "FB-1001", Date = "12 Sep 2025", Category = "Internet Service", Rating = 5, Message = "Connection has been excellent this month. Very satisfied with the speed." },
-        new { Id = "FB-1002", Date = "05 Aug 2025", Category = "Customer Support", Rating = 4, Message = "Support call was quick and helpful. Issue resolved within an hour." }
-    };
+    var history = ViewBag.History as IReadOnlyList<NEXUS.Services.Feedback.FeedbackRecord>
+                  ?? Array.Empty<NEXUS.Services.Feedback.FeedbackRecord>();
+    var open = history.Count(f => !f.IsResolved);
 }
 
 @section DashboardStyles {
@@ -39,23 +37,23 @@
     <div class="stat-card">
         <div class="stat-icon warning"><i class="fa-regular fa-comment-dots"></i></div>
         <div class="stat-meta">
-            <div class="stat-value">—</div>
+            <div class="stat-value">@history.Count</div>
             <div class="stat-label">Feedback You Have Sent</div> </div> </div>
     <div class="stat-card">
         <div class="stat-icon blue"><i class="fa-regular fa-comments"></i></div>
         <div class="stat-meta">
-            <div class="stat-value">2</div>
-            <div class="stat-label">Feedback Submitted</div> </div> </div>
+            <div class="stat-value">@open</div>
+            <div class="stat-label">Awaiting A Reply</div> </div> </div>
     <div class="stat-card">
         <div class="stat-icon success"><i class="fa-solid fa-circle-check"></i></div>
         <div class="stat-meta">
-            <div class="stat-value" style="font-size:1.15rem;">Resolved</div>
-            <div class="stat-label">Last Response</div> </div> </div>
+            <div class="stat-value">@(history.Count - open)</div>
+            <div class="stat-label">Answered</div> </div> </div>
     <div class="stat-card">
-        <div class="stat-icon navy"><i class="fa-regular fa-clock"></i></div>
+        <div class="stat-icon navy"><i class="fa-regular fa-star"></i></div>
         <div class="stat-meta">
-            <div class="stat-value" style="font-size:1.15rem;">&lt; 48h</div>
-            <div class="stat-label">Avg. Response Time</div> </div> </div>
+            <div class="stat-value">@(history.Count == 0 ? "—" : history.Average(f => f.Rating).ToString("0.0"))</div>
+            <div class="stat-label">Your Average Rating</div> </div> </div>
 </div>
 
 @* =========================================================
@@ -64,10 +62,11 @@
 <div class="dash-grid-2 reveal" id="feedback-form" style="margin-top:22px;">
     <div>
         <form asp-controller="Feedback" asp-action="Index" method="post"
-              data-validate-form data-save-demo="Feedback" novalidate
+              data-validate-form novalidate
               class="card">
 
             @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
             <div class="card-header">
                 <div>
@@ -180,26 +179,43 @@
     <div class="chart-head">
         <div>
             <h4><i class="fa-regular fa-comments" style="color:var(--nexus-blue);"></i> Your Previous Feedback</h4>
-            <p class="chart-sub">Sample history shown for demonstration.</p> </div>
-        <span class="badge badge-info">2 submissions</span> </div>
+            <p class="chart-sub">Everything you have sent us, newest first.</p> </div>
+        <span class="badge badge-info">@history.Count submission@(history.Count == 1 ? "" : "s")</span> </div>
 
-    <div class="dash-grid-2">
-        @foreach (var f in sampleHistory)
-        {
-            <div class="card" style="border-left:4px solid var(--nexus-blue);">
-                <div class="flex-between" style="margin-bottom:12px;">
-                    <span class="badge badge-info">@f.Category</span>
-                    <span class="stars" aria-label="@f.Rating out of 5">
-                        @for (var i = 1; i <= 5; i++)
-                        {
-                            <i class="fa-solid fa-star @(i <= f.Rating ? "" : "star-off")" aria-hidden="true"></i>
-                        }
-                    </span>
-                </div>
-                <p style="color:var(--nexus-text-soft);margin:0 0 12px;font-size:0.94rem;line-height:1.6;">@f.Message</p>
-                <p class="muted small" style="margin:0;">
-                    <strong style="font-family:monospace;">@f.Id</strong> · @f.Date </p> </div>
-        } </div>
+    @if (history.Count == 0)
+    {
+        <p class="table-empty">You have not sent any feedback yet.</p>
+    }
+    else
+    {
+        <div class="dash-grid-2">
+            @foreach (var f in history)
+            {
+                <div class="card" style="border-left:4px solid var(--nexus-blue);">
+                    <div class="flex-between" style="margin-bottom:12px;">
+                        <span class="badge badge-info">@f.Subject</span>
+                        <span class="stars" aria-label="@f.Rating out of 5">
+                            @for (var i = 1; i <= 5; i++)
+                            {
+                                <i class="fa-solid fa-star @(i <= f.Rating ? "" : "star-off")" aria-hidden="true"></i>
+                            }
+                        </span> </div>
+                    <p style="color:var(--nexus-text-soft);margin:0 0 12px;font-size:0.94rem;line-height:1.6;">@f.Message</p>
+
+                    @if (f.IsResolved && !string.IsNullOrWhiteSpace(f.Response))
+                    {
+                        <div class="info-card" style="margin-bottom:12px;">
+                            <div class="icon"><i class="fa-solid fa-reply"></i></div>
+                            <div>
+                                <h5>Our reply</h5>
+                                <p>@f.Response</p> </div> </div>
+                    }
+
+                    <p class="muted small" style="margin:0;">
+                        <strong style="font-family:monospace;">FB-@f.Id</strong> · @f.SubmittedAt.ToString("dd MMM yyyy")
+                        · @(f.IsResolved ? "Answered" : "Awaiting reply") </p> </div>
+            } </div>
+    }
 </div>
 
 @* =========================================================
@@ -226,12 +242,7 @@
                 <h3><i class="fa-solid fa-circle-check" style="color:var(--nexus-success);"></i> Thank You!</h3>
                 <button class="modal-close" data-modal-close aria-label="Close"><i class="fa-solid fa-xmark"></i></button> </div>
             <div class="modal-body">
-                <p>Your feedback has been received (demo). Reference ID:</p>
-                <div class="info-card" style="margin-top:16px;">
-                    <div class="icon"><i class="fa-solid fa-hashtag"></i></div>
-                    <div>
-                        <h5>Feedback Reference</h5>
-                        <p style="font-family:monospace;font-size:1.05rem;color:var(--nexus-blue-dark);font-weight:700;">FB-1003</p> </div> </div> </div>
+                <p>Your feedback has been received. Our team reads every submission.</p> </div>
             <div class="modal-footer">
                 <a href="/Customer/Dashboard" class="btn btn-primary">Return to Dashboard</a> </div> </div> </div>
 }

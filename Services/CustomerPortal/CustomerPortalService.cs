@@ -12,6 +12,10 @@ public interface ICustomerPortalService
 {
     Task<Result<AccountViewModel>> GetAccountAsync(int customerId, CancellationToken ct = default);
     Task<Result<CustomerDashboardViewModel>> GetDashboardAsync(int customerId, CancellationToken ct = default);
+
+    /** Public status lookup by account id, mobile or CNIC. */
+    Task<Result<AccountViewModel>> LookupAsync(string? accountId, string? phone, string? cnic,
+                                               CancellationToken ct = default);
 }
 
 /**
@@ -35,6 +39,60 @@ public sealed class CustomerPortalService : ICustomerPortalService
 
         if (customer is null)
             return Result<AccountViewModel>.NotFound("No customer account found.");
+
+        return Result<AccountViewModel>.Ok(await BuildAsync(customer, ct));
+    }
+
+    /**
+     * The public status check. Matching is exact on whichever single field was
+     * supplied, and the response is the same shape the portal shows a signed-in
+     * customer - it carries no bills, no payments and no CNIC.
+     */
+    public async Task<Result<AccountViewModel>> LookupAsync(string? accountId, string? phone, string? cnic,
+                                                            CancellationToken ct = default)
+    {
+        var query = _db.Customers
+            .AsNoTracking()
+            .Include(c => c.City)
+            .Where(c => !c.IsDeleted);
+
+        if (!string.IsNullOrWhiteSpace(accountId))
+        {
+            var key = accountId.Trim().ToUpperInvariant();
+            query = query.Where(c => c.AccountId.ToUpper() == key);
+        }
+        else if (!string.IsNullOrWhiteSpace(phone))
+        {
+            var key = phone.Trim();
+            query = query.Where(c => c.Phone == key);
+        }
+        else if (!string.IsNullOrWhiteSpace(cnic))
+        {
+            var key = cnic.Trim();
+            query = query.Where(c => c.Cnic == key);
+        }
+        else
+        {
+            return Result<AccountViewModel>.Fail(ErrorKind.Validation,
+                "Enter an Account ID, mobile number or CNIC.");
+        }
+
+        var customer = await query.FirstOrDefaultAsync(ct);
+
+        // One message for every miss so the form cannot be used to test whether
+        // a given account or CNIC exists.
+        if (customer is null)
+            return Result<AccountViewModel>.NotFound("No account matches those details.");
+
+        var account = await BuildAsync(customer, ct);
+        account.Cnic = string.Empty;
+
+        return Result<AccountViewModel>.Ok(account);
+    }
+
+    private async Task<AccountViewModel> BuildAsync(Domain.Customers.Customer customer, CancellationToken ct)
+    {
+        var customerId = customer.Id;
 
         var connection = await _db.Connections
             .AsNoTracking()
@@ -80,7 +138,7 @@ public sealed class CustomerPortalService : ICustomerPortalService
             vm.Plan = order?.Plan?.Name ?? string.Empty;
         }
 
-        return Result<AccountViewModel>.Ok(vm);
+        return vm;
     }
 
     public async Task<Result<CustomerDashboardViewModel>> GetDashboardAsync(int customerId, CancellationToken ct = default)

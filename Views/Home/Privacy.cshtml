@@ -1,6 +1,68 @@
 ﻿@{
-    ViewData["Title"] = "Privacy Policy";
+    ViewData["Title"] = "Privacy Policy — NEXUS";
+    ViewData["BodyClass"] = "public-body";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+@section Styles {
+    <link rel="stylesheet" href="~/css/public-pages.css" />
+}
+
+<section class="pps-hero">
+    <div class="container">
+        <span class="eyebrow">Legal</span>
+        <h1>Privacy Policy</h1>
+        <p class="lead">
+            What NEXUS collects when you apply for a connection, why we need it,
+            and how long we keep it. </p> </div>
+</section>
+
+<section class="pps-section">
+    <div class="container pps-prose">
+
+        <h2>What we collect</h2>
+        <p>
+            When you order a connection we record your name, CNIC, mobile number,
+            email address and installation address. For a Dial-Up or Telephone
+            line we also record the landline number, because the service runs
+            over it. </p>
+        <p>
+            Once a line is live we keep the technical records needed to support
+            it: the plan you are on, the exchange serving you, your connection
+            history and the bills raised against the account. </p>
+
+        <h2>Why we need it</h2>
+        <ul>
+            <li>To verify your identity before installing a line at an address.</li>
+            <li>To run a feasibility survey against the exchange serving you.</li>
+            <li>To raise bills and record payments against the correct account.</li>
+            <li>To reach you about installation appointments and service faults.</li>
+        </ul>
+
+        <h2>Who can see it</h2>
+        <p>
+            Access is limited by role. Field technicians see the part of your
+            record needed to install and maintain the line. Accounts staff see
+            billing records. Retail clerks see the records for orders they raise.
+            Full access to an account is restricted to the administrator. </p>
+        <p>
+            We do not sell customer data and we do not share it with third
+            parties for marketing. </p>
+
+        <h2>How long we keep it</h2>
+        <p>
+            Billing and payment records are retained for as long as the account
+            is open, and afterwards for the period required for financial audit.
+            Orders that were never completed are kept so the survey history is
+            not lost, but they are not linked to an active line. </p>
+
+        <h2>Your rights</h2>
+        <p>
+            You can ask to see the record we hold on you, ask for a correction if
+            something is wrong, or ask us to close your account. Requests should
+            go to the customer service desk at your nearest NEXUS retail shop. </p>
+
+        <h2>Contact</h2>
+        <p>
+            Questions about this policy can be raised through the
+            <a href="/Home/Contact">contact page</a>. </p> </div>
+</section>

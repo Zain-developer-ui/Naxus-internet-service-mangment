@@ -5,24 +5,25 @@ using NEXUS.Common;
 using NEXUS.Common.Constants;
 using NEXUS.Common.Extensions;
 using NEXUS.Models.ViewModels;
-using NEXUS.Services.Api;
 using NEXUS.Services.Authentication;
+using NEXUS.Services.CustomerPortal;
 
 namespace NEXUS.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IApiService _api;
         private readonly IUserAuthenticator _auth;
         private readonly ISignInService _signIn;
+        private readonly ICustomerPortalService _portal;
         private readonly ILogger<AccountController> _logger;
 
-        public AccountController(IApiService api, IUserAuthenticator auth,
-                                 ISignInService signIn, ILogger<AccountController> logger)
+        public AccountController(IUserAuthenticator auth, ISignInService signIn,
+                                 ICustomerPortalService portal,
+                                 ILogger<AccountController> logger)
         {
-            _api = api;
             _auth = auth;
             _signIn = signIn;
+            _portal = portal;
             _logger = logger;
         }
 
@@ -92,15 +93,37 @@ namespace NEXUS.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public IActionResult ChangePassword(ChangePasswordViewModel model)
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model, CancellationToken ct)
         {
             if (!ModelState.IsValid) return View(model);
 
-            // Wired up with the rest of the account lifecycle; the seeded admin
-            // is the only account that reaches this screen today.
-            ModelState.AddModelError(string.Empty,
-                "Password change is not enabled yet.");
-            return View(model);
+            var userId = User.UserId();
+            if (userId is not int id)
+                return RedirectToAction(nameof(Login));
+
+            var result = await _auth.ChangePasswordAsync(
+                id, model.CurrentPassword, model.NewPassword, ct);
+
+            if (!result.IsSuccess)
+            {
+                if (result.Errors is not null)
+                {
+                    foreach (var (field, messages) in result.Errors)
+                        foreach (var message in messages)
+                            ModelState.AddModelError(field, message);
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, result.Message ?? "Could not change the password.");
+                }
+
+                return View(model);
+            }
+
+            _logger.LogInformation("User {AccountId} changed their password", User.AccountId());
+            TempData["Success"] = "Your password has been changed.";
+
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
@@ -118,21 +141,36 @@ namespace NEXUS.Controllers
         [HttpGet]
         public IActionResult Status() => View();
 
+        /**
+         * Public status lookup. Deliberately unauthenticated - the SRS treats
+         * this as a convenience check - so the result is a narrow summary and
+         * never the customer's full record.
+         */
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Status(string? accountId, string? phone, string? cnic)
+        public async Task<IActionResult> Status(string? accountId, string? phone, string? cnic,
+                                                CancellationToken ct)
         {
-            AccountViewModel? acc = null;
-
-            if (!string.IsNullOrWhiteSpace(accountId))
-                acc = await _api.GetCustomerAsync(accountId);
-            else if (!string.IsNullOrWhiteSpace(phone))
-                acc = await _api.GetCustomerByPhoneAsync(phone);
-            else if (!string.IsNullOrWhiteSpace(cnic))
-                acc = await _api.GetCustomerByCnicAsync(cnic);
-
             ViewBag.Searched = true;
-            return View(acc);
+
+            var entry = new[] { accountId, phone, cnic }
+                .FirstOrDefault(v => !string.IsNullOrWhiteSpace(v));
+
+            if (entry is null)
+            {
+                ViewBag.Error = "Enter an Account ID, mobile number or CNIC.";
+                return View(null);
+            }
+
+            var lookup = await _portal.LookupAsync(accountId, phone, cnic, ct);
+
+            if (!lookup.IsSuccess)
+            {
+                ViewBag.Error = lookup.Message;
+                return View(null);
+            }
+
+            return View(lookup.Value);
         }
 
         /**
