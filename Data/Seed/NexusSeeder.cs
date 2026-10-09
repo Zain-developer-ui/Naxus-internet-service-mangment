@@ -28,6 +28,11 @@ public static class NexusSeeder
         await SeedAdminAsync(db, hasher, ct);
         await SeedDemoOutletAsync(db, ct);
 
+        // The outlet has to exist before a retail clerk can be posted to it.
+        await db.SaveChangesAsync(ct);
+
+        await SeedStaffAsync(db, hasher, ct);
+
         await db.SaveChangesAsync(ct);
     }
 
@@ -232,5 +237,66 @@ public static class NexusSeeder
             Phone = "021-111-0001",
             CityId = karachi.Id
         });
+    }
+
+    /**
+     * One sign-in per staff role.
+     *
+     * The system has four staff consoles but only the administrator existed,
+     * so three of them could not be reached at all - the role-aware sidebar,
+     * the authorisation attributes and every staff dashboard were unreachable
+     * without hand-editing the database. These accounts make the whole thing
+     * demonstrable. The password is fixed and documented so the demo is
+     * repeatable; production would force a change on first sign-in.
+     */
+    private static async Task SeedStaffAsync(NexusDbContext db, IPasswordService hasher,
+                                             CancellationToken ct)
+    {
+        const string seedPassword = "Nexus@2026";
+
+        var outlet = await db.RetailShops.OrderBy(s => s.Id).FirstOrDefaultAsync(ct);
+
+        var staff = new (string AccountId, string Email, string FullName, string Role,
+                         string Code, string Designation, bool AtOutlet)[]
+        {
+            ("R0000000000001", "retail@nexus.example", "Sana Iqbal", NexusRoles.Retail,
+                "EMP-R01", "Retail Outlet Clerk", true),
+            ("T0000000000001", "technical@nexus.example", "Usman Ahmed", NexusRoles.Technical,
+                "EMP-T01", "Senior Field Technician", false),
+            ("F0000000000001", "accounts@nexus.example", "Hina Raza", NexusRoles.Accounts,
+                "EMP-F01", "Accounts Officer", false)
+        };
+
+        foreach (var (accountId, email, fullName, role, code, designation, atOutlet) in staff)
+        {
+            if (await db.Users.IgnoreQueryFilters().AnyAsync(u => u.AccountId == accountId, ct))
+                continue;
+
+            var user = new AppUser
+            {
+                AccountId = accountId,
+                Email = email,
+                FullName = fullName,
+                Role = role,
+                Phone = "021-111-0001",
+                PasswordHash = hasher.Hash(seedPassword),
+                MustChangePassword = false,
+                IsActive = true
+            };
+
+            db.Users.Add(user);
+
+            db.Employees.Add(new Employee
+            {
+                EmployeeCode = code,
+                FullName = fullName,
+                Designation = designation,
+                Phone = user.Phone,
+                Email = email,
+                User = user,
+                ShopId = atOutlet ? outlet?.Id : null,
+                JoinedOn = DateTime.UtcNow.Date
+            });
+        }
     }
 }

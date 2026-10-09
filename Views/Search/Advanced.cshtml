@@ -1,0 +1,207 @@
+@model NEXUS.Models.ViewModels.AdvancedSearchResults
+@using NEXUS.Common.Constants
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Advanced Search — NEXUS";
+
+    var typeNames = Enum.GetValues<ConnectionType>();
+
+    string Tone(string token) => token switch
+    {
+        "Active" or "Completed" or "Paid" => "success",
+        "Pending" or "Installing" or "PartiallyPaid" or "TemporarilyInactive" => "warning",
+        "Overdue" or "Cancelled" or "FeasibilityFailed" or "PermanentlyInactive" => "danger",
+        _ => "info"
+    };
+}
+
+@section DashboardStyles {
+    <link rel="stylesheet" href="~/css/dashboards-luxury.css" />
+}
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/Retail/Dashboard">Retail</a>
+    <span class="sep">/</span>
+    <span class="current">Advanced Search</span>
+</nav>
+
+<div class="page-head">
+    <div>
+        <h1>Advanced search</h1>
+        <p class="muted">
+            Find an order or a line by its id, the name it is held under, the
+            connection type, the date it was placed or activated, or the contact
+            number given at application.
+        </p>
+    </div>
+</div>
+
+<div class="chart-card reveal">
+    <form method="get" asp-action="Advanced" class="filter-grid">
+        <div class="field">
+            <label for="q-id">Order id, account id or line</label>
+            <input id="q-id" name="Id" type="search" class="input"
+                   value="@Model.Query.Id" placeholder="B0000000001" autocomplete="off" />
+        </div>
+
+        <div class="field">
+            <label for="q-name">Name on the order</label>
+            <input id="q-name" name="Name" type="search" class="input"
+                   value="@Model.Query.Name" placeholder="Customer name" autocomplete="off" />
+        </div>
+
+        <div class="field">
+            <label for="q-type">Connection type</label>
+            <select id="q-type" name="Type" class="input">
+                <option value="">Any type</option>
+                @foreach (var type in typeNames)
+                {
+                    <option value="@type" selected="@(Model.Query.Type == type)">@type.DisplayName()</option>
+                }
+            </select>
+        </div>
+
+        <div class="field">
+            <label for="q-contact">Contact number</label>
+            <input id="q-contact" name="Contact" type="search" class="input"
+                   value="@Model.Query.Contact" placeholder="03001234567" autocomplete="off" />
+        </div>
+
+        <div class="field">
+            <label for="q-from">From</label>
+            <input id="q-from" name="From" type="date" class="input" value="@Model.Query.FromValue" />
+        </div>
+
+        <div class="field">
+            <label for="q-to">To</label>
+            <input id="q-to" name="To" type="date" class="input" value="@Model.Query.ToValue" />
+        </div>
+
+        <div class="field filter-actions">
+            <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-magnifying-glass"></i> Search
+            </button>
+            <a href="/Search/Advanced" class="btn btn-ghost">Clear</a>
+        </div>
+    </form>
+
+    <p class="hint">
+        Dates filter orders on the day they were placed and lines on the day they
+        were activated. Leave a field blank to ignore it.
+    </p>
+</div>
+
+@if (!Model.Searched)
+{
+    <div class="chart-card dash-section reveal">
+        <p class="table-empty">Enter at least one filter above to search.</p>
+    </div>
+}
+else if (Model.TotalHits == 0)
+{
+    <div class="chart-card dash-section reveal">
+        <p class="table-empty">Nothing matches those filters.</p>
+    </div>
+}
+else
+{
+    <section class="dash-section reveal" aria-labelledby="orders-heading">
+        <h2 id="orders-heading" class="dash-heading">
+            Orders <span class="count">@Model.Orders.Count</span>
+        </h2>
+
+        @if (Model.Orders.Count == 0)
+        {
+            <div class="chart-card">
+                <p class="table-empty">No order matches these filters.</p>
+            </div>
+        }
+        else
+        {
+            <div class="chart-card">
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th scope="col">Order</th>
+                                <th scope="col">Customer</th>
+                                <th scope="col" class="hide-sm">Type</th>
+                                <th scope="col" class="hide-sm">Plan</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Placed on</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var order in Model.Orders)
+                            {
+                                <tr>
+                                    <td>
+                                        <a href="/Operations/Review/@order.OrderId" class="mono">@order.OrderId</a>
+                                    </td>
+                                    <td>@order.CustomerName</td>
+                                    <td class="hide-sm">@order.ServiceTypeName</td>
+                                    <td class="hide-sm">@order.PlanName</td>
+                                    <td><span class="badge badge-@Tone(order.StatusToken)">@order.StatusLabel</span></td>
+                                    <td>@order.CreatedAt.ToLocalTime().ToString("dd MMM yyyy")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    </section>
+
+    <section class="dash-section reveal" aria-labelledby="lines-heading">
+        <h2 id="lines-heading" class="dash-heading">
+            Lines <span class="count">@Model.Connections.Count</span>
+        </h2>
+
+        @if (Model.Connections.Count == 0)
+        {
+            <div class="chart-card">
+                <p class="table-empty">No line matches these filters.</p>
+            </div>
+        }
+        else
+        {
+            <div class="chart-card">
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th scope="col">Line</th>
+                                <th scope="col">Account</th>
+                                <th scope="col">Customer</th>
+                                <th scope="col" class="hide-sm">Type</th>
+                                <th scope="col" class="hide-sm">Plan</th>
+                                <th scope="col">Status</th>
+                                <th scope="col" class="hide-sm">City</th>
+                                <th scope="col">Activated</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var line in Model.Connections)
+                            {
+                                <tr>
+                                    <td>
+                                        <a href="/Operations/Connection/@line.ConnectionId" class="mono">
+                                            @line.ConnectionNumber
+                                        </a>
+                                    </td>
+                                    <td class="mono">@line.AccountId</td>
+                                    <td>@line.CustomerName</td>
+                                    <td class="hide-sm">@line.ConnectionType</td>
+                                    <td class="hide-sm">@line.Plan</td>
+                                    <td><span class="badge badge-@Tone(line.StatusToken)">@line.Status</span></td>
+                                    <td class="hide-sm">@line.City</td>
+                                    <td>@line.ActivatedOn.ToLocalTime().ToString("dd MMM yyyy")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    </section>
+}

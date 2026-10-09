@@ -1,0 +1,1853 @@
+[
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/microsoft-docs/SKILL.md",
+    "skill": "microsoft-docs",
+    "skill_path": "skills/microsoft-docs",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/microsoft-docs-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/pytest-coverage/SKILL.md",
+    "skill": "pytest-coverage",
+    "skill_path": "skills/pytest-coverage",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/pytest-coverage-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/mcp-cli/SKILL.md",
+    "skill": "mcp-cli",
+    "skill_path": "skills/mcp-cli",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/mcp-cli-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/sql-code-review/SKILL.md",
+    "skill": "sql-code-review",
+    "skill_path": "skills/sql-code-review",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/sql-code-review-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/eval-driven-dev/SKILL.md",
+    "skill": "eval-driven-dev",
+    "skill_path": "skills/eval-driven-dev",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/eval-driven-dev-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/postgresql-code-review/SKILL.md",
+    "skill": "postgresql-code-review",
+    "skill_path": "skills/postgresql-code-review",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/postgresql-code-review-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/create-tldr-page/SKILL.md",
+    "skill": "create-tldr-page",
+    "skill_path": "skills/create-tldr-page",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/create-tldr-page-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/backend-development/skills/temporal-python-testing/SKILL.md",
+    "skill": "temporal-python-testing",
+    "skill_path": "skills/temporal-python-testing",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/temporal-python-testing-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/javascript-typescript/skills/javascript-testing-patterns/SKILL.md",
+    "skill": "javascript-testing-patterns",
+    "skill_path": "skills/javascript-testing-patterns",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/javascript-testing-patterns-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/python-development/skills/python-testing-patterns/SKILL.md",
+    "skill": "python-testing-patterns",
+    "skill_path": "skills/python-testing-patterns",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/python-testing-patterns-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/developer-essentials/skills/e2e-testing-patterns/SKILL.md",
+    "skill": "e2e-testing-patterns",
+    "skill_path": "skills/e2e-testing-patterns",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/e2e-testing-patterns-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/backend-development/skills/architecture-patterns/SKILL.md",
+    "skill": "architecture-patterns",
+    "skill_path": "skills/architecture-patterns",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/architecture-patterns-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/developer-essentials/skills/code-review-excellence/SKILL.md",
+    "skill": "code-review-excellence",
+    "skill_path": "skills/code-review-excellence",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/code-review-excellence-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/agent-teams/skills/multi-reviewer-patterns/SKILL.md",
+    "skill": "multi-reviewer-patterns",
+    "skill_path": "skills/multi-reviewer-patterns",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/multi-reviewer-patterns-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/agent-teams/skills/parallel-debugging/SKILL.md",
+    "skill": "parallel-debugging",
+    "skill_path": "skills/parallel-debugging",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/parallel-debugging-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/developer-essentials/skills/debugging-strategies/SKILL.md",
+    "skill": "debugging-strategies",
+    "skill_path": "skills/debugging-strategies",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/debugging-strategies-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/incident-response/skills/incident-runbook-templates/SKILL.md",
+    "skill": "incident-runbook-templates",
+    "skill_path": "skills/incident-runbook-templates",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/incident-runbook-templates-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/incident-response/skills/on-call-handoff-patterns/SKILL.md",
+    "skill": "on-call-handoff-patterns",
+    "skill_path": "skills/on-call-handoff-patterns",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/on-call-handoff-patterns-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/incident-response/skills/postmortem-writing/SKILL.md",
+    "skill": "postmortem-writing",
+    "skill_path": "skills/postmortem-writing",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/postmortem-writing-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/reverse-engineering/skills/binary-analysis-patterns/SKILL.md",
+    "skill": "binary-analysis-patterns",
+    "skill_path": "skills/binary-analysis-patterns",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/binary-analysis-patterns-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/reverse-engineering/skills/memory-forensics/SKILL.md",
+    "skill": "memory-forensics",
+    "skill_path": "skills/memory-forensics",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/memory-forensics-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/reverse-engineering/skills/protocol-reverse-engineering/SKILL.md",
+    "skill": "protocol-reverse-engineering",
+    "skill_path": "skills/protocol-reverse-engineering",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/protocol-reverse-engineering-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:obra/superpowers:skills/writing-skills/SKILL.md",
+    "skill": "writing-skills",
+    "skill_path": "skills/writing-skills",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/writing-skills-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:obra/superpowers:skills/requesting-code-review/SKILL.md",
+    "skill": "requesting-code-review",
+    "skill_path": "skills/requesting-code-review",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/requesting-code-review-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:obra/superpowers:skills/finishing-a-development-branch/SKILL.md",
+    "skill": "finishing-a-development-branch",
+    "skill_path": "skills/finishing-a-development-branch",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/finishing-a-development-branch-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/documentation-generation/skills/openapi-spec-generation/SKILL.md",
+    "skill": "openapi-spec-generation",
+    "skill_path": "skills/openapi-spec-generation",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/openapi-spec-generation-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/documentation-generation/skills/architecture-decision-records/SKILL.md",
+    "skill": "architecture-decision-records",
+    "skill_path": "skills/architecture-decision-records",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/architecture-decision-records-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/documentation-generation/skills/changelog-automation/SKILL.md",
+    "skill": "changelog-automation",
+    "skill_path": "skills/changelog-automation",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/changelog-automation-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/documentation-standards/skills/hads/SKILL.md",
+    "skill": "hads",
+    "skill_path": "skills/hads",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/hads-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/plugin-eval/skills/evaluation-methodology/SKILL.md",
+    "skill": "evaluation-methodology",
+    "skill_path": "skills/evaluation-methodology",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/evaluation-methodology-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/before-you-build/skills/before-you-build/SKILL.md",
+    "skill": "before-you-build",
+    "skill_path": "skills/before-you-build",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/before-you-build-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/documentation-standards/skills/grounded-vault/SKILL.md",
+    "skill": "grounded-vault",
+    "skill_path": "skills/grounded-vault",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/grounded-vault-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:anthropics/skills:skills/mcp-builder/SKILL.md",
+    "skill": "mcp-builder",
+    "skill_path": "skills/mcp-builder",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/mcp-builder-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:addyosmani/agent-skills:skills/idea-refine/SKILL.md",
+    "skill": "idea-refine",
+    "skill_path": "skills/idea-refine",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/idea-refine-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:addyosmani/agent-skills:skills/shipping-and-launch/SKILL.md",
+    "skill": "shipping-and-launch",
+    "skill_path": "skills/shipping-and-launch",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/shipping-and-launch-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:mattpocock/skills:skills/engineering/grill-with-docs/SKILL.md",
+    "skill": "grill-with-docs",
+    "skill_path": "skills/grill-with-docs",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/grill-with-docs-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:addyosmani/agent-skills:skills/security-and-hardening/SKILL.md",
+    "skill": "security-and-hardening",
+    "skill_path": "skills/security-and-hardening",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/security-and-hardening-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:addyosmani/agent-skills:skills/deprecation-and-migration/SKILL.md",
+    "skill": "deprecation-and-migration",
+    "skill_path": "skills/deprecation-and-migration",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/deprecation-and-migration-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:addyosmani/agent-skills:skills/doubt-driven-development/SKILL.md",
+    "skill": "doubt-driven-development",
+    "skill_path": "skills/doubt-driven-development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/doubt-driven-development-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:addyosmani/agent-skills:skills/source-driven-development/SKILL.md",
+    "skill": "source-driven-development",
+    "skill_path": "skills/source-driven-development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/source-driven-development-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:addyosmani/agent-skills:skills/constraint-driven-development/SKILL.md",
+    "skill": "constraint-driven-development",
+    "skill_path": "skills/constraint-driven-development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/constraint-driven-development-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/prd/SKILL.md",
+    "skill": "prd",
+    "skill_path": "skills/prd",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/prd-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/mcp-release-qa/SKILL.md",
+    "skill": "mcp-release-qa",
+    "skill_path": "skills/mcp-release-qa",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/mcp-release-qa-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/copilot-pr-autopilot/SKILL.md",
+    "skill": "copilot-pr-autopilot",
+    "skill_path": "skills/copilot-pr-autopilot",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/copilot-pr-autopilot-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/verify-agent-action/SKILL.md",
+    "skill": "verify-agent-action",
+    "skill_path": "skills/verify-agent-action",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/verify-agent-action-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/bigquery-pipeline-audit/SKILL.md",
+    "skill": "bigquery-pipeline-audit",
+    "skill_path": "skills/bigquery-pipeline-audit",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/bigquery-pipeline-audit-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/data-breach-blast-radius/SKILL.md",
+    "skill": "data-breach-blast-radius",
+    "skill_path": "skills/data-breach-blast-radius",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/data-breach-blast-radius-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/devops-rollout-plan/SKILL.md",
+    "skill": "devops-rollout-plan",
+    "skill_path": "skills/devops-rollout-plan",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/devops-rollout-plan-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/azure-pricing/SKILL.md",
+    "skill": "azure-pricing",
+    "skill_path": "skills/azure-pricing",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/azure-pricing-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/aws-cost-optimize/SKILL.md",
+    "skill": "aws-cost-optimize",
+    "skill_path": "skills/aws-cost-optimize",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/aws-cost-optimize-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/azure-resource-health-diagnose/SKILL.md",
+    "skill": "azure-resource-health-diagnose",
+    "skill_path": "skills/azure-resource-health-diagnose",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/azure-resource-health-diagnose-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/repo-standardizer/SKILL.md",
+    "skill": "repo-standardizer",
+    "skill_path": "skills/repo-standardizer",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/repo-standardizer-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/codeql/SKILL.md",
+    "skill": "codeql",
+    "skill_path": "skills/codeql",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/codeql-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/secret-scanning/SKILL.md",
+    "skill": "secret-scanning",
+    "skill_path": "skills/secret-scanning",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/secret-scanning-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/threat-model-analyst/SKILL.md",
+    "skill": "threat-model-analyst",
+    "skill_path": "skills/threat-model-analyst",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/threat-model-analyst-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/azure-well-architected-review/SKILL.md",
+    "skill": "azure-well-architected-review",
+    "skill_path": "skills/azure-well-architected-review",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/azure-well-architected-review-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:.github/skills/agentic-workflows/SKILL.md",
+    "skill": "agentic-workflows",
+    "skill_path": "skills/agentic-workflows",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/agentic-workflows-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/web-design-reviewer/SKILL.md",
+    "skill": "web-design-reviewer",
+    "skill_path": "skills/web-design-reviewer",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/web-design-reviewer-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/architecture-blueprint-generator/SKILL.md",
+    "skill": "architecture-blueprint-generator",
+    "skill_path": "skills/architecture-blueprint-generator",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/architecture-blueprint-generator-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/performance-review-writer/SKILL.md",
+    "skill": "performance-review-writer",
+    "skill_path": "skills/performance-review-writer",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/performance-review-writer-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/mcp-security-audit/SKILL.md",
+    "skill": "mcp-security-audit",
+    "skill_path": "skills/mcp-security-audit",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/mcp-security-audit-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/documentation-writer/SKILL.md",
+    "skill": "documentation-writer",
+    "skill_path": "skills/documentation-writer",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/documentation-writer-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/webapp-testing/SKILL.md",
+    "skill": "webapp-testing",
+    "skill_path": "skills/webapp-testing",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/webapp-testing-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/typespec-api-operations/SKILL.md",
+    "skill": "typespec-api-operations",
+    "skill_path": "skills/typespec-api-operations",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/typespec-api-operations-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/openapi-to-application-code/SKILL.md",
+    "skill": "openapi-to-application-code",
+    "skill_path": "skills/openapi-to-application-code",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/openapi-to-application-code-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/multi-stage-dockerfile/SKILL.md",
+    "skill": "multi-stage-dockerfile",
+    "skill_path": "skills/multi-stage-dockerfile",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/multi-stage-dockerfile-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/mcp-implementation-security-review/SKILL.md",
+    "skill": "mcp-implementation-security-review",
+    "skill_path": "skills/mcp-implementation-security-review",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/mcp-implementation-security-review-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/agent-owasp-compliance/SKILL.md",
+    "skill": "agent-owasp-compliance",
+    "skill_path": "skills/agent-owasp-compliance",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/agent-owasp-compliance-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/observability-monitoring/skills/grafana-dashboards/SKILL.md",
+    "skill": "grafana-dashboards",
+    "skill_path": "skills/grafana-dashboards",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/grafana-dashboards-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/observability-monitoring/skills/prometheus-configuration/SKILL.md",
+    "skill": "prometheus-configuration",
+    "skill_path": "skills/prometheus-configuration",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/prometheus-configuration-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/observability-monitoring/skills/slo-implementation/SKILL.md",
+    "skill": "slo-implementation",
+    "skill_path": "skills/slo-implementation",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/slo-implementation-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/framework-migration/skills/database-migration/SKILL.md",
+    "skill": "database-migration",
+    "skill_path": "skills/database-migration",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/database-migration-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/database-design/skills/postgresql-table-design/SKILL.md",
+    "skill": "postgresql-table-design",
+    "skill_path": "skills/postgresql-table-design",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/postgresql-table-design-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/python-development/skills/python-packaging/SKILL.md",
+    "skill": "python-packaging",
+    "skill_path": "skills/python-packaging",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/python-packaging-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/python-development/skills/async-python-patterns/SKILL.md",
+    "skill": "async-python-patterns",
+    "skill_path": "skills/async-python-patterns",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/async-python-patterns-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/python-development/skills/python-background-jobs/SKILL.md",
+    "skill": "python-background-jobs",
+    "skill_path": "skills/python-background-jobs",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/python-background-jobs-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/python-development/skills/python-resilience/SKILL.md",
+    "skill": "python-resilience",
+    "skill_path": "skills/python-resilience",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/python-resilience-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/python-development/skills/python-observability/SKILL.md",
+    "skill": "python-observability",
+    "skill_path": "skills/python-observability",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/python-observability-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/llm-application-dev/skills/vector-index-tuning/SKILL.md",
+    "skill": "vector-index-tuning",
+    "skill_path": "skills/vector-index-tuning",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/vector-index-tuning-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/llm-application-dev/skills/hybrid-search-implementation/SKILL.md",
+    "skill": "hybrid-search-implementation",
+    "skill_path": "skills/hybrid-search-implementation",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/hybrid-search-implementation-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/llm-application-dev/skills/llm-evaluation/SKILL.md",
+    "skill": "llm-evaluation",
+    "skill_path": "skills/llm-evaluation",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/llm-evaluation-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/observability-monitoring/skills/distributed-tracing/SKILL.md",
+    "skill": "distributed-tracing",
+    "skill_path": "skills/distributed-tracing",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/distributed-tracing-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/data-engineering/skills/spark-optimization/SKILL.md",
+    "skill": "spark-optimization",
+    "skill_path": "skills/spark-optimization",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/spark-optimization-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/llm-application-dev/skills/rag-implementation/SKILL.md",
+    "skill": "rag-implementation",
+    "skill_path": "skills/rag-implementation",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/rag-implementation-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/data-engineering/skills/airflow-dag-patterns/SKILL.md",
+    "skill": "airflow-dag-patterns",
+    "skill_path": "skills/airflow-dag-patterns",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/airflow-dag-patterns-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/data-engineering/skills/dbt-transformation-patterns/SKILL.md",
+    "skill": "dbt-transformation-patterns",
+    "skill_path": "skills/dbt-transformation-patterns",
+    "category": "data",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/dbt-transformation-patterns-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/backend-development/skills/workflow-orchestration-patterns/SKILL.md",
+    "skill": "workflow-orchestration-patterns",
+    "skill_path": "skills/workflow-orchestration-patterns",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/workflow-orchestration-patterns-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/developer-essentials/skills/error-handling-patterns/SKILL.md",
+    "skill": "error-handling-patterns",
+    "skill_path": "skills/error-handling-patterns",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/error-handling-patterns-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/cicd-automation/skills/secrets-management/SKILL.md",
+    "skill": "secrets-management",
+    "skill_path": "skills/secrets-management",
+    "category": "security",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/secrets-management-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/backend-development/skills/api-design-principles/SKILL.md",
+    "skill": "api-design-principles",
+    "skill_path": "skills/api-design-principles",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/api-design-principles-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/data-engineering/skills/data-quality-frameworks/SKILL.md",
+    "skill": "data-quality-frameworks",
+    "skill_path": "skills/data-quality-frameworks",
+    "category": "data",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/data-quality-frameworks-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:wshobson/agents:plugins/accessibility-compliance/skills/screen-reader-testing/SKILL.md",
+    "skill": "screen-reader-testing",
+    "skill_path": "skills/screen-reader-testing",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/screen-reader-testing-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:obra/superpowers:skills/test-driven-development/SKILL.md",
+    "skill": "test-driven-development",
+    "skill_path": "skills/test-driven-development",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/test-driven-development-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:obra/superpowers:skills/subagent-driven-development/SKILL.md",
+    "skill": "subagent-driven-development",
+    "skill_path": "skills/subagent-driven-development",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/subagent-driven-development-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:obra/superpowers:skills/writing-plans/SKILL.md",
+    "skill": "writing-plans",
+    "skill_path": "skills/writing-plans",
+    "category": "productivity",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/writing-plans-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:obra/superpowers:skills/systematic-debugging/SKILL.md",
+    "skill": "systematic-debugging",
+    "skill_path": "skills/systematic-debugging",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/systematic-debugging-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/chrome-devtools/SKILL.md",
+    "skill": "chrome-devtools",
+    "skill_path": "skills/chrome-devtools",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/chrome-devtools-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/acquire-codebase-knowledge/SKILL.md",
+    "skill": "acquire-codebase-knowledge",
+    "skill_path": "skills/acquire-codebase-knowledge",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/acquire-codebase-knowledge-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/bug-reproduction-brief/SKILL.md",
+    "skill": "bug-reproduction-brief",
+    "skill_path": "skills/bug-reproduction-brief",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/bug-reproduction-brief-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/agent-supply-chain/SKILL.md",
+    "skill": "agent-supply-chain",
+    "skill_path": "skills/agent-supply-chain",
+    "category": "security",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/agent-supply-chain-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/aws-cloudwatch-investigation/SKILL.md",
+    "skill": "aws-cloudwatch-investigation",
+    "skill_path": "skills/aws-cloudwatch-investigation",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/aws-cloudwatch-investigation-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/github-release/SKILL.md",
+    "skill": "github-release",
+    "skill_path": "skills/github-release",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/github-release-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/create-architectural-decision-record/SKILL.md",
+    "skill": "architectural-decision-record",
+    "skill_path": "skills/architectural-decision-record",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/architectural-decision-record-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/agent-governance/SKILL.md",
+    "skill": "agent-governance",
+    "skill_path": "skills/agent-governance",
+    "category": "security",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/agent-governance-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/dependabot/SKILL.md",
+    "skill": "dependabot",
+    "skill_path": "skills/dependabot",
+    "category": "security",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/dependabot-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/incident-postmortem/SKILL.md",
+    "skill": "incident-postmortem",
+    "skill_path": "skills/incident-postmortem",
+    "category": "productivity",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/incident-postmortem-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/aws-well-architected-review/SKILL.md",
+    "skill": "aws-well-architected-review",
+    "skill_path": "skills/aws-well-architected-review",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/aws-well-architected-review-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/azure-deployment-preflight/SKILL.md",
+    "skill": "azure-deployment-preflight",
+    "skill_path": "skills/azure-deployment-preflight",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/azure-deployment-preflight-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/aws-resource-query/SKILL.md",
+    "skill": "aws-resource-query",
+    "skill_path": "skills/aws-resource-query",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/aws-resource-query-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/github-actions-efficiency/SKILL.md",
+    "skill": "github-actions-efficiency",
+    "skill_path": "skills/github-actions-efficiency",
+    "category": "productivity",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/github-actions-efficiency-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/github-actions-hardening/SKILL.md",
+    "skill": "github-actions-hardening",
+    "skill_path": "skills/github-actions-hardening",
+    "category": "security",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/github-actions-hardening-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/agentic-eval/SKILL.md",
+    "skill": "agentic-evaluation",
+    "skill_path": "skills/agentic-evaluation",
+    "category": "productivity",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/agentic-evaluation-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/code-tour/SKILL.md",
+    "skill": "code-tour",
+    "skill_path": "skills/code-tour",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/code-tour-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/aws-resource-health-diagnose/SKILL.md",
+    "skill": "cloud-resource-health",
+    "skill_path": "skills/cloud-resource-health",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/cloud-resource-health-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/create-technical-spike/SKILL.md",
+    "skill": "technical-spike",
+    "skill_path": "skills/technical-spike",
+    "category": "productivity",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/technical-spike-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/cloud-design-patterns/SKILL.md",
+    "skill": "cloud-design-patterns",
+    "skill_path": "skills/cloud-design-patterns",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/cloud-design-patterns-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:Jeffallan/claude-skills:skills/microservices-architect/SKILL.md",
+    "skill": "microservices-architect",
+    "skill_path": "skills/microservices-architect",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/microservices-architect-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:Jeffallan/claude-skills:skills/database-optimizer/SKILL.md",
+    "skill": "database-query-optimizer",
+    "skill_path": "skills/database-query-optimizer",
+    "category": "data",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/database-query-optimizer-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:Jeffallan/claude-skills:skills/cloud-architect/SKILL.md",
+    "skill": "cloud-architect",
+    "skill_path": "skills/cloud-architect",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/cloud-architect-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:nimadorostkar/Claude-Skills-collection:skills/devops/aws-cost-optimization/SKILL.md",
+    "skill": "cloud-cost-optimization",
+    "skill_path": "skills/cloud-cost-optimization",
+    "category": "business",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/cloud-cost-optimization-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:Jeffallan/claude-skills:skills/chaos-engineer/SKILL.md",
+    "skill": "chaos-engineer",
+    "skill_path": "skills/chaos-engineer",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/chaos-engineer-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:nimadorostkar/Claude-Skills-collection:skills/devops/network-troubleshooting/SKILL.md",
+    "skill": "network-troubleshooting",
+    "skill_path": "skills/network-troubleshooting",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/network-troubleshooting-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:alirezarezvani/claude-skills:engineering/skills/codebase-onboarding/SKILL.md",
+    "skill": "codebase-onboarding",
+    "skill_path": "skills/codebase-onboarding",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/codebase-onboarding-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:davepoon/buildwithclaude:plugins/all-skills/skills/agenttrace-session-audit/SKILL.md",
+    "skill": "agent-session-audit",
+    "skill_path": "skills/agent-session-audit",
+    "category": "productivity",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/agent-session-audit-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:davepoon/buildwithclaude:plugins/all-skills/skills/agent-memory-discipline/SKILL.md",
+    "skill": "memory-discipline",
+    "skill_path": "skills/memory-discipline",
+    "category": "productivity",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/memory-discipline-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:davepoon/buildwithclaude:plugins/all-skills/skills/checkpointed-agent-loop/SKILL.md",
+    "skill": "checkpointed-agent-loop",
+    "skill_path": "skills/checkpointed-agent-loop",
+    "category": "productivity",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/checkpointed-agent-loop-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:alirezarezvani/claude-skills:.gemini/skills/book-to-skill/SKILL.md",
+    "skill": "document-to-skill-pipeline",
+    "skill_path": "skills/document-to-skill-pipeline",
+    "category": "content",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/document-to-skill-pipeline-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:alirezarezvani/claude-skills:.gemini/skills/agent-decision-receipts/SKILL.md",
+    "skill": "decision-receipts",
+    "skill_path": "skills/decision-receipts",
+    "category": "security",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/decision-receipts-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/build-evidence-map/SKILL.md",
+    "skill": "evidence-map-builder",
+    "skill_path": "skills/evidence-map-builder",
+    "category": "research",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/evidence-map-builder-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/audit-integrity/SKILL.md",
+    "skill": "audit-integrity-gate",
+    "skill_path": "skills/audit-integrity-gate",
+    "category": "security",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/audit-integrity-gate-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:obra/superpowers:skills/receiving-code-review/SKILL.md",
+    "skill": "review-feedback-triage",
+    "skill_path": "skills/review-feedback-triage",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/review-feedback-triage-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:obra/superpowers:skills/using-git-worktrees/SKILL.md",
+    "skill": "worktree-isolation",
+    "skill_path": "skills/worktree-isolation",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/worktree-isolation-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:obra/superpowers:skills/executing-plans/SKILL.md",
+    "skill": "plan-execution",
+    "skill_path": "skills/plan-execution",
+    "category": "productivity",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/plan-execution-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:obra/superpowers:skills/dispatching-parallel-agents/SKILL.md",
+    "skill": "parallel-agent-dispatch",
+    "skill_path": "skills/parallel-agent-dispatch",
+    "category": "productivity",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/parallel-agent-dispatch-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:obra/superpowers:skills/verification-before-completion/SKILL.md",
+    "skill": "evidence-before-claims",
+    "skill_path": "skills/evidence-before-claims",
+    "category": "security",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/evidence-before-claims-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:mattpocock/skills:skills/productivity/writing-for-agents/SKILL.md",
+    "skill": "agent-document-design",
+    "skill_path": "skills/agent-document-design",
+    "category": "content",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/agent-document-design-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:mattpocock/skills:skills/engineering/improve-codebase-architecture/SKILL.md",
+    "skill": "architecture-friction-scan",
+    "skill_path": "skills/architecture-friction-scan",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/architecture-friction-scan-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:mattpocock/skills:skills/engineering/diagnosing-bugs/SKILL.md",
+    "skill": "tight-bug-loop",
+    "skill_path": "skills/tight-bug-loop",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/tight-bug-loop-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:mattpocock/skills:skills/misc/git-guardrails-claude-code/SKILL.md",
+    "skill": "git-guardrails",
+    "skill_path": "skills/git-guardrails",
+    "category": "security",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/git-guardrails-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:mattpocock/skills:skills/engineering/resolving-merge-conflicts/SKILL.md",
+    "skill": "merge-conflict-resolution",
+    "skill_path": "skills/merge-conflict-resolution",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/merge-conflict-resolution-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:mattpocock/skills:skills/engineering/wayfinder/SKILL.md",
+    "skill": "wayfinding",
+    "skill_path": "skills/wayfinding",
+    "category": "productivity",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/wayfinding-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:mattpocock/skills:skills/engineering/to-spec/SKILL.md",
+    "skill": "spec-synthesis",
+    "skill_path": "skills/spec-synthesis",
+    "category": "productivity",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/spec-synthesis-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:mattpocock/skills:skills/engineering/domain-modeling/SKILL.md",
+    "skill": "domain-modeling",
+    "skill_path": "skills/domain-modeling",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/domain-modeling-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:mattpocock/skills:skills/engineering/codebase-design/SKILL.md",
+    "skill": "codebase-design",
+    "skill_path": "skills/codebase-design",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/codebase-design-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:seb1n/awesome-ai-agent-skills:context-engineering/context-retrieval/SKILL.md",
+    "skill": "context-retrieval",
+    "skill_path": "skills/context-retrieval",
+    "category": "research",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/context-retrieval-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:seb1n/awesome-ai-agent-skills:agent-security/skill-supply-chain-audit/SKILL.md",
+    "skill": "skill-supply-chain-audit",
+    "skill_path": "skills/skill-supply-chain-audit",
+    "category": "security",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/skill-supply-chain-audit-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:seb1n/awesome-ai-agent-skills:agent-engineering/multi-agent-orchestration/SKILL.md",
+    "skill": "multi-agent-orchestration",
+    "skill_path": "skills/multi-agent-orchestration",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/multi-agent-orchestration-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:seb1n/awesome-ai-agent-skills:agent-engineering/tool-schema-design/SKILL.md",
+    "skill": "tool-schema-design",
+    "skill_path": "skills/tool-schema-design",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/tool-schema-design-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:seb1n/awesome-ai-agent-skills:agent-engineering/mcp-server-building/SKILL.md",
+    "skill": "mcp-server-building",
+    "skill_path": "skills/mcp-server-building",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/mcp-server-building-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:seb1n/awesome-ai-agent-skills:agent-engineering/human-in-the-loop/SKILL.md",
+    "skill": "human-in-the-loop",
+    "skill_path": "skills/human-in-the-loop",
+    "category": "security",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/human-in-the-loop-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:seb1n/awesome-ai-agent-skills:agent-security/agent-red-teaming/SKILL.md",
+    "skill": "agent-red-teaming",
+    "skill_path": "skills/agent-red-teaming",
+    "category": "security",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/agent-red-teaming-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:seb1n/awesome-ai-agent-skills:context-engineering/context-optimization/SKILL.md",
+    "skill": "context-optimization",
+    "skill_path": "skills/context-optimization",
+    "category": "research",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/context-optimization-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:seb1n/awesome-ai-agent-skills:agent-security/prompt-injection-defense/SKILL.md",
+    "skill": "prompt-injection-defense",
+    "skill_path": "skills/prompt-injection-defense",
+    "category": "security",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/prompt-injection-defense-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:seb1n/awesome-ai-agent-skills:agent-engineering/agent-observability/SKILL.md",
+    "skill": "agent-observability",
+    "skill_path": "skills/agent-observability",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/agent-observability-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:bregman-arie/devops-sre-skills:skills/incident/sev1-first-15-minutes/SKILL.md",
+    "skill": "sev1-first-15-minutes",
+    "skill_path": "skills/sev1-first-15-minutes",
+    "category": "security",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/sev1-first-15-minutes-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:pratie/youtube-transcript-skill:SKILL.md",
+    "skill": "video-transcript-research",
+    "skill_path": "skills/video-transcript-research",
+    "category": "research",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/video-transcript-research-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:Tissue-for-charlie/exam-kit:SKILL.md",
+    "skill": "study-materials-kit",
+    "skill_path": "skills/study-materials-kit",
+    "category": "content",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/study-materials-kit-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:OKHP3/skillz:.agents/skills/okhp3-process-capture/SKILL.md",
+    "skill": "process-capture",
+    "skill_path": "skills/process-capture",
+    "category": "productivity",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/process-capture-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:dEitY719/authoring-skills:skills/skill-create/SKILL.md",
+    "skill": "skill-authoring",
+    "skill_path": "skills/skill-authoring",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/skill-authoring-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:dEitY719/authoring-skills:skills/skill-refactor/SKILL.md",
+    "skill": "skill-progressive-refactor",
+    "skill_path": "skills/skill-progressive-refactor",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/skill-progressive-refactor-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:dEitY719/authoring-skills:skills/skill-check/SKILL.md",
+    "skill": "skill-quality-audit",
+    "skill_path": "skills/skill-quality-audit",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/skill-quality-audit-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:geoyws/kb-skill:SKILL.md",
+    "skill": "work-ledger",
+    "skill_path": "skills/work-ledger",
+    "category": "productivity",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/work-ledger-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:ever-just/agentskills:skills/agent-discoverability/SKILL.md",
+    "skill": "agent-discoverability",
+    "skill_path": "skills/agent-discoverability",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/agent-discoverability-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:ariel-lee-1023/Books-to-Skill-Refs:SKILL.md",
+    "skill": "multi-source-knowledge-library",
+    "skill_path": "skills/multi-source-knowledge-library",
+    "category": "research",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/multi-source-knowledge-library-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:ZhongHanLoo/deep-research-skill:skill/deep-research/SKILL.md",
+    "skill": "deep-research",
+    "skill_path": "skills/deep-research",
+    "category": "research",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/deep-research-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:iamthenop/infurnet-skills:skills/project-bindings/SKILL.md",
+    "skill": "project-bindings",
+    "skill_path": "skills/project-bindings",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/project-bindings-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:iamthenop/infurnet-skills:skills/api-docs/SKILL.md",
+    "skill": "api-documentation",
+    "skill_path": "skills/api-documentation",
+    "category": "content",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/api-documentation-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:ever-just/agentskills:skills/github-research/SKILL.md",
+    "skill": "github-research",
+    "skill_path": "skills/github-research",
+    "category": "research",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/github-research-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:iamthenop/infurnet-skills:skills/schema-design/SKILL.md",
+    "skill": "schema-design",
+    "skill_path": "skills/schema-design",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/schema-design-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:hnidboubker/readme-async:SKILL.md",
+    "skill": "readme-sync",
+    "skill_path": "skills/readme-sync",
+    "category": "content",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/readme-sync-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:iamthenop/infurnet-skills:skills/workflow-modeling/SKILL.md",
+    "skill": "workflow-modeling",
+    "skill_path": "skills/workflow-modeling",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/workflow-modeling-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:soft6096/jee-forge:skill/java-code-standards/SKILL.md",
+    "skill": "java-service-standards",
+    "skill_path": "skills/java-service-standards",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/java-service-standards-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:PyModel/css-pro-tips:SKILL.md",
+    "skill": "css-protips",
+    "skill_path": "skills/css-protips",
+    "category": "design",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/css-protips-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:undercutsh/firstpass:skills/firstpass/SKILL.md",
+    "skill": "confidence-gated-routing",
+    "skill_path": "skills/confidence-gated-routing",
+    "category": "productivity",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/confidence-gated-routing-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:ever-just/agentskills:skills/agent-quality-grading/SKILL.md",
+    "skill": "agent-quality-grading",
+    "skill_path": "skills/agent-quality-grading",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/agent-quality-grading-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:ooocooc/open-skill-sunset:integrations/skill-sunset/SKILL.md",
+    "skill": "skill-sunset",
+    "skill_path": "skills/skill-sunset",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/skill-sunset-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:kleosr/kleosrules:shared/skills/premium-ui-craft/SKILL.md",
+    "skill": "premium-ui-craft",
+    "skill_path": "skills/premium-ui-craft",
+    "category": "design",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/premium-ui-craft-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:LoopyLuci/Skills:skills/data-engineering-pipelines-best-practices/SKILL.md",
+    "skill": "data-engineering-pipelines-best-practices",
+    "skill_path": "skills/data-engineering-pipelines-best-practices",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/data-engineering-pipelines-best-practices-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:LoopyLuci/Skills:skills/business-continuity-design/SKILL.md",
+    "skill": "business-continuity-design",
+    "skill_path": "skills/business-continuity-design",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/business-continuity-design-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:diegosouzapw/awesome-omni-skills:skills_omni/modular-design-principles/SKILL.md",
+    "skill": "modular-design-principles",
+    "skill_path": "skills/modular-design-principles",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/modular-design-principles-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:Bhomik04/ava-:skills/official/document-analysis/SKILL.md",
+    "skill": "document-analysis",
+    "skill_path": "skills/document-analysis",
+    "category": "content",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/document-analysis-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:LoopyLuci/Skills:skills/cloud-native-security-best-practices/SKILL.md",
+    "skill": "cloud-native-security-best-practices",
+    "skill_path": "skills/cloud-native-security-best-practices",
+    "category": "security",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/cloud-native-security-best-practices-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:LoopyLuci/Skills:skills/access-control-security-best-practices/SKILL.md",
+    "skill": "access-control-security-best-practices",
+    "skill_path": "skills/access-control-security-best-practices",
+    "category": "security",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/access-control-security-best-practices-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:danzam98/claude-skills-toolkit:skills/deep-project-primer/SKILL.md",
+    "skill": "deep-project-primer",
+    "skill_path": "skills/deep-project-primer",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/deep-project-primer-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:aims1425-lab/hermes-agent-public-skills:skills/playwright-webapp-qa/SKILL.md",
+    "skill": "playwright-webapp-qa",
+    "skill_path": "skills/playwright-webapp-qa",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/playwright-webapp-qa-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:0xRayAI/xray:skills/bug-triage/SKILL.md",
+    "skill": "bug-triage",
+    "skill_path": "skills/bug-triage",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/bug-triage-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:0xRayAI/xray:skills/log-monitor/SKILL.md",
+    "skill": "log-monitor",
+    "skill_path": "skills/log-monitor",
+    "category": "security",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/log-monitor-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:ai-workspace-services/portal:skills/release-traceability/SKILL.md",
+    "skill": "release-traceability",
+    "skill_path": "skills/release-traceability",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/release-traceability-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:adtork/compute-desk:extensions/compute-desk/specialists/migration/skills/post-migration-validation/SKILL.md",
+    "skill": "migration-validation",
+    "skill_path": "skills/migration-validation",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/migration-validation-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:aydabd/github-bootstrap:templates/.github/skills/frontend-review/SKILL.md",
+    "skill": "frontend-review",
+    "skill_path": "skills/frontend-review",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/frontend-review-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:aydabd/github-bootstrap:templates/.github/skills/backend-review/SKILL.md",
+    "skill": "backend-review",
+    "skill_path": "skills/backend-review",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/backend-review-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:aydabd/github-bootstrap:templates/.github/skills/breaking-change-review/SKILL.md",
+    "skill": "breaking-change-review",
+    "skill_path": "skills/breaking-change-review",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/breaking-change-review-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:aydabd/github-bootstrap:templates/.github/skills/compliance-review/SKILL.md",
+    "skill": "compliance-review",
+    "skill_path": "skills/compliance-review",
+    "category": "security",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/compliance-review-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:microsoft/agent-framework:dotnet/samples/04-hosting/FoundryHostedAgents/responses/Hosted-AgentSkills/skills/escalation-policy/SKILL.md",
+    "skill": "escalation-policy",
+    "skill_path": "skills/escalation-policy",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/escalation-policy-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:microsoft/typespec:.github/skills/pnpm-format/SKILL.md",
+    "skill": "repository-formatting",
+    "skill_path": "skills/repository-formatting",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/repository-formatting-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:anthropics/claude-for-legal:product-legal/skills/launch-review/SKILL.md",
+    "skill": "launch-risk-review",
+    "skill_path": "skills/launch-risk-review",
+    "category": "security",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/launch-risk-review-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:anthropics/claude-plugins-community:testdino/skills/testdino-health/SKILL.md",
+    "skill": "integration-health-check",
+    "skill_path": "skills/integration-health-check",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/integration-health-check-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:alex-ilgayev/MCPSpy:.claude/skills/go-testing/SKILL.md",
+    "skill": "go-testing",
+    "skill_path": "skills/go-testing",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/go-testing-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:majiayu000/claude-skill-registry:skills/security/llm-app-security/SKILL.md",
+    "skill": "llm-app-security",
+    "skill_path": "skills/llm-app-security",
+    "category": "security",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/llm-app-security-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:aydabd/cacad:.github/skills/accessibility-review/SKILL.md",
+    "skill": "accessibility-review",
+    "skill_path": "skills/accessibility-review",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/accessibility-review-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:DrHepa/world-forge:.agents/skills/inspect-runtime-evidence/SKILL.md",
+    "skill": "inspect-runtime-evidence",
+    "skill_path": "skills/inspect-runtime-evidence",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/inspect-runtime-evidence-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:fadiwahba/lean-spec:skills/respec/SKILL.md",
+    "skill": "respec",
+    "skill_path": "skills/respec",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/respec-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:beast-ofcourse/SWE-pro-Agents:skills/documentation/SKILL.md",
+    "skill": "documentation",
+    "skill_path": "skills/documentation",
+    "category": "content",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/documentation-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:windinwing/mchat:skills/code-reviewer/SKILL.md",
+    "skill": "code-reviewer",
+    "skill_path": "skills/code-reviewer",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/code-reviewer-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:magnus919/hermes-profiles:skills/debugging-methodology/SKILL.md",
+    "skill": "debugging-methodology",
+    "skill_path": "skills/debugging-methodology",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/debugging-methodology-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:htafolla/StringRay:src/skills/security-audit/SKILL.md",
+    "skill": "security-audit",
+    "skill_path": "skills/security-audit",
+    "category": "security",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/security-audit-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:jpiedrafita/agent-templates:.github/skills/test-runner/SKILL.md",
+    "skill": "test-runner",
+    "skill_path": "skills/test-runner",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/test-runner-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:aydabd/github-bootstrap:templates/.github/skills/regression-risk-review/SKILL.md",
+    "skill": "regression-risk-review",
+    "skill_path": "skills/regression-risk-review",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/regression-risk-review-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:GustavoGutierrez/engineering-skills:skills/release-planner/SKILL.md",
+    "skill": "release-planner",
+    "skill_path": "skills/release-planner",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/release-planner-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:placerda/agentic-engineering:.github/skills/architecture-decision/SKILL.md",
+    "skill": "architecture-decision",
+    "skill_path": "skills/architecture-decision",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/architecture-decision-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:majiayu000/claude-skill-registry:skills/data/performance-engineering/SKILL.md",
+    "skill": "performance-engineering",
+    "skill_path": "skills/performance-engineering",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/performance-engineering-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:majiayu000/claude-skill-registry:skills/data/data-governance/SKILL.md",
+    "skill": "data-governance",
+    "skill_path": "skills/data-governance",
+    "category": "data",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/data-governance-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:majiayu000/claude-skill-registry:skills/devops/feature-flags/SKILL.md",
+    "skill": "feature-flags",
+    "skill_path": "skills/feature-flags",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/feature-flags-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:majiayu000/claude-skill-registry:skills/data/ai-governance/SKILL.md",
+    "skill": "ai-governance",
+    "skill_path": "skills/ai-governance",
+    "category": "security",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/ai-governance-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:majiayu000/claude-skill-registry:skills/devops/site-reliability/SKILL.md",
+    "skill": "site-reliability",
+    "skill_path": "skills/site-reliability",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/site-reliability-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:majiayu000/claude-skill-registry:skills/design/design-systems/SKILL.md",
+    "skill": "design-systems",
+    "skill_path": "skills/design-systems",
+    "category": "design",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/design-systems-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:majiayu000/claude-skill-registry:skills/design/mobile-development/SKILL.md",
+    "skill": "mobile-development",
+    "skill_path": "skills/mobile-development",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/mobile-development-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:briiirussell/cybersecurity-skills:skills/privacy-engineering/SKILL.md",
+    "skill": "privacy-engineering",
+    "skill_path": "skills/privacy-engineering",
+    "category": "security",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/privacy-engineering-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:LeoYeAI/openclaw-master-skills:skills/finops/SKILL.md",
+    "skill": "finops",
+    "skill_path": "skills/finops",
+    "category": "business",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/finops-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:microsoft/playwright:packages/playwright-core/src/tools/skills/playwright-component-testing/SKILL.md",
+    "skill": "playwright-component-testing",
+    "skill_path": "skills/playwright-component-testing",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/playwright-component-testing-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:majiayu000/claude-skill-registry:skills/security/mcp-security/SKILL.md",
+    "skill": "mcp-security",
+    "skill_path": "skills/mcp-security",
+    "category": "security",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/mcp-security-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:microsoft/eval-guide:skills/eval-generator/SKILL.md",
+    "skill": "agent-evaluation-engineering",
+    "skill_path": "skills/agent-evaluation-engineering",
+    "category": "research",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/agent-evaluation-engineering-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:majiayu000/claude-skill-registry:skills/data/product-analytics/SKILL.md",
+    "skill": "product-analytics",
+    "skill_path": "skills/product-analytics",
+    "category": "data",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/product-analytics-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:majiayu000/claude-skill-registry:skills/data/53-data-engineering/SKILL.md",
+    "skill": "dbt-patterns",
+    "skill_path": "skills/dbt-patterns",
+    "category": "data",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/dbt-patterns-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:NVIDIA/skills:skills/rag-eval/SKILL.md",
+    "skill": "rag-evaluation",
+    "skill_path": "skills/rag-evaluation",
+    "category": "research",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/rag-evaluation-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:claude-office-skills/skills:browser-automation/SKILL.md",
+    "skill": "browser-automation",
+    "skill_path": "skills/browser-automation",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/browser-automation-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:simstudioai/sim:.agents/skills/v2-api-conventions/SKILL.md",
+    "skill": "api-resilience-engineering",
+    "skill_path": "skills/api-resilience-engineering",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/api-resilience-engineering-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:aws-samples/sample-aws-resilience-skill:aws-resilience-modeling/SKILL.md",
+    "skill": "aws-resilience-assessment",
+    "skill_path": "skills/aws-resilience-assessment",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/aws-resilience-assessment-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:DonArtkins/griot:infra/.agents/skills/github-actions/SKILL.md",
+    "skill": "github-actions-engineering",
+    "skill_path": "skills/github-actions-engineering",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/github-actions-engineering-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:ssrjkk/claude-skills:.claude/skills/data/kafka-advanced/SKILL.md",
+    "skill": "kafka-engineering",
+    "skill_path": "skills/kafka-engineering",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/kafka-engineering-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:Dankosik/go-service-template-rest:docs/universal-disciplines/cache-engineering/SKILL.md",
+    "skill": "cache-engineering",
+    "skill_path": "skills/cache-engineering",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/cache-engineering-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:codewithmukesh/dotnet-claude-kit:skills/docker/SKILL.md",
+    "skill": "container-image-engineering",
+    "skill_path": "skills/container-image-engineering",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/container-image-engineering-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:LukasNiessen/kubernetes-skill:SKILL.md",
+    "skill": "kubernetes-operations",
+    "skill_path": "skills/kubernetes-operations",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/kubernetes-operations-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:antonbabenko/terraform-skill:skills/terraform-skill/SKILL.md",
+    "skill": "terraform-engineering",
+    "skill_path": "skills/terraform-engineering",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/terraform-engineering-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:supabase/agent-skills:skills/supabase-postgres-best-practices/SKILL.md",
+    "skill": "postgres-engineering",
+    "skill_path": "skills/postgres-engineering",
+    "category": "data",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/postgres-engineering-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:ssrjkk/claude-skills:.claude/skills/security/oauth-debugging/SKILL.md",
+    "skill": "oauth-debugging",
+    "skill_path": "skills/oauth-debugging",
+    "category": "security",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/oauth-debugging-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:FutureJJ/claude-skills:skills/graphql-expert/SKILL.md",
+    "skill": "graphql-expert",
+    "skill_path": "skills/graphql-expert",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/graphql-expert-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:FutureJJ/claude-skills:skills/monitoring-observability/SKILL.md",
+    "skill": "monitoring-observability",
+    "skill_path": "skills/monitoring-observability",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/monitoring-observability-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:ssrjkk/claude-skills:.claude/skills/database/mysql/SKILL.md",
+    "skill": "mysql",
+    "skill_path": "skills/mysql",
+    "category": "data",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/mysql-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:datar-gaurav/sutra-os:backend/skills/data-analysis/SKILL.md",
+    "skill": "data-analysis",
+    "skill_path": "skills/data-analysis",
+    "category": "data",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/data-analysis-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:rocklambros/rcs:skills/ml-datasci/applying-differential-privacy/SKILL.md",
+    "skill": "differential-privacy",
+    "skill_path": "skills/differential-privacy",
+    "category": "data",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/differential-privacy-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:majiayu000/claude-skill-registry:skills/quality/validate-openapi-spec/SKILL.md",
+    "skill": "openapi-review",
+    "skill_path": "skills/openapi-review",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/openapi-review-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:aydabd/github-bootstrap:templates/.github/skills/security-review/SKILL.md",
+    "skill": "security-review",
+    "skill_path": "skills/security-review",
+    "category": "security",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/security-review-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:phamhungptithcm/ai-agent-kit:assets/enterprise-ai-agent-os/.ai/skills-src/threat-model/SKILL.md",
+    "skill": "threat-model",
+    "skill_path": "skills/threat-model",
+    "category": "security",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/threat-model-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:itseffi/productize:skills/productize-fragmented-user-research-synthesis-into-coherent-insights/SKILL.md",
+    "skill": "user-research-synthesis",
+    "skill_path": "skills/user-research-synthesis",
+    "category": "research",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/user-research-synthesis-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:davidvictor/adlc-skills:skills/adlc/adlc-roadmap/SKILL.md",
+    "skill": "product-roadmap",
+    "skill_path": "skills/product-roadmap",
+    "category": "business",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/product-roadmap-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:Kushagrabainsla/north:skills/builtin/data-and-schema-migration/SKILL.md",
+    "skill": "data-and-schema-migration",
+    "skill_path": "skills/data-and-schema-migration",
+    "category": "data",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/data-and-schema-migration-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:charly-vibes/wai:.claude/skills/pre-mortem/SKILL.md",
+    "skill": "pre-mortem",
+    "skill_path": "skills/pre-mortem",
+    "category": "business",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/pre-mortem-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:jukrap/ai-agent-playbook:skills/devops/observability-incident-triage/SKILL.md",
+    "skill": "incident-triage",
+    "skill_path": "skills/incident-triage",
+    "category": "security",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/incident-triage-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:henrique-simoes/Istara:skills/define/prioritization-matrix/SKILL.md",
+    "skill": "prioritization-matrix",
+    "skill_path": "skills/prioritization-matrix",
+    "category": "business",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/prioritization-matrix-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:l-gevity/l-gevity-skills:.agents/skills/requirements-grounding/SKILL.md",
+    "skill": "requirements-grounding",
+    "skill_path": "skills/requirements-grounding",
+    "category": "business",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/requirements-grounding-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:datar-gaurav/sutra-os:backend/skills/email-drafting/SKILL.md",
+    "skill": "email-drafting",
+    "skill_path": "skills/email-drafting",
+    "category": "business",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/email-drafting-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:Animism001/skills:.agents/skills/web-researcher/SKILL.md",
+    "skill": "web-researcher",
+    "skill_path": "skills/web-researcher",
+    "category": "research",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/web-researcher-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:joaocarloscruz/skills:library/release-software/SKILL.md",
+    "skill": "release-software",
+    "skill_path": "skills/release-software",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/release-software-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:rainoff/skill-gauge:exercises/fixtures/meeting-notes/skill/meeting-notes/SKILL.md",
+    "skill": "meeting-notes",
+    "skill_path": "skills/meeting-notes",
+    "category": "productivity",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/meeting-notes-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:joaocarloscruz/skills:library/test-cli/SKILL.md",
+    "skill": "test-cli",
+    "skill_path": "skills/test-cli",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/test-cli-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:joaocarloscruz/skills:library/improve-performance/SKILL.md",
+    "skill": "improve-performance",
+    "skill_path": "skills/improve-performance",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/improve-performance-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:quarcs-lab/project20XXy:.claude/skills/handoff/SKILL.md",
+    "skill": "handoff",
+    "skill_path": "skills/handoff",
+    "category": "productivity",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/handoff-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:joaocarloscruz/skills:library/design-test-strategy/SKILL.md",
+    "skill": "design-test-strategy",
+    "skill_path": "skills/design-test-strategy",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/design-test-strategy-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:joaocarloscruz/skills:library/review-accessibility/SKILL.md",
+    "skill": "review-accessibility",
+    "skill_path": "skills/review-accessibility",
+    "category": "design",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/review-accessibility-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:Bogyie/llm-reliability-skill:skills/dense-writing/SKILL.md",
+    "skill": "dense-writing",
+    "skill_path": "skills/dense-writing",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/dense-writing-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:anthropics/claude-for-legal:ip-legal/skills/oss-review/SKILL.md",
+    "skill": "oss-review",
+    "skill_path": "skills/oss-review",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/oss-review-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:xuthreekid/clawchain:backend/data/skills/excel-ops/SKILL.md",
+    "skill": "excel-ops",
+    "skill_path": "skills/excel-ops",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/excel-ops-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/ruff-recursive-fix/SKILL.md",
+    "skill": "ruff-recursive-fix",
+    "skill_path": "skills/ruff-recursive-fix",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/ruff-recursive-fix-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/sql-optimization/SKILL.md",
+    "skill": "sql-optimization",
+    "skill_path": "skills/sql-optimization",
+    "category": "data",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/sql-optimization-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/webmcpify/SKILL.md",
+    "skill": "webmcpify",
+    "skill_path": "skills/webmcpify",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/webmcpify-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/review-and-refactor/SKILL.md",
+    "skill": "review-and-refactor",
+    "skill_path": "skills/review-and-refactor",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/review-and-refactor-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/spring-boot-testing/SKILL.md",
+    "skill": "spring-boot-testing",
+    "skill_path": "skills/spring-boot-testing",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/spring-boot-testing-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:aws-samples/sample-agentcore-launchpad:samples/skills/expense-report-writer/SKILL.md",
+    "skill": "expense-report-writer",
+    "skill_path": "skills/expense-report-writer",
+    "category": "business",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/expense-report-writer-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:microsoft/playwright:packages/playwright-core/src/tools/skills/playwright-cli/SKILL.md",
+    "skill": "playwright-cli",
+    "skill_path": "skills/playwright-cli",
+    "category": "development",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/playwright-cli-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/anti-ui-slop/SKILL.md",
+    "skill": "anti-ui-slop",
+    "skill_path": "skills/anti-ui-slop",
+    "category": "design",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/anti-ui-slop-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/ad-campaign-analyzer/SKILL.md",
+    "skill": "ad-campaign-analyzer",
+    "skill_path": "skills/ad-campaign-analyzer",
+    "category": "business",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/ad-campaign-analyzer-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/ai-team-orchestration/SKILL.md",
+    "skill": "ai-team-orchestration",
+    "skill_path": "skills/ai-team-orchestration",
+    "category": "productivity",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/ai-team-orchestration-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/ai-prompt-engineering-safety-review/SKILL.md",
+    "skill": "ai-prompt-engineering-safety-review",
+    "skill_path": "skills/ai-prompt-engineering-safety-review",
+    "category": "security",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/ai-prompt-engineering-safety-review-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/agent-skill-stack/SKILL.md",
+    "skill": "agent-skill-stack",
+    "skill_path": "skills/agent-skill-stack",
+    "category": "productivity",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/agent-skill-stack-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/landing-page-conversion-audit/SKILL.md",
+    "skill": "landing-page-conversion-audit",
+    "skill_path": "skills/landing-page-conversion-audit",
+    "category": "business",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/landing-page-conversion-audit-workbuddy-skill.zip"
+  },
+  {
+    "catalog_id": "github:github/awesome-copilot:skills/prompt-optimizer/SKILL.md",
+    "skill": "prompt-optimizer",
+    "skill_path": "skills/prompt-optimizer",
+    "category": "productivity",
+    "download_url": "https://github.com/sandbaseai/workbuddy-skill/releases/latest/download/prompt-optimizer-workbuddy-skill.zip"
+  }
+]

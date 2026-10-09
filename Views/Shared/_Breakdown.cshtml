@@ -1,0 +1,44 @@
+@model NEXUS.Models.ViewModels.BreakdownPanel
+@*
+    A small mix is easier to read as labelled bars than as a doughnut: the
+    figure and the share sit next to the label instead of in a legend.
+*@
+@{
+    var total = Model.Rows.Sum(r => r.Value);
+    var max = Model.Rows.Count == 0 ? 0 : Model.Rows.Max(r => r.Value);
+}
+
+@if (total == 0 || max == 0)
+{
+    <p class="table-empty">Nothing to break down yet.</p>
+}
+else
+{
+    <div class="breakdown">
+        @foreach (var row in Model.Rows.Where(r => r.Value > 0).OrderByDescending(r => r.Value))
+        {
+            var share = total == 0 ? 0d : (double)(row.Value / total);
+            var width = (int)Math.Round((double)(row.Value / max) * 100);
+
+            <div class="breakdown-row">
+                <span class="breakdown-label">@row.Label</span>
+                <span class="breakdown-value">
+                    @Value(row.Value)
+                    <span class="share">@share.ToString("P0")</span>
+                </span>
+                <span class="breakdown-bar">
+                    <span style="width:@width%;"></span>
+                </span>
+            </div>
+        }
+    </div>
+}
+
+@functions {
+    // Revenue arrives as money and counts arrive as integers; show whichever the
+    // figure actually is rather than forcing every total through one format.
+    static string Value(decimal value) =>
+        value == decimal.Truncate(value)
+            ? decimal.Truncate(value).ToString("N0")
+            : value.ToString("N2");
+}

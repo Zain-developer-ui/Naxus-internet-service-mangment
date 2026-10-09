@@ -2,8 +2,8 @@
    NEXUS — charts.js
    Chart.js wrappers. Every function defensively checks that
    the target canvas exists before creating a chart.
-   Uses global NEXUS_CHART_DATA (defined on dashboard pages)
-   and falls back to built-in demo data.
+   Uses global NEXUS_CHART_DATA (defined on dashboard pages). A chart with
+   no series is not drawn at all rather than filled with invented data.
    ========================================================= */
 
 (function () {
@@ -38,7 +38,18 @@
     // Read data source: prefer window.NEXUS_CHART_DATA
     function data(key, fallback) {
         const src = window.NEXUS_CHART_DATA || {};
-        return src[key] || fallback;
+        const value = src[key];
+        return (Array.isArray(value) && value.length) ? value : fallback;
+    }
+
+    // A chart with no series is a blank rectangle that still claims a heading.
+    // Callers get null and are expected to render a figure instead.
+    function series(opts, key) {
+        const inline = opts.values;
+        if (Array.isArray(inline) && inline.length) return inline;
+
+        const shared = data(key, []);
+        return shared.length ? shared : null;
     }
 
     /* ---------------------------------------------------------
@@ -48,8 +59,10 @@
         if (!has(canvasId)) return null;
         const ctx = document.getElementById(canvasId);
 
-        const labels = opts.labels || data('months', ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']);
-        const values = opts.values || data(opts.dataKey || 'revenue', [180000, 195000, 210000, 225000, 240000, 258000]);
+        const values = series(opts, opts.dataKey || 'revenue');
+        if (!values) return null;
+
+        const labels = opts.labels || data('months', values.map((_, i) => i + 1));
         const color = opts.color || THEME.secondary;
 
         return new Chart(ctx, {
@@ -103,8 +116,10 @@
         if (!has(canvasId)) return null;
         const ctx = document.getElementById(canvasId);
 
-        const labels = opts.labels || data('months', ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']);
-        const values = opts.values || data(opts.dataKey || 'orders', [22, 28, 32, 26, 35, 42]);
+        const values = series(opts, opts.dataKey || 'orders');
+        if (!values) return null;
+
+        const labels = opts.labels || data('months', values.map((_, i) => i + 1));
         const colors = opts.colors || values.map((_, i) =>
             i === values.length - 1 ? THEME.secondary : THEME.accent
         );
@@ -141,8 +156,10 @@
         if (!has(canvasId)) return null;
         const ctx = document.getElementById(canvasId);
 
-        const labels = opts.labels || ['Broadband', 'Fiber', 'Wireless', 'Dedicated'];
-        const values = opts.values || data(opts.dataKey || 'distribution', [540, 260, 120, 65]);
+        const values = series(opts, opts.dataKey || 'distribution');
+        if (!values) return null;
+
+        const labels = opts.labels || ['One', 'Two', 'Three', 'Four'];
         const colors = opts.colors || [THEME.secondary, THEME.accent, THEME.success, THEME.warning];
 
         return new Chart(ctx, {
@@ -175,8 +192,11 @@
     NEXUS.areaChart = function (canvasId, opts = {}) {
         if (!has(canvasId)) return null;
         const ctx = document.getElementById(canvasId);
-        const labels = opts.labels || data('months', ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']);
-        const values = opts.values || data('usage', [120, 145, 138, 172, 190, 205]);
+
+        const values = series(opts, 'usage');
+        if (!values) return null;
+
+        const labels = opts.labels || data('months', values.map((_, i) => i + 1));
 
         const g = ctx.getContext('2d');
         const gradient = g.createLinearGradient(0, 0, 0, 300);
@@ -217,8 +237,11 @@
     NEXUS.pieChart = function (canvasId, opts = {}) {
         if (!has(canvasId)) return null;
         const ctx = document.getElementById(canvasId);
-        const labels = opts.labels || ['Paid', 'Due', 'Overdue'];
-        const values = opts.values || data(opts.dataKey || 'paymentStatus', [720, 60, 20]);
+
+        const values = series(opts, opts.dataKey || 'paymentStatus');
+        if (!values) return null;
+
+        const labels = opts.labels || ['One', 'Two', 'Three'];
         const colors = opts.colors || [THEME.success, THEME.warning, THEME.danger];
 
         return new Chart(ctx, {
@@ -240,18 +263,35 @@
        <canvas id="revenueChart" data-chart="line"
                data-label="Revenue" data-key="revenue" data-prefix="Rs. "></canvas>
        --------------------------------------------------------- */
+    // Comma-separated attribute -> array. Blank entries are dropped so a
+    // trailing comma in the markup does not produce an empty legend entry.
+    function list(value) {
+        return (value || '').split(',').map(s => s.trim()).filter(Boolean);
+    }
+
     function autoInit() {
         if (!window.Chart) return;
 
         NEXUS.$$('canvas[data-chart]').forEach(canvas => {
             const type = canvas.getAttribute('data-chart');
             const id = canvas.id;
+
+            // Inline data wins over the shared NEXUS_CHART_DATA block, so a
+            // single chart can be driven from its own markup.
+            const rawValues = list(canvas.getAttribute('data-values'));
+            const rawLabels = list(canvas.getAttribute('data-labels'));
+
             const opts = {
                 label: canvas.getAttribute('data-label') || undefined,
                 dataKey: canvas.getAttribute('data-key') || undefined,
                 yPrefix: canvas.getAttribute('data-prefix') || '',
-                showLegend: canvas.hasAttribute('data-legend')
+                showLegend: canvas.hasAttribute('data-legend'),
+                labels: rawLabels.length ? rawLabels : undefined,
+                values: rawValues.length
+                    ? rawValues.map(v => Number(v.replace(/[^0-9.-]/g, '')) || 0)
+                    : undefined
             };
+
             switch (type) {
                 case 'line': NEXUS.lineChart(id, opts); break;
                 case 'area': NEXUS.areaChart(id, opts); break;

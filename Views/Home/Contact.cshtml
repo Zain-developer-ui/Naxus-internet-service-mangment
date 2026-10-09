@@ -59,8 +59,8 @@
                 <div class="hero-float-card">
                     <span class="ic"><i class="fa-solid fa-comments"></i></span>
                     <div class="meta">
-                        <strong>Live Chat</strong>
-                        <span>Average wait: 30s</span> </div> </div>
+                        <strong>Enquiry Logged</strong>
+                        <span>Every message is recorded</span> </div> </div>
 
                 <div class="hero-float-card speed">
                     <span class="ic"><i class="fa-solid fa-user-gear"></i></span>
@@ -126,15 +126,15 @@
 
             <article class="rich-service reveal delay-2">
                 <div class="rs-media" style="background:linear-gradient(135deg,#F59E0B,#D97706);display:flex;align-items:center;justify-content:center;">
-                    <i class="fa-solid fa-comments" style="font-size:3.5rem;color:#fff;"></i> </div>
+                    <i class="fa-solid fa-paper-plane" style="font-size:3.5rem;color:#fff;"></i> </div>
                 <div class="rs-body">
-                    <h4>Live Chat</h4>
-                    <p>Chat with a NEXUS agent in real-time. Perfect for quick questions.</p>
+                    <h4>Send a Message</h4>
+                    <p>Tell us what you need and it lands with the team. Every enquiry is logged.</p>
                     <div class="rs-meta">
-                        <span class="badge badge-info">Live Now</span>
-                        <span class="badge badge-muted">Quick</span> </div>
-                    <button type="button" class="btn btn-primary btn-block" data-demo-chat>
-                        <i class="fa-solid fa-comment-dots"></i> Start Chat </button> </div> </article> </div> </div>
+                        <span class="badge badge-info">Logged</span>
+                        <span class="badge badge-muted">No account needed</span> </div>
+                    <a href="#contact-form" class="btn btn-primary btn-block">
+                        <i class="fa-solid fa-paper-plane"></i> Open the form </a> </div> </article> </div> </div>
 </section>
 
 @* =========================================================
@@ -163,7 +163,7 @@
                         <i class="fa-solid fa-triangle-exclamation"></i> @failed </div>
                 }
 
-                <form asp-controller="Home" asp-action="Contact" method="post"
+                <form id="contact-form" asp-controller="Home" asp-action="Contact" method="post"
                       data-validate-form novalidate
                       style="background:#fff;border:1px solid #E2E8F0;border-radius:16px;padding:28px;box-shadow:0 12px 30px rgba(10,31,68,0.06);margin-top:20px;">
                     @Html.AntiForgeryToken()
@@ -282,7 +282,7 @@
                 <button class="faq-question" type="button">
                     What are your support hours?
                     <i class="fa-solid fa-chevron-down"></i> </button>
-                <div class="faq-answer">Phone and live chat support are available 24/7. Walk-in office hours are Mon–Sat, 9 AM to 7 PM.</div> </div>
+                <div class="faq-answer">The helpline runs 24/7. Walk-in office hours are Mon–Sat, 9 AM to 7 PM.</div> </div>
             <div class="faq-item">
                 <button class="faq-question" type="button">
                     Can I visit an office to sign up?
@@ -325,21 +325,6 @@
                 if (i !== item) i.classList.remove('open');
             });
             item.classList.toggle('open', !isOpen);
-        });
-
-        // Demo chat button
-        document.addEventListener('click', function (e) {
-            if (e.target.closest('[data-demo-chat]')) {
-                e.preventDefault();
-                if (window.NEXUS && NEXUS.toast) {
-                    NEXUS.toast({
-                        title: 'Live Chat (Demo)',
-                        message: 'A NEXUS agent would connect shortly in production.',
-                        type: 'info',
-                        duration: 4000
-                    });
-                }
-            }
         });
 
         // Toast on load

@@ -230,6 +230,42 @@
     }
 
     /* ---------------------------------------------------------
+       CONFIRM SUBMIT
+       ---------------------------------------------------------
+       Destructive forms carry their prompt on data-confirm. Handled by
+       delegation because these pages swap their table body after a
+       redirect and freshly rendered rows would miss a bound listener.
+       --------------------------------------------------------- */
+    function initConfirmSubmit() {
+        document.addEventListener('submit', function (event) {
+            const form = event.target;
+            if (!(form instanceof HTMLFormElement)) return;
+
+            const prompt = form.getAttribute('data-confirm');
+            if (!prompt) return;
+
+            if (!window.confirm(prompt)) {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+            }
+        }, true);
+    }
+
+    /* Fires a toast for a form that opts in with data-toast. Lets a plain
+       server-rendered action still say something on the way out. */
+    function initToastSubmit() {
+        document.addEventListener('submit', function (event) {
+            const form = event.target;
+            if (!(form instanceof HTMLFormElement)) return;
+
+            const message = form.getAttribute('data-toast');
+            if (!message) return;
+
+            NEXUS.toast(message, form.getAttribute('data-toast-type') || 'success');
+        });
+    }
+
+    /* ---------------------------------------------------------
        RELATIVE TIME
        ---------------------------------------------------------
        Used by dashboards for "2 hours ago" style stamps. Kept here
@@ -301,6 +337,8 @@
         initNavbarScroll();
         initAlerts();
         initUserMenu();
+        initConfirmSubmit();
+        initToastSubmit();
     });
 
     NEXUS.refreshReveal = initScrollReveal;

@@ -1,0 +1,124 @@
+@model NEXUS.Services.Lifecycle.OverduePolicyResult
+@using NEXUS.Common.Constants
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Overdue Policy — NEXUS";
+}
+
+@section DashboardStyles {
+    <link rel="stylesheet" href="~/css/dashboards-luxury.css" />
+    <link rel="stylesheet" href="~/css/billing.css" />
+}
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/Operations">Operations</a>
+    <span class="sep">/</span>
+    <span class="current">Overdue Policy</span>
+</nav>
+
+<div class="page-head">
+    <div>
+        <h1>Overdue policy</h1>
+        <p class="muted">
+            A postpaid line's status follows its bill. This shows what the policy
+            would do today, before anything moves.
+        </p>
+    </div>
+</div>
+
+<div class="attention-board reveal">
+    <div class="attention-cell">
+        <span class="attention-label">Lines checked</span>
+        <span class="attention-value">@Model.LinesScanned</span>
+        <span class="attention-go">As of @Model.AsOf.ToString("dd MMM yyyy")</span>
+    </div>
+    <div class="attention-cell @(Model.Suspensions > 0 ? "is-open" : "is-clear")">
+        <span class="attention-label">To be suspended</span>
+        <span class="attention-value">@Model.Suspensions</span>
+        <span class="attention-go">@LifecycleConstants.SuspensionGraceDays+ days past due</span>
+    </div>
+    <div class="attention-cell @(Model.Closures > 0 ? "is-open" : "is-clear")">
+        <span class="attention-label">To be closed</span>
+        <span class="attention-value">@Model.Closures</span>
+        <span class="attention-go">@LifecycleConstants.PermanentClosureDays+ days past due</span>
+    </div>
+    <div class="attention-cell">
+        <span class="attention-label">Outstanding on those lines</span>
+        <span class="attention-value">@Model.OutstandingAtRisk.ToString("C")</span>
+        <span class="attention-go">Recoverable before closure</span>
+    </div>
+</div>
+
+<div class="chart-card dash-section">
+    <div class="chart-head">
+        <div>
+            <h2>Lines the policy would move</h2>
+            <p class="chart-sub">
+                A bill past its due date suspends the line after
+                @LifecycleConstants.SuspensionGraceDays days and closes it after
+                @LifecycleConstants.PermanentClosureDays. Paying brings it back.
+            </p>
+        </div>
+    </div>
+
+    @if (Model.Actions.Count == 0)
+    {
+        <p class="table-empty">
+            Every line is inside its payment window. Nothing to do.
+        </p>
+    }
+    else
+    {
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col">Line</th>
+                        <th scope="col">Customer</th>
+                        <th scope="col" class="hide-sm">Account</th>
+                        <th scope="col">Outstanding</th>
+                        <th scope="col" class="hide-sm">Oldest due</th>
+                        <th scope="col">Days overdue</th>
+                        <th scope="col">Move</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var action in Model.Actions)
+                    {
+                        var closing = action.To == ConnectionStatus.PermanentlyInactive;
+
+                        <tr>
+                            <td>
+                                <a href="/Operations/Connection/@action.ConnectionId" class="mono">
+                                    @action.ConnectionNumber
+                                </a>
+                            </td>
+                            <td>@action.CustomerName</td>
+                            <td class="hide-sm mono">@action.AccountId</td>
+                            <td><strong>@action.Outstanding.ToString("C")</strong></td>
+                            <td class="hide-sm">@action.OldestDueOn.ToString("dd MMM yyyy")</td>
+                            <td>@action.DaysOverdue</td>
+                            <td>
+                                <span class="badge badge-@(closing ? "danger" : "warning")">
+                                    @action.From.DisplayName() &rarr; @action.To.DisplayName()
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <form method="post" asp-action="ApplyOverdue" class="dash-section"
+              data-confirm="This suspends or closes @Model.Actions.Count line(s) and writes each move to the status history. Continue?"
+              data-toast="@Model.Actions.Count line(s) updated."
+              data-toast-type="success">
+            @Html.AntiForgeryToken()
+
+            <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-gavel"></i> Apply the policy
+            </button>
+            <a href="/Operations/Connections" class="btn btn-ghost">Review connections</a>
+        </form>
+    }
+</div>

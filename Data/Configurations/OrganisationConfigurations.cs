@@ -46,6 +46,16 @@ public class RetailShopConfiguration : IEntityTypeConfiguration<RetailShop>
     }
 }
 
+public class SiteSettingConfiguration : IEntityTypeConfiguration<SiteSetting>
+{
+    public void Configure(EntityTypeBuilder<SiteSetting> b)
+    {
+        b.ToTable("SiteSettings");
+        b.HasIndex(s => s.Key).IsUnique().HasDatabaseName("UX_SiteSettings_Key");
+        b.Property(s => s.Key).IsRequired().HasMaxLength(80);
+    }
+}
+
 public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
 {
     public void Configure(EntityTypeBuilder<Employee> b)

@@ -1,0 +1,211 @@
+@model NEXUS.Models.ViewModels.OrgListPage
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Outlets & Staff — NEXUS";
+}
+
+@section DashboardStyles {
+    <link rel="stylesheet" href="~/css/dashboards-luxury.css" />
+    <link rel="stylesheet" href="~/css/admin.css" />
+}
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/Admin/Dashboard">Admin</a>
+    <span class="sep">/</span>
+    <span class="current">Outlets &amp; Staff</span>
+</nav>
+
+<div class="page-header reveal">
+    <div>
+        <h1><i class="fa-solid fa-store" style="color:var(--nexus-blue);"></i> Outlets &amp; Staff</h1>
+        <p class="muted">The retail network and the people who run it.</p>
+    </div>
+    <div class="page-header-actions">
+        <a href="@Url.Action("CreateEmployee")" class="btn btn-outline">
+            <i class="fa-solid fa-user-plus"></i> New Employee </a>
+        <a href="@Url.Action("CreateShop")" class="btn btn-primary">
+            <i class="fa-solid fa-plus"></i> New Outlet </a>
+    </div>
+</div>
+
+@if (TempData["Success"] is string ok)
+{
+    <div class="alert alert-success reveal" role="status">
+        <i class="fa-solid fa-circle-check"></i> @ok </div>
+}
+@if (TempData["Error"] is string bad)
+{
+    <div class="alert alert-danger reveal" role="alert">
+        <i class="fa-solid fa-circle-exclamation"></i> @bad </div>
+}
+
+<div class="stats-grid reveal">
+    <div class="stat-card">
+        <div class="stat-icon navy"><i class="fa-solid fa-store"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value">@Model.Totals.Shops</div>
+            <div class="stat-label">Outlets</div> </div> </div>
+    <div class="stat-card">
+        <div class="stat-icon success"><i class="fa-solid fa-circle-check"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value">@Model.Totals.ActiveShops</div>
+            <div class="stat-label">Open Outlets</div> </div> </div>
+    <div class="stat-card">
+        <div class="stat-icon blue"><i class="fa-solid fa-users-gear"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value">@Model.Totals.Employees</div>
+            <div class="stat-label">Staff On Register</div> </div> </div>
+    <div class="stat-card">
+        <div class="stat-icon warning"><i class="fa-solid fa-user-check"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value">@Model.Totals.ActiveEmployees</div>
+            <div class="stat-label">Currently Active</div> </div> </div>
+</div>
+
+<div class="chart-card reveal" style="margin-top:22px;">
+    <div class="chart-head">
+        <div>
+            <h4><i class="fa-solid fa-store"></i> Retail Outlets</h4>
+            <p class="chart-sub">Where customers can walk in and where stock is held.</p> </div> </div>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col">Outlet</th>
+                    <th scope="col">City</th>
+                    <th scope="col" class="hide-sm">Phone</th>
+                    <th scope="col" class="num hide-sm">Staff</th>
+                    <th scope="col" class="num hide-sm">Stock Lines</th>
+                    <th scope="col">State</th>
+                    <th scope="col"><span class="sr-only">Actions</span></th> </tr> </thead>
+            <tbody>
+                @if (Model.Shops.Count == 0)
+                {
+                    <tr><td colspan="7" class="table-empty">
+                        No outlets yet. Add the first one.
+                    </td></tr>
+                }
+                else
+                {
+                    foreach (var s in Model.Shops)
+                    {
+                        <tr>
+                            <td>
+                                <div class="cell-title">@s.Name</div>
+                                <div class="cell-sub">
+                                    <span class="mono">@s.OutletCode</span>
+                                    @if (!string.IsNullOrWhiteSpace(s.Address))
+                                    {
+                                        <text> · @s.Address</text>
+                                    }
+                                </div> </td>
+                            <td>@s.CityName</td>
+                            <td class="hide-sm">
+                                @if (string.IsNullOrWhiteSpace(s.Phone))
+                                {
+                                    <span class="muted">—</span>
+                                }
+                                else
+                                {
+                                    @s.Phone
+                                }
+                            </td>
+                            <td class="num hide-sm">@s.StaffCount</td>
+                            <td class="num hide-sm">@s.StockLines</td>
+                            <td>
+                                <span class="badge badge-@(s.IsActive ? "success" : "muted")">
+                                    @(s.IsActive ? "Open" : "Closed") </span> </td>
+                            <td class="actions">
+                                <a href="@Url.Action("EditShop", new { id = s.Id })" class="btn btn-ghost btn-sm">
+                                    <i class="fa-solid fa-pen"></i> Edit </a>
+
+                                <form method="post" asp-action="ToggleShop" asp-route-id="@s.Id">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="active" value="@(!s.IsActive)" />
+                                    <button type="submit" class="btn btn-ghost btn-sm">
+                                        <i class="fa-solid @(s.IsActive ? "fa-lock" : "fa-lock-open")"></i>
+                                        @(s.IsActive ? "Close" : "Reopen") </button> </form>
+
+                                @if (s.StaffCount == 0 && s.StockLines == 0)
+                                {
+                                    <form method="post" asp-action="DeleteShop" asp-route-id="@s.Id"
+                                          data-confirm="Delete '@s.Name'? This cannot be undone.">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-ghost btn-sm danger">
+                                            <i class="fa-solid fa-trash"></i> Delete </button> </form>
+                                } </td> </tr>
+                    }
+                } </tbody> </table> </div>
+</div>
+
+<div class="chart-card reveal" style="margin-top:22px;">
+    <div class="chart-head">
+        <div>
+            <h4><i class="fa-solid fa-users-gear"></i> Staff Register</h4>
+            <p class="chart-sub">Each record is tied to a login, so job queues and portals resolve correctly.</p> </div> </div>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col">Code</th>
+                    <th scope="col">Name</th>
+                    <th scope="col" class="hide-sm">Designation</th>
+                    <th scope="col">Role</th>
+                    <th scope="col" class="hide-sm">Outlet</th>
+                    <th scope="col" class="hide-sm">Joined</th>
+                    <th scope="col">State</th>
+                    <th scope="col"><span class="sr-only">Actions</span></th> </tr> </thead>
+            <tbody>
+                @if (Model.Employees.Count == 0)
+                {
+                    <tr><td colspan="8" class="table-empty">
+                        No staff records yet. Add an employee and link it to a staff login.
+                    </td></tr>
+                }
+                else
+                {
+                    foreach (var e in Model.Employees)
+                    {
+                        <tr>
+                            <td><strong class="mono">@e.EmployeeCode</strong></td>
+                            <td>
+                                <div class="cell-title">@e.FullName</div>
+                                <div class="cell-sub">
+                                    @(string.IsNullOrWhiteSpace(e.Phone) ? "—" : e.Phone)
+                                    @if (!string.IsNullOrWhiteSpace(e.Email))
+                                    {
+                                        <text> · @e.Email</text>
+                                    }
+                                </div> </td>
+                            <td class="hide-sm">
+                                @(string.IsNullOrWhiteSpace(e.Designation) ? "—" : e.Designation) </td>
+                            <td><span class="badge badge-muted">@e.Role</span></td>
+                            <td class="hide-sm">
+                                @if (string.IsNullOrWhiteSpace(e.ShopName))
+                                {
+                                    <span class="muted">Unassigned</span>
+                                }
+                                else
+                                {
+                                    @e.ShopName
+                                } </td>
+                            <td class="hide-sm">@e.JoinedOn</td>
+                            <td>
+                                <span class="badge badge-@(e.IsActive ? "success" : "muted")">
+                                    @(e.IsActive ? "Active" : "Inactive") </span> </td>
+                            <td class="actions">
+                                <a href="@Url.Action("EditEmployee", new { id = e.Id })" class="btn btn-ghost btn-sm">
+                                    <i class="fa-solid fa-pen"></i> Edit </a>
+
+                                <form method="post" asp-action="ToggleEmployee" asp-route-id="@e.Id">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="active" value="@(!e.IsActive)" />
+                                    <button type="submit" class="btn btn-ghost btn-sm">
+                                        <i class="fa-solid @(e.IsActive ? "fa-user-slash" : "fa-user-check")"></i>
+                                        @(e.IsActive ? "Deactivate" : "Reactivate") </button> </form>
+                            </td> </tr>
+                    }
+                } </tbody> </table> </div>
+</div>

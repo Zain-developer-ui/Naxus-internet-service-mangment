@@ -181,34 +181,47 @@
     animation-delay: 0.5s;
 }
 
-.reveal {
+/* The reveal only arms itself once the script that disarms it is running.
+   Armed unconditionally, a script failure or a print stylesheet leaves every
+   revealed section at opacity 0 - a blank page with a correct DOM. */
+.js .reveal {
     opacity: 0;
     transform: translateY(28px);
     transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
     will-change: opacity, transform;
 }
 
-    .reveal.in-view {
+    .js .reveal.in-view {
         opacity: 1;
         transform: translateY(0);
     }
 
-.reveal-left {
+.js .reveal-left {
     opacity: 0;
     transform: translateX(-32px);
     transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.reveal-right {
+.js .reveal-right {
     opacity: 0;
     transform: translateX(32px);
     transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-    .reveal-left.in-view, .reveal-right.in-view {
+    .js .reveal-left.in-view, .js .reveal-right.in-view {
         opacity: 1;
         transform: translateX(0);
     }
+
+/* Printing is a static medium; the scroll that would reveal these never runs. */
+@media print {
+    .js .reveal,
+    .js .reveal-left,
+    .js .reveal-right {
+        opacity: 1;
+        transform: none;
+    }
+}
 
 .hover-lift {
     transition: transform var(--ease), box-shadow var(--ease);

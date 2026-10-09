@@ -1,0 +1,113 @@
+@model NEXUS.Models.ViewModels.VendorEditViewModel
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = Model.PageTitle + " — NEXUS";
+}
+
+@section DashboardStyles {
+    <link rel="stylesheet" href="~/css/dashboards-luxury.css" />
+    <link rel="stylesheet" href="~/css/admin.css" />
+}
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/Admin/Dashboard">Admin</a>
+    <span class="sep">/</span>
+    <a href="@Url.Action("Index")">Vendors</a>
+    <span class="sep">/</span>
+    <span class="current">@(Model.IsNew ? "New" : Model.Name)</span>
+</nav>
+
+<div class="page-header reveal">
+    <div>
+        <h1>
+            <i class="fa-solid @(Model.IsNew ? "fa-plus" : "fa-pen")" style="color:var(--nexus-blue);"></i>
+            @(Model.IsNew ? "New Vendor" : Model.Name) </h1>
+        <p class="muted">Supplier details as they appear on purchase orders.</p> </div>
+    <div class="page-header-actions">
+        <a href="@Url.Action("Index")" class="btn btn-ghost">
+            <i class="fa-solid fa-arrow-left"></i> Back to vendors </a> </div>
+</div>
+
+<form method="post" asp-action="@(Model.IsNew ? "Create" : "Edit")" asp-route-id="@Model.Id" novalidate>
+    @Html.AntiForgeryToken()
+
+    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+    <div class="edit-layout">
+        <div class="edit-main">
+            <div class="chart-card reveal">
+                <div class="chart-head">
+                    <div>
+                        <h4><i class="fa-solid fa-circle-info"></i> Vendor Details</h4>
+                        <p class="chart-sub">Company name and registration.</p> </div> </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label asp-for="Name">Vendor Name <span class="req">*</span></label>
+                        <input asp-for="Name" placeholder="TechnoLink Distributors" autocomplete="off" required />
+                        <span asp-validation-for="Name" class="field-error"></span> </div>
+
+                    <div class="form-group">
+                        <label asp-for="TaxNumber">Tax / NTN Number <span class="opt">optional</span></label>
+                        <input asp-for="TaxNumber" placeholder="1234567-8" autocomplete="off" />
+                        <span class="form-hint">Must be unique when supplied.</span>
+                        <span asp-validation-for="TaxNumber" class="field-error"></span> </div> </div>
+
+                <div class="form-group">
+                    <label asp-for="Address">Address <span class="opt">optional</span></label>
+                    <input asp-for="Address" placeholder="Warehouse 4, Industrial Estate, Lahore" autocomplete="off" />
+                    <span asp-validation-for="Address" class="field-error"></span> </div> </div>
+
+            <div class="chart-card reveal" style="margin-top:18px;">
+                <div class="chart-head">
+                    <div>
+                        <h4><i class="fa-solid fa-address-book"></i> Contact</h4>
+                        <p class="chart-sub">Who the procurement team deals with.</p> </div> </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label asp-for="ContactPerson">Contact Person <span class="opt">optional</span></label>
+                        <input asp-for="ContactPerson" placeholder="Imran Sheikh" autocomplete="off" />
+                        <span asp-validation-for="ContactPerson" class="field-error"></span> </div>
+
+                    <div class="form-group">
+                        <label asp-for="Phone">Phone <span class="opt">optional</span></label>
+                        <input asp-for="Phone" placeholder="03001234567" autocomplete="off" />
+                        <span asp-validation-for="Phone" class="field-error"></span> </div> </div>
+
+                <div class="form-group">
+                    <label asp-for="Email">Email <span class="opt">optional</span></label>
+                    <input asp-for="Email" type="email" placeholder="sales@technolink.example" autocomplete="off" />
+                    <span asp-validation-for="Email" class="field-error"></span> </div> </div>
+        </div>
+
+        <aside class="edit-side">
+            <div class="chart-card">
+                <div class="chart-head">
+                    <h4><i class="fa-solid fa-sliders"></i> Status</h4> </div>
+
+                <div class="form-group">
+                    <label class="checkbox-line">
+                        <input asp-for="IsActive" />
+                        <span>Active — can receive new orders</span> </label>
+                    <span class="form-hint">A suspended vendor keeps its history but cannot be ordered from.</span> </div>
+
+                @if (!Model.IsNew)
+                {
+                    <div class="form-group">
+                        <label>Purchase Orders</label>
+                        <div><span class="count-pill">@Model.PurchaseOrderCount</span></div>
+                        <span class="form-hint">A vendor with history is suspended, never deleted.</span> </div>
+                } </div>
+
+            <div class="chart-card" style="margin-top:18px;">
+                <div class="chart-head">
+                    <h4><i class="fa-solid fa-floppy-disk"></i> Save</h4> </div>
+                <div class="side-actions">
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <i class="fa-solid fa-circle-check"></i>
+                        @(Model.IsNew ? "Add Vendor" : "Save Changes") </button>
+                    <a href="@Url.Action("Index")" class="btn btn-ghost btn-block">Cancel</a> </div> </div>
+        </aside>
+    </div>
+</form>

@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using NEXUS.Common;
 using NEXUS.Common.Abstractions;
 using NEXUS.Common.Constants;
+using NEXUS.Common.Extensions;
 using NEXUS.Data;
 using NEXUS.Domain.Orders;
 using NEXUS.Models.ViewModels;
@@ -398,7 +399,7 @@ public sealed class FeasibilityService : IFeasibilityService
             return Result<ConnectionDetail>.Conflict(
                 $"{connection.ConnectionNumber} is already {target.DisplayName()}.");
 
-        if (!IsLegalMove(from, target))
+        if (!from.IsLegalMove(target))
             return Result<ConnectionDetail>.Conflict(
                 $"{connection.ConnectionNumber} cannot move from {from.DisplayName()} to {target.DisplayName()}.");
 
@@ -420,24 +421,6 @@ public sealed class FeasibilityService : IFeasibilityService
             ? Result<ConnectionDetail>.Ok(refreshed.Value!)
             : Result<ConnectionDetail>.Ok(ToDetail(connection));
     }
-
-    private static bool IsLegalMove(ConnectionStatus from, ConnectionStatus to) => (from, to) switch
-    {
-        // A new line goes live.
-        (ConnectionStatus.Pending, ConnectionStatus.Active) => true,
-
-        // A line can be suspended by either party, temporarily or for good.
-        (ConnectionStatus.Pending, ConnectionStatus.TemporarilyInactive) => true,
-        (ConnectionStatus.Pending, ConnectionStatus.PermanentlyInactive) => true,
-        (ConnectionStatus.Active, ConnectionStatus.TemporarilyInactive) => true,
-        (ConnectionStatus.Active, ConnectionStatus.PermanentlyInactive) => true,
-
-        // Only a temporary suspension can be reversed.
-        (ConnectionStatus.TemporarilyInactive, ConnectionStatus.Active) => true,
-        (ConnectionStatus.TemporarilyInactive, ConnectionStatus.PermanentlyInactive) => true,
-
-        _ => false
-    };
 
     // ---------------------------------------------------------------- helpers
 
@@ -526,7 +509,7 @@ public sealed class FeasibilityService : IFeasibilityService
             ConnectionStatus.PermanentlyInactive
         };
 
-        return all.Where(t => t != from && IsLegalMove(from, t))
+        return all.Where(t => t != from && from.IsLegalMove(t))
                   .Select(t => new StatusMove(t, t.DisplayName()))
                   .ToList();
     }

@@ -223,6 +223,14 @@
     gap: 22px;
 }
 
+/* Inside a grid the gap already separates the cards, so the stacked margin
+   would only double it. This is why views used to carry margin-bottom:0. */
+.dash-grid-1 > .chart-card,
+.dash-grid-2 > .chart-card,
+.dash-grid-3 > .chart-card {
+    margin-bottom: 0;
+}
+
 @media (max-width: 1100px) {
     .dash-grid,
     .dash-grid-2,
@@ -257,7 +265,8 @@
         flex-wrap: wrap;
     }
 
-    .chart-card h4 {
+    .chart-card h4,
+    .chart-card h3 {
         margin: 0;
         font-size: 1.08rem;
         display: flex;
@@ -266,7 +275,8 @@
         color: var(--nexus-navy);
     }
 
-        .chart-card h4 i {
+        .chart-card h4 i,
+        .chart-card h3 i {
             color: var(--nexus-blue);
         }
 
@@ -883,8 +893,276 @@
 /* Avatar shown on the profile banner. Inherits the banner's
    dark backdrop, so it needs its own contrast treatment. */
 .banner-avatar {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
     background: rgba(255, 255, 255, 0.15);
     color: var(--nexus-text-invert);
     border: 3px solid rgba(255, 255, 255, 0.25);
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Avatar and the text beside it travel together on narrow screens. */
+.banner-identity {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+/* A badge that sits on the banner's dark backdrop rather than on white. */
+.badge-ghost {
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--nexus-text-invert);
+}
+
+/* Stat cards whose value is a word or a date, not a figure. */
+.stat-card .stat-value.compact {
+    font-size: 1.15rem;
+    font-weight: 700;
+}
+
+/* Buttons that belong to the block above them rather than the page. */
+.inline-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+}
+
+/* A stats grid sitting inside a card is already separated by the card's own
+   padding, so the stacked margin would only add space below it. */
+.stats-grid.dash-flush {
+    margin-bottom: 0;
+}
+
+/* Filter forms put each control on its own label-value pair and wrap rather
+   than shrinking the inputs into unusable slivers. */
+.filter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    align-items: end;
+}
+
+    .filter-grid .filter-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+/* A count beside a section heading reads as part of the heading, not a badge. */
+.dash-heading .count {
+    margin-left: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--nexus-muted);
+}
+
+/* ---------------------------------------------------------
+   9. ADMIN OVERVIEW
+   --------------------------------------------------------- */
+
+/* Sections breathe on one rhythm instead of a margin inline on every
+   grid. Anything stacked on a dashboard uses this and nothing else. */
+.dash-section {
+    margin-top: 22px;
+}
+
+/* A section holding a single card should not leave half the row empty. */
+.dash-grid-1 {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+}
+
+/* More space above a heading than below it, so the heading belongs to the
+   block underneath rather than floating between two. */
+.dash-section > .dash-heading {
+    margin: 0 0 12px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    color: var(--nexus-navy);
+}
+
+/* One surface split by hairlines rather than four boxes. The board answers
+   "what is waiting on someone", and four separate cards would read as four
+   unrelated widgets instead of one queue. */
+.attention-board {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    background: var(--nexus-surface);
+    border: 1px solid var(--nexus-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.attention-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 20px 22px 18px;
+    text-decoration: none;
+    color: inherit;
+    transition: background var(--ease);
+}
+
+    .attention-cell + .attention-cell {
+        border-left: 1px solid var(--nexus-border);
+    }
+
+    .attention-cell:hover {
+        background: var(--nexus-surface-3);
+    }
+
+    .attention-cell:focus-visible {
+        outline: 2px solid var(--nexus-blue);
+        outline-offset: -3px;
+    }
+
+    .attention-cell .attention-label {
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        color: var(--nexus-muted);
+    }
+
+    .attention-cell .attention-value {
+        font-size: 1.85rem;
+        font-weight: 800;
+        line-height: 1;
+        letter-spacing: -0.03em;
+        color: var(--nexus-navy);
+        font-variant-numeric: tabular-nums;
+    }
+
+    .attention-cell .attention-go {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.78rem;
+        color: var(--nexus-muted);
+        transition: color var(--ease), gap var(--ease);
+    }
+
+    .attention-cell:hover .attention-go {
+        color: var(--nexus-blue-dark);
+        gap: 10px;
+    }
+
+    /* Work that is blocked on a person carries the warning ink, so the board
+       sorts itself by eye without introducing a second colour system. */
+    .attention-cell.is-open .attention-value {
+        color: var(--nexus-warning-dark);
+    }
+
+    .attention-cell.is-clear .attention-value {
+        color: var(--nexus-muted);
+        font-weight: 600;
+    }
+
+/* Secondary totals. No boxes, no icons - these are reference figures the
+   reader checks once, not actions to take. */
+.figures-strip {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1px;
+    margin-top: 14px;
+    background: var(--nexus-border);
+    border: 1px solid var(--nexus-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.figure-cell {
+    background: var(--nexus-surface-2);
+    padding: 14px 22px;
+}
+
+    .figure-cell dt {
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--nexus-muted);
+        margin: 0 0 4px;
+    }
+
+    .figure-cell dd {
+        margin: 0;
+        font-size: 1.15rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: var(--nexus-navy);
+        font-variant-numeric: tabular-nums;
+    }
+
+/* Identifiers, receipt numbers and account codes line up only when the
+   digits share a width, and an identifier broken across two lines is no
+   longer an identifier. */
+.mono {
+    font-family: ui-monospace, 'SFMono-Regular', 'Cascadia Mono', Consolas, monospace;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+    .attention-board,
+    .figures-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+        .attention-cell + .attention-cell {
+            border-left: 0;
+        }
+
+        .attention-cell:nth-child(odd) {
+            border-right: 1px solid var(--nexus-border);
+        }
+
+        .attention-cell:nth-child(n + 3) {
+            border-top: 1px solid var(--nexus-border);
+        }
+
+        .figure-cell:nth-child(odd) {
+            border-right: 1px solid var(--nexus-border);
+        }
+
+        .figure-cell:nth-child(n + 3) {
+            border-top: 1px solid var(--nexus-border);
+        }
+}
+
+@media (max-width: 560px) {
+    .attention-board,
+    .figures-strip {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+        .attention-cell:nth-child(odd) {
+            border-right: 0;
+        }
+
+        .attention-cell + .attention-cell {
+            border-top: 1px solid var(--nexus-border);
+        }
+
+        .figure-cell:nth-child(odd) {
+            border-right: 0;
+        }
+
+        .figure-cell + .figure-cell {
+            border-top: 1px solid var(--nexus-border);
+        }
 }

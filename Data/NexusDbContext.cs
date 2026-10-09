@@ -17,6 +17,7 @@ public class NexusDbContext : DbContext
     public DbSet<AppUser> Users => Set<AppUser>();
     public DbSet<Employee> Employees => Set<Employee>();
     public DbSet<RetailShop> RetailShops => Set<RetailShop>();
+    public DbSet<SiteSetting> SiteSettings => Set<SiteSetting>();
 
     public DbSet<Plan> Plans => Set<Plan>();
     public DbSet<PlanPrice> PlanPrices => Set<PlanPrice>();

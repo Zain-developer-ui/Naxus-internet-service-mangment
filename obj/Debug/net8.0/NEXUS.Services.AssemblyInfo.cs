@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NEXUS.Services")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f3bf102644737b92ceeeba73f7342d283263ca5a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+72ed9c12dc4a1c623e38f7dbb2cea702495448cf")]
 [assembly: System.Reflection.AssemblyProductAttribute("NEXUS.Services")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NEXUS.Services")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

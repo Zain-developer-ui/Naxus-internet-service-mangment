@@ -1,0 +1,98 @@
+@model NEXUS.Models.ViewModels.ProductEditViewModel
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = Model.PageTitle + " — NEXUS";
+}
+
+@section DashboardStyles {
+    <link rel="stylesheet" href="~/css/dashboards-luxury.css" />
+    <link rel="stylesheet" href="~/css/admin.css" />
+}
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/Admin/Dashboard">Admin</a>
+    <span class="sep">/</span>
+    <a href="@Url.Action("Products")">Equipment</a>
+    <span class="sep">/</span>
+    <span class="current">@(Model.IsNew ? "New" : Model.Name)</span>
+</nav>
+
+<div class="page-header reveal">
+    <div>
+        <h1>
+            <i class="fa-solid @(Model.IsNew ? "fa-plus" : "fa-pen")" style="color:var(--nexus-blue);"></i>
+            @(Model.IsNew ? "New Equipment" : Model.Name) </h1>
+        <p class="muted">The catalogue entry stock is counted against.</p> </div>
+    <div class="page-header-actions">
+        <a href="@Url.Action("Products")" class="btn btn-ghost">
+            <i class="fa-solid fa-arrow-left"></i> Back to equipment </a> </div>
+</div>
+
+<form method="post" asp-action="@(Model.IsNew ? "CreateProduct" : "EditProduct")" asp-route-id="@Model.Id" novalidate>
+    @Html.AntiForgeryToken()
+
+    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+    <div class="edit-layout">
+        <div class="edit-main">
+            <div class="chart-card reveal">
+                <div class="chart-head">
+                    <div>
+                        <h4><i class="fa-solid fa-circle-info"></i> Equipment Details</h4>
+                        <p class="chart-sub">How the item is identified and counted.</p> </div> </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label asp-for="Sku">SKU <span class="req">*</span></label>
+                        <input asp-for="Sku" placeholder="EQ-MDM-001" autocomplete="off" required />
+                        <span class="form-hint">Short internal code. Must be unique.</span>
+                        <span asp-validation-for="Sku" class="field-error"></span> </div>
+
+                    <div class="form-group">
+                        <label asp-for="Name">Product Name <span class="req">*</span></label>
+                        <input asp-for="Name" placeholder="ADSL Modem (Wireless)" autocomplete="off" required />
+                        <span asp-validation-for="Name" class="field-error"></span> </div> </div>
+
+                <div class="form-group">
+                    <label asp-for="Description">Description <span class="opt">optional</span></label>
+                    <textarea asp-for="Description" rows="3" maxlength="200"
+                              placeholder="Model, ports, anything a technician needs to know."></textarea>
+                    <span asp-validation-for="Description" class="field-error"></span> </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label asp-for="UnitPrice">Unit Price (USD) <span class="opt">optional</span></label>
+                        <input asp-for="UnitPrice" type="number" step="0.01" min="0" placeholder="0.00" />
+                        <span class="form-hint">
+                            Leave empty. The SRS charges for replacement, not for supplied equipment.
+                        </span>
+                        <span asp-validation-for="UnitPrice" class="field-error"></span> </div>
+
+                    <div class="form-group">
+                        <label asp-for="LowStockThreshold">Low Stock Threshold</label>
+                        <input asp-for="LowStockThreshold" type="number" min="0" />
+                        <span class="form-hint">Flag the item once on-hand drops below this.</span>
+                        <span asp-validation-for="LowStockThreshold" class="field-error"></span> </div> </div> </div>
+        </div>
+
+        <aside class="edit-side">
+            <div class="chart-card">
+                <div class="chart-head">
+                    <h4><i class="fa-solid fa-sliders"></i> Availability</h4> </div>
+
+                <div class="form-group">
+                    <label class="checkbox-line">
+                        <input asp-for="IsActive" />
+                        <span>Active — used in new stock entries</span> </label> </div> </div>
+
+            <div class="chart-card" style="margin-top:18px;">
+                <div class="chart-head">
+                    <h4><i class="fa-solid fa-floppy-disk"></i> Save</h4> </div>
+                <div class="side-actions">
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <i class="fa-solid fa-circle-check"></i>
+                        @(Model.IsNew ? "Add Equipment" : "Save Changes") </button>
+                    <a href="@Url.Action("Products")" class="btn btn-ghost btn-block">Cancel</a> </div> </div>
+        </aside>
+    </div>
+</form>

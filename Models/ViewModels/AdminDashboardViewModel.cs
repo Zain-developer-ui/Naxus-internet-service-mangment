@@ -1,9 +1,9 @@
 namespace NEXUS.Models.ViewModels;
 
 /**
- * Live figures for the admin overview. Counts are nullable-free integers taken
- * straight from the database; the charts stay empty until a reporting endpoint
- * exists rather than showing an invented trend line.
+ * Live figures for the admin overview. Counts come straight from the database;
+ * the trend series is handed in from the report service so the dashboard shows
+ * the same numbers the reports page does.
  */
 public sealed class AdminDashboardData
 {
@@ -21,6 +21,8 @@ public sealed class AdminDashboardData
     public int DialUpConnections { get; set; }
     public int TelephoneConnections { get; set; }
 
+    public IReadOnlyList<TrendPoint> Trend { get; set; } = Array.Empty<TrendPoint>();
+
     public IReadOnlyList<RecentOrderRow> RecentOrders { get; set; } = Array.Empty<RecentOrderRow>();
     public IReadOnlyList<RecentPaymentRow> RecentPayments { get; set; } = Array.Empty<RecentPaymentRow>();
     public IReadOnlyList<RecentCustomerRow> RecentCustomers { get; set; } = Array.Empty<RecentCustomerRow>();
@@ -31,7 +33,15 @@ public sealed class AdminDashboardData
     public bool HasAnyOrder => RecentOrders.Count > 0;
     public bool HasAnyPayment => RecentPayments.Count > 0;
     public bool HasAnyCustomer => RecentCustomers.Count > 0;
+
+    // A flat run of months is not a trend worth drawing, and a series that is
+    // zero everywhere is a blank rectangle under a heading.
+    public bool HasTrend => HasRevenue || HasOrders;
+    public bool HasRevenue => Trend.Any(p => p.Revenue > 0);
+    public bool HasOrders => Trend.Any(p => p.Orders > 0);
 }
+
+public sealed record TrendPoint(string Label, decimal Revenue, int Orders);
 
 public sealed record RecentOrderRow(
     string OrderId,

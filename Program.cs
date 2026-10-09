@@ -8,6 +8,7 @@ using NEXUS.Services.Billing;
 using NEXUS.Services.Catalog;
 using NEXUS.Services.Feedback;
 using NEXUS.Services.Orders;
+using NEXUS.Services.Reporting;
 using NEXUS.Services.CustomerPortal;
 using NEXUS.Services.Dashboards;
 using NEXUS.Services.Feasibility;
@@ -16,6 +17,11 @@ using NEXUS.Services.Profile;
 using NEXUS.Services.Registration;
 using NEXUS.Services.Search;
 using NEXUS.Services.Security;
+using NEXUS.Services.Settings;
+using NEXUS.Services.Inventory;
+using NEXUS.Services.Lifecycle;
+using NEXUS.Services.Organisation;
+using NEXUS.Services.Procurement;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -56,11 +62,20 @@ builder.Services.AddScoped<IAccountsDashboardService, AccountsDashboardService>(
 builder.Services.AddScoped<ITechnicalDashboardService, TechnicalDashboardService>();
 builder.Services.AddScoped<IRetailDashboardService, RetailDashboardService>();
 builder.Services.AddScoped<ISearchService, SearchService>();
+builder.Services.AddScoped<IAdvancedSearchService, AdvancedSearchService>();
 builder.Services.AddScoped<IPlanAdminService, PlanAdminService>();
 builder.Services.AddScoped<IOrderTrackingService, OrderTrackingService>();
+builder.Services.AddScoped<IOrderRegisterService, OrderRegisterService>();
 builder.Services.AddScoped<IServiceCatalogService, ServiceCatalogService>();
 builder.Services.AddScoped<IFeedbackService, FeedbackService>();
 builder.Services.AddScoped<IContactMessageService, ContactMessageService>();
+builder.Services.AddScoped<IReportService, ReportService>();
+builder.Services.AddScoped<ISettingsAdminService, SettingsAdminService>();
+builder.Services.AddScoped<ISiteSettingsService, SiteSettingsService>();
+builder.Services.AddScoped<IInventoryService, InventoryService>();
+builder.Services.AddScoped<IVendorService, VendorService>();
+builder.Services.AddScoped<IOrganisationService, OrganisationService>();
+builder.Services.AddScoped<IConnectionLifecycleService, ConnectionLifecycleService>();
 
 builder.Services
     .AddAuthentication(SignInService.Scheme)

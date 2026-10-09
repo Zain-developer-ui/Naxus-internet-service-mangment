@@ -69,23 +69,8 @@
         recalc();
     }
 
-    /*
-     * Confirm before a destructive submit. The message lives on the form's
-     * data-confirm so the markup stays readable.
-     */
-    function initConfirm() {
-        document.querySelectorAll('form[data-confirm]').forEach(function (form) {
-            form.addEventListener('submit', function (e) {
-                if (!window.confirm(form.getAttribute('data-confirm'))) {
-                    e.preventDefault();
-                }
-            });
-        });
-    }
-
     document.addEventListener('DOMContentLoaded', function () {
         initUnlimitedToggle();
         initPricing();
-        initConfirm();
     });
 })();

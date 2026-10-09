@@ -1,0 +1,135 @@
+@model NEXUS.Models.ViewModels.StockDetailPage
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = Model.Item.ProductName + " — Stock";
+}
+
+@section DashboardStyles {
+    <link rel="stylesheet" href="~/css/dashboards-luxury.css" />
+    <link rel="stylesheet" href="~/css/admin.css" />
+}
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/Admin/Dashboard">Admin</a>
+    <span class="sep">/</span>
+    <a href="@Url.Action("Index")">Inventory</a>
+    <span class="sep">/</span>
+    <span class="current">@Model.Item.ProductName</span>
+</nav>
+
+<div class="page-header reveal">
+    <div>
+        <h1><i class="fa-solid fa-boxes-stacked" style="color:var(--nexus-blue);"></i> @Model.Item.ProductName</h1>
+        <p class="muted">
+            <span class="mono">@Model.Item.Sku</span> &middot; held at @Model.Item.ShopName (@Model.Item.OutletCode)
+        </p>
+    </div>
+    <div class="page-header-actions">
+        <a href="@Url.Action("Index")" class="btn btn-ghost">
+            <i class="fa-solid fa-arrow-left"></i> Back to stock </a>
+    </div>
+</div>
+
+@if (TempData["Success"] is string ok)
+{
+    <div class="alert alert-success reveal" role="status">
+        <i class="fa-solid fa-circle-check"></i> @ok </div>
+}
+
+<div class="stats-grid reveal">
+    <div class="stat-card">
+        <div class="stat-icon @(Model.Item.IsBelowThreshold ? "warning" : "success")">
+            <i class="fa-solid fa-cubes"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value">@Model.Item.Quantity</div>
+            <div class="stat-label">Units On Hand</div> </div> </div>
+    <div class="stat-card">
+        <div class="stat-icon navy"><i class="fa-solid fa-arrow-down-wide-short"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value">@Model.Item.LowStockThreshold</div>
+            <div class="stat-label">Low Stock Threshold</div> </div> </div>
+    <div class="stat-card">
+        <div class="stat-icon blue"><i class="fa-solid fa-clock-rotate-left"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value">@Model.Movements.Count</div>
+            <div class="stat-label">Movements Logged</div> </div> </div>
+</div>
+
+<div class="edit-layout reveal" style="margin-top:22px;">
+    <div class="edit-main">
+        <div class="chart-card">
+            <div class="chart-head">
+                <div>
+                    <h4><i class="fa-solid fa-clock-rotate-left"></i> Movement Ledger</h4>
+                    <p class="chart-sub">Receipts, issues, damages and corrections. Newest first.</p> </div> </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">When</th>
+                            <th scope="col" class="num">Change</th>
+                            <th scope="col" class="num">After</th>
+                            <th scope="col">Reason</th> </tr> </thead>
+                    <tbody>
+                        @if (Model.Movements.Count == 0)
+                        {
+                            <tr><td colspan="4" class="table-empty">
+                                No movement recorded yet. The opening balance was set when stock was first received.
+                            </td></tr>
+                        }
+                        else
+                        {
+                            foreach (var m in Model.Movements)
+                            {
+                                <tr>
+                                    <td>@m.OccurredAt</td>
+                                    <td class="num">
+                                        <strong style="color:var(--nexus-@(m.IsIncrease ? "success" : "danger"));">
+                                            @m.DeltaLabel
+                                        </strong> </td>
+                                    <td class="num">@m.QuantityAfter</td>
+                                    <td>
+                                        <div class="cell-title">@m.Reason</div>
+                                        @if (!string.IsNullOrWhiteSpace(m.PoNumber))
+                                        {
+                                            <div class="cell-sub">PO @m.PoNumber</div>
+                                        } </td> </tr>
+                            }
+                        } </tbody> </table> </div>
+        </div>
+    </div>
+
+    <aside class="edit-side">
+        <form method="post" asp-action="Adjust" asp-route-id="@Model.Item.Id" novalidate>
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="Adjust.StockItemId" />
+
+            <div class="chart-card">
+                <div class="chart-head">
+                    <h4><i class="fa-solid fa-arrow-right-arrow-left"></i> Adjust Stock</h4> </div>
+
+                <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+                <div class="form-group">
+                    <label asp-for="Adjust.QuantityDelta">
+                        Quantity Change <span class="req">*</span> </label>
+                    <input asp-for="Adjust.QuantityDelta" type="number" placeholder="-3 or 12" />
+                    <span class="form-hint">
+                        Positive to receive, negative to issue. On hand is @Model.Item.Quantity.
+                    </span>
+                    <span asp-validation-for="Adjust.QuantityDelta" class="field-error"></span> </div>
+
+                <div class="form-group">
+                    <label asp-for="Adjust.Reason">Reason <span class="req">*</span></label>
+                    <input asp-for="Adjust.Reason" maxlength="200"
+                           placeholder="Issued to installation #…" autocomplete="off" />
+                    <span class="form-hint">Audited against the ledger, so it is never optional.</span>
+                    <span asp-validation-for="Adjust.Reason" class="field-error"></span> </div>
+
+                <button type="submit" class="btn btn-primary btn-block">
+                    <i class="fa-solid fa-circle-check"></i> Record Adjustment </button>
+            </div>
+        </form>
+    </aside>
+</div>

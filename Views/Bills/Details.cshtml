@@ -5,7 +5,6 @@
     Layout = "_DashboardLayout";
     var bill = Model.Bill.Bill;
     ViewData["Title"] = $"Invoice {bill.BillNumber} — NEXUS";
-    ViewData["ActiveSidebar"] = "bills";
 
     var owner = Model.Bill;
     var discountRate = bill.SubTotal > 0 ? bill.DiscountAmount / bill.SubTotal : 0m;

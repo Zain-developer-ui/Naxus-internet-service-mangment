@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="NEXUS — Reliable Telecommunication & Internet Services." />
+    <title>Website Settings &#x2014; NEXUS</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <link rel="stylesheet" href="/css/site.css" />
+    <link rel="stylesheet" href="/css/buttons.css" />
+    <link rel="stylesheet" href="/css/components.css" />
+    <link rel="stylesheet" href="/css/navbar.css" />
+    <link rel="stylesheet" href="/css/cards.css" />
+    <link rel="stylesheet" href="/css/forms.css" />
+    <link rel="stylesheet" href="/css/tables.css" />
+    <link rel="stylesheet" href="/css/sidebar.css" />
+    <link rel="stylesheet" href="/css/animations.css" />
+    <link rel="stylesheet" href="/css/toast.css" />
+    <link rel="stylesheet" href="/css/dashboard.css" />
+    <link rel="stylesheet" href="/css/services.css" />
+    <link rel="stylesheet" href="/css/pricing.css" />
+    <link rel="stylesheet" href="/css/dashboards-luxury.css" />
+    <link rel="stylesheet" href="/css/public-pages.css" />
+    <link rel="stylesheet" href="/css/orders.css" />
+    <link rel="stylesheet" href="/css/home.css" />
+    <link rel="stylesheet" href="/css/responsive.css" />
+    
+    
+    <link rel="stylesheet" href="/css/dashboards-luxury.css" />
+    <link rel="stylesheet" href="/css/admin.css" />
+
+
+</head>
+<body class="dashboard-body">
+    
+<header class="nexus-navbar">
+    <div class="container nav-inner">
+        <a href="/" class="brand" aria-label="NEXUS Home">
+            <span class="brand-mark">N</span>
+            <span class="brand-text">NEXUS</span> </a>
+
+        <button class="nav-toggle" aria-label="Toggle navigation" data-nav-toggle>
+            <i class="fa-solid fa-bars"></i> </button>
+
+        <nav class="nav-links" data-nav-links aria-label="Primary">
+            <a href="/">Home</a>
+            <a href="/Services">Services</a>
+            <a href="/Plans">Plans</a>
+            <a href="/Orders/Tracking">Track Order</a>
+            <a href="/Account/Status">Account Status</a> </nav>
+
+        <div class="nav-actions">
+                <a href="/Admin/Dashboard" class="btn btn-ghost btn-sm">
+                    <i class="fa-solid fa-gauge-high"></i> My Dashboard </a>
+                <form method="post" class="nav-logout" action="/Account/Logout">
+                    
+                    <button type="submit" class="btn btn-primary btn-sm">
+                        <i class="fa-solid fa-right-from-bracket"></i> Logout </button> <input name="__RequestVerificationToken" type="hidden" value="CfDJ8Kyicka_9F5LvaRJu_0Q9bAuEqSjkJRoucoMs7fMK7y09V_RNB-dBjU2Rz9AZY2lHuR6ouML3Dg0tQDxD50Erb7l2k9L97Es3HYOjgq1c-U95ubwmevW0d_iueHDUih0WfGiPFr-JDVwcGbuwsK1rxeybBuKEQrmSDTUC8CB40U6otSzAvDq8IIjjzjIvhaviw" /></form>
+        </div>
+    </div>
+</header>
+
+    
+
+    <main b-5men529xfw class="page-wrapper">
+        
+
+<div class="dashboard-shell">
+
+    
+<aside class="dashboard-sidebar" data-sidebar>
+    <div class="sidebar-brand">
+        <a href="/" class="brand">
+            <span class="brand-mark">N</span>
+            <span class="brand-text">NEXUS</span> </a>
+        <button class="sidebar-close" data-sidebar-close aria-label="Close sidebar">
+            <i class="fa-solid fa-xmark"></i> </button> </div>
+
+        <nav class="sidebar-nav" aria-label="Admin navigation">
+            <span class="nav-section">Overview</span>
+            <a href="/Admin/Dashboard" class=""><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
+            <a href="/Reports" class=""><i class="fa-solid fa-chart-line"></i> Reports</a>
+
+            <span class="nav-section">Operations</span>
+            <a href="/Operations" class=""><i class="fa-solid fa-clipboard-check"></i> Survey Queue</a>
+            <a href="/Operations/Connections" class=""><i class="fa-solid fa-plug-circle-check"></i> Connections</a>
+            <a href="/Retail/Search" class=""><i class="fa-solid fa-users"></i> Customers</a>
+            <a href="/Retail/Dashboard" class=""><i class="fa-solid fa-store"></i> Retail Sales</a>
+            <a href="/Admin/Plans" class=""><i class="fa-solid fa-layer-group"></i> Plans</a>
+            <a href="/Admin/Orders" class=""><i class="fa-solid fa-box"></i> Orders</a>
+            <a href="/Technical/Dashboard" class=""><i class="fa-solid fa-screwdriver-wrench"></i> Installations</a>
+            <a href="/Accounts/Dashboard" class=""><i class="fa-solid fa-file-invoice"></i> Billing</a>
+
+            <span class="nav-section">Back Office</span>
+            <a href="/Admin/Inventory" class=""><i class="fa-solid fa-boxes-stacked"></i> Inventory</a>
+            <a href="/Admin/Inventory/Products" class=""><i class="fa-solid fa-tags"></i> Equipment</a>
+            <a href="/Admin/Vendors" class=""><i class="fa-solid fa-truck-field"></i> Vendors</a>
+            <a href="/Admin/Organisation" class=""><i class="fa-solid fa-store"></i> Outlets &amp; Staff</a>
+
+            <span class="nav-section">System</span>
+            <a href="/Profile" class=""><i class="fa-solid fa-id-card"></i> My Profile</a>
+            <a href="/Admin/Settings" class="active"><i class="fa-solid fa-gear"></i> Settings</a>
+            <a href="/Admin/Settings/Cities" class=""><i class="fa-solid fa-map-location-dot"></i> Cities</a>
+            <a href="/Admin/Settings/Discounts" class=""><i class="fa-solid fa-percent"></i> Discount Slabs</a>
+            <form method="post" class="sidebar-logout" action="/Account/Logout">
+                
+                <button type="submit" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</button> <input name="__RequestVerificationToken" type="hidden" value="CfDJ8Kyicka_9F5LvaRJu_0Q9bAuEqSjkJRoucoMs7fMK7y09V_RNB-dBjU2Rz9AZY2lHuR6ouML3Dg0tQDxD50Erb7l2k9L97Es3HYOjgq1c-U95ubwmevW0d_iueHDUih0WfGiPFr-JDVwcGbuwsK1rxeybBuKEQrmSDTUC8CB40U6otSzAvDq8IIjjzjIvhaviw" /></form> </nav>
+</aside>
+
+    <div class="dashboard-main">
+        <div class="dashboard-topbar">
+    <button class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle sidebar">
+        <i class="fa-solid fa-bars"></i> </button>
+
+    <div class="topbar-actions">
+        <span class="role-pill">Administrator</span>
+
+        <button class="icon-btn" aria-label="Notifications">
+            <i class="fa-regular fa-bell"></i>
+            <span class="badge-dot"></span> </button>
+        <button class="icon-btn" aria-label="Messages">
+            <i class="fa-regular fa-envelope"></i> </button>
+
+        <div class="user-chip" data-user-menu>
+            <button type="button" class="user-chip-trigger" aria-haspopup="true" aria-expanded="false">
+                <span class="avatar-initials" aria-hidden="true">SA</span>
+                <span class="user-meta">
+                    <span class="user-name">System Administrator</span>
+                    <span class="user-role">Administrator</span> </span>
+                <i class="fa-solid fa-chevron-down" aria-hidden="true"></i> </button>
+
+            <div class="user-menu" role="menu">
+                <a role="menuitem" href="/Profile"><i class="fa-regular fa-user"></i> My profile</a>
+                <a role="menuitem" href="/Account/ChangePassword"><i class="fa-solid fa-key"></i> Change password</a>
+                <form method="post" action="/Account/Logout">
+                    
+                    <button type="submit" role="menuitem">
+                        <i class="fa-solid fa-right-from-bracket"></i> Sign out </button> <input name="__RequestVerificationToken" type="hidden" value="CfDJ8Kyicka_9F5LvaRJu_0Q9bAuEqSjkJRoucoMs7fMK7y09V_RNB-dBjU2Rz9AZY2lHuR6ouML3Dg0tQDxD50Erb7l2k9L97Es3HYOjgq1c-U95ubwmevW0d_iueHDUih0WfGiPFr-JDVwcGbuwsK1rxeybBuKEQrmSDTUC8CB40U6otSzAvDq8IIjjzjIvhaviw" /></form> </div> </div> </div>
+</div>
+
+
+        <div class="dashboard-content">
+            
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/Admin/Dashboard">Admin</a>
+    <span class="sep">/</span>
+    <span class="current">Website Settings</span>
+</nav>
+
+<div class="page-header reveal">
+    <div>
+        <h1><i class="fa-solid fa-sliders" style="color:var(--nexus-blue);"></i> Website Settings</h1>
+        <p class="muted">How the public site identifies itself, what it lets visitors do, and how long a session lasts.</p>
+    </div>
+</div>
+
+
+
+
+<div class="edit-layout reveal">
+
+    <form method="post" class="settings-form" action="/Admin/Settings">
+        
+
+            <div class="chart-card settings-group">
+                <h4>General</h4>
+                <p class="chart-sub">Names and notes that appear across the public site.</p>
+
+                    <div class="field-grid">
+                            <div class="field">
+                                <label for="site.name">Site name</label>
+
+                                    <input id="site.name" name="site.name" type="text"
+                                           value="NEXUS" class="input" autocomplete="off" />
+
+                                    <span class="hint">Shown in the navbar and page titles.</span>
+                            </div>
+                            <div class="field">
+                                <label for="site.tagline">Tagline</label>
+
+                                    <input id="site.tagline" name="site.tagline" type="text"
+                                           value="Connecting You to a Better Tomorrow" class="input" autocomplete="off" />
+
+                                    <span class="hint">Appears under the logo on the home page.</span>
+                            </div>
+                            <div class="field">
+                                <label for="site.company">Registered company</label>
+
+                                    <input id="site.company" name="site.company" type="text"
+                                           value="NEXUS Service Marketing System" class="input" autocomplete="off" />
+
+                            </div>
+                            <div class="field">
+                                <label for="site.footer">Footer note</label>
+
+                                    <input id="site.footer" name="site.footer" type="text"
+                                           value="All rights reserved." class="input" autocomplete="off" />
+
+                            </div>
+                    </div>
+            </div>
+            <div class="chart-card settings-group">
+                <h4>Branding</h4>
+                <p class="chart-sub">Colours and logo used on the marketing pages.</p>
+
+                    <div class="field-grid">
+                            <div class="field">
+                                <label for="brand.primary">Primary colour</label>
+
+                                    <input id="brand.primary" name="brand.primary" type="text"
+                                           value="#0A1F44" class="input" autocomplete="off" />
+
+                                    <span class="hint">Hex value used for headers and primary buttons.</span>
+                            </div>
+                            <div class="field">
+                                <label for="brand.accent">Accent colour</label>
+
+                                    <input id="brand.accent" name="brand.accent" type="text"
+                                           value="#1E6FE5" class="input" autocomplete="off" />
+
+                            </div>
+                            <div class="field">
+                                <label for="brand.logo">Logo path</label>
+
+                                    <input id="brand.logo" name="brand.logo" type="text"
+                                           value="/img/logo.svg" class="input" autocomplete="off" />
+
+                                    <span class="hint">Relative path under wwwroot.</span>
+                            </div>
+                    </div>
+            </div>
+            <div class="chart-card settings-group">
+                <h4>Features</h4>
+                <p class="chart-sub">Switches that turn parts of the site on or off for visitors.</p>
+
+                    <div class="field-grid">
+                            <label class="switch-field">
+                                <input type="checkbox" name="feature.registration" value="true"
+                                       checked />
+                                <span class="switch-text">
+                                    <strong>Open public registration</strong>
+                                        <span>Off means the sign-up form refuses new connections; staff can still register walk-ins.</span>
+                                </span>
+                            </label>
+                            <label class="switch-field">
+                                <input type="checkbox" name="feature.maintenance" value="true"
+                                        />
+                                <span class="switch-text">
+                                    <strong>Maintenance mode</strong>
+                                        <span>Shows a notice site-wide. Staff dashboards stay reachable.</span>
+                                </span>
+                            </label>
+                            <label class="switch-field">
+                                <input type="checkbox" name="feature.feedback" value="true"
+                                       checked />
+                                <span class="switch-text">
+                                    <strong>Collect customer feedback</strong>
+                                </span>
+                            </label>
+                            <label class="switch-field">
+                                <input type="checkbox" name="feature.autoInvoice" value="true"
+                                       checked />
+                                <span class="switch-text">
+                                    <strong>Raise bills automatically</strong>
+                                        <span>Monthly billing run; off means bills are raised by hand.</span>
+                                </span>
+                            </label>
+                    </div>
+            </div>
+            <div class="chart-card settings-group">
+                <h4>Contact</h4>
+                <p class="chart-sub">How customers reach support. Shown in the footer and on the contact page.</p>
+
+                    <div class="field-grid">
+                            <div class="field">
+                                <label for="contact.phone">Support phone</label>
+
+                                    <input id="contact.phone" name="contact.phone" type="text"
+                                           value="&#x2B;92 42 111 000 000" class="input" autocomplete="off" />
+
+                            </div>
+                            <div class="field">
+                                <label for="contact.email">Support email</label>
+
+                                    <input id="contact.email" name="contact.email" type="text"
+                                           value="support@nexus.example" class="input" autocomplete="off" />
+
+                            </div>
+                            <div class="field">
+                                <label for="contact.address">Head office</label>
+
+                                    <input id="contact.address" name="contact.address" type="text"
+                                           value="Lahore, Pakistan" class="input" autocomplete="off" />
+
+                            </div>
+                    </div>
+            </div>
+            <div class="chart-card settings-group">
+                <h4>Security</h4>
+                <p class="chart-sub">Session and sign-in policy for every account.</p>
+
+                    <div class="field-grid">
+                            <div class="field">
+                                <label for="security.sessionMinutes">Session timeout (minutes)</label>
+
+                                    <input id="security.sessionMinutes" name="security.sessionMinutes" type="number" min="0"
+                                           value="120" class="input" />
+
+                                    <span class="hint">Idle minutes before a signed-in user is returned to the login page.</span>
+                            </div>
+                            <div class="field">
+                                <label for="security.maxAttempts">Lockout after failed logins</label>
+
+                                    <input id="security.maxAttempts" name="security.maxAttempts" type="number" min="0"
+                                           value="5" class="input" />
+
+                            </div>
+                    </div>
+            </div>
+
+        <div class="side-actions" style="flex-direction:row;gap:10px;">
+            <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-floppy-disk"></i> Save settings </button>
+            <a href="/Admin/Dashboard" class="btn btn-ghost">Cancel</a>
+        </div>
+    <input name="__RequestVerificationToken" type="hidden" value="CfDJ8Kyicka_9F5LvaRJu_0Q9bAuEqSjkJRoucoMs7fMK7y09V_RNB-dBjU2Rz9AZY2lHuR6ouML3Dg0tQDxD50Erb7l2k9L97Es3HYOjgq1c-U95ubwmevW0d_iueHDUih0WfGiPFr-JDVwcGbuwsK1rxeybBuKEQrmSDTUC8CB40U6otSzAvDq8IIjjzjIvhaviw" /></form>
+
+    <aside class="edit-side">
+        <div class="chart-card">
+            <div class="chart-head">
+                <div>
+                    <h4><i class="fa-solid fa-server"></i> Runtime</h4>
+                    <p class="chart-sub">Read from the running application.</p>
+                </div>
+                <span class="badge badge-success"><i class="fa-solid fa-circle"></i> Healthy</span>
+            </div>
+
+            <div class="summary-rows">
+                <div><span>Framework</span><strong>ASP.NET Core MVC</strong></div>
+                <div><span>Environment</span><strong>Development</strong></div>
+                <div><span>Database</span><strong class="mono">NexusDb</strong></div>
+                <div><span>Server time</span><strong>08 Oct 2026, 14:28</strong></div>
+                <div><span>Uptime</span><strong>22 minutes</strong></div>
+                <div><span>Customers</span><strong>2</strong></div>
+                <div><span>Live lines</span><strong>1</strong></div>
+            </div>
+        </div>
+
+        <div class="chart-card" style="margin-top:16px;">
+            <h4>Elsewhere</h4>
+            <p class="chart-sub">Operating tables live on their own screens.</p>
+            <div class="side-actions">
+                <a href="/Admin/Settings/Cities" class="btn btn-ghost">
+                    <i class="fa-solid fa-map-location-dot"></i> Cities &amp; service areas </a>
+                <a href="/Admin/Settings/Discounts" class="btn btn-ghost">
+                    <i class="fa-solid fa-percent"></i> Bulk discount slabs </a>
+                <a href="/Admin/Plans" class="btn btn-ghost">
+                    <i class="fa-solid fa-layer-group"></i> Service plans </a>
+                <a href="/Admin/Organisation" class="btn btn-ghost">
+                    <i class="fa-solid fa-store"></i> Outlets &amp; staff </a>
+            </div>
+        </div>
+    </aside>
+</div>
+
+
+ </div>
+
+        <footer class="dashboard-footer">
+            <span>&copy; 2026 NEXUS — Connecting You to a Better Tomorrow</span> </footer> </div>
+</div>
+
+ </main>
+
+    <footer class="nexus-footer">
+    <div class="container footer-grid">
+        <div class="footer-brand">
+            <a href="/" class="brand">
+                <span class="brand-mark">N</span>
+                <span class="brand-text">NEXUS</span> </a>
+            <p class="muted small">Connecting You to a Better Tomorrow.</p>
+            <p class="muted small">Reliable Telecommunication &amp; Internet Services for Homes, Businesses and Communities.</p>
+            <div class="social-row">
+                <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a> </div> </div>
+
+        <div>
+            <h5>Company</h5>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/Services">Services</a></li>
+                <li><a href="/Plans">Plans</a></li>
+                <li><a href="/Feedback">Feedback</a></li> </ul> </div>
+
+        <div>
+            <h5>Support</h5>
+            <ul>
+                <li><a href="/Account/Status">Account Status</a></li>
+                <li><a href="/Orders/Tracking">Track Order</a></li>
+                <li><a href="/Account/Login">Customer Login</a></li>
+                <li><a href="/Orders/New">New Connection</a></li> </ul> </div>
+
+        <div>
+            <h5>Contact</h5>
+            <ul class="contact-list">
+                <li><i class="fa-solid fa-phone"></i> 111-NEXUS-1</li>
+                <li><i class="fa-solid fa-envelope"></i> support@nexus.example</li>
+                <li><i class="fa-solid fa-location-dot"></i> Lahore, Pakistan</li> </ul> </div> </div>
+
+    <div class="footer-bottom">
+        <div class="container">
+            <span>&copy; 2026 NEXUS. All rights reserved.</span>
+            <span class="footer-legal">
+                <a href="#">Privacy</a> · <a href="#">Terms</a> </span> </div> </div>
+</footer>
+
+    <!-- Chart.js ships locally so the dashboards still draw without a network -->
+    <script src="/lib/chart.js/chart.umd.min.js"></script>
+
+    <script src="/js/site.js"></script>
+    <script src="/js/navigation.js"></script>
+    <script src="/js/modal.js"></script>
+    <script src="/js/validation.js"></script>
+    <script src="/js/forms.js"></script>
+    <script src="/js/dashboard.js"></script>
+    <script src="/js/charts.js"></script>
+    <script src="/js/bills.js"></script>
+    <script src="/js/search.js"></script>
+
+    
+    
+    <script src="/js/settings.js?v=jNiiNJMwy43BTCjLp6js-Xd0N0-d5KPYHkAhVuGOKa0"></script>
+
+
+</body>
+</html>

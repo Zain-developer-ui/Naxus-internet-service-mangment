@@ -1,0 +1,136 @@
+@model NEXUS.Models.ViewModels.EmployeeEditViewModel
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = Model.PageTitle + " — NEXUS";
+}
+
+@section DashboardStyles {
+    <link rel="stylesheet" href="~/css/dashboards-luxury.css" />
+    <link rel="stylesheet" href="~/css/admin.css" />
+}
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/Admin/Dashboard">Admin</a>
+    <span class="sep">/</span>
+    <a href="@Url.Action("Index")">Outlets &amp; Staff</a>
+    <span class="sep">/</span>
+    <span class="current">@(Model.IsNew ? "New Employee" : Model.FullName)</span>
+</nav>
+
+<div class="page-header reveal">
+    <div>
+        <h1>
+            <i class="fa-solid @(Model.IsNew ? "fa-user-plus" : "fa-user-pen")" style="color:var(--nexus-blue);"></i>
+            @(Model.IsNew ? "New Employee" : Model.FullName) </h1>
+        <p class="muted">An employee record must point at a staff login — that link drives the job queues.</p> </div>
+    <div class="page-header-actions">
+        <a href="@Url.Action("Index")" class="btn btn-ghost">
+            <i class="fa-solid fa-arrow-left"></i> Back to staff </a> </div>
+</div>
+
+<form method="post" asp-action="@(Model.IsNew ? "CreateEmployee" : "EditEmployee")" asp-route-id="@Model.Id" novalidate>
+    @Html.AntiForgeryToken()
+
+    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+    <div class="edit-layout">
+        <div class="edit-main">
+            <div class="chart-card reveal">
+                <div class="chart-head">
+                    <div>
+                        <h4><i class="fa-solid fa-id-badge"></i> Employee Details</h4>
+                        <p class="chart-sub">Who they are and when they joined.</p> </div> </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label asp-for="EmployeeCode">Employee Code <span class="req">*</span></label>
+                        <input asp-for="EmployeeCode" placeholder="EMP-R02" autocomplete="off" required />
+                        <span class="form-hint">Stored uppercase, must be unique.</span>
+                        <span asp-validation-for="EmployeeCode" class="field-error"></span> </div>
+
+                    <div class="form-group">
+                        <label asp-for="FullName">Full Name <span class="req">*</span></label>
+                        <input asp-for="FullName" placeholder="Ayesha Malik" autocomplete="off" required />
+                        <span asp-validation-for="FullName" class="field-error"></span> </div> </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label asp-for="Designation">Designation <span class="opt">optional</span></label>
+                        <input asp-for="Designation" placeholder="Field Technician" autocomplete="off" />
+                        <span asp-validation-for="Designation" class="field-error"></span> </div>
+
+                    <div class="form-group">
+                        <label asp-for="JoinedOn">Joined On</label>
+                        <input asp-for="JoinedOn" type="date" />
+                        <span asp-validation-for="JoinedOn" class="field-error"></span> </div> </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label asp-for="Phone">Phone <span class="opt">optional</span></label>
+                        <input asp-for="Phone" placeholder="03001234567" autocomplete="off" />
+                        <span asp-validation-for="Phone" class="field-error"></span> </div>
+
+                    <div class="form-group">
+                        <label asp-for="Email">Email <span class="opt">optional</span></label>
+                        <input asp-for="Email" type="email" placeholder="ayesha@nexus.example" autocomplete="off" />
+                        <span asp-validation-for="Email" class="field-error"></span> </div> </div> </div>
+
+            <div class="chart-card reveal" style="margin-top:18px;">
+                <div class="chart-head">
+                    <div>
+                        <h4><i class="fa-solid fa-link"></i> Assignment</h4>
+                        <p class="chart-sub">Which login and which outlet this record belongs to.</p> </div> </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label asp-for="UserId">Staff Login <span class="req">*</span></label>
+                        <select asp-for="UserId">
+                            <option value="0">Choose a login…</option>
+                            @foreach (var u in Model.Users)
+                            {
+                                <option value="@u.Id" selected="@(Model.UserId == u.Id)">
+                                    @u.DisplayName — @u.Role (@u.AccountId)
+                                </option>
+                            }
+                        </select>
+                        <span class="form-hint">
+                            Customer logins are not listed. Non-staff roles have no portal to sign in to.
+                        </span>
+                        <span asp-validation-for="UserId" class="field-error"></span> </div>
+
+                    <div class="form-group">
+                        <label asp-for="ShopId">Assigned Outlet <span class="opt">optional</span></label>
+                        <select asp-for="ShopId">
+                            <option value="">Unassigned</option>
+                            @foreach (var s in Model.Shops)
+                            {
+                                <option value="@s.Id" selected="@(Model.ShopId == s.Id)">
+                                    @s.Name (@s.OutletCode)
+                                </option>
+                            }
+                        </select>
+                        <span asp-validation-for="ShopId" class="field-error"></span> </div> </div> </div>
+        </div>
+
+        <aside class="edit-side">
+            <div class="chart-card">
+                <div class="chart-head">
+                    <h4><i class="fa-solid fa-sliders"></i> Status</h4> </div>
+
+                <div class="form-group">
+                    <label class="checkbox-line">
+                        <input asp-for="IsActive" />
+                        <span>Active employee</span> </label>
+                    <span class="form-hint">Inactive staff keep their history but drop out of job assignment.</span> </div> </div>
+
+            <div class="chart-card" style="margin-top:18px;">
+                <div class="chart-head">
+                    <h4><i class="fa-solid fa-floppy-disk"></i> Save</h4> </div>
+                <div class="side-actions">
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <i class="fa-solid fa-circle-check"></i>
+                        @(Model.IsNew ? "Add Employee" : "Save Changes") </button>
+                    <a href="@Url.Action("Index")" class="btn btn-ghost btn-block">Cancel</a> </div> </div>
+        </aside>
+    </div>
+</form>

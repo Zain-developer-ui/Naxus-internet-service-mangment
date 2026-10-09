@@ -2,7 +2,6 @@
 @{
     Layout = "_DashboardLayout";
     ViewData["Title"] = "Feedback — NEXUS";
-    ViewData["ActiveSidebar"] = "feedback";
 
     var history = ViewBag.History as IReadOnlyList<NEXUS.Services.Feedback.FeedbackRecord>
                   ?? Array.Empty<NEXUS.Services.Feedback.FeedbackRecord>();

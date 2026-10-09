@@ -1,0 +1,140 @@
+@model NEXUS.Models.ViewModels.DiscountTierListPage
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Discount Slabs — NEXUS";
+}
+
+@section DashboardStyles {
+    <link rel="stylesheet" href="~/css/dashboards-luxury.css" />
+    <link rel="stylesheet" href="~/css/admin.css" />
+}
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/Admin/Dashboard">Admin</a>
+    <span class="sep">/</span>
+    <a href="/Admin/Settings/Cities">Settings</a>
+    <span class="sep">/</span>
+    <span class="current">Discount Slabs</span>
+</nav>
+
+<div class="page-header reveal">
+    <div>
+        <h1><i class="fa-solid fa-percent" style="color:var(--nexus-blue);"></i> Bulk Discount Slabs</h1>
+        <p class="muted">Discount applied when one order carries several connections. Evaluated top down on every bill.</p>
+    </div>
+    <div class="page-header-actions">
+        <a href="@Url.Action("Cities")" class="btn btn-outline">
+            <i class="fa-solid fa-map-location-dot"></i> Cities </a>
+        <a href="@Url.Action("CreateTier")" class="btn btn-primary">
+            <i class="fa-solid fa-plus"></i> New Slab </a>
+    </div>
+</div>
+
+@if (TempData["Success"] is string ok)
+{
+    <div class="alert alert-success reveal" role="status">
+        <i class="fa-solid fa-circle-check"></i> @ok </div>
+}
+@if (TempData["Error"] is string bad)
+{
+    <div class="alert alert-danger reveal" role="alert">
+        <i class="fa-solid fa-circle-exclamation"></i> @bad </div>
+}
+
+<div class="stats-grid reveal">
+    <div class="stat-card">
+        <div class="stat-icon navy"><i class="fa-solid fa-layer-group"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value">@Model.Tiers.Count</div>
+            <div class="stat-label">Slabs Defined</div> </div> </div>
+    <div class="stat-card">
+        <div class="stat-icon success"><i class="fa-solid fa-circle-check"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value">@Model.ActiveCount</div>
+            <div class="stat-label">In Force</div> </div> </div>
+    <div class="stat-card">
+        <div class="stat-icon warning"><i class="fa-solid fa-ban"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value">@Model.InactiveCount</div>
+            <div class="stat-label">Switched Off</div> </div> </div>
+</div>
+
+<div class="chart-card reveal" style="margin-top:22px;">
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col">Connections</th>
+                    <th scope="col" class="num">Discount</th>
+                    <th scope="col" class="num hide-sm">Order</th>
+                    <th scope="col">State</th>
+                    <th scope="col"><span class="sr-only">Actions</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.IsEmpty)
+                {
+                    <tr><td colspan="5" class="table-empty">
+                        No discount slabs defined. Orders of any size will be billed at full rate.
+                    </td></tr>
+                }
+                else
+                {
+                    foreach (var t in Model.Tiers)
+                    {
+                        <tr>
+                            <td>
+                                <div class="cell-title">
+                                    <span class="mono">@t.Label</span>
+                                    @if (t.Overlaps)
+                                    {
+                                        <span class="badge badge-warning" title="Another active slab covers the same headcount.">
+                                            Overlaps
+                                        </span>
+                                    }
+                                </div>
+                                <div class="cell-sub">
+                                    @(t.MaxConnections is null
+                                        ? $"{t.MinConnections} connections and above"
+                                        : $"{t.MinConnections} to {t.MaxConnections - 1} connections")
+                                </div>
+                            </td>
+                            <td class="num"><strong>@t.PercentRate%</strong></td>
+                            <td class="num hide-sm">@t.SortOrder</td>
+                            <td>
+                                <span class="badge badge-@(t.IsActive ? "success" : "muted")">
+                                    @(t.IsActive ? "Active" : "Inactive")
+                                </span>
+                            </td>
+                            <td class="actions">
+                                <a href="@Url.Action("EditTier", new { id = t.Id })" class="btn btn-ghost btn-sm">
+                                    <i class="fa-solid fa-pen"></i> Edit </a>
+
+                                <form method="post" asp-action="ToggleTier" asp-route-id="@t.Id">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="active" value="@(!t.IsActive)" />
+                                    <button type="submit" class="btn btn-ghost btn-sm">
+                                        <i class="fa-solid @(t.IsActive ? "fa-toggle-off" : "fa-toggle-on")"></i>
+                                        @(t.IsActive ? "Switch off" : "Switch on")
+                                    </button>
+                                </form>
+
+                                <form method="post" asp-action="DeleteTier" asp-route-id="@t.Id"
+                                      data-confirm="Delete the @t.Label slab? This cannot be undone.">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-ghost btn-sm danger">
+                                        <i class="fa-solid fa-trash"></i> Delete </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <p class="form-hint" style="margin-top:14px;">
+        <i class="fa-solid fa-circle-info"></i>
+        The top slab is usually open ended. Overlapping active slabs are flagged because it makes the discount on a bill ambiguous.
+    </p>
+</div>

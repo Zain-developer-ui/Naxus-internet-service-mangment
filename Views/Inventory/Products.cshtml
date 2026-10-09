@@ -1,0 +1,144 @@
+@model NEXUS.Models.ViewModels.ProductListPage
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Equipment — NEXUS";
+}
+
+@section DashboardStyles {
+    <link rel="stylesheet" href="~/css/dashboards-luxury.css" />
+    <link rel="stylesheet" href="~/css/admin.css" />
+}
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/Admin/Dashboard">Admin</a>
+    <span class="sep">/</span>
+    <a href="@Url.Action("Index")">Inventory</a>
+    <span class="sep">/</span>
+    <span class="current">Equipment</span>
+</nav>
+
+<div class="page-header reveal">
+    <div>
+        <h1><i class="fa-solid fa-tags" style="color:var(--nexus-blue);"></i> Equipment Catalogue</h1>
+        <p class="muted">What the business keeps in stock. Modems, routers, splitters and the like.</p>
+    </div>
+    <div class="page-header-actions">
+        <a href="@Url.Action("Index")" class="btn btn-outline">
+            <i class="fa-solid fa-boxes-stacked"></i> Stock levels </a>
+        <a href="@Url.Action("CreateProduct")" class="btn btn-primary">
+            <i class="fa-solid fa-plus"></i> New Equipment </a>
+    </div>
+</div>
+
+@if (TempData["Success"] is string ok)
+{
+    <div class="alert alert-success reveal" role="status">
+        <i class="fa-solid fa-circle-check"></i> @ok </div>
+}
+@if (TempData["Error"] is string bad)
+{
+    <div class="alert alert-danger reveal" role="alert">
+        <i class="fa-solid fa-circle-exclamation"></i> @bad </div>
+}
+
+<div class="chart-card reveal">
+    <form method="get" asp-action="Products">
+        <div class="filter-bar">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" name="search" value="@Model.Search"
+                       placeholder="Search by name or SKU…" autocomplete="off" /> </div>
+
+            <label class="switch-line">
+                <input type="checkbox" name="showInactive" value="true" checked="@Model.ShowInactive" />
+                <span>Show retired</span> </label>
+
+            <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-filter"></i> Apply </button>
+
+            @if (!string.IsNullOrWhiteSpace(Model.Search) || Model.ShowInactive)
+            {
+                <a href="@Url.Action("Products")" class="btn btn-ghost">
+                    <i class="fa-solid fa-xmark"></i> Clear </a>
+            }
+        </div>
+    </form>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col">SKU</th>
+                    <th scope="col">Equipment</th>
+                    <th scope="col" class="num hide-sm">Unit Price</th>
+                    <th scope="col" class="num hide-sm">Threshold</th>
+                    <th scope="col" class="num">On Hand</th>
+                    <th scope="col" class="num hide-sm">Locations</th>
+                    <th scope="col">State</th>
+                    <th scope="col"><span class="sr-only">Actions</span></th> </tr> </thead>
+            <tbody>
+                @if (Model.IsEmpty)
+                {
+                    <tr><td colspan="8" class="table-empty">
+                        @(Model.ShowInactive || !string.IsNullOrWhiteSpace(Model.Search)
+                            ? "No equipment matches this filter."
+                            : "The equipment catalogue is empty. Add the first item.")
+                    </td></tr>
+                }
+                else
+                {
+                    foreach (var p in Model.Products)
+                    {
+                        <tr>
+                            <td><strong class="mono">@p.Sku</strong></td>
+                            <td>
+                                <div class="cell-title">@p.Name</div>
+                                @if (!string.IsNullOrWhiteSpace(p.Description))
+                                {
+                                    <div class="cell-sub">@p.Description</div>
+                                } </td>
+                            <td class="num hide-sm">
+                                @if (p.UnitPrice is decimal price)
+                                {
+                                    <strong>@price.ToString("C")</strong>
+                                }
+                                else
+                                {
+                                    <span class="muted">Not priced</span>
+                                } </td>
+                            <td class="num hide-sm">@p.LowStockThreshold</td>
+                            <td class="num">
+                                @if (p.UnitsOnHand > 0)
+                                {
+                                    <span class="count-pill">@p.UnitsOnHand</span>
+                                }
+                                else
+                                {
+                                    <span class="muted">0</span>
+                                } </td>
+                            <td class="num hide-sm">@p.Locations</td>
+                            <td>
+                                <span class="badge badge-@(p.IsActive ? "success" : "muted")">
+                                    @(p.IsActive ? "Active" : "Retired") </span> </td>
+                            <td class="actions">
+                                <a href="@Url.Action("EditProduct", new { id = p.Id })" class="btn btn-ghost btn-sm">
+                                    <i class="fa-solid fa-pen"></i> Edit </a>
+
+                                <form method="post" asp-action="ToggleProduct" asp-route-id="@p.Id">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="active" value="@(!p.IsActive)" />
+                                    <button type="submit" class="btn btn-ghost btn-sm">
+                                        <i class="fa-solid @(p.IsActive ? "fa-box-archive" : "fa-rotate-left")"></i>
+                                        @(p.IsActive ? "Retire" : "Restore") </button> </form>
+
+                                @if (p.UnitsOnHand == 0)
+                                {
+                                    <form method="post" asp-action="DeleteProduct" asp-route-id="@p.Id"
+                                          data-confirm="Delete '@p.Name'? This cannot be undone.">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-ghost btn-sm danger">
+                                            <i class="fa-solid fa-trash"></i> Delete </button> </form>
+                                } </td> </tr>
+                    }
+                } </tbody> </table> </div>
+</div>

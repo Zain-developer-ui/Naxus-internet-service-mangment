@@ -1,9 +1,10 @@
 @model NEXUS.Models.ViewModels.AdminDashboardData
+@using System.Globalization
 @using NEXUS.Common.Extensions
+@using NEXUS.Models.ViewModels
 @{
     Layout = "_DashboardLayout";
     ViewData["Title"] = "Admin Dashboard — NEXUS";
-    ViewData["ActiveSidebar"] = "dashboard";
 
     var statusTone = (string token) => token switch
     {
@@ -15,318 +16,360 @@
         "Cancelled" => "danger",
         _ => "muted"
     };
+
+    // Chart.js reads a comma-separated list off the canvas. Decimals are
+    // formatted invariantly or a comma decimal separator would split the value.
+    var trendLabels = string.Join(",", Model.Trend.Select(p => p.Label));
+    var trendRevenue = string.Join(",", Model.Trend.Select(p => p.Revenue.ToString("0.##", CultureInfo.InvariantCulture)));
+    var trendOrders = string.Join(",", Model.Trend.Select(p => p.Orders));
 }
 
 @section DashboardStyles {
     <link rel="stylesheet" href="~/css/dashboards-luxury.css" />
 }
 
-@* Charts have no series until a reporting endpoint exists. An invented trend
-   line would look authoritative while being fiction. *@
-<script>
-    window.NEXUS_CHART_DATA = {
-        months:        [],
-        revenue:       [],
-        customers:     [],
-        orders:        [],
-        distribution:  [],
-        paymentStatus: []
-    };
-</script>
-
 <div class="welcome-banner reveal">
     <div class="banner-flex">
         <div>
             <h1>Welcome, @User.DisplayName()</h1>
-            <p>NEXUS System Overview · @DateTime.Now.ToString("dddd, dd MMMM yyyy")</p>
-            <div class="banner-actions">
-                <span class="badge badge-success"><i class="fa-solid fa-circle-check"></i> @Model.TotalCustomers customer@(Model.TotalCustomers == 1 ? "" : "s") on file</span>
-                <span class="badge" style="background:rgba(255,255,255,0.15);color:#fff;">
-                    <i class="fa-solid fa-database"></i> Live database </span> </div> </div>
+            <p>@DateTime.Now.ToString("dddd, dd MMMM yyyy") &middot; live database</p>
+        </div>
         <div class="banner-actions">
-            <a href="/Admin/Reports" class="btn btn-outline-light"><i class="fa-solid fa-chart-line"></i> Reports</a>
-            <a href="/Admin/Settings" class="btn btn-primary"><i class="fa-solid fa-gear"></i> Settings</a> </div> </div>
+            <a href="/Reports" class="btn btn-outline-light"><i class="fa-solid fa-chart-line"></i> Reports</a>
+            <a href="/Admin/Settings" class="btn btn-primary"><i class="fa-solid fa-gear"></i> Settings</a>
+        </div>
+    </div>
 </div>
 
-<div class="stats-grid reveal">
-    <div class="stat-card">
-        <div class="stat-icon blue"><i class="fa-solid fa-users"></i></div>
-        <div class="stat-meta">
-            <div class="stat-value">@Model.TotalCustomers</div>
-            <div class="stat-label">Total Customers</div> </div> </div>
-    <div class="stat-card">
-        <div class="stat-icon success"><i class="fa-solid fa-plug-circle-check"></i></div>
-        <div class="stat-meta">
-            <div class="stat-value">@Model.ActiveConnections</div>
-            <div class="stat-label">Active Connections</div> </div> </div>
-    <div class="stat-card">
-        <div class="stat-icon warning"><i class="fa-solid fa-clock"></i></div>
-        <div class="stat-meta">
-            <div class="stat-value">@Model.PendingOrders</div>
-            <div class="stat-label">Orders In Progress</div> </div> </div>
-    <div class="stat-card">
-        <div class="stat-icon navy"><i class="fa-solid fa-money-bill-trend-up"></i></div>
-        <div class="stat-meta">
-            <div class="stat-value">@Model.MonthlyRevenue.ToString("C")</div>
-            <div class="stat-label">Revenue This Month</div> </div> </div>
-</div>
+@* The board answers one question first: what is waiting on a person. Figures
+   that only need reading sit below it, not beside it. *@
+<section class="dash-section reveal" aria-labelledby="attention-heading">
+    <h2 id="attention-heading" class="dash-heading">Waiting on someone</h2>
 
-<div class="stats-grid reveal">
-    <div class="stat-card">
-        <div class="stat-icon warning"><i class="fa-solid fa-file-invoice-dollar"></i></div>
-        <div class="stat-meta">
-            <div class="stat-value">@Model.OutstandingBills</div>
-            <div class="stat-label">Unpaid Bills</div> </div> </div>
-    <div class="stat-card">
-        <div class="stat-icon navy"><i class="fa-solid fa-sack-dollar"></i></div>
-        <div class="stat-meta">
-            <div class="stat-value" style="font-size:1.15rem;">@Model.OutstandingAmount.ToString("C")</div>
-            <div class="stat-label">Outstanding Balance</div> </div> </div>
-    <div class="stat-card">
-        <div class="stat-icon success"><i class="fa-solid fa-screwdriver-wrench"></i></div>
-        <div class="stat-meta">
-            <div class="stat-value">@Model.ActiveInstallations</div>
-            <div class="stat-label">Installations Running</div> </div> </div>
-    <div class="stat-card">
-        <div class="stat-icon blue"><i class="fa-solid fa-receipt"></i></div>
-        <div class="stat-meta">
-            <div class="stat-value">@Model.SuccessfulPayments</div>
-            <div class="stat-label">Payments Recorded</div> </div> </div>
-</div>
+    <div class="attention-board">
+        <a class="attention-cell @(Model.PendingOrders > 0 ? "is-open" : "is-clear")" href="/Operations">
+            <span class="attention-label">Orders awaiting survey</span>
+            <span class="attention-value">@Model.PendingOrders</span>
+            <span class="attention-go">Survey queue <i class="fa-solid fa-arrow-right"></i></span>
+        </a>
+        <a class="attention-cell @(Model.ActiveInstallations > 0 ? "is-open" : "is-clear")" href="/Operations?status=Installing">
+            <span class="attention-label">Installations running</span>
+            <span class="attention-value">@Model.ActiveInstallations</span>
+            <span class="attention-go">Installations <i class="fa-solid fa-arrow-right"></i></span>
+        </a>
+        <a class="attention-cell @(Model.OutstandingBills > 0 ? "is-open" : "is-clear")" href="/Bills?status=Overdue">
+            <span class="attention-label">Bills awaiting payment</span>
+            <span class="attention-value">@Model.OutstandingBills</span>
+            <span class="attention-go">Billing ledger <i class="fa-solid fa-arrow-right"></i></span>
+        </a>
+        <a class="attention-cell" href="/Operations/Connections">
+            <span class="attention-label">Lines live on the network</span>
+            <span class="attention-value">@Model.ActiveConnections</span>
+            <span class="attention-go">Connections <i class="fa-solid fa-arrow-right"></i></span>
+        </a>
+    </div>
 
-<div class="dash-grid-2 reveal" style="margin-top:22px;">
-    <div class="chart-card">
-        <div class="chart-head">
-            <div>
-                <h4><i class="fa-solid fa-chart-line"></i> Revenue Trend</h4>
-                <p class="chart-sub">Monthly revenue — last 6 months.</p> </div>
-            <span class="badge badge-muted">Awaiting report endpoint</span> </div>
-        <div class="chart-body">
-            <canvas id="revenueChart" data-chart="line" data-label="Revenue" data-key="revenue" data-prefix="$" data-legend></canvas> </div> </div>
+    <dl class="figures-strip">
+        <div class="figure-cell">
+            <dt>Customers on file</dt>
+            <dd>@Model.TotalCustomers</dd>
+        </div>
+        <div class="figure-cell">
+            <dt>Revenue this month</dt>
+            <dd>@Model.MonthlyRevenue.ToString("C")</dd>
+        </div>
+        <div class="figure-cell">
+            <dt>Outstanding balance</dt>
+            <dd>@Model.OutstandingAmount.ToString("C")</dd>
+        </div>
+        <div class="figure-cell">
+            <dt>Payments recorded</dt>
+            <dd>@Model.SuccessfulPayments</dd>
+        </div>
+    </dl>
+</section>
 
-    <div class="chart-card">
-        <div class="chart-head">
-            <div>
-                <h4><i class="fa-solid fa-chart-area"></i> Customer Growth</h4>
-                <p class="chart-sub">Customers added month over month.</p> </div>
-            <span class="badge badge-muted">Awaiting report endpoint</span> </div>
-        <div class="chart-body">
-            <canvas id="customerChart" data-chart="line" data-label="Customers" data-key="customers"></canvas> </div> </div>
-</div>
+@if (Model.HasTrend)
+{
+    <section class="dash-section reveal" aria-labelledby="trend-heading">
+        <h2 id="trend-heading" class="dash-heading">Last six months</h2>
 
-<div class="dash-grid-3 reveal" style="margin-top:22px;">
-    <div class="chart-card" style="margin-bottom:0;">
-        <div class="chart-head">
-            <div>
-                <h4><i class="fa-solid fa-chart-bar"></i> Orders by Month</h4>
-                <p class="chart-sub">New connection orders per month.</p> </div>
-            <span class="badge badge-muted">Awaiting report endpoint</span> </div>
-        <div class="chart-body sm">
-            <canvas id="ordersChart" data-chart="bar" data-label="Orders" data-key="orders"></canvas> </div> </div>
-
-    <div class="chart-card" style="margin-bottom:0;">
-        <div class="chart-head">
-            <div>
-                <h4><i class="fa-solid fa-chart-pie"></i> Service Mix</h4>
-                <p class="chart-sub">Lines on the network by type.</p> </div> </div>
-        <div class="chart-body sm" style="display:flex;align-items:center;justify-content:center;">
-            @if (Model.HasAnyConnection)
+        <div class="@(Model.HasRevenue && Model.HasOrders ? "dash-grid-2" : "dash-grid-1")">
+            @if (Model.HasRevenue)
             {
-                <div style="display:grid;gap:14px;width:100%;">
-                    <div class="summary-rows" style="margin:0;">
-                        <div><span>Broadband</span><strong>@Model.BroadbandConnections</strong></div>
-                        <div><span>Dial-Up</span><strong>@Model.DialUpConnections</strong></div>
-                        <div><span>Telephone</span><strong>@Model.TelephoneConnections</strong></div>
+                <div class="chart-card">
+                    <div class="chart-head">
+                        <div>
+                            <h3>Revenue</h3>
+                            <p class="chart-sub">Invoiced and collected per month.</p>
+                        </div>
                     </div>
+                    <div class="chart-body">
+                        <canvas id="revenueChart" data-chart="line" data-label="Revenue"
+                                data-labels="@trendLabels" data-values="@trendRevenue"></canvas>
+                    </div>
+                </div>
+            }
+
+            @if (Model.HasOrders)
+            {
+                <div class="chart-card">
+                    <div class="chart-head">
+                        <div>
+                            <h3>Orders taken</h3>
+                            <p class="chart-sub">Connection orders placed per month.</p>
+                        </div>
+                    </div>
+                    <div class="chart-body">
+                        <canvas id="ordersChart" data-chart="bar" data-label="Orders"
+                                data-labels="@trendLabels" data-values="@trendOrders"></canvas>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+}
+
+<section class="dash-section reveal" aria-labelledby="mix-heading">
+    <h2 id="mix-heading" class="dash-heading">Where the lines sit</h2>
+
+    <div class="dash-grid-2">
+        <div class="chart-card">
+            <div class="chart-head">
+                <div>
+                    <h3>Service mix</h3>
+                    <p class="chart-sub">Every provisioned line by connection type.</p>
+                </div>
+            </div>
+            @await Html.PartialAsync("_Breakdown", new BreakdownPanel(new[]
+            {
+                new BreakdownRow("Broadband", Model.BroadbandConnections),
+                new BreakdownRow("Dial-Up", Model.DialUpConnections),
+                new BreakdownRow("Telephone", Model.TelephoneConnections)
+            }))
+        </div>
+
+        <div class="chart-card">
+            <div class="chart-head">
+                <div>
+                    <h3>Billing position</h3>
+                    <p class="chart-sub">Open invoices against money received.</p>
+                </div>
+            </div>
+            <div class="summary-rows">
+                <div>
+                    <span>Unpaid bills</span>
+                    <strong>@Model.OutstandingBills</strong>
+                </div>
+                <div>
+                    <span>Outstanding</span>
+                    <strong>@Model.OutstandingAmount.ToString("C")</strong>
+                </div>
+                <div>
+                    <span>Payments recorded</span>
+                    <strong>@Model.SuccessfulPayments</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="dash-section reveal" aria-labelledby="activity-heading">
+    <h2 id="activity-heading" class="dash-heading">Latest activity</h2>
+
+    <div class="dash-grid-2">
+        <div class="chart-card">
+            <div class="chart-head">
+                <div>
+                    <h3>Registrations</h3>
+                    <p class="chart-sub">Most recent customer sign-ups.</p>
+                </div>
+                <a href="/Retail/Search" class="btn btn-ghost btn-sm">View all</a>
+            </div>
+
+            @if (Model.HasAnyCustomer)
+            {
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th scope="col">Account</th>
+                                <th scope="col">Customer</th>
+                                <th scope="col">Service</th>
+                                <th scope="col" class="hide-sm">City</th>
+                                <th scope="col">Joined</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var c in Model.RecentCustomers)
+                            {
+                                <tr>
+                                    <td class="mono">@c.AccountId</td>
+                                    <td>@c.FullName</td>
+                                    <td>@c.ConnectionTypeName</td>
+                                    <td class="hide-sm">@c.CityName</td>
+                                    <td>@c.CreatedAt.ToLocalTime().ToString("dd MMM yyyy")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
                 </div>
             }
             else
             {
-                <p class="muted small" style="margin:0;">No connections provisioned yet.</p>
-            } </div> </div>
+                <p class="table-empty">No customers registered yet.</p>
+            }
+        </div>
 
-    <div class="chart-card" style="margin-bottom:0;">
-        <div class="chart-head">
-            <div>
-                <h4><i class="fa-solid fa-file-invoice-dollar"></i> Billing Position</h4>
-                <p class="chart-sub">Open versus settled invoices.</p> </div> </div>
-        <div class="chart-body sm" style="display:flex;align-items:center;justify-content:center;">
-            <div class="summary-rows" style="margin:0;width:100%;">
-                <div><span>Unpaid bills</span><strong>@Model.OutstandingBills</strong></div>
-                <div><span>Outstanding</span><strong>@Model.OutstandingAmount.ToString("C")</strong></div>
-                <div><span>Payments recorded</span><strong>@Model.SuccessfulPayments</strong></div>
-            </div> </div> </div>
-</div>
+        <div class="chart-card">
+            <div class="chart-head">
+                <div>
+                    <h3>Orders</h3>
+                    <p class="chart-sub">Most recent connection requests.</p>
+                </div>
+                <a href="/Operations" class="btn btn-ghost btn-sm">View queue</a>
+            </div>
 
-<div class="dash-grid-2 reveal" style="margin-top:22px;">
-    <div class="chart-card" style="margin-bottom:0;">
-        <div class="chart-head">
-            <div>
-                <h4><i class="fa-solid fa-user-plus"></i> Recent Registrations</h4>
-                <p class="chart-sub">Latest customer sign-ups.</p> </div>
-            <a href="/Retail/Search" class="btn btn-ghost btn-sm">View all</a> </div>
-
-        @if (Model.HasAnyCustomer)
-        {
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th scope="col">Account</th>
-                            <th scope="col">Customer</th>
-                            <th scope="col">Service</th>
-                            <th scope="col" class="hide-sm">City</th>
-                            <th scope="col">Joined</th> </tr> </thead>
-                    <tbody>
-                        @foreach (var c in Model.RecentCustomers)
-                        {
+            @if (Model.HasAnyOrder)
+            {
+                <div class="table-wrap">
+                    <table>
+                        <thead>
                             <tr>
-                                <td><strong style="font-family:monospace;">@c.AccountId</strong></td>
-                                <td>@c.FullName</td>
-                                <td>@c.ConnectionTypeName</td>
-                                <td class="hide-sm">@c.CityName</td>
-                                <td>@c.CreatedAt.ToLocalTime().ToString("dd MMM yyyy")</td> </tr>
-                        } </tbody> </table> </div>
-        }
-        else
-        {
-            <p class="muted small" style="padding:16px 0;">No customers registered yet.</p>
-        } </div>
+                                <th scope="col">Order</th>
+                                <th scope="col">Customer</th>
+                                <th scope="col" class="hide-sm">Plan</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var o in Model.RecentOrders)
+                            {
+                                <tr>
+                                    <td><a href="/Operations/Review/@o.OrderId" class="mono">@o.OrderId</a></td>
+                                    <td>@o.CustomerName</td>
+                                    <td class="hide-sm">@o.PlanName</td>
+                                    <td><span class="badge badge-@statusTone(o.StatusToken)">@o.StatusLabel</span></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <p class="table-empty">No orders raised yet.</p>
+            }
+        </div>
 
-    <div class="chart-card" style="margin-bottom:0;">
-        <div class="chart-head">
-            <div>
-                <h4><i class="fa-solid fa-box"></i> Recent Orders</h4>
-                <p class="chart-sub">Latest connection requests.</p> </div>
-            <a href="/Operations" class="btn btn-ghost btn-sm">View queue</a> </div>
+        <div class="chart-card">
+            <div class="chart-head">
+                <div>
+                    <h3>Payments</h3>
+                    <p class="chart-sub">Money received against invoices.</p>
+                </div>
+                <a href="/Bills" class="btn btn-ghost btn-sm">Billing ledger</a>
+            </div>
 
-        @if (Model.HasAnyOrder)
-        {
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th scope="col">Order ID</th>
-                            <th scope="col">Customer</th>
-                            <th scope="col" class="hide-sm">Plan</th>
-                            <th scope="col">Status</th> </tr> </thead>
-                    <tbody>
-                        @foreach (var o in Model.RecentOrders)
-                        {
+            @if (Model.HasAnyPayment)
+            {
+                <div class="table-wrap">
+                    <table>
+                        <thead>
                             <tr>
-                                <td><a href="/Operations/Review/@o.OrderId" style="font-family:monospace;font-weight:600;">@o.OrderId</a></td>
-                                <td>@o.CustomerName</td>
-                                <td class="hide-sm">@o.PlanName</td>
-                                <td><span class="badge badge-@statusTone(o.StatusToken)">@o.StatusLabel</span></td> </tr>
-                        } </tbody> </table> </div>
-        }
-        else
-        {
-            <p class="muted small" style="padding:16px 0;">No orders raised yet.</p>
-        } </div>
-</div>
+                                <th scope="col">Customer</th>
+                                <th scope="col">Receipt</th>
+                                <th scope="col">Amount</th>
+                                <th scope="col" class="hide-sm">Method</th>
+                                <th scope="col" class="hide-sm">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var p in Model.RecentPayments)
+                            {
+                                <tr>
+                                    <td>@p.CustomerName</td>
+                                    <td class="mono">@p.ReceiptNumber</td>
+                                    <td><strong>@p.Amount.ToString("C")</strong></td>
+                                    <td class="hide-sm">@p.MethodName</td>
+                                    <td class="hide-sm">@p.PaidOn.ToLocalTime().ToString("dd MMM")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <p class="table-empty">No payments recorded yet.</p>
+            }
+        </div>
 
-<div class="dash-grid-2 reveal" style="margin-top:22px;">
-    <div class="chart-card" style="margin-bottom:0;">
-        <div class="chart-head">
-            <h4><i class="fa-solid fa-money-bill-wave"></i> Recent Payments</h4> </div>
-        @if (Model.HasAnyPayment)
-        {
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th scope="col">Customer</th>
-                            <th scope="col">Receipt</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col" class="hide-sm">Method</th>
-                            <th scope="col" class="hide-sm">Date</th> </tr> </thead>
-                    <tbody>
-                        @foreach (var p in Model.RecentPayments)
-                        {
+        <div class="chart-card">
+            <div class="chart-head">
+                <div>
+                    <h3>Connections</h3>
+                    <p class="chart-sub">Lines most recently activated.</p>
+                </div>
+                <a href="/Operations/Connections" class="btn btn-ghost btn-sm">View all</a>
+            </div>
+
+            @if (Model.RecentConnections.Count > 0)
+            {
+                <div class="table-wrap">
+                    <table>
+                        <thead>
                             <tr>
-                                <td>@p.CustomerName</td>
-                                <td><strong style="font-family:monospace;">@p.ReceiptNumber</strong></td>
-                                <td><strong>@p.Amount.ToString("C")</strong></td>
-                                <td class="hide-sm">@p.MethodName</td>
-                                <td class="hide-sm">@p.PaidOn.ToLocalTime().ToString("dd MMM")</td> </tr>
-                        } </tbody> </table> </div>
-        }
-        else
-        {
-            <p class="muted small" style="padding:16px 0;">No payments recorded yet.</p>
-        } </div>
+                                <th scope="col">Line</th>
+                                <th scope="col">Customer</th>
+                                <th scope="col" class="hide-sm">Plan</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Billable</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var c in Model.RecentConnections)
+                            {
+                                var connectionTone = c.StatusToken switch
+                                {
+                                    "Active" => "success",
+                                    "Pending" => "warning",
+                                    _ => "muted"
+                                };
 
-    <div class="chart-card" style="margin-bottom:0;">
-        <div class="chart-head">
-            <div>
-                <h4><i class="fa-solid fa-plug-circle-check"></i> Recent Connections</h4>
-                <p class="chart-sub">Lines most recently activated.</p> </div>
-            <a href="/Operations/Connections" class="btn btn-ghost btn-sm">View all</a> </div>
-        @if (Model.RecentConnections.Count > 0)
-        {
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th scope="col">Line</th>
-                            <th scope="col">Customer</th>
-                            <th scope="col" class="hide-sm">Plan</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Billable</th> </tr> </thead>
-                    <tbody>
-                        @foreach (var c in Model.RecentConnections)
-                        {
-                            <tr>
-                                <td><strong style="font-family:monospace;">@c.ConnectionNumber</strong></td>
-                                <td>@c.CustomerName</td>
-                                <td class="hide-sm">@c.PlanName</td>
-                                <td><span class="badge badge-@(c.StatusToken == "Active" ? "success" : c.StatusToken == "Pending" ? "warning" : "muted")">@c.StatusLabel</span></td>
-                                <td>
-                                    @if (c.IsBillable)
-                                    {
-                                        <span class="badge badge-success">Yes</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="badge badge-muted">No</span>
-                                    } </td> </tr>
-                        } </tbody> </table> </div>
-        }
-        else
-        {
-            <p class="muted small" style="padding:16px 0;">No connections provisioned yet.</p>
-        } </div>
-</div>
+                                <tr>
+                                    <td class="mono">@c.ConnectionNumber</td>
+                                    <td>@c.CustomerName</td>
+                                    <td class="hide-sm">@c.PlanName</td>
+                                    <td><span class="badge badge-@connectionTone">@c.StatusLabel</span></td>
+                                    <td>
+                                        <span class="badge badge-@(c.IsBillable ? "success" : "muted")">
+                                            @(c.IsBillable ? "Yes" : "No")
+                                        </span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <p class="table-empty">No connections provisioned yet.</p>
+            }
+        </div>
+    </div>
+</section>
 
-<div class="dash-grid-2 reveal" style="margin-top:22px;">
-    <div class="chart-card" style="margin-bottom:0;">
-        <div class="chart-head">
-            <h4><i class="fa-solid fa-list-check"></i> Works In Flight</h4>
-            <span class="badge badge-warning">@Model.PendingOrders item@(Model.PendingOrders == 1 ? "" : "s")</span> </div>
+<section class="dash-section reveal" aria-labelledby="shortcuts-heading">
+    <h2 id="shortcuts-heading" class="dash-heading">Shortcuts</h2>
 
-        <div class="summary-rows">
-            <div>
-                <span><i class="fa-solid fa-clipboard-check" style="color:var(--nexus-warning);"></i> Orders awaiting survey</span>
-                <strong>@Model.PendingOrders</strong> </div>
-            <div>
-                <span><i class="fa-solid fa-screwdriver-wrench" style="color:var(--nexus-warning);"></i> Installations running</span>
-                <strong>@Model.ActiveInstallations</strong> </div>
-            <div>
-                <span><i class="fa-solid fa-file-invoice-dollar" style="color:var(--nexus-warning);"></i> Bills awaiting payment</span>
-                <strong>@Model.OutstandingBills</strong> </div>
-            <div>
-                <span><i class="fa-solid fa-plug-circle-check" style="color:var(--nexus-success);"></i> Lines live on the network</span>
-                <strong>@Model.ActiveConnections</strong> </div> </div> </div>
-
-    <div class="chart-card" style="margin-bottom:0;">
-        <div class="chart-head">
-            <h4><i class="fa-solid fa-bolt"></i> Admin Shortcuts</h4> </div>
-        <div class="quick-actions">
-            <a href="/Operations" class="quick-action"><i class="fa-solid fa-clipboard-check"></i><span>Survey Queue</span></a>
-            <a href="/Operations/Connections" class="quick-action"><i class="fa-solid fa-plug-circle-check"></i><span>Connections</span></a>
-            <a href="/Retail/NewOrder" class="quick-action"><i class="fa-solid fa-user-plus"></i><span>New Customer</span></a>
-            <a href="/Retail/Search" class="quick-action"><i class="fa-solid fa-magnifying-glass"></i><span>Search</span></a>
-            <a href="/Admin/Reports" class="quick-action"><i class="fa-solid fa-chart-line"></i><span>Reports</span></a>
-            <a href="/Accounts/Dashboard" class="quick-action"><i class="fa-solid fa-file-invoice"></i><span>Billing</span></a> </div> </div>
-</div>
+    <div class="quick-actions">
+        <a href="/Operations" class="quick-action"><i class="fa-solid fa-clipboard-check"></i><span>Survey Queue</span></a>
+        <a href="/Operations/Connections" class="quick-action"><i class="fa-solid fa-plug-circle-check"></i><span>Connections</span></a>
+        <a href="/Retail/NewOrder" class="quick-action"><i class="fa-solid fa-user-plus"></i><span>New Customer</span></a>
+        <a href="/Retail/Search" class="quick-action"><i class="fa-solid fa-magnifying-glass"></i><span>Search</span></a>
+        <a href="/Reports" class="quick-action"><i class="fa-solid fa-chart-line"></i><span>Reports</span></a>
+        <a href="/Accounts/Dashboard" class="quick-action"><i class="fa-solid fa-file-invoice"></i><span>Billing</span></a>
+    </div>
+</section>

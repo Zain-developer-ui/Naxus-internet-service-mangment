@@ -4,6 +4,7 @@ using NEXUS.Common.Constants;
 using NEXUS.Common.Extensions;
 using NEXUS.Models.ViewModels;
 using NEXUS.Services.Feasibility;
+using NEXUS.Services.Lifecycle;
 
 namespace NEXUS.Controllers
 {
@@ -15,8 +16,13 @@ namespace NEXUS.Controllers
     public class OperationsController : Controller
     {
         private readonly IFeasibilityService _ops;
+        private readonly IConnectionLifecycleService _lifecycle;
 
-        public OperationsController(IFeasibilityService ops) => _ops = ops;
+        public OperationsController(IFeasibilityService ops, IConnectionLifecycleService lifecycle)
+        {
+            _ops = ops;
+            _lifecycle = lifecycle;
+        }
 
         // ------------------------------------------------------------ queue
 
@@ -146,6 +152,47 @@ namespace NEXUS.Controllers
             var result = await _ops.ChangeStatusAsync(form.ConnectionId, form.Target, form.Reason, User.EmployeeId(), ct);
             Announce(result, "Connection status updated.");
             return RedirectToAction(nameof(Connection), new { id = form.ConnectionId });
+        }
+
+        // ------------------------------------------------- overdue policy
+
+        /**
+         * The postpaid rule from the SRS: an unpaid bill eventually costs the
+         * customer the line. The preview is what the sweep would do if it ran,
+         * which is why the same call backs the apply button.
+         */
+        public async Task<IActionResult> Overdue(CancellationToken ct)
+        {
+            ViewData.SetActiveItem("overdue");
+
+            var result = await _lifecycle.PreviewAsync(ct);
+
+            if (!result.IsSuccess)
+            {
+                TempData["Error"] = result.Message;
+                return View(new OverduePolicyResult(Array.Empty<OverdueAction>(), 0, DateTime.UtcNow.Date));
+            }
+
+            return View(result.Value!);
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> ApplyOverdue(CancellationToken ct)
+        {
+            var result = await _lifecycle.ApplyAsync(User.EmployeeId(), ct);
+
+            if (!result.IsSuccess)
+            {
+                TempData["Error"] = result.Message ?? "The policy could not be applied.";
+                return RedirectToAction(nameof(Overdue));
+            }
+
+            var plan = result.Value!;
+            TempData["Success"] = plan.Actions.Count == 0
+                ? "Nothing to do - no line is past its payment window."
+                : $"{plan.Suspensions} line(s) suspended and {plan.Closures} closed.";
+
+            return RedirectToAction(nameof(Overdue));
         }
 
         private void Announce<T>(Common.Result<T> result, string success)

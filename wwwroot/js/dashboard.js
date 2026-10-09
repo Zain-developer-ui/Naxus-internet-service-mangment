@@ -100,7 +100,7 @@
         'order-status': '/Orders/Tracking',
         'payment': '/Bills',
         'new-customer': '/Retail/NewOrder',
-        'reports': '/Admin/Reports'
+        'reports': '/Reports'
     };
 
     function initQuickActions() {
@@ -112,7 +112,7 @@
             if (route) {
                 window.location.href = route;
             } else {
-                NEXUS.toast('That action is not available in this demo.', 'info');
+                NEXUS.toast('That shortcut is not wired up yet.', 'info');
             }
         });
     }

@@ -1,0 +1,138 @@
+@model NEXUS.Models.ViewModels.StockListPage
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Inventory — NEXUS";
+}
+
+@section DashboardStyles {
+    <link rel="stylesheet" href="~/css/dashboards-luxury.css" />
+    <link rel="stylesheet" href="~/css/admin.css" />
+}
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/Admin/Dashboard">Admin</a>
+    <span class="sep">/</span>
+    <span class="current">Inventory</span>
+</nav>
+
+<div class="page-header reveal">
+    <div>
+        <h1><i class="fa-solid fa-boxes-stacked" style="color:var(--nexus-blue);"></i> Equipment Stock</h1>
+        <p class="muted">On-hand quantity per outlet. Every change is written to a movement ledger.</p>
+    </div>
+    <div class="page-header-actions">
+        <a href="@Url.Action("Products")" class="btn btn-outline">
+            <i class="fa-solid fa-tags"></i> Equipment catalogue </a>
+    </div>
+</div>
+
+@if (TempData["Success"] is string ok)
+{
+    <div class="alert alert-success reveal" role="status">
+        <i class="fa-solid fa-circle-check"></i> @ok </div>
+}
+@if (TempData["Error"] is string bad)
+{
+    <div class="alert alert-danger reveal" role="alert">
+        <i class="fa-solid fa-circle-exclamation"></i> @bad </div>
+}
+
+<div class="stats-grid reveal">
+    <div class="stat-card">
+        <div class="stat-icon navy"><i class="fa-solid fa-tags"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value">@Model.Totals.DistinctProducts</div>
+            <div class="stat-label">Products Tracked</div> </div> </div>
+    <div class="stat-card">
+        <div class="stat-icon blue"><i class="fa-solid fa-boxes-stacked"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value">@Model.Totals.UnitsOnHand.ToString("N0")</div>
+            <div class="stat-label">Units On Hand</div> </div> </div>
+    <div class="stat-card">
+        <div class="stat-icon @(Model.Totals.BelowThreshold > 0 ? "warning" : "success")">
+            <i class="fa-solid fa-triangle-exclamation"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value">@Model.Totals.BelowThreshold</div>
+            <div class="stat-label">Below Threshold</div> </div> </div>
+</div>
+
+<div class="chart-card reveal" style="margin-top:22px;">
+    <form method="get" asp-action="Index">
+        <div class="filter-bar">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" name="search" value="@Model.Search"
+                       placeholder="Search product or SKU…" autocomplete="off" /> </div>
+
+            <select name="shopId">
+                <option value="">All outlets</option>
+                @foreach (var s in Model.Shops)
+                {
+                    <option value="@s.Id" selected="@(Model.ShopId == s.Id)">@s.Name (@s.OutletCode)</option>
+                }
+            </select>
+
+            <label class="switch-line">
+                <input type="checkbox" name="lowOnly" value="true" checked="@Model.LowOnly" />
+                <span>Low stock only</span> </label>
+
+            <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-filter"></i> Apply </button>
+
+            @if (Model.ShopId is not null || !string.IsNullOrWhiteSpace(Model.Search) || Model.LowOnly)
+            {
+                <a href="@Url.Action("Index")" class="btn btn-ghost">
+                    <i class="fa-solid fa-xmark"></i> Clear </a>
+            }
+        </div>
+    </form>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col">Product</th>
+                    <th scope="col">SKU</th>
+                    <th scope="col">Outlet</th>
+                    <th scope="col" class="num">On Hand</th>
+                    <th scope="col" class="num hide-sm">Threshold</th>
+                    <th scope="col">State</th>
+                    <th scope="col"><span class="sr-only">Actions</span></th> </tr> </thead>
+            <tbody>
+                @if (Model.IsEmpty)
+                {
+                    <tr><td colspan="7" class="table-empty">
+                        @(Model.LowOnly
+                            ? "Nothing is below its threshold. Stock levels are healthy."
+                            : "No stock recorded yet. Add equipment to the catalogue, then receive it.")
+                    </td></tr>
+                }
+                else
+                {
+                    foreach (var s in Model.Items)
+                    {
+                        <tr>
+                            <td><div class="cell-title">@s.ProductName</div></td>
+                            <td><span class="mono">@s.Sku</span></td>
+                            <td>
+                                <div class="cell-title">@s.ShopName</div>
+                                <div class="cell-sub">@s.OutletCode</div> </td>
+                            <td class="num"><strong>@s.Quantity</strong></td>
+                            <td class="num hide-sm">@s.LowStockThreshold</td>
+                            <td>
+                                @if (s.IsBelowThreshold)
+                                {
+                                    <span class="badge badge-warning">Low</span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-success">In stock</span>
+                                }
+                            </td>
+                            <td class="actions">
+                                <a href="@Url.Action("Detail", new { id = s.Id })" class="btn btn-ghost btn-sm">
+                                    <i class="fa-solid fa-arrow-right-arrow-left"></i> Adjust </a>
+                            </td> </tr>
+                    }
+                } </tbody> </table> </div>
+</div>

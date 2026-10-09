@@ -1,0 +1,138 @@
+@model NEXUS.Models.ViewModels.DiscountTierEditViewModel
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = Model.PageTitle + " — NEXUS";
+}
+
+@section DashboardStyles {
+    <link rel="stylesheet" href="~/css/dashboards-luxury.css" />
+    <link rel="stylesheet" href="~/css/admin.css" />
+}
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/Admin/Dashboard">Admin</a>
+    <span class="sep">/</span>
+    <a href="@Url.Action("Discounts")">Discount Slabs</a>
+    <span class="sep">/</span>
+    <span class="current">@(Model.IsNew ? "New" : Model.Label)</span>
+</nav>
+
+<div class="page-header reveal">
+    <div>
+        <h1>
+            <i class="fa-solid @(Model.IsNew ? "fa-plus" : "fa-pen")" style="color:var(--nexus-blue);"></i>
+            @(Model.IsNew ? "New Discount Slab" : $"Slab {Model.Label}")
+        </h1>
+        <p class="muted">Applied to the order subtotal when the connection count falls in this band.</p>
+    </div>
+    <div class="page-header-actions">
+        <a href="@Url.Action("Discounts")" class="btn btn-ghost">
+            <i class="fa-solid fa-arrow-left"></i> Back to slabs </a>
+    </div>
+</div>
+
+<form method="post" asp-action="@(Model.IsNew ? "CreateTier" : "EditTier")" asp-route-id="@Model.Id" novalidate>
+    @Html.AntiForgeryToken()
+
+    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+    <div class="edit-layout">
+        <div class="edit-main">
+            <div class="chart-card reveal">
+                <div class="chart-head">
+                    <div>
+                        <h4><i class="fa-solid fa-sliders"></i> Band</h4>
+                        <p class="chart-sub">The headcount range this slab covers.</p>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label asp-for="MinConnections">From (connections) <span class="req">*</span></label>
+                        <input asp-for="MinConnections" type="number" min="1" required />
+                        <span class="form-hint">Inclusive lower bound.</span>
+                        <span asp-validation-for="MinConnections" class="field-error"></span>
+                    </div>
+
+                    <div class="form-group" data-open-ended-field>
+                        <label asp-for="MaxConnections">To (connections)</label>
+                        <input asp-for="MaxConnections" type="number" min="2" data-max-input />
+                        <span class="form-hint">Exclusive upper bound. Leave blank for the top slab.</span>
+                        <span asp-validation-for="MaxConnections" class="field-error"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox-line">
+                        <input asp-for="IsOpenEnded" data-open-ended-toggle />
+                        <span>Open ended — this slab covers the minimum and above</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="chart-card reveal" style="margin-top:18px;">
+                <div class="chart-head">
+                    <div>
+                        <h4><i class="fa-solid fa-percent"></i> Discount</h4>
+                        <p class="chart-sub">Stored as a fraction, entered as a percentage.</p>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group" style="max-width:200px;">
+                        <label for="percent-input">Discount (%) <span class="req">*</span></label>
+                        <input id="percent-input" name="PercentRate" type="number" min="1" max="100"
+                               step="1" value="@Model.PercentRate" data-percent-input required />
+                        <span class="form-hint">Whole percent, 1 to 100.</span>
+                        <span class="field-error" data-percent-error></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label>What this means</label>
+                        <p class="form-hint" data-percent-preview style="font-size:0.95rem;">
+                            A $100 order in this band pays @(100 - Model.PercentRate).
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <aside class="edit-side">
+            <div class="chart-card">
+                <div class="chart-head">
+                    <h4><i class="fa-solid fa-sliders"></i> Placement</h4>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="SortOrder">Sort Order</label>
+                    <input asp-for="SortOrder" type="number" min="0" />
+                    <span class="form-hint">Lower numbers are considered first when slabs overlap.</span>
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox-line">
+                        <input asp-for="IsActive" />
+                        <span>Active — applied to new bills</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="chart-card" style="margin-top:18px;">
+                <div class="chart-head">
+                    <h4><i class="fa-solid fa-floppy-disk"></i> Save</h4>
+                </div>
+                <div class="side-actions">
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <i class="fa-solid fa-circle-check"></i>
+                        @(Model.IsNew ? "Add Slab" : "Save Changes")
+                    </button>
+                    <a href="@Url.Action("Discounts")" class="btn btn-ghost btn-block">Cancel</a>
+                </div>
+            </div>
+        </aside>
+    </div>
+</form>
+
+@section DashboardScripts {
+    <script src="~/js/tier-edit.js" asp-append-version="true"></script>
+}

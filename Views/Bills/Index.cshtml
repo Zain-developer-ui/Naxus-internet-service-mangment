@@ -4,7 +4,6 @@
 @{
     Layout = "_DashboardLayout";
     ViewData["Title"] = Model.IsCustomerView ? "Bills & Payments — NEXUS" : "Billing Ledger — NEXUS";
-    ViewData["ActiveSidebar"] = "bills";
 
     var bills = Model.Bills;
     var heading = Model.IsCustomerView ? "Bills & Payments" : "Billing Ledger";

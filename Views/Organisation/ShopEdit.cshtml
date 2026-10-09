@@ -1,0 +1,111 @@
+@model NEXUS.Models.ViewModels.ShopEditViewModel
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = Model.PageTitle + " — NEXUS";
+}
+
+@section DashboardStyles {
+    <link rel="stylesheet" href="~/css/dashboards-luxury.css" />
+    <link rel="stylesheet" href="~/css/admin.css" />
+}
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/Admin/Dashboard">Admin</a>
+    <span class="sep">/</span>
+    <a href="@Url.Action("Index")">Outlets &amp; Staff</a>
+    <span class="sep">/</span>
+    <span class="current">@(Model.IsNew ? "New Outlet" : Model.Name)</span>
+</nav>
+
+<div class="page-header reveal">
+    <div>
+        <h1>
+            <i class="fa-solid @(Model.IsNew ? "fa-plus" : "fa-pen")" style="color:var(--nexus-blue);"></i>
+            @(Model.IsNew ? "New Outlet" : Model.Name) </h1>
+        <p class="muted">The outlet code is printed on receipts, so it stays unique.</p> </div>
+    <div class="page-header-actions">
+        <a href="@Url.Action("Index")" class="btn btn-ghost">
+            <i class="fa-solid fa-arrow-left"></i> Back to outlets </a> </div>
+</div>
+
+<form method="post" asp-action="@(Model.IsNew ? "CreateShop" : "EditShop")" asp-route-id="@Model.Id" novalidate>
+    @Html.AntiForgeryToken()
+
+    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+    <div class="edit-layout">
+        <div class="edit-main">
+            <div class="chart-card reveal">
+                <div class="chart-head">
+                    <div>
+                        <h4><i class="fa-solid fa-store"></i> Outlet Details</h4>
+                        <p class="chart-sub">Where it is and how it is identified.</p> </div> </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label asp-for="Name">Outlet Name <span class="req">*</span></label>
+                        <input asp-for="Name" placeholder="Clifton Outlet" autocomplete="off" required />
+                        <span asp-validation-for="Name" class="field-error"></span> </div>
+
+                    <div class="form-group">
+                        <label asp-for="OutletCode">Outlet Code <span class="req">*</span></label>
+                        <input asp-for="OutletCode" placeholder="KHI-CLF" autocomplete="off" required />
+                        <span class="form-hint">Short code. Stored uppercase, must be unique.</span>
+                        <span asp-validation-for="OutletCode" class="field-error"></span> </div> </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label asp-for="CityId">City <span class="req">*</span></label>
+                        <select asp-for="CityId">
+                            <option value="">Choose a city…</option>
+                            @foreach (var c in Model.Cities)
+                            {
+                                <option value="@c.Id" selected="@(Model.CityId == c.Id)">
+                                    @c.Name
+                                </option>
+                            }
+                        </select>
+                        <span asp-validation-for="CityId" class="field-error"></span> </div>
+
+                    <div class="form-group">
+                        <label asp-for="Phone">Phone <span class="opt">optional</span></label>
+                        <input asp-for="Phone" placeholder="02134567890" autocomplete="off" />
+                        <span asp-validation-for="Phone" class="field-error"></span> </div> </div>
+
+                <div class="form-group">
+                    <label asp-for="Address">Address <span class="opt">optional</span></label>
+                    <input asp-for="Address" placeholder="Shop 12, Block 5, Clifton" autocomplete="off" />
+                    <span asp-validation-for="Address" class="field-error"></span> </div> </div>
+        </div>
+
+        <aside class="edit-side">
+            <div class="chart-card">
+                <div class="chart-head">
+                    <h4><i class="fa-solid fa-sliders"></i> Status</h4> </div>
+
+                <div class="form-group">
+                    <label class="checkbox-line">
+                        <input asp-for="IsActive" />
+                        <span>Open for business</span> </label> </div>
+
+                @if (!Model.IsNew)
+                {
+                    <div class="form-group">
+                        <label>Assigned Staff</label>
+                        <div><span class="count-pill">@Model.StaffCount</span></div>
+                        <span class="form-hint">
+                            An outlet with staff or stock cannot be deleted — reassign first.
+                        </span> </div>
+                } </div>
+
+            <div class="chart-card" style="margin-top:18px;">
+                <div class="chart-head">
+                    <h4><i class="fa-solid fa-floppy-disk"></i> Save</h4> </div>
+                <div class="side-actions">
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <i class="fa-solid fa-circle-check"></i>
+                        @(Model.IsNew ? "Add Outlet" : "Save Changes") </button>
+                    <a href="@Url.Action("Index")" class="btn btn-ghost btn-block">Cancel</a> </div> </div>
+        </aside>
+    </div>
+</form>

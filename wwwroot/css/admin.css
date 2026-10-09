@@ -1,0 +1,287 @@
+/*
+ * Plans console. Table chrome, filters and buttons come from tables.css,
+ * components.css and buttons.css - only the bits this screen needs beyond
+ * those live here.
+ */
+
+/* Two-column edit shell: form on the left, the small settings aside on the
+   right. Collapses to a single column once the aside would be too narrow. */
+.edit-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 22px;
+    align-items: start;
+}
+
+@media (max-width: 1100px) {
+    .edit-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+.edit-side {
+    position: sticky;
+    top: 16px;
+}
+
+@media (max-width: 1100px) {
+    .edit-side {
+        position: static;
+    }
+}
+
+.side-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Cells that carry a second line - the plan description, the cycle help. */
+.cell-title {
+    font-weight: 600;
+    color: var(--nexus-text);
+}
+
+.cell-sub {
+    margin-top: 2px;
+    font-size: 0.78rem;
+    color: var(--nexus-muted);
+    line-height: 1.4;
+}
+
+/* Order count reads as a number worth noticing, but stays quiet at zero. */
+.count-pill {
+    display: inline-block;
+    min-width: 26px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--nexus-blue-light);
+    color: var(--nexus-blue-dark);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+/* Filters sit on one line until they run out of room, then wrap. */
+.filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+}
+
+.filter-bar > .search-box {
+    flex: 1 1 240px;
+    min-width: 200px;
+}
+
+.filter-bar > select {
+    flex: 0 1 200px;
+    min-width: 160px;
+}
+
+.switch-line {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.88rem;
+    color: var(--nexus-text-soft);
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.switch-line input {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--nexus-blue);
+}
+
+/* The rate box only needs to be as wide as a price. */
+.rate-input {
+    width: 120px;
+}
+
+/* Row actions: the buttons sit flush right and wrap on a narrow screen. */
+table td.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: flex-end;
+}
+
+table td.actions form {
+    display: inline-flex;
+    margin: 0;
+}
+
+table td.actions .btn.danger {
+    color: var(--nexus-danger);
+}
+
+table td.actions .btn.danger:hover {
+    background: var(--nexus-danger-bg);
+    color: var(--nexus-danger-dark);
+}
+
+table td.num {
+    text-align: right;
+}
+
+/* The pricing table lives inside a card, so it does not need the standalone
+   wrapper's border and shadow. */
+.chart-card .table-wrap {
+    border: 1px solid var(--nexus-border);
+    box-shadow: none;
+}
+
+/* --------------------------------------------------- breakdown panels */
+
+/* A doughnut chart tells you a share but not the figure. These rows carry both,
+   so a small mix reads at a glance without another canvas on the page. */
+.breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 4px 0 0;
+}
+
+.breakdown-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 4px 12px;
+    align-items: center;
+}
+
+.breakdown-row .breakdown-label {
+    font-size: 0.86rem;
+    color: var(--nexus-text);
+    font-weight: 500;
+}
+
+.breakdown-row .breakdown-value {
+    font-size: 0.86rem;
+    font-weight: 700;
+    color: var(--nexus-text);
+    font-variant-numeric: tabular-nums;
+}
+
+.breakdown-bar {
+    grid-column: 1 / -1;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--nexus-border);
+    overflow: hidden;
+}
+
+.breakdown-bar span {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: var(--nexus-blue);
+}
+
+.breakdown-row .share {
+    color: var(--nexus-muted);
+    font-weight: 500;
+    margin-left: 6px;
+}
+
+/* Report tables sit closer together than the dashboard cards they borrowed. */
+.report-block {
+    margin-top: 22px;
+}
+
+
+/* ------------------------------------------------------------ settings form */
+
+/* One card per settings group. The headings sit outside the field grid so the
+   eye can skip a whole section when it is not the one being edited. */
+.settings-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.settings-group h4 {
+    margin: 0 0 2px;
+    color: var(--nexus-navy);
+    font-size: 1rem;
+}
+
+.settings-group > .chart-sub {
+    margin: 0 0 16px;
+}
+
+.field-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 14px 18px;
+}
+
+.field-grid .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.field-grid .field label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--nexus-text);
+}
+
+.field-grid .field .hint {
+    font-size: 0.78rem;
+    color: var(--nexus-muted);
+    line-height: 1.4;
+}
+
+/* A switch reads as a setting, not a form control, so it is laid out inline
+   with its hint underneath. */
+.switch-field {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 14px;
+    border: 1px solid var(--nexus-border);
+    border-radius: 10px;
+    background: var(--nexus-background);
+}
+
+.switch-field input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin-top: 1px;
+    accent-color: var(--nexus-blue);
+    flex: 0 0 auto;
+}
+
+.switch-field .switch-text strong {
+    display: block;
+    color: var(--nexus-text);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.switch-field .switch-text span {
+    display: block;
+    margin-top: 2px;
+    font-size: 0.78rem;
+    color: var(--nexus-muted);
+    line-height: 1.4;
+}
+
+/* Colour values show a swatch next to the hex so the field is not guesswork. */
+.color-field {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.color-field .swatch {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    border: 1px solid var(--nexus-border);
+    flex: 0 0 auto;
+}

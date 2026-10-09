@@ -41,6 +41,23 @@ Do SRS documents (legacy OLE2 `.doc`, readable text extract
 
 ## Gotchas — ye dobara milenge
 
+- **Date range: `To` ko poora din cover karo.** `x <= To` likhne se aakhri din ka
+  baaki hissa chhoot jata hai. Sahi: `x < To.Date.AddDays(1)`.
+- **`Employee` class `Domain/Organisation/RetailShop.cs` mein hai** (alag file
+  nahi), aur field `FullName` hai `Name` nahi. `grep` `RetailShop` ke fields bhi
+  dikhata hai — dhyaan se padho.
+- **`SearchOrderRow` ke fields** `ServiceTypeName` / `PlanName` / `StatusLabel`
+  hain, `ConnectionType` / `Plan` / `Status` nahi.
+- **`User.EmployeeId()` `int?` deta hai.** Koi bhi service jo employee id leti ho
+  usay `int?` lena chahiye, warna controller se `CS1503`.
+- **Ek hi action name par GET + POST overload compiler tod deta hai (CS0111).**
+  C# mein attributes signature ka hissa nahi, is liye `[HttpGet] Settings(...)`
+  aur `[HttpPost] Settings(...)` **duplicate** hain. POST ka method naam alag
+  rakho + `[ActionName("Settings")]`. (Route/`asp-action` wahi rehta hai.)
+- **`[ValidateAntiForgeryToken]` + `IFormCollection` parameter = 400.** Binder
+  body pehle kha jata hai. Seedha `Request.Form` padho, action param hatao.
+- **Razor partial mein `decimal / decimal` implicit double nahi hota** —
+  `(double)(a / b)` chahiye, warna `CS0019`.
 - **Enums DB mein strings hain.** Poore project mein `HasConversion<string>()`
   hai (ConnectionType, ConnectionStatus, OrderStatus, BillStatus, PaymentMethod,
   BillingCycle, FeasibilityResult). Yani `[Status]` column `nvarchar` hai aur
@@ -69,6 +86,14 @@ Do SRS documents (legacy OLE2 `.doc`, readable text extract
   `npm install` chal chuka). Use: `node playwright-cli.js -s=<name> open <url>`
   phir `eval "<fn>"`. **Har call alag process hai** — `open` aur `eval` ek hi
   command mein `&&` se chain karo, warna page `about:blank` reh jata hai.
+  - `run-code` ka return value `### Result` ke neeche aata hai (JSON string).
+    `console.log` capture **nahi** hota — `return` karo.
+  - Login: `page.evaluate(() => { …value = …; form.submit(); })`. `click` +
+    `waitForNavigation` hang karta hai.
+  - `fullPage: true` screenshot mein `.reveal` sections **invisible** aate hain
+    (IntersectionObserver scroll tak trigger nahi hota). Pehle scroll karo.
+  - Screenshot ki resolution par text kata hua **lag** sakta hai jo actually fit
+    hai — `getBoundingClientRect().width` vs `scrollWidth` se confirm karo.
 - **JS sirf `form` ke andar mat dhoondo.** `/Orders/New` ka summary panel
   `<aside>` hai jo form ke **bahar** hai. `form.querySelectorAll` se summary
   elements milte hi nahi — chup-chaap kuch update nahi hota. Summary ke liye
@@ -129,6 +154,12 @@ login change-password page pe atak jayega. DB se reset karke ya
 
 ## Workflow notes
 
+- **24 user-level skills installed hain** (`~/.workbuddy-ai/skills/`). UI/design kaam
+  se pehle `impeccable-design/craft-floor.md` aur `redesign-existing-projects` padho;
+  security/auth wale kaam se pehle `security-review`; kaam khatam karne ke baad
+  `verification-loop`. Tafseel: Obsidian vault `NEXUS - Skills & Tooling.md`.
+- **Obsidian vault** `C:\Users\Zain Ansari\Documents\Obsidian Vault\NEXUS\` —
+  context, architecture, gotchas, progress sab wahin rakho.
 - Build `dotnet build` sandbox mein block hota hai. Zain ne kaha build par waqt
   zaya na karo — design/code padh kar audit karo.
 - Zain `cmd.exe` use karta hai, Git Bash nahi. Shell commands cmd syntax mein do.

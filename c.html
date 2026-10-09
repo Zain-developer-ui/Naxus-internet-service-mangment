@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="NEXUS — Reliable Telecommunication & Internet Services." />
+    <title>Cities &#x2014; NEXUS</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <link rel="stylesheet" href="/css/site.css" />
+    <link rel="stylesheet" href="/css/buttons.css" />
+    <link rel="stylesheet" href="/css/components.css" />
+    <link rel="stylesheet" href="/css/navbar.css" />
+    <link rel="stylesheet" href="/css/cards.css" />
+    <link rel="stylesheet" href="/css/forms.css" />
+    <link rel="stylesheet" href="/css/tables.css" />
+    <link rel="stylesheet" href="/css/sidebar.css" />
+    <link rel="stylesheet" href="/css/animations.css" />
+    <link rel="stylesheet" href="/css/toast.css" />
+    <link rel="stylesheet" href="/css/dashboard.css" />
+    <link rel="stylesheet" href="/css/services.css" />
+    <link rel="stylesheet" href="/css/pricing.css" />
+    <link rel="stylesheet" href="/css/dashboards-luxury.css" />
+    <link rel="stylesheet" href="/css/public-pages.css" />
+    <link rel="stylesheet" href="/css/orders.css" />
+    <link rel="stylesheet" href="/css/home.css" />
+    <link rel="stylesheet" href="/css/responsive.css" />
+    
+    
+    <link rel="stylesheet" href="/css/dashboards-luxury.css" />
+    <link rel="stylesheet" href="/css/admin.css" />
+
+
+</head>
+<body class="dashboard-body">
+    
+<header class="nexus-navbar">
+    <div class="container nav-inner">
+        <a href="/" class="brand" aria-label="NEXUS Home">
+            <span class="brand-mark">N</span>
+            <span class="brand-text">NEXUS</span> </a>
+
+        <button class="nav-toggle" aria-label="Toggle navigation" data-nav-toggle>
+            <i class="fa-solid fa-bars"></i> </button>
+
+        <nav class="nav-links" data-nav-links aria-label="Primary">
+            <a href="/">Home</a>
+            <a href="/Services">Services</a>
+            <a href="/Plans">Plans</a>
+            <a href="/Orders/Tracking">Track Order</a>
+            <a href="/Account/Status">Account Status</a> </nav>
+
+        <div class="nav-actions">
+                <a href="/Admin/Dashboard" class="btn btn-ghost btn-sm">
+                    <i class="fa-solid fa-gauge-high"></i> My Dashboard </a>
+                <form method="post" class="nav-logout" action="/Account/Logout">
+                    
+                    <button type="submit" class="btn btn-primary btn-sm">
+                        <i class="fa-solid fa-right-from-bracket"></i> Logout </button> <input name="__RequestVerificationToken" type="hidden" value="CfDJ8Kyicka_9F5LvaRJu_0Q9bDqqBRltzvo1OY_bbuWclLdLy7bBNYfqHrNskOBjOcSCTHD8g8JEGpEWoLm22BSSB5dIQfupxgX1LSzYQmYcfpy-htnEtz6kWzJTT0RtSkrpzRDUIeCPkfxorh0e7iClApSBxd8bUlIc1Z0e_0WAswT1VRamuI8h6rgL-gGhzuP5A" /></form>
+        </div>
+    </div>
+</header>
+
+    
+
+    <main b-5men529xfw class="page-wrapper">
+        
+
+<div class="dashboard-shell">
+
+    
+<aside class="dashboard-sidebar" data-sidebar>
+    <div class="sidebar-brand">
+        <a href="/" class="brand">
+            <span class="brand-mark">N</span>
+            <span class="brand-text">NEXUS</span> </a>
+        <button class="sidebar-close" data-sidebar-close aria-label="Close sidebar">
+            <i class="fa-solid fa-xmark"></i> </button> </div>
+
+        <nav class="sidebar-nav" aria-label="Admin navigation">
+            <span class="nav-section">Overview</span>
+            <a href="/Admin/Dashboard" class=""><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
+            <a href="/Reports" class=""><i class="fa-solid fa-chart-line"></i> Reports</a>
+
+            <span class="nav-section">Operations</span>
+            <a href="/Operations" class=""><i class="fa-solid fa-clipboard-check"></i> Survey Queue</a>
+            <a href="/Operations/Connections" class=""><i class="fa-solid fa-plug-circle-check"></i> Connections</a>
+            <a href="/Retail/Search" class=""><i class="fa-solid fa-users"></i> Customers</a>
+            <a href="/Retail/Dashboard" class=""><i class="fa-solid fa-store"></i> Retail Sales</a>
+            <a href="/Admin/Plans" class=""><i class="fa-solid fa-layer-group"></i> Plans</a>
+            <a href="/Admin/Orders" class=""><i class="fa-solid fa-box"></i> Orders</a>
+            <a href="/Technical/Dashboard" class=""><i class="fa-solid fa-screwdriver-wrench"></i> Installations</a>
+            <a href="/Accounts/Dashboard" class=""><i class="fa-solid fa-file-invoice"></i> Billing</a>
+
+            <span class="nav-section">Back Office</span>
+            <a href="/Admin/Inventory" class=""><i class="fa-solid fa-boxes-stacked"></i> Inventory</a>
+            <a href="/Admin/Inventory/Products" class=""><i class="fa-solid fa-tags"></i> Equipment</a>
+            <a href="/Admin/Vendors" class=""><i class="fa-solid fa-truck-field"></i> Vendors</a>
+            <a href="/Admin/Organisation" class=""><i class="fa-solid fa-store"></i> Outlets &amp; Staff</a>
+
+            <span class="nav-section">System</span>
+            <a href="/Profile" class=""><i class="fa-solid fa-id-card"></i> My Profile</a>
+            <a href="/Admin/Settings" class=""><i class="fa-solid fa-gear"></i> Settings</a>
+            <a href="/Admin/Settings/Cities" class="active"><i class="fa-solid fa-map-location-dot"></i> Cities</a>
+            <a href="/Admin/Settings/Discounts" class=""><i class="fa-solid fa-percent"></i> Discount Slabs</a>
+            <form method="post" class="sidebar-logout" action="/Account/Logout">
+                
+                <button type="submit" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</button> <input name="__RequestVerificationToken" type="hidden" value="CfDJ8Kyicka_9F5LvaRJu_0Q9bDqqBRltzvo1OY_bbuWclLdLy7bBNYfqHrNskOBjOcSCTHD8g8JEGpEWoLm22BSSB5dIQfupxgX1LSzYQmYcfpy-htnEtz6kWzJTT0RtSkrpzRDUIeCPkfxorh0e7iClApSBxd8bUlIc1Z0e_0WAswT1VRamuI8h6rgL-gGhzuP5A" /></form> </nav>
+</aside>
+
+    <div class="dashboard-main">
+        <div class="dashboard-topbar">
+    <button class="sidebar-toggle" data-sidebar-toggle aria-label="Toggle sidebar">
+        <i class="fa-solid fa-bars"></i> </button>
+
+    <div class="topbar-actions">
+        <span class="role-pill">Administrator</span>
+
+        <button class="icon-btn" aria-label="Notifications">
+            <i class="fa-regular fa-bell"></i>
+            <span class="badge-dot"></span> </button>
+        <button class="icon-btn" aria-label="Messages">
+            <i class="fa-regular fa-envelope"></i> </button>
+
+        <div class="user-chip" data-user-menu>
+            <button type="button" class="user-chip-trigger" aria-haspopup="true" aria-expanded="false">
+                <span class="avatar-initials" aria-hidden="true">SA</span>
+                <span class="user-meta">
+                    <span class="user-name">System Administrator</span>
+                    <span class="user-role">Administrator</span> </span>
+                <i class="fa-solid fa-chevron-down" aria-hidden="true"></i> </button>
+
+            <div class="user-menu" role="menu">
+                <a role="menuitem" href="/Profile"><i class="fa-regular fa-user"></i> My profile</a>
+                <a role="menuitem" href="/Account/ChangePassword"><i class="fa-solid fa-key"></i> Change password</a>
+                <form method="post" action="/Account/Logout">
+                    
+                    <button type="submit" role="menuitem">
+                        <i class="fa-solid fa-right-from-bracket"></i> Sign out </button> <input name="__RequestVerificationToken" type="hidden" value="CfDJ8Kyicka_9F5LvaRJu_0Q9bDqqBRltzvo1OY_bbuWclLdLy7bBNYfqHrNskOBjOcSCTHD8g8JEGpEWoLm22BSSB5dIQfupxgX1LSzYQmYcfpy-htnEtz6kWzJTT0RtSkrpzRDUIeCPkfxorh0e7iClApSBxd8bUlIc1Z0e_0WAswT1VRamuI8h6rgL-gGhzuP5A" /></form> </div> </div> </div>
+</div>
+
+
+        <div class="dashboard-content">
+            
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/Admin/Dashboard">Admin</a>
+    <span class="sep">/</span>
+    <a href="/Admin/Settings/Cities">Settings</a>
+    <span class="sep">/</span>
+    <span class="current">Cities</span>
+</nav>
+
+<div class="page-header reveal">
+    <div>
+        <h1><i class="fa-solid fa-map-location-dot" style="color:var(--nexus-blue);"></i> Service Areas</h1>
+        <p class="muted">Where NEXUS is wired up. The three digit code becomes part of every account ID issued here.</p>
+    </div>
+    <div class="page-header-actions">
+        <a href="/Admin/Settings/Discounts" class="btn btn-outline">
+            <i class="fa-solid fa-percent"></i> Discount slabs </a>
+        <a href="/Admin/Settings/Cities/New" class="btn btn-primary">
+            <i class="fa-solid fa-plus"></i> New City </a>
+    </div>
+</div>
+
+
+<div class="stats-grid reveal">
+    <div class="stat-card">
+        <div class="stat-icon navy"><i class="fa-solid fa-map-location-dot"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value">8</div>
+            <div class="stat-label">Cities On Record</div> </div> </div>
+    <div class="stat-card">
+        <div class="stat-icon success"><i class="fa-solid fa-signal"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value">8</div>
+            <div class="stat-label">Being Served</div> </div> </div>
+    <div class="stat-card">
+        <div class="stat-icon blue"><i class="fa-solid fa-users"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value">2</div>
+            <div class="stat-label">Customers City-wide</div> </div> </div>
+</div>
+
+<div class="chart-card reveal" style="margin-top:22px;">
+    <form method="get" action="/Admin/Settings/Cities">
+        <div class="filter-bar">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" name="search"
+                       placeholder="Search by city or region…" autocomplete="off" />
+            </div>
+            <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-filter"></i> Apply </button>
+        </div>
+    </form>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col">City</th>
+                    <th scope="col">Region</th>
+                    <th scope="col" class="num">Code</th>
+                    <th scope="col" class="num">Customers</th>
+                    <th scope="col" class="num hide-sm">Outlets</th>
+                    <th scope="col">Coverage</th>
+                    <th scope="col"><span class="sr-only">Actions</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                        <tr>
+                            <td><div class="cell-title">Faisalabad</div></td>
+                            <td>
+Punjab                            </td>
+                            <td class="num"><strong class="mono">414</strong></td>
+                            <td class="num">
+                                    <span class="muted">0</span>
+                            </td>
+                            <td class="num hide-sm">
+                                    <span class="muted">0</span>
+                            </td>
+                            <td>
+                                <span class="badge badge-success">
+                                    Serving
+                                </span>
+                            </td>
+                            <td class="actions">
+                                <a href="/Admin/Settings/Cities/5/Edit" class="btn btn-ghost btn-sm">
+                                    <i class="fa-solid fa-pen"></i> Edit </a>
+
+                                <form method="post" data-toast="City hidden from new registrations." data-toast-type="warning" action="/Admin/Settings/Cities/5/ToggleServed">
+                                    
+                                    <input type="hidden" name="served" />
+                                    <button type="submit" class="btn btn-ghost btn-sm"
+                                            aria-label="Stop serving Faisalabad">
+                                        <i class="fa-solid fa-toggle-off"></i>
+                                        Stop serving
+                                    </button>
+                                <input name="__RequestVerificationToken" type="hidden" value="CfDJ8Kyicka_9F5LvaRJu_0Q9bDqqBRltzvo1OY_bbuWclLdLy7bBNYfqHrNskOBjOcSCTHD8g8JEGpEWoLm22BSSB5dIQfupxgX1LSzYQmYcfpy-htnEtz6kWzJTT0RtSkrpzRDUIeCPkfxorh0e7iClApSBxd8bUlIc1Z0e_0WAswT1VRamuI8h6rgL-gGhzuP5A" /></form>
+
+                                    <form method="post" data-confirm="Delete 'Faisalabad'? This cannot be undone." action="/Admin/Settings/Cities/5/Delete">
+                                        
+                                        <button type="submit" class="btn btn-ghost btn-sm danger">
+                                            <i class="fa-solid fa-trash"></i> Delete </button>
+                                    <input name="__RequestVerificationToken" type="hidden" value="CfDJ8Kyicka_9F5LvaRJu_0Q9bDqqBRltzvo1OY_bbuWclLdLy7bBNYfqHrNskOBjOcSCTHD8g8JEGpEWoLm22BSSB5dIQfupxgX1LSzYQmYcfpy-htnEtz6kWzJTT0RtSkrpzRDUIeCPkfxorh0e7iClApSBxd8bUlIc1Z0e_0WAswT1VRamuI8h6rgL-gGhzuP5A" /></form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><div class="cell-title">Islamabad</div></td>
+                            <td>
+Federal                            </td>
+                            <td class="num"><strong class="mono">51</strong></td>
+                            <td class="num">
+                                    <span class="muted">0</span>
+                            </td>
+                            <td class="num hide-sm">
+                                    <span class="muted">0</span>
+                            </td>
+                            <td>
+                                <span class="badge badge-success">
+                                    Serving
+                                </span>
+                            </td>
+                            <td class="actions">
+                                <a href="/Admin/Settings/Cities/3/Edit" class="btn btn-ghost btn-sm">
+                                    <i class="fa-solid fa-pen"></i> Edit </a>
+
+                                <form method="post" data-toast="City hidden from new registrations." data-toast-type="warning" action="/Admin/Settings/Cities/3/ToggleServed">
+                                    
+                                    <input type="hidden" name="served" />
+                                    <button type="submit" class="btn btn-ghost btn-sm"
+                                            aria-label="Stop serving Islamabad">
+                                        <i class="fa-solid fa-toggle-off"></i>
+                                        Stop serving
+                                    </button>
+                                <input name="__RequestVerificationToken" type="hidden" value="CfDJ8Kyicka_9F5LvaRJu_0Q9bDqqBRltzvo1OY_bbuWclLdLy7bBNYfqHrNskOBjOcSCTHD8g8JEGpEWoLm22BSSB5dIQfupxgX1LSzYQmYcfpy-htnEtz6kWzJTT0RtSkrpzRDUIeCPkfxorh0e7iClApSBxd8bUlIc1Z0e_0WAswT1VRamuI8h6rgL-gGhzuP5A" /></form>
+
+                                    <form method="post" data-confirm="Delete 'Islamabad'? This cannot be undone." action="/Admin/Settings/Cities/3/Delete">
+                                        
+                                        <button type="submit" class="btn btn-ghost btn-sm danger">
+                                            <i class="fa-solid fa-trash"></i> Delete </button>
+                                    <input name="__RequestVerificationToken" type="hidden" value="CfDJ8Kyicka_9F5LvaRJu_0Q9bDqqBRltzvo1OY_bbuWclLdLy7bBNYfqHrNskOBjOcSCTHD8g8JEGpEWoLm22BSSB5dIQfupxgX1LSzYQmYcfpy-htnEtz6kWzJTT0RtSkrpzRDUIeCPkfxorh0e7iClApSBxd8bUlIc1Z0e_0WAswT1VRamuI8h6rgL-gGhzuP5A" /></form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><div class="cell-title">Karachi</div></td>
+                            <td>
+Sindh                            </td>
+                            <td class="num"><strong class="mono">21</strong></td>
+                            <td class="num">
+                                    <span class="muted">0</span>
+                            </td>
+                            <td class="num hide-sm">
+                                    <span class="count-pill">1</span>
+                            </td>
+                            <td>
+                                <span class="badge badge-success">
+                                    Serving
+                                </span>
+                            </td>
+                            <td class="actions">
+                                <a href="/Admin/Settings/Cities/1/Edit" class="btn btn-ghost btn-sm">
+                                    <i class="fa-solid fa-pen"></i> Edit </a>
+
+                                <form method="post" data-toast="City hidden from new registrations." data-toast-type="warning" action="/Admin/Settings/Cities/1/ToggleServed">
+                                    
+                                    <input type="hidden" name="served" />
+                                    <button type="submit" class="btn btn-ghost btn-sm"
+                                            aria-label="Stop serving Karachi">
+                                        <i class="fa-solid fa-toggle-off"></i>
+                                        Stop serving
+                                    </button>
+                                <input name="__RequestVerificationToken" type="hidden" value="CfDJ8Kyicka_9F5LvaRJu_0Q9bDqqBRltzvo1OY_bbuWclLdLy7bBNYfqHrNskOBjOcSCTHD8g8JEGpEWoLm22BSSB5dIQfupxgX1LSzYQmYcfpy-htnEtz6kWzJTT0RtSkrpzRDUIeCPkfxorh0e7iClApSBxd8bUlIc1Z0e_0WAswT1VRamuI8h6rgL-gGhzuP5A" /></form>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><div class="cell-title">Lahore</div></td>
+                            <td>
+Punjab                            </td>
+                            <td class="num"><strong class="mono">42</strong></td>
+                            <td class="num">
+                                    <span class="count-pill">2</span>
+                            </td>
+                            <td class="num hide-sm">
+                                    <span class="muted">0</span>
+                            </td>
+                            <td>
+                                <span class="badge badge-success">
+                                    Serving
+                                </span>
+                            </td>
+                            <td class="actions">
+                                <a href="/Admin/Settings/Cities/2/Edit" class="btn btn-ghost btn-sm">
+                                    <i class="fa-solid fa-pen"></i> Edit </a>
+
+                                <form method="post" data-toast="City hidden from new registrations." data-toast-type="warning" action="/Admin/Settings/Cities/2/ToggleServed">
+                                    
+                                    <input type="hidden" name="served" />
+                                    <button type="submit" class="btn btn-ghost btn-sm"
+                                            aria-label="Stop serving Lahore">
+                                        <i class="fa-solid fa-toggle-off"></i>
+                                        Stop serving
+                                    </button>
+                                <input name="__RequestVerificationToken" type="hidden" value="CfDJ8Kyicka_9F5LvaRJu_0Q9bDqqBRltzvo1OY_bbuWclLdLy7bBNYfqHrNskOBjOcSCTHD8g8JEGpEWoLm22BSSB5dIQfupxgX1LSzYQmYcfpy-htnEtz6kWzJTT0RtSkrpzRDUIeCPkfxorh0e7iClApSBxd8bUlIc1Z0e_0WAswT1VRamuI8h6rgL-gGhzuP5A" /></form>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><div class="cell-title">Multan</div></td>
+                            <td>
+Punjab                            </td>
+                            <td class="num"><strong class="mono">91</strong></td>
+                            <td class="num">
+                                    <span class="muted">0</span>
+                            </td>
+                            <td class="num hide-sm">
+                                    <span class="muted">0</span>
+                            </td>
+                            <td>
+                                <span class="badge badge-success">
+                                    Serving
+                                </span>
+                            </td>
+                            <td class="actions">
+                                <a href="/Admin/Settings/Cities/6/Edit" class="btn btn-ghost btn-sm">
+                                    <i class="fa-solid fa-pen"></i> Edit </a>
+
+                                <form method="post" data-toast="City hidden from new registrations." data-toast-type="warning" action="/Admin/Settings/Cities/6/ToggleServed">
+                                    
+                                    <input type="hidden" name="served" />
+                                    <button type="submit" class="btn btn-ghost btn-sm"
+                                            aria-label="Stop serving Multan">
+                                        <i class="fa-solid fa-toggle-off"></i>
+                                        Stop serving
+                                    </button>
+                                <input name="__RequestVerificationToken" type="hidden" value="CfDJ8Kyicka_9F5LvaRJu_0Q9bDqqBRltzvo1OY_bbuWclLdLy7bBNYfqHrNskOBjOcSCTHD8g8JEGpEWoLm22BSSB5dIQfupxgX1LSzYQmYcfpy-htnEtz6kWzJTT0RtSkrpzRDUIeCPkfxorh0e7iClApSBxd8bUlIc1Z0e_0WAswT1VRamuI8h6rgL-gGhzuP5A" /></form>
+
+                                    <form method="post" data-confirm="Delete 'Multan'? This cannot be undone." action="/Admin/Settings/Cities/6/Delete">
+                                        
+                                        <button type="submit" class="btn btn-ghost btn-sm danger">
+                                            <i class="fa-solid fa-trash"></i> Delete </button>
+                                    <input name="__RequestVerificationToken" type="hidden" value="CfDJ8Kyicka_9F5LvaRJu_0Q9bDqqBRltzvo1OY_bbuWclLdLy7bBNYfqHrNskOBjOcSCTHD8g8JEGpEWoLm22BSSB5dIQfupxgX1LSzYQmYcfpy-htnEtz6kWzJTT0RtSkrpzRDUIeCPkfxorh0e7iClApSBxd8bUlIc1Z0e_0WAswT1VRamuI8h6rgL-gGhzuP5A" /></form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><div class="cell-title">Peshawar</div></td>
+                            <td>
+Khyber Pakhtunkhwa                            </td>
+                            <td class="num"><strong class="mono">92</strong></td>
+                            <td class="num">
+                                    <span class="muted">0</span>
+                            </td>
+                            <td class="num hide-sm">
+                                    <span class="muted">0</span>
+                            </td>
+                            <td>
+                                <span class="badge badge-success">
+                                    Serving
+                                </span>
+                            </td>
+                            <td class="actions">
+                                <a href="/Admin/Settings/Cities/7/Edit" class="btn btn-ghost btn-sm">
+                                    <i class="fa-solid fa-pen"></i> Edit </a>
+
+                                <form method="post" data-toast="City hidden from new registrations." data-toast-type="warning" action="/Admin/Settings/Cities/7/ToggleServed">
+                                    
+                                    <input type="hidden" name="served" />
+                                    <button type="submit" class="btn btn-ghost btn-sm"
+                                            aria-label="Stop serving Peshawar">
+                                        <i class="fa-solid fa-toggle-off"></i>
+                                        Stop serving
+                                    </button>
+                                <input name="__RequestVerificationToken" type="hidden" value="CfDJ8Kyicka_9F5LvaRJu_0Q9bDqqBRltzvo1OY_bbuWclLdLy7bBNYfqHrNskOBjOcSCTHD8g8JEGpEWoLm22BSSB5dIQfupxgX1LSzYQmYcfpy-htnEtz6kWzJTT0RtSkrpzRDUIeCPkfxorh0e7iClApSBxd8bUlIc1Z0e_0WAswT1VRamuI8h6rgL-gGhzuP5A" /></form>
+
+                                    <form method="post" data-confirm="Delete 'Peshawar'? This cannot be undone." action="/Admin/Settings/Cities/7/Delete">
+                                        
+                                        <button type="submit" class="btn btn-ghost btn-sm danger">
+                                            <i class="fa-solid fa-trash"></i> Delete </button>
+                                    <input name="__RequestVerificationToken" type="hidden" value="CfDJ8Kyicka_9F5LvaRJu_0Q9bDqqBRltzvo1OY_bbuWclLdLy7bBNYfqHrNskOBjOcSCTHD8g8JEGpEWoLm22BSSB5dIQfupxgX1LSzYQmYcfpy-htnEtz6kWzJTT0RtSkrpzRDUIeCPkfxorh0e7iClApSBxd8bUlIc1Z0e_0WAswT1VRamuI8h6rgL-gGhzuP5A" /></form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><div class="cell-title">Quetta</div></td>
+                            <td>
+Balochistan                            </td>
+                            <td class="num"><strong class="mono">81</strong></td>
+                            <td class="num">
+                                    <span class="muted">0</span>
+                            </td>
+                            <td class="num hide-sm">
+                                    <span class="muted">0</span>
+                            </td>
+                            <td>
+                                <span class="badge badge-success">
+                                    Serving
+                                </span>
+                            </td>
+                            <td class="actions">
+                                <a href="/Admin/Settings/Cities/8/Edit" class="btn btn-ghost btn-sm">
+                                    <i class="fa-solid fa-pen"></i> Edit </a>
+
+                                <form method="post" data-toast="City hidden from new registrations." data-toast-type="warning" action="/Admin/Settings/Cities/8/ToggleServed">
+                                    
+                                    <input type="hidden" name="served" />
+                                    <button type="submit" class="btn btn-ghost btn-sm"
+                                            aria-label="Stop serving Quetta">
+                                        <i class="fa-solid fa-toggle-off"></i>
+                                        Stop serving
+                                    </button>
+                                <input name="__RequestVerificationToken" type="hidden" value="CfDJ8Kyicka_9F5LvaRJu_0Q9bDqqBRltzvo1OY_bbuWclLdLy7bBNYfqHrNskOBjOcSCTHD8g8JEGpEWoLm22BSSB5dIQfupxgX1LSzYQmYcfpy-htnEtz6kWzJTT0RtSkrpzRDUIeCPkfxorh0e7iClApSBxd8bUlIc1Z0e_0WAswT1VRamuI8h6rgL-gGhzuP5A" /></form>
+
+                                    <form method="post" data-confirm="Delete 'Quetta'? This cannot be undone." action="/Admin/Settings/Cities/8/Delete">
+                                        
+                                        <button type="submit" class="btn btn-ghost btn-sm danger">
+                                            <i class="fa-solid fa-trash"></i> Delete </button>
+                                    <input name="__RequestVerificationToken" type="hidden" value="CfDJ8Kyicka_9F5LvaRJu_0Q9bDqqBRltzvo1OY_bbuWclLdLy7bBNYfqHrNskOBjOcSCTHD8g8JEGpEWoLm22BSSB5dIQfupxgX1LSzYQmYcfpy-htnEtz6kWzJTT0RtSkrpzRDUIeCPkfxorh0e7iClApSBxd8bUlIc1Z0e_0WAswT1VRamuI8h6rgL-gGhzuP5A" /></form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><div class="cell-title">Rawalpindi</div></td>
+                            <td>
+Punjab                            </td>
+                            <td class="num"><strong class="mono">61</strong></td>
+                            <td class="num">
+                                    <span class="muted">0</span>
+                            </td>
+                            <td class="num hide-sm">
+                                    <span class="muted">0</span>
+                            </td>
+                            <td>
+                                <span class="badge badge-success">
+                                    Serving
+                                </span>
+                            </td>
+                            <td class="actions">
+                                <a href="/Admin/Settings/Cities/4/Edit" class="btn btn-ghost btn-sm">
+                                    <i class="fa-solid fa-pen"></i> Edit </a>
+
+                                <form method="post" data-toast="City hidden from new registrations." data-toast-type="warning" action="/Admin/Settings/Cities/4/ToggleServed">
+                                    
+                                    <input type="hidden" name="served" />
+                                    <button type="submit" class="btn btn-ghost btn-sm"
+                                            aria-label="Stop serving Rawalpindi">
+                                        <i class="fa-solid fa-toggle-off"></i>
+                                        Stop serving
+                                    </button>
+                                <input name="__RequestVerificationToken" type="hidden" value="CfDJ8Kyicka_9F5LvaRJu_0Q9bDqqBRltzvo1OY_bbuWclLdLy7bBNYfqHrNskOBjOcSCTHD8g8JEGpEWoLm22BSSB5dIQfupxgX1LSzYQmYcfpy-htnEtz6kWzJTT0RtSkrpzRDUIeCPkfxorh0e7iClApSBxd8bUlIc1Z0e_0WAswT1VRamuI8h6rgL-gGhzuP5A" /></form>
+
+                                    <form method="post" data-confirm="Delete 'Rawalpindi'? This cannot be undone." action="/Admin/Settings/Cities/4/Delete">
+                                        
+                                        <button type="submit" class="btn btn-ghost btn-sm danger">
+                                            <i class="fa-solid fa-trash"></i> Delete </button>
+                                    <input name="__RequestVerificationToken" type="hidden" value="CfDJ8Kyicka_9F5LvaRJu_0Q9bDqqBRltzvo1OY_bbuWclLdLy7bBNYfqHrNskOBjOcSCTHD8g8JEGpEWoLm22BSSB5dIQfupxgX1LSzYQmYcfpy-htnEtz6kWzJTT0RtSkrpzRDUIeCPkfxorh0e7iClApSBxd8bUlIc1Z0e_0WAswT1VRamuI8h6rgL-gGhzuP5A" /></form>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+ </div>
+
+        <footer class="dashboard-footer">
+            <span>&copy; 2026 NEXUS — Connecting You to a Better Tomorrow</span> </footer> </div>
+</div>
+
+ </main>
+
+    <footer class="nexus-footer">
+    <div class="container footer-grid">
+        <div class="footer-brand">
+            <a href="/" class="brand">
+                <span class="brand-mark">N</span>
+                <span class="brand-text">NEXUS</span> </a>
+            <p class="muted small">Connecting You to a Better Tomorrow.</p>
+            <p class="muted small">Reliable Telecommunication &amp; Internet Services for Homes, Businesses and Communities.</p>
+            <div class="social-row">
+                <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a> </div> </div>
+
+        <div>
+            <h5>Company</h5>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/Services">Services</a></li>
+                <li><a href="/Plans">Plans</a></li>
+                <li><a href="/Feedback">Feedback</a></li> </ul> </div>
+
+        <div>
+            <h5>Support</h5>
+            <ul>
+                <li><a href="/Account/Status">Account Status</a></li>
+                <li><a href="/Orders/Tracking">Track Order</a></li>
+                <li><a href="/Account/Login">Customer Login</a></li>
+                <li><a href="/Orders/New">New Connection</a></li> </ul> </div>
+
+        <div>
+            <h5>Contact</h5>
+            <ul class="contact-list">
+                <li><i class="fa-solid fa-phone"></i> 111-NEXUS-1</li>
+                <li><i class="fa-solid fa-envelope"></i> support@nexus.example</li>
+                <li><i class="fa-solid fa-location-dot"></i> Lahore, Pakistan</li> </ul> </div> </div>
+
+    <div class="footer-bottom">
+        <div class="container">
+            <span>&copy; 2026 NEXUS. All rights reserved.</span>
+            <span class="footer-legal">
+                <a href="#">Privacy</a> · <a href="#">Terms</a> </span> </div> </div>
+</footer>
+
+    <!-- Chart.js ships locally so the dashboards still draw without a network -->
+    <script src="/lib/chart.js/chart.umd.min.js"></script>
+
+    <script src="/js/site.js"></script>
+    <script src="/js/navigation.js"></script>
+    <script src="/js/modal.js"></script>
+    <script src="/js/validation.js"></script>
+    <script src="/js/forms.js"></script>
+    <script src="/js/dashboard.js"></script>
+    <script src="/js/charts.js"></script>
+    <script src="/js/bills.js"></script>
+    <script src="/js/search.js"></script>
+
+    
+    
+
+</body>
+</html>

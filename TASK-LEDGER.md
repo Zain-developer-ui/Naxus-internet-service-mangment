@@ -2,7 +2,107 @@
 
 Yahan sab kaam track hoti hai. Jo **nahi** hua wo bhi likhna hai — sirf done wali list nahi.
 
-Last updated: 5 Oct 2026
+Last updated: 8 Oct 2026 (4-din plan tayyar)
+
+> **SRS scorecard (8 Oct, code padh kar):** 53 requirements mein se
+> **37 DONE (70%)**, **8 PARTIAL (15%)**, **8 MISSING (15%)**.
+> Purani `docs/03-requirements-matrix.md` (5 Oct) **ghalat hai** — us waqt 2% tha.
+>
+> **4-din ka plan: `PLAN-4-DAYS.md`** (workspace root) ya
+> `Documents/Obsidian Vault/NEXUS/NEXUS - 4 Day Plan.md`
+>
+> **Static audit: `STATIC-DATA-AUDIT.md`** — 4 HIGH, 5 MEDIUM, 4 LOW findings (~7 ghante ka kaam)
+> **Testing: `TESTING-GUIDE.md`** — team member ke liye ~70 test cases + cross questions
+
+---
+
+## Static data — POORA FIX HO GAYA (8 Oct audit + fix)
+
+**Achhi khabar:** zyadatar project asli DB par chalta hai. Static sirf Customer
+portal aur JS ke dead functions mein tha. **13 findings — sab fix.**
+
+| Sev | Kahan | Kya tha | Ab |
+|---|---|---|---|
+| HIGH | `wwwroot/js/bills.js` | 148-line **dead file** — saare 9 selectors kisi view mein nahi, har page par load, "Payment processed (demo)" fake toast | **Poori file delete** + `_Layout` se script tag hata |
+| HIGH | `Views/Customer/MyConnection.cshtml` | Fallback model `Ahmed Khan` / `NX12345678` | Fallback poora hata (`var acc = Model`) |
+| HIGH | `Views/Customer/MyConnection.cshtml` | Timeline hardcoded ("08 Jan 2025", "Usman Ahmed") | `ConnectionStatusHistory` + `FeasibilityChecks` se real |
+| HIGH | `Views/Customer/MyConnection.cshtml` | Plan features + equipment hardcoded ("Unlimited data" — SRS ke against) | `Plan` columns se derive + `EquipmentProducts` se |
+| MED | `MyConnection` + `Customer/Dashboard` | Fake service health ("Excellent", "Stable", "Verified") | Real fields (status, speed, billing) |
+| MED | `Customer/Dashboard` | Fallback dates ("25 Oct 2025" waghera) | `"—"` |
+| MED | `dashboard.js` | "not available in this demo" | "not wired up yet" |
+| MED | `Account/Status.cshtml` | placeholder purana format | `B042000000000001` |
+| LOW | `charts.js` | stale comment ("demo data") | Comment update |
+| LOW | `Home/Contact` + `Home/Index` | Fake "Live Chat" (4 jagah) | "Send a Message" → real form |
+| LOW | `MyConnection` | 40+ inline styles | Classes (`banner-identity`, `badge-ghost`, `stat-value.compact`, `inline-actions`) |
+
+**Naye view-model fields** (`AccountViewModel`): `PlanId`, `PlanFeatures`,
+`Timeline`, `Equipment` + `HasPlanFeatures`/`HasTimeline`/`HasEquipment`.
+`BillingStatus` ab bills se compute hota hai (pehle khaali reh jata tha).
+
+**Dead field hataya:** `TechnicianName`. **`RouterModel`** ab
+`EquipmentProducts` se set hota hai.
+
+**Verified (curl + screenshot):** `/js/bills.js` → **404**. `MyConnection` par
+"Bilal Ahmed Khan · B042000000000002 · Broadband 60 Hours", plan features
+"60 hours of usage included each cycle" + "$500.00 security deposit", timeline
+3 real entries (06 Oct 2026), equipment 6 real products. 10 pages → sab 200.
+
+**Data safe:** Users 6, Customers 2, Orders 2, Connections 1, Bills 0, Plans 10,
+Cities 8, EquipmentProducts 6.
+
+---
+
+## M2 — Advanced search (9 Oct 2026) ✅ DONE
+
+SRS: *"The advanced search option should be included for checking the status of the
+order or the status of the connection with the options being the unique id, name on
+which the order is placed or the connection is taken, type of connection, date or
+period of application or received the connection, contact number."*
+
+Pehle: `/Retail/Search` par **ek text box** tha (`SearchService.SearchAsync(string? term)`).
+
+Ab: naya `/Search/Advanced` — **5 filters**, SRS ke exactly.
+
+| Cheez | Kahan |
+|---|---|
+| Query + results view model | `Models/ViewModels/AdvancedSearchViewModel.cs` |
+| Service | `Services/Search/AdvancedSearchService.cs` |
+| Controller | `Controllers/SearchController.cs` (`[Authorize(Roles = StaffRoles)]`) |
+| View | `Views/Search/Advanced.cshtml` |
+| Sidebar | `_Sidebar.cshtml` — dono branches mein |
+
+**Design faisle:**
+
+- **Alag controller.** `/Retail/...` ke andar nahi rakha kyunki technician aur
+  accounts clerk ko bhi wahi filters chahiye. `StaffRoles` = Admin + Accounts +
+  Technical + Retail.
+- **Do result sets.** Orders `CreatedAt` par filter hote hain (application date),
+  lines `ActivatedOn` par (received date). Ek hi period, dono apne apne column se —
+  yahi SRS ka *"date or period of application or received the connection"* hai.
+- **Khaali query = kuch nahi.** Bina filter ke poori book nahi dikhati; screen
+  kehti hai "Enter at least one filter".
+- **GET form.** URL shareable rehta hai.
+- **`To` date poora din cover karta hai** — `To.Date.AddDays(1)` se `<` compare,
+  warna 31 Oct ka din chhoot jata.
+
+**Live verification (curl, 8 tests):**
+
+| Test | Nateeja |
+|---|---|
+| Build | 0 errors |
+| Khaali query | 200 — "Enter at least one filter" |
+| `?Id=B0000000001` | 200 — order mila |
+| `?Name=Bilal` | 200 — 1 order + 1 line |
+| `?Type=Broadband` | 200 — 2 orders + 1 line |
+| `?Contact=0321` | 200 — 1 order + 1 line |
+| `?From=2026-10-01&To=2026-10-31` | 200 — 2 orders + 1 line |
+| `?From=2026-01-01&To=2026-01-31` | 200 — "Nothing matches those filters" |
+| `?Name=ZZZNobody` | 200 — "Nothing matches those filters" |
+| Guest | **302 → /Account/Login?ReturnUrl=%2FSearch%2FAdvanced** |
+| Retail login | **200** |
+| Sidebar | har page par exactly **1** active link |
+
+**Data safe:** Users 6, Customers 2, Orders 2, Connections 1, Bills 0, Plans 10, Cities 8.
 
 Legend: `DONE` / `PARTIAL` / `TODO` / `PLAN`
 
@@ -205,6 +305,420 @@ Sab kuch likha hai: **`docs/13-full-system-audit.md`**
 
 ---
 
+## Phase A/B/C — Nav fixes + mock hatana (7 Oct 2026) ✅ DONE
+
+Sab kuch build-verified aur **live server par curl se test kiya gaya** (`localhost:5199`).
+
+### Nav bugs (N1–N10) — sab fix
+
+| # | Bug | Fix |
+|---|---|---|
+| N1 | Nested route pe do sidebar items active | `navigation.js` `initActiveLink()` ab sirf `.nav-links` (public navbar) pe chalta hai — sidebar server-side `IsActive()` se mark hoti hai |
+| N2 | Accounts sidebar `/Bills/Details` (id ke bina) → 404 | Ab `/Bills?status=Overdue` (real filter) |
+| N3 | Admin sidebar `IsActive("retail")` kabhi match nahi karta | Key `dashboard` kar di |
+| N4 | Admin sidebar `IsActive("customers")` kabhi match nahi karta | Key `search` kar di |
+| N5 | Technical sidebar `Installations` → `/Orders/Tracking` (galat) | Ab `/Operations` |
+| N6 | Admin sidebar `Orders` → `/Orders/Tracking` (id ke bina) | Ab `/Retail/Orders`… **nahi**, `/Orders/Tracking` hi rakha magar `SetActiveItem("orders")` ke saath |
+| N7 | `OperationsController` `SetActiveItem` call hi nahi karta tha | `Index`/`Review`/`Connections`/`Connection` — sab mein add |
+| N8 | `/Home/Privacy` **404** (do signup forms se linked) | Action + real policy page banaya. Ab 200 |
+| N9 | Contact form submit pe kuch save nahi hota | Real POST → `Feedback` table, anti-forgery + validation |
+| N10 | `/Services` 100% static (`ApiService` mock) | Naya `ServiceCatalogService` — live plans se derive |
+
+### Mock data hataya — `ApiService` poora delete
+
+`Models/Services/Api/ApiService.cs` + `IApiService.cs` **delete**. Uske 4 consumers real services pe shift:
+
+| Page | Pehle | Ab |
+|---|---|---|
+| `/Services` | 9 hardcoded services | `ServiceCatalogService` — plans se group, live rates |
+| `/Orders/Tracking` | Mock "Ahmed Khan" order | `OrderTrackingService` — real order + real timeline |
+| `/Account/Status` | Fake "Ahmed Khan" dump | `CustomerPortalService.LookupAsync` — real DB lookup |
+| `/Feedback` | Toast dikha kar kuch save nahi | `FeedbackService` — real save + history |
+
+### Naye features
+
+- **Plans CRUD** — `AdminPlansController` (`/Admin/Plans`), `PlanAdminService`, 2 views, CSS+JS.
+  Create/Edit/Toggle/Delete. Delete sirf tab jab plan pe koi order na ho (warna `Conflict` + "retire karo").
+- **Order tracking timeline** — real `OrderStatus` se 4-stage ladder. Cancelled/FailedFeasibility pe ladder ruk jati hai (`failed` state, red dot).
+- **ChangePassword** — pehle "not enabled yet" tha. Ab `AuthenticationService.ChangePasswordAsync` (current password re-verify, same-password reject).
+- **Reports** — `ReportService` + `/Admin/Reports` poori tarah rewrite. Har figure DB se.
+  Filters GET form (shareable URL), CSV export real (`/Admin/ExportCustomers`).
+
+### Chart.js offline
+
+`chart.umd.min.js` **CDN se local** (`wwwroot/lib/chart.js/`) — competition demo offline ho to charts tootein na.
+`charts.js` `autoInit` ab `data-labels`/`data-values` bhi padhta hai (pehle markup mein the magar **ignore** ho rahe the).
+
+### Staff accounts — bara gap tha
+
+System mein sirf **Admin + 2 Customer** the. **Retail, Technical, Accounts** ka koi user hi nahi —
+yani 3 portals login hi nahi ho sakte the. `NexusSeeder.SeedStaffAsync` add kiya:
+
+| Role | Account ID | Password | Employee |
+|---|---|---|---|
+| Retail | `R0000000000001` | `Nexus@2026` | Sana Iqbal (EMP-R01, Clifton outlet) |
+| Technical | `T0000000000001` | `Nexus@2026` | Usman Ahmed (EMP-T01) |
+| Accounts | `F0000000000001` | `Nexus@2026` | Hina Raza (EMP-F01) |
+
+Admin: `admin@nexus.example` / `Nexus@2027`.
+**Customer accounts (`B042...`) ka password pata nahi** — registration flow se bane the, seed se nahi.
+
+### Live verification (curl, running server)
+
+| Cheez | Nateeja |
+|---|---|
+| Build | 0 errors |
+| `/Home/Privacy` | 200 (pehle 404) |
+| Admin login | 302 → `/Admin/Dashboard` |
+| Retail / Technical / Accounts login | 302 → apne apne dashboard |
+| `/Admin/Plans` | 10 real plans |
+| Plan create | 302 → DB mein 11, teeno price rows sahi |
+| Plan delete | 302 → wapas 10, **0 orphan prices** |
+| `/Operations/Connections` sidebar | Sirf "Connections" active (pehle double) |
+| Order tracking `B0000000001` | 1 done + **1 failed**, badge danger |
+| Order tracking `B0000000002` | 4 done, badge success |
+| Reports KPIs | 2 customers, 1 active connection, 2 orders, 1 completed |
+| Reports tables | Real account IDs + statuses |
+| CSV export | `text/csv`, real rows + plan names + rates |
+| Services page | Live rates ($15 / $50 / $175 per cycle) |
+
+**Data safe:** Plans 10, Orders 2, Customers 2, Bills 0, orphan prices 0. Kuch loss nahi hua.
+
+---
+
+## Phase A (baqi) + Settings backend (7 Oct 2026) ✅ DONE
+
+### Reports ka apna controller — 5 dead links the
+
+`/Admin/Reports` sirf Admin ko milta tha. Retail, Technical aur Accounts ke
+dashboard/sidebar se 5 links wahan jaate the aur **302 → AccessDenied** dete the.
+
+- Naya `Controllers/ReportsController.cs` — `[Authorize(Roles = NexusRoles.StaffRoles)]`.
+- `Views/Admin/Reports.cshtml` → `Views/Reports/Index.cshtml`.
+- `ExportCustomers` bhi wahan shift. `AdminController` se dono actions hata diye.
+- **9 links** `/Reports` par repoint (`_Sidebar` x4, Accounts Dashboard x2,
+  Admin Dashboard x2, Technical Dashboard x1, `dashboard.js` x1).
+
+**Verify (curl, chaar roles):**
+
+| Role | `/Reports` | `/Reports/ExportCustomers` |
+|---|---|---|
+| Admin | 200 | 200 |
+| Retail | 200 | 200 |
+| Technical | 200 | 200 |
+| Accounts | 200 | 200 |
+| Guest | 302 → `/Account/Login?ReturnUrl=%2FReports` | — |
+
+### Cities CRUD — `/Admin/Settings/Cities`
+
+`SettingsAdminService` (naya) + `AdminSettingsController` + 2 views.
+
+- City code **3 digit** hai aur account ID ke andar embed hota hai, is liye
+  jis city mein customer register ho chuka ho wahan code **lock** ho jata hai
+  (`CodeLocked` → input `readonly`). Naam badalna phir bhi chalta hai.
+- Duplicate name aur duplicate code — dono block.
+- Delete sirf tab jab na customers hon na outlets. Warna `Conflict` +
+  "not served mark karo".
+- `ToggleServed` — city record par rehti hai magar registration par offer nahi hoti.
+
+### Bulk discount slabs CRUD — `/Admin/Settings/Discounts`
+
+- `Rate` DB mein fraction (0.25) hai, form percent (25) dikhata hai.
+  `PercentRate` property dono taraf convert karti hai.
+- **Overlap detection:** do active slabs ek hi headcount cover karein to
+  discount ambiguous ho jata hai. Save par block + list par `Overlaps` badge.
+- Open-ended top slab ke liye checkbox (blank number input aur "deliberately
+  blank" wire par ek jaise lagte hain).
+
+### `Admin/Settings` — poora page fake tha
+
+Pehle 100% static demo tha: "1,245 customers", "842 Active", "API Status: Mock /
+Demo", "no changes are persisted to a database", aur teen fake action buttons
+(cache clear / refresh demo / health check) jo sirf toast dikhate the.
+
+Ab **settings hub** hai — `SystemOverview` live DB se bharta hai:
+
+| Tile | Live figure |
+|---|---|
+| Customer Accounts | `Customers` count |
+| Live Connections | `Connections` where `Status = Active` |
+| Orderable Plans | `Plans` where `IsActive` |
+| Cities Served | `Cities` where `IsServiced` |
+| Cities & Service Areas | total + serviced → `/Admin/Settings/Cities` |
+| Bulk Discount Slabs | total + active → `/Admin/Settings/Discounts` |
+| Service Plans | total + active → `/Admin/Plans` |
+| Billing & Tax | bills issued + `TaxConstants.ServiceTaxRate` (12.24%) |
+
+Runtime panel bhi real: `EnvironmentName`, DB name (`NexusDb`), server time,
+process uptime. `TaxConstants` se padha jata hai is liye hub kabhi engine se
+drift nahi kar sakta.
+
+### Live verification (curl, running server)
+
+| Cheez | Nateeja |
+|---|---|
+| Build | 0 errors |
+| `/Admin/Settings` | 200 — 2 customers / 1 live connection / 10 plans / 8 cities served |
+| `/Admin/Settings/Cities` | 200 — 6 real cities (Lahore 42, Karachi 21, ...) |
+| `/Admin/Settings/Discounts` | 200 — 4 real slabs (10-15 → 25%, 15-25 → 50%, 25-50 → 75%, 50+ → 100%) |
+| City create | 302 → 9 cities, `Testville` list mein |
+| City delete | 302 → wapas 8 |
+| Delete guard | Lahore/Karachi par Delete button **render hi nahi hota** (customers hain) |
+| Slab create (5-9) | 302 → 5 slabs |
+| Slab overlap branch | 12-14 try kiya → 200 form, error `MinConnections` ke neeche: *"This slab overlaps the active 10-15 slab. Adjust the bounds or deactivate one."* |
+| Slab delete | 302 → wapas 4 |
+
+**Data safe:** Cities 8, Plans 10, Slabs 4, Orders 2, Customers 2 — test rows
+(Testville + 5-9 slab) hatane ke baad original state.
+
+---
+
+## Phase E (pehla batch) — Back-office registers (7 Oct 2026) ✅ DONE
+
+SRS ke woh features jo "nahi hain" list mein the. Chaar registers ek saath:
+
+| Module | Route | Service | Authorize |
+|---|---|---|---|
+| Equipment stock + adjustments | `/Admin/Inventory` | `InventoryService` | Admin + Retail |
+| Equipment catalogue | `/Admin/Inventory/Products` | `InventoryService` | Admin + Retail |
+| Vendors | `/Admin/Vendors` | `VendorService` | Admin |
+| Outlets + Staff | `/Admin/Organisation` | `OrganisationService` | Admin |
+
+### Rules jo service layer mein hain
+
+- **Stock cannot go negative.** `after < 0` → `Fail` with the exact on-hand figure.
+  Clamping quietly would hide a ledger error, so it is refused.
+- **Every adjustment needs a reason** — audited against the ledger, never optional.
+- **Movement row + quantity update in one `SaveChangesAsync`** — the ledger and
+  the on-hand figure can never disagree.
+- **Product delete guard:** stock on hand, or appearing on a past purchase order →
+  `Conflict`. Empty stock rows are cleaned up with the product.
+- **Vendor soft delete** (`ISoftDeletable`) — purchase orders point back at it.
+  Duplicate name and duplicate NTN both blocked.
+- **Employee must link a real staff login.** Technical job filtering reads
+  `User.Role`, so a floating employee row would be invisible. One employee per
+  login, and customer logins are filtered out of the picker.
+- **Outlet delete guard:** staff assigned, or stock on hand → `Conflict`.
+
+### Live verification (curl, running server)
+
+| Cheez | Nateeja |
+|---|---|
+| Build | 0 errors |
+| 9 naye pages | sab 200 |
+| `/Admin/Inventory` (seeded 12 + 3) | 2 products, 15 units, **1 below threshold** |
+| Low-only filter | sirf `Broadband Router` (3 < 5) |
+| Shop filter / search filter | dono sahi |
+| Stock issue −2 | 302 → on hand **12 → 10**, ledger row `-2 / 10 / "Issued to installation B042-1"` |
+| Over-issue −999 (on hand 10) | 200, field error: *"Only 10 unit(s) on hand. Cannot remove 999."* |
+| Blank reason | 200, field error: *"A reason is required for every stock change."* |
+| Vendor create | 302 → list mein |
+| Employee create (spare staff login) | 302 → `EMP-T02` add |
+| Employee double-link | blocked: *"System Administrator already has an employee record."* |
+| New-employee picker | linked logins **filtered out** — sirf unlinked dikhte hain |
+| `/Admin/Settings` | 4 naye tiles: Equipment, Vendors, Outlets & Staff |
+
+**Data safe:** Stock 0, Movements 0, Employees 4, Vendors 0, Users 6, Plans 10,
+Cities 8, Tiers 4 — test rows hatane ke baad. Kuch loss nahi hua.
+
+### Inventory field-error prefix bug
+
+`Result<int>.Fail(nameof(model.QuantityDelta))` **bare** property name deta hai
+(`QuantityDelta`), lekin view model `Adjust.*` prefix se bind hota hai. Error
+`ModelState` mein chala jata tha magar `asp-validation-for="Adjust.QuantityDelta"`
+se match nahi karta tha — field ke neeche kuch render nahi hota tha, 200 ke saath
+chup-chaap fail. Fix: controller `ModelState.AddModelError($"Adjust.{field}", …)`.
+
+---
+
+## Phase F (pehla batch) — Sidebar, confirm, website settings (8 Oct 2026)
+
+### F1 — Confirm dialog sirf ek page par kaam karta tha
+
+`data-confirm` handler `plan-edit.js` mein tha, aur wo **sirf** `AdminPlans/Edit`
+load karta hai. Yani Cities / Discounts / Vendors / Organisation ke delete buttons
+kabhi confirm **maangte hi nahi** the — seedha delete ho jata.
+
+- Handler `site.js` mein shift ho gaya, **event delegation** ke sath (redirect ke baad
+  nayi render hui rows bhi cover hoti hain).
+- `site.js` mein `data-toast` / `data-toast-type` support add — koi bhi form submit
+  par toast fire kar sakta hai.
+- `plan-edit.js` se duplicate handler hata diya (warna double confirm).
+
+### F2 — Sidebar active-state (root cause mili)
+
+Do alag bugs the:
+
+1. **View controller ko override kar raha tha.** `Cities.cshtml` mein
+   `ViewData["ActiveSidebar"] = "settings"` likha tha, aur view **controller ke
+   baad** chalti hai — is liye controller ka `SetActiveItem("settings-cities")`
+   bekaar ho jata tha aur sirf "Settings" light hota tha. **25 views** se ye line
+   hata di. Ab controller single source of truth hai.
+2. **Key collision.** Admin sidebar mein `/Admin/Dashboard` aur `/Retail/Dashboard`
+   dono `IsActive("dashboard")` the — dono active. Ab `admin-dashboard` /
+   `retail-dashboard` alag keys hain.
+
+### F3 — Cities "Stop serving" dobara on nahi hota tha
+
+Sabit hua ke backend theek tha (curl se `POST ToggleServed` → 302, status flip).
+Masla F1 wala hi tha — aur ab toggle ke **dono** direction par toast bhi lagta hai
+(`data-toast` + `data-toast-type`).
+
+### F4 — `Admin/Settings` website settings ban gaya
+
+Pehle tile directory thi (Cities/Plans/Vendors ke cards) — ye ghalat tha. Ab asli
+**website settings** hain, DB se wired:
+
+- Naya `Domain/Organisation/SiteSetting.cs` — key/value store (`Key`, `Value`, `Kind`).
+- `Services/Settings/SiteSettingsCatalog.cs` — 17 settings, 5 groups (General,
+  Branding, Features, Contact, Security). Naya switch add karne ke liye sirf yahan
+  ek entry — migration ki zaroorat nahi.
+- `Services/Settings/SiteSettingsService.cs` — read (default fallback ke sath) +
+  save (kind-wise validation pehle, phir ek `SaveChangesAsync`).
+- `AdminController.Settings` ab GET form + POST save. Runtime panel (env, DB,
+  uptime, live counts) side mein.
+- Naya `wwwroot/js/settings.js` — colour swatch live preview.
+
+| # | Kaam | Status |
+|---|---|---|
+| F1 | `data-confirm` global (site.js, delegation) | DONE |
+| F2 | Sidebar active state — saare views + key collision | DONE |
+| F3 | Cities toggle + dono taraf toast | DONE |
+| F4 | `Admin/Settings` → website settings (DB backed) | DONE |
+| F5 | Admin pages design pass (charts kam, header ek jaisa) | PARTIAL — Reports + Admin Dashboard DONE; 4 dashboards baqi |
+| F6 | Settings POST — save waqai kaam karta hai | DONE |
+| F7 | Skills adopt (24 user-level) | DONE |
+| F8 | Obsidian vault setup (9 notes) | DONE |
+| F9 | Admin Dashboard design pass + real charts | DONE |
+| F10 | `.reveal` JS-fail fallback + print | DONE |
+
+### F9 — Admin Dashboard (design + real data)
+
+Pehle: 8 stat cards (hero-metric template), **3 khaali canvases**, 34 inline styles.
+
+Ab:
+- **"Waiting on someone" board** — 4 linked cells ek surface par (dividers ke saath,
+  chaar alag cards nahi). Har cell `/Operations`, `/Bills?status=Overdue` waghera par
+  jata hai. Blocked kaam warning ink leta hai, clear kaam muted.
+- **Figures strip** — 4 reference figures (customers, revenue, outstanding, payments).
+- **Real chart** — `IReportService.BuildAsync(ReportFilter.Default())` se
+  `ReportPage.Monthly` liya. Ab orders chart real data dikhata hai
+  (`0,0,0,0,0,2` — DB ke 2 orders). Revenue chart sirf tab jab revenue > 0 ho,
+  warna flat-zero line ek khaali rectangle hai.
+- **Service mix** → `_Breakdown` partial (real counts).
+- **Inline styles 34 → 1** (sirf bar width, jo dynamic hai).
+
+`_Breakdown.cshtml` `Views/Reports/` → `Views/Shared/` move (ab do jagah use hota hai).
+
+### F10 — `.reveal` JS-fail par page blank ho jata tha
+
+`.reveal { opacity: 0 }` CSS mein tha aur JS use reveal karta tha. Agar script
+fail ho jaye ya print ho, **poora page invisible** reh jata — correct DOM ke saath.
+Ab `.js .reveal` (class `<head>` mein inline script se lagti hai) + `@media print`
+override.
+
+### F11 — `charts.js` ka fake fallback (landmine)
+
+Har chart function mein fake demo series thi (`[180000, 195000, …]`). Agar
+`NEXUS_CHART_DATA` define na ho to wo chart mein chali jati. Ab `series()` helper
+null deta hai aur chart banaye hi nahi jate.
+
+### F12 — `.mono` identifiers wrap ho rahe the
+
+`CON-B-000001` do lines mein toot raha tha (`CON-B-` / `000001`). Ab
+`white-space: nowrap` + `tabular-nums`.
+
+### Status document
+
+Poora feature/flow/security audit: `Documents/Obsidian Vault/NEXUS/NEXUS - Status Report.md`
+
+---
+
+## M1 — Bill ke hisaab se connection status (8 Oct 2026) ✅ DONE
+
+SRS ka core rule: *"they provide only the postpaid connection for which the bill
+will be generated **based on which the status of the connection depends**."*
+
+Pehle: `ConnectionStatus` enum mein `TemporarilyInactive` / `PermanentlyInactive`
+the, magar **koi rule nahi** ke status kab badle. Sirf manual change tha.
+
+Ab:
+
+| Cheez | Kahan |
+|---|---|
+| Policy numbers (15 din suspend, 45 din close) | `Common/Constants/LifecycleConstants.cs` |
+| Legal status moves — **ek jagah** | `Common/Extensions/ConnectionStatusExtensions.cs` |
+| Sweep service | `Services/Lifecycle/ConnectionLifecycleService.cs` |
+| Screen | `/Operations/Overdue` (`Views/Operations/Overdue.cshtml`) |
+
+**Rules:** bill due date se **15 din** baad → `TemporarilyInactive`; **45 din**
+baad → `PermanentlyInactive`. Draft / cancelled / paid bills ignore. Payment aa
+jaye to line wapas `Active`.
+
+**Design faisla:** sweep automatic timer par **nahi** hai. Ek line dead karna wo
+tabdeeli hai jo operator pehle dekh le — is liye wahi query preview screen aur
+apply button dono ko chalati hai.
+
+**`IsLegalMove` refactor:** `FeasibilityService` mein private thi. Ab shared
+extension hai, aur dono jagah se wahi use hoti hai — manual change aur automatic
+sweep kabhi disagree nahi kar sakte.
+
+### Live verification (curl + sqlcmd)
+
+| Cheez | Nateeja |
+|---|---|
+| Build | 0 errors |
+| Test bill (60 din overdue, $196.42) | insert |
+| `GET /Operations/Overdue` | **200** — `CON-B-000001`, `Active → Permanently Inactive`, 1 line to close |
+| `POST /Operations/ApplyOverdue` | **302 → /Operations/Overdue** |
+| `Connections` | `Active` → `PermanentlyInactive`, `DeactivatedOn` stamp |
+| `ConnectionStatusHistory` | row likhi: `Active → PermanentlyInactive`, reason service ne banaya, `ChangedById=1` |
+| Sidebar (5 pages) | har page par exactly **1** active link |
+| Test data | bill delete, connection wapas `Active`, history 2 rows (original) |
+
+**Data safe:** Bills 0, Connections 1 (`Active`), Customers 2, Users 6.
+
+### F6 — Settings save: do bugs, dono fix
+
+**Bug 1 — CS0111.** GET aur POST dono `Settings(CancellationToken)` the. C#
+attributes ko signature ka hissa nahi maanta, is liye compiler unhe duplicate
+samajh raha tha. Fix: POST ka method naam `SaveSettings` + `[ActionName("Settings")]`
+(route wahi rehta hai, form ka `asp-action` bhi wahi).
+
+**Bug 2 — POST 400.** `Settings(IFormCollection form, ct)` likhne se model binder
+request body ko pehle kha jata tha aur `[ValidateAntiForgeryToken]` us ke baad
+400 de deta. Fix: parameter hata kar seedha `Request.Form` padho.
+
+Bool save bhi tight kiya: pehle `form.ContainsKey(key) ? "true" : "false"` tha —
+yani `feature.maintenance=false` bhejne par bhi **true** ho jata. Ab value bhi
+check hoti hai.
+
+### F7 — Skills (24 install)
+
+`everything-claude-code` ek Claude Code plugin hai — uske 9 skills mein se sirf
+2 adopt hue (`security-review`, `verification-loop`); baaki React/Node-specific ya
+runtime-scripts hain. `impeccable` ka native binary skip, markdown reference adopt.
+`taste-skill` poora adopt. `sandbaseai/workbuddy-skill` catalog (21,818 skills)
+discovery source banaya.
+
+Tafseel: `Documents/Obsidian Vault/NEXUS/NEXUS - Skills & Tooling.md`.
+
+### F8 — Obsidian vault
+
+`C:\Users\Zain Ansari\Documents\Obsidian Vault\NEXUS\` — 8 notes (Hub, Architecture,
+Gotchas, Setup, Progress, SRS Features, Skills & Tooling) + `Welcome.md` index.
+
+### F5 — aaage ka kaam
+
+- ✅ Reports: 3 doughnut chart → `_Breakdown` labelled bars (charts 6 → 3).
+- ⬜ Admin Dashboard: 34 inline styles, 3 canvases — baaki.
+- ⬜ Accounts / Retail / Technical dashes: inline styles (23 / 18 / 16).
+
+**Faisalabad (City id 5)** testing se `IsServiced=0` reh gaya tha — `1` par restore
+kar diya. 8/8 cities served.
+
+---
+
 ## Phase 5 — SRS Features
 
 | ID | Kaam | Status |
@@ -234,7 +748,7 @@ Sab kuch likha hai: **`docs/13-full-system-audit.md`**
 | 5.3.2 | Navbar auth-aware (signed-in → Dashboard + Logout) | DONE |
 | 5.3.3 | Sidebar logout asli POST form (tha `/Account/Login` link) | DONE |
 | 5.3.4 | Connections register header counts (filtered list se ban rahe the) | DONE |
-| 5.3.5 | `ChangePassword` (POST) chalu karna — abhi disabled hai | TODO |
+| 5.3.5 | `ChangePassword` (POST) chalu karna | DONE |
 | 5.3.6 | Accounts dashboard asli data par (`AccountsDashboardService`) | DONE |
 | 5.3.7 | Technical dashboard asli data par (`TechnicalDashboardService`) | DONE |
 | 5.3.8 | Retail dashboard asli data par (`RetailDashboardService`) | DONE |
@@ -242,23 +756,22 @@ Sab kuch likha hai: **`docs/13-full-system-audit.md`**
 | 5.3.10 | `Retail/NewOrder` — asli form (`RegistrationService` se juda) | DONE |
 | 5.3.11 | `Admin/Settings` se PKR / Fiber / Wireless hata diya | DONE |
 | 5.4.1 | Advanced search (ID / naam / type / date / contact) | TODO |
-| 5.5.1 | Vendor / procurement | TODO |
-| 5.5.2 | Stock / inventory | TODO |
-| 5.5.3 | Retail shop + employee management | TODO |
-| 5.6.1 | Reports (connections, revenue, outstanding, bulk) | TODO |
+| 5.5.1 | Vendor / procurement | PARTIAL — vendor register DONE, purchase order workflow TODO |
+| 5.5.2 | Stock / inventory | DONE |
+| 5.5.3 | Retail shop + employee management | DONE |
+| 5.6.1 | Reports (connections, revenue, outstanding, bulk) | DONE |
 | 5.7.1 | Customer pages asli data par | TODO |
 | 5.7.2 | `IAccessGuard` ownership checks (IDOR) | TODO |
 
-### Ab bhi mock data wale pages (honest list)
+### Ab bhi mock data wale pages (honest list — 7 Oct ke baad)
 
-Ye pages **abhi bhi** mock rows dikhate hain — 5.3 ke batch mein nahi hue:
-
-| Page | Mock hits | Notes |
-|---|---|---|
-| `Views/Admin/Reports.cshtml` | 20 | Pura mock: fake customers, orders, "Monthly revenue (PKR)" |
-| `Views/Customer/MyConnection.cshtml` | 2 | Chhota — portal service maujood hai, sirf wire karna |
-| `Views/Feedback/Index.cshtml` | 2 | Chhota |
-| `Models/Services/Api/ApiService.cs` | — | `Rs.` + `NX12345678` / `Ahmed Khan` hardcoded |
+| Page | Status |
+|---|---|
+| `Views/Admin/Reports.cshtml` | **GONE** — `Views/Reports/Index.cshtml` par asli data |
+| `Views/Customer/MyConnection.cshtml` | 2 mock hits — portal service maujood hai, sirf wire karna |
+| `Views/Feedback/Index.cshtml` | **DONE** — real save + real history |
+| `Models/Services/Api/ApiService.cs` | **DELETED** — chaaron consumers real services par |
+| `Views/Admin/Settings.cshtml` | **REWRITTEN** — live counts, koi fake demo control nahi |
 
 ### Phase 5 ke bugs jo mile aur fix hue
 
