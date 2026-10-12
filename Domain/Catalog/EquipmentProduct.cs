@@ -28,6 +28,14 @@ public class EquipmentProduct : AuditableEntity
 
     public bool IsActive { get; set; } = true;
 
+    /**
+     * FR-06: equipment is bought in from a vendor rather than made in-house.
+     * Recording who normally supplies the item lets the purchase desk raise a
+     * restock order without having to remember the supplier each time.
+     */
+    public int? PreferredVendorId { get; set; }
+    public Procurement.Vendor? PreferredVendor { get; set; }
+
     public ICollection<StockItem> Stock { get; set; } = new List<StockItem>();
     public ICollection<PurchaseOrderLine> PurchaseLines { get; set; } = new List<PurchaseOrderLine>();
 }

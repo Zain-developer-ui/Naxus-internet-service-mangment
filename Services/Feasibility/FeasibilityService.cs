@@ -226,6 +226,20 @@ public sealed class FeasibilityService : IFeasibilityService
         if (order.Connection is not null)
             return Result<OrderReview>.Conflict($"{order.OrderId} already has a connection.");
 
+        /**
+         * FR-122: every line is postpaid, so its status has to be driven by a
+         * bill. A plan with no recurring price cannot produce one, which would
+         * leave a live line that never owes anything - so it is refused here
+         * rather than at the first billing run.
+         */
+        var billable = order.Plan.Prices.Any(p => p.IsAvailable && p.Amount > 0m);
+        if (!billable)
+        {
+            return Result<OrderReview>.Conflict(
+                $"{order.Plan.Name} has no recurring price, so the line could not be billed. " +
+                "Set a plan price before completing the installation.");
+        }
+
         var strategy = _db.Database.CreateExecutionStrategy();
         await strategy.ExecuteAsync(async () =>
         {
@@ -427,7 +441,7 @@ public sealed class FeasibilityService : IFeasibilityService
     private Task<ConnectionOrder?> LoadOrderAsync(int orderId, CancellationToken ct) =>
         _db.ConnectionOrders
             .Include(o => o.Customer)
-            .Include(o => o.Plan)
+            .Include(o => o.Plan).ThenInclude(p => p.Prices)
             .Include(o => o.City)
             .Include(o => o.Feasibility)
             .Include(o => o.Connection)

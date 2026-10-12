@@ -329,9 +329,28 @@
     }
 
     /* ---------------------------------------------------------
+       DECORATIVE ICON PASS
+       ---------------------------------------------------------
+       Font Awesome icons are drawn with ::before content, so they
+       carry no text for a screen reader to read - but some readers
+       still announce the element. Rather than repeat aria-hidden
+       on 800+ <i> tags, mark them once here. Anything that already
+       states its own aria-hidden or has real text is left alone.
+       --------------------------------------------------------- */
+    function initDecorativeIcons() {
+        document.querySelectorAll('i[class*="fa-"]').forEach(function (icon) {
+            if (icon.hasAttribute('aria-hidden')) return;
+            if (icon.hasAttribute('aria-label')) return;
+            if (icon.textContent.trim()) return;
+            icon.setAttribute('aria-hidden', 'true');
+        });
+    }
+
+    /* ---------------------------------------------------------
        BOOTSTRAP
        --------------------------------------------------------- */
     NEXUS.ready(function () {
+        initDecorativeIcons();
         initScrollReveal();
         initSmoothScroll();
         initNavbarScroll();
@@ -342,5 +361,6 @@
     });
 
     NEXUS.refreshReveal = initScrollReveal;
+    NEXUS.markDecorativeIcons = initDecorativeIcons;
 
 })();

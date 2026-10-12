@@ -10,17 +10,20 @@ Ye plan SRS ke against likha gaya hai — code padh kar, andaze se nahi.
 ## 1. Aaj ka scorecard (SRS ke against)
 
 Purani matrix (`docs/03`) **5 Oct** ki thi aur kehti thi "64% MISSING, 2% DONE".
-**Wo ab bilkul ghalat hai.** Uske baad Phase A/B/C, E, F, aur F1–F12 ho gaye.
+**Wo ab bilkul ghalat hai.** Uske baad Phase A/B/C, E, F, F1–F12, M1–M8 aur
+P1–P8 sab ho gaye.
 
 Aaj ka asli haal — SRS ke **53 functional requirements**:
 
 | Status | Count | % |
 |---|---|---|
-| ✅ **DONE** | 37 | 70% |
-| ⚠️ **PARTIAL** | 8 | 15% |
-| ❌ **MISSING** | 8 | 15% |
+| ✅ **DONE** | 53 | 100% |
+| ⚠️ **PARTIAL** | 0 | 0% |
+| ❌ **MISSING** | 0 | 0% |
 
-**Yani 70% SRS ho chuka hai, 30% baqi.** Pehle jo 2% tha wo ab 70% hai.
+**Yani SRS poora ho chuka hai.** 5 Oct ka 2% → 70% (10 Oct) → **100% (12 Oct)**.
+
+Baqi sirf **Aptech deliverables (6.1–6.7)** hain — wo documentation hai, code nahi.
 
 ### Jo SRS ke against ab poora hai
 
@@ -47,31 +50,38 @@ plan names bhi SRS ke (Dial-Up 10/30/60 Hours, Unlimited 28K/56K, Broadband 64K/
 
 ## 2. Kya baqi hai — 16 items
 
-### ❌ MISSING (8) — SRS explicitly maangta hai
+### ✅ DONE — 10 Oct (M1, M2, M3–M6, M7)
 
-| # | Req | Kya chahiye | Waqt |
-|---|---|---|---|
-| M1 | **FR-121** | **Bill ke hisaab se connection status badle** — unpaid → Temporarily Inactive → Permanently Inactive. Enum hai, logic nahi. **SRS ka core rule hai.** | 3–4 ghante |
-| M2 | **FR-113** | **Advanced search** — 5 filters: unique id, naam, connection type, date/period, contact number. Abhi ek text box hai. | 3–4 ghante |
-| M3 | **FR-51** | Retail: **orders till-date list** (view nahi hai) | 2 ghante |
-| M4 | **FR-53** | Retail: **connection details till-date** | 2 ghante |
-| M5 | **FR-54** | Retail: **till-date billing** | 1–2 ghante |
-| M6 | **FR-55** | Retail: **till-date payment** | 1–2 ghante |
-| M7 | **FR-23** | **Purchase list / purchase order workflow** — entity mojood, UI nahi | 4–5 ghante |
-| M8 | **FR-96** | **Call charges** — local/STD/SMS per minute. Arithmetic ready (`BillCalculator.CallLine`), input screen nahi | 3 ghante |
-
-### ⚠️ PARTIAL (8) — thora kaam baqi
-
-| # | Req | Kya baqi |
+| # | Req | Kya hua |
 |---|---|---|
-| P1 | FR-06 | Vendor se **equipment purchase** — vendor CRUD hai, purchase link nahi (M7 se juda) |
-| P2 | FR-44 | **Technical equipment maintain** — abhi Admin/Retail ke paas hai |
-| P3 | FR-95 | **Landline rental + calls** — rental hai, calls nahi (M8 se juda) |
-| P4 | FR-99 | **Discount advance + security deposit par** — abhi subtotal par |
-| P5 | FR-100 | **Pehli payment ko billing mein adjust** |
-| P6 | FR-101 | **Replacement charges** — customer ne equipment kharab kiya. Line item hai, charge lagane ka flow nahi |
-| P7 | FR-122 | **Postpaid-only enforcement** — koi prepaid code nahi, magar rule bhi nahi |
-| P8 | FR-132 | **City-wise + year-wise records** |
+| ~~M1~~ | **FR-121** | **Bill ke hisaab se connection status** — 15 din → Temporarily Inactive, 45 din → Permanently Inactive. `/Operations/Overdue` |
+| ~~M2~~ | **FR-113** | **Advanced search** — 5 filters. `/Search/Advanced` |
+| ~~M3~~ | **FR-51** | Retail orders till-date — `/Retail/Register` |
+| ~~M4~~ | **FR-53** | Retail connection details till-date — `/Retail/Register` |
+| ~~M5~~ | **FR-54** | Retail till-date billing — `/Retail/Register` |
+| ~~M6~~ | **FR-55** | Retail till-date payment — `/Retail/Register` |
+| ~~M7~~ | **FR-23** | **Purchase order workflow** — raise → receive → stock. `/Admin/PurchaseOrders` |
+
+### ✅ MISSING — kuch nahi bacha
+
+| # | Req | Kya hua |
+|---|---|---|
+| ~~M8~~ | **FR-96** | **Call charges** — `/Accounts/Calls` screen, tariff per plan, bill par lines. **DONE 10 Oct** |
+
+### ✅ PARTIAL — ab poora ho gaya
+
+| # | Req | Kya hua |
+|---|---|---|
+| ~~P1~~ | FR-06 | **Vendor se equipment purchase** — product par *Preferred Vendor* + PO workflow (M7) se juda. **DONE** |
+| ~~P2~~ | FR-44 | **Technical equipment maintain** — Technical role ko stock view + adjust de diya; catalogue Admin-only raha. **DONE** |
+| ~~P3~~ | FR-95 | **Landline rental + calls** — **DONE (M8)** |
+| ~~P4~~ | FR-99 | **Discount advance + security deposit par** — `BillBreakdown.DiscountableSubTotal`; discount sirf Advance/Security/Installation lines par. **DONE** |
+| ~~P5~~ | FR-100 | **Pehli payment ko billing mein adjust** — `ConnectionOrder.AdvanceAdjustedOn`; advance ek hi dafa adjust hota hai. **DONE** |
+| ~~P6~~ | FR-101 | **Replacement charges** — `ConnectionCharge` table + `/Accounts/Charges` screen; pending charge agli bill par khud lag jata hai. **DONE** |
+| ~~P7~~ | FR-122 | **Postpaid-only enforcement** — activation par guard: plan ka koi billable price na ho to installation complete nahi hoti. **DONE** |
+| ~~P8~~ | FR-132 | **City-wise + year-wise records** — Reports page par do roll-up tables. **DONE** |
+
+**Ab SRS ka koi PARTIAL item baqi nahi.**
 
 ---
 
@@ -79,12 +89,18 @@ plan names bhi SRS ke (Dial-Up 10/30/60 Hours, Unlimited 28K/56K, Broadband 64K/
 
 | # | Kaam | Kyun zaroori | Waqt |
 |---|---|---|---|
-| N1 | **Security headers + CSP** | Marking sheet mein "Security" hai. Abhi `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, CSP — koi nahi | 2 ghante |
-| N2 | **Rate limiting** | Login brute-force. Abhi sirf per-account lockout | 1 ghanta |
-| N3 | **404 / 500 branded pages + global handler** | Abhi default error | 2 ghante |
-| N4 | **Tests** | Koi test project nahi. Marking mein "Testing" hai | 4 ghante |
-| N5 | **Accessibility pass** | Skip link, focus rings, ARIA, `prefers-reduced-motion` | 2 ghante |
-| N6 | **CDN → local** | Demo offline ho to Font Awesome tootegi | 1 ghanta |
+| ~~N1~~ | ~~**Security headers + CSP**~~ | **DONE 10 Oct** — 6 headers + CSP with per-request nonce | — |
+| ~~N2~~ | ~~**Rate limiting**~~ | **DONE 10 Oct** — login par per-IP 10/min | — |
+| ~~N3~~ | ~~**404 / 500 branded pages + global handler**~~ | **DONE 12 Oct** — `ErrorPage` view + `UseExceptionHandler` + `UseStatusCodePagesWithReExecute` | — |
+| ~~N4~~ | ~~**Tests**~~ | **Nahi karenge** — bahar ka tool (TestSprite) use hoga. Neeche section 5A dekho | — |
+| ~~N5~~ | ~~**Accessibility pass**~~ | **DONE 12 Oct** — skip link, `aria-current`, modal focus trap, `aria-invalid`/`aria-describedby`, reduced-motion | — |
+| ~~N6~~ | ~~**CDN → local**~~ | **DONE 12 Oct** — Inter + Font Awesome + jQuery validation sab `wwwroot/lib` se | — |
+
+**N4 ke baare mein:** test project likhne ke bajaye **TestSprite** (AI testing SaaS)
+use karne ka faisla hua. Wo app ko cloud se chalata hai aur generated
+**Playwright + Python** test code export kar deta hai — yani Aptech ke
+"Testing" deliverable ke liye chalne wala evidence mil jata hai, haath se
+test likhne ke bajaye.
 
 ---
 
@@ -120,24 +136,84 @@ maanga (advanced search) — dono chal rahe hon. **Dono ho gaye.**
 Saath mein static data ke 13 findings bhi fix ho gaye (S1) — dekho
 [[NEXUS - Static Data Audit]].
 
-### Din 2 (10 Oct) — Retail views + procurement
+### Din 2 (10 Oct) — Retail views + procurement ✅ DONE
 
-| Slot | Kaam |
-|---|---|
-| Subah | **M3–M6 — Retail till-date views.** Orders list, connections, billing, payments. SRS Retail login ke liye ye chaar explicitly maangta hai. |
-| Sham | **M7 — Purchase order workflow.** PO create → lines (product + qty + vendor) → receive → stock badhe. `PurchaseOrders` + `PurchaseOrderLines` tables ready hain, khaali hain. |
+| Slot | Kaam | Status |
+|---|---|---|
+| Subah | **M3–M6 — Retail till-date views.** Orders list, connections, billing, payments. SRS Retail login ke liye ye chaar explicitly maangta hai. | ✅ `/Retail/Register` |
+| Sham | **M7 — Purchase order workflow.** PO create → lines (product + qty + vendor) → receive → stock badhe. | ✅ `/Admin/PurchaseOrders` |
 
-**Din 2 ka target:** Retail portal poora, aur Admin ka procurement loop band.
+**Din 2 ka target:** Retail portal poora, aur Admin ka procurement loop band. — **PURA HUA.**
 
-### Din 3 (11 Oct) — Billing ke baqi hisse + security
+### Din 3 (10 Oct) — Billing ke baqi hisse + security ✅ DONE
 
-| Slot | Kaam |
-|---|---|
-| Subah | **M8 — Call metering.** Landline per-period minutes enter karne ki screen → `BillCalculator.CallLine` se charges. |
-| Dopahar | **P5, P6 — First payment adjust + Replacement charges.** |
-| Sham | **N1, N2, N3 — Security headers, CSP, rate limiting, 404/500 pages.** |
+| Slot | Kaam | Status |
+|---|---|---|
+| Subah | **M8 — Call metering.** Landline per-period minutes screen → bill par charges. | ✅ `/Accounts/Calls` |
+| Dopahar | **P5, P6 — First payment adjust + Replacement charges.** | ✅ `AdvanceAdjustedOn` + `/Accounts/Charges` |
+| Sham | **N1, N2 — Security headers, CSP, rate limiting.** | ✅ headers + nonce + 10/min |
+| Sham | **N3 — 404/500 branded pages.** | ✅ `ErrorPage` + status-code re-execute |
 
-**Din 3 ka target:** Billing 100%, security 100%.
+**Din 3 ka target:** Billing 100%, security 100%. — **PURA HUA.**
+
+### Din 3b (12 Oct) — SRS ke baqi PARTIAL + non-SRS ✅ DONE
+
+| Slot | Kaam | Status |
+|---|---|---|
+| Subah | **P1, P2** — Vendor preferred link, Technical stock access | ✅ |
+| Dopahar | **P4, P7, P8** — Discount basis, postpaid guard, city/year records | ✅ |
+| Sham | **N5, N6** — Accessibility pass, CDN → local | ✅ |
+
+**Yani SRS ke saare 53 requirements ab DONE ya intentionally-scoped hain.**
+
+---
+
+## 5A. Testing — TestSprite (N4 ka badal)
+
+Test project haath se likhne ke bajaye **TestSprite** use karenge.
+
+**Sabse zaroori baat:** TestSprite tests **cloud mein** chalata hai, aur uska CLI
+`localhost` **reject** kar deta hai (`localhost`, `127.x`, `::1`, `0.0.0.0`,
+RFC-1918 ranges). Uska apna wording:
+
+> the cloud runner must be able to reach the URL over the public internet
+
+To local app test karne ka **sirf ek raasta** hai: **MCP Server**, jo khud tunnel
+kholta hai. CLI / Web Portal ke liye app publicly reachable honi chahiye.
+
+| Surface | Localhost? | Note |
+|---|---|---|
+| Web Portal | ❌ | public URL chahiye |
+| CLI | ❌ | local addresses pre-flight reject |
+| **MCP Server** | ✅ | khud tunnel kholta hai; session-scoped, CI mein nahi |
+
+**Setup:**
+```
+npm install -g @testsprite/testsprite-cli
+testsprite setup
+testsprite doctor
+```
+
+**Requirements:** Node **20.19+ / 22.13+ / 24+** (21.x aur 23.x **supported nahi**),
+TestSprite account + API key, aur app chalti hui.
+
+**PRD:** TestSprite spec-driven hai aur PRD "strongly recommended" kehta hai.
+Aap ka **SRS document hi PRD hai** — ye bara advantage hai.
+
+**Free tier:** $0, 150 credits/month, 1 environment, 30 din run history.
+Uske baad Starter $19/mo (400 credits), Standard $39/mo, Pro $69/mo.
+
+**⚠️ Demo se pehle ye teen cheezein dekh lena:**
+
+1. **Login rate limit.** App mein per-IP 10/min aur per-account lockout hai.
+   TestSprite "dozens of agents at once" chalata hai — cloud IPs se ek saath
+   login karenge, aur test account **lock ho jayega**. Test run se pehle
+   login rate limit barhao/hatao, aur test ke liye alag dedicated account banao.
+2. **App chalti honi chahiye.** Tunnel sirf HTTP endpoint expose karta hai;
+   SQL Server local hi rehta hai.
+3. **Evidence.** Generated **Playwright + Python** code GitHub par export ho
+   sakta hai — yani "Testing" deliverable mein sirf screenshot nahi, chalne
+   wali test files daal sakte ho.
 
 ### Din 4 (12 Oct) — Deliverables + polish
 

@@ -69,8 +69,35 @@
         recalc();
     }
 
+    function initTariffField() {
+        var group = document.querySelector('[data-tariff-group]');
+        var radios = document.querySelectorAll('[data-conn-type]');
+        if (!group || !radios.length) return;
+
+        var select = group.querySelector('select');
+
+        // Mirrors the server rule: only the exchange-metered line types carry a
+        // call tariff, so the control is hidden rather than left to confuse.
+        var METERED = ['Telephone', 'DialUp'];
+
+        function sync() {
+            var checked = document.querySelector('[data-conn-type]:checked');
+            var metered = checked && METERED.indexOf(checked.value) !== -1;
+
+            group.hidden = !metered;
+            if (!metered && select) select.value = '';
+        }
+
+        radios.forEach(function (radio) {
+            radio.addEventListener('change', sync);
+        });
+
+        sync();
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
         initUnlimitedToggle();
         initPricing();
+        initTariffField();
     });
 })();

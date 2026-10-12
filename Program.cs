@@ -1,4 +1,6 @@
+using System.Threading.RateLimiting;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using NEXUS.Common.Abstractions;
 using NEXUS.Data;
@@ -10,11 +12,13 @@ using NEXUS.Services.Feedback;
 using NEXUS.Services.Orders;
 using NEXUS.Services.Reporting;
 using NEXUS.Services.CustomerPortal;
+using NEXUS.Services.Accounts;
 using NEXUS.Services.Dashboards;
 using NEXUS.Services.Feasibility;
 using NEXUS.Services.Generation;
 using NEXUS.Services.Profile;
 using NEXUS.Services.Registration;
+using NEXUS.Services.Retail;
 using NEXUS.Services.Search;
 using NEXUS.Services.Security;
 using NEXUS.Services.Settings;
@@ -59,10 +63,12 @@ builder.Services.AddScoped<IProfileService, ProfileService>();
 builder.Services.AddScoped<ICustomerPortalService, CustomerPortalService>();
 builder.Services.AddScoped<IAdminDashboardService, AdminDashboardService>();
 builder.Services.AddScoped<IAccountsDashboardService, AccountsDashboardService>();
+builder.Services.AddScoped<ICallMeteringService, CallMeteringService>();
 builder.Services.AddScoped<ITechnicalDashboardService, TechnicalDashboardService>();
 builder.Services.AddScoped<IRetailDashboardService, RetailDashboardService>();
 builder.Services.AddScoped<ISearchService, SearchService>();
 builder.Services.AddScoped<IAdvancedSearchService, AdvancedSearchService>();
+builder.Services.AddScoped<IRetailRegisterService, RetailRegisterService>();
 builder.Services.AddScoped<IPlanAdminService, PlanAdminService>();
 builder.Services.AddScoped<IOrderTrackingService, OrderTrackingService>();
 builder.Services.AddScoped<IOrderRegisterService, OrderRegisterService>();
@@ -74,6 +80,7 @@ builder.Services.AddScoped<ISettingsAdminService, SettingsAdminService>();
 builder.Services.AddScoped<ISiteSettingsService, SiteSettingsService>();
 builder.Services.AddScoped<IInventoryService, InventoryService>();
 builder.Services.AddScoped<IVendorService, VendorService>();
+builder.Services.AddScoped<IPurchaseOrderService, PurchaseOrderService>();
 builder.Services.AddScoped<IOrganisationService, OrganisationService>();
 builder.Services.AddScoped<IConnectionLifecycleService, ConnectionLifecycleService>();
 
@@ -105,7 +112,63 @@ builder.Services
 
 builder.Services.AddHttpContextAccessor();
 
+/**
+ * A nonce per request lets the few inline script blocks we still have keep
+ * working while everything else stays blocked by the policy. Generated before
+ * the view renders so the tag helper and the header agree on the value.
+ */
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+/**
+ * Brute-force protection on the credentials screens. Ten attempts per IP per
+ * minute is well above a human typo rate and low enough that a script hammering
+ * the form is throttled within seconds. The queue is empty on purpose: once a
+ * caller is over the limit they get a 429 rather than a spot in line.
+ */
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+    options.AddPolicy("login", http =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            partitionKey: http.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+            factory: _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = 10,
+                Window = TimeSpan.FromMinutes(1),
+                QueueLimit = 0,
+                AutoReplenishment = true
+            }));
+
+    options.OnRejected = async (context, token) =>
+    {
+        context.HttpContext.Response.StatusCode = StatusCodes.Status429TooManyRequests;
+
+        if (context.HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+        {
+            await context.HttpContext.Response.WriteAsync(
+                "Too many attempts. Please wait a minute and try again.", token);
+            return;
+        }
+
+        context.HttpContext.Response.Redirect("/Account/Login?throttled=1");
+    };
+});
+
 var app = builder.Build();
+
+/**
+ * Exposes the per-request nonce to the views and to the header middleware.
+ * Cheap enough to run on every request and keeps the two in sync.
+ */
+app.Use(async (context, next) =>
+{
+    var nonce = Convert.ToBase64String(
+        System.Security.Cryptography.RandomNumberGenerator.GetBytes(16));
+
+    context.Items["csp-nonce"] = nonce;
+    await next();
+});
 
 /**
  * Reference data only - cities, plans, tiers, products and one admin account.
@@ -153,13 +216,24 @@ await SeedDatabaseAsync(app);
 
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
+    app.UseExceptionHandler("/Home/Error/500");
     app.UseHsts();
 }
+else
+{
+    // In development the stack trace stays visible, but the branded page is
+    // still what a 404 or 403 shows.
+    app.UseDeveloperExceptionPage();
+}
+
+app.UseStatusCodePagesWithReExecute("/Home/Error/{0}");
 
 app.UseHttpsRedirection();
+app.UseNexusSecurityHeaders();
 app.UseStaticFiles();
 app.UseRouting();
+
+app.UseRateLimiter();
 
 app.UseAuthentication();
 app.UseAuthorization();

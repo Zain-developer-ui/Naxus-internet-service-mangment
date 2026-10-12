@@ -1,0 +1,160 @@
+@model NEXUS.Models.ViewModels.PurchaseOrderListPage
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Purchase Orders — NEXUS";
+
+    string Tone(string token) => token switch
+    {
+        "Received" => "success",
+        "Ordered" or "PartiallyReceived" => "warning",
+        "Cancelled" => "danger",
+        _ => "muted"
+    };
+}
+
+@section DashboardStyles {
+    <link rel="stylesheet" href="~/css/dashboards-luxury.css" />
+    <link rel="stylesheet" href="~/css/admin.css" />
+}
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/Admin/Dashboard">Admin</a>
+    <span class="sep">/</span>
+    <span class="current">Purchase Orders</span>
+</nav>
+
+<div class="page-header reveal">
+    <div>
+        <h1><i class="fa-solid fa-file-invoice" style="color:var(--nexus-blue);"></i> Purchase Orders</h1>
+        <p class="muted">Equipment ordered from suppliers. Receiving an order books it into stock.</p>
+    </div>
+    <div class="page-header-actions">
+        <a href="@Url.Action("Create")" class="btn btn-primary">
+            <i class="fa-solid fa-plus"></i> New Purchase Order </a>
+    </div>
+</div>
+
+@if (TempData["Success"] is string ok)
+{
+    <div class="alert alert-success reveal" role="status">
+        <i class="fa-solid fa-circle-check"></i> @ok </div>
+}
+@if (TempData["Error"] is string bad)
+{
+    <div class="alert alert-danger reveal" role="alert">
+        <i class="fa-solid fa-circle-exclamation"></i> @bad </div>
+}
+
+<div class="stats-grid reveal">
+    <div class="stat-card">
+        <div class="stat-icon navy"><i class="fa-solid fa-file-invoice"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value">@Model.Totals.Total</div>
+            <div class="stat-label">Orders On Record</div> </div> </div>
+    <div class="stat-card">
+        <div class="stat-icon warning"><i class="fa-solid fa-clock"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value">@Model.Totals.Open</div>
+            <div class="stat-label">Awaiting Delivery</div> </div> </div>
+    <div class="stat-card">
+        <div class="stat-icon success"><i class="fa-solid fa-boxes-packing"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value">@Model.Totals.Received</div>
+            <div class="stat-label">Received</div> </div> </div>
+    <div class="stat-card">
+        <div class="stat-icon accent"><i class="fa-solid fa-sack-dollar"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value">@Model.Totals.CommittedValue.ToString("N0")</div>
+            <div class="stat-label">Committed (USD)</div> </div> </div>
+</div>
+
+<div class="chart-card reveal" style="margin-top:22px;">
+    <form method="get" asp-action="Index">
+        <div class="filter-bar">
+            <div class="field">
+                <label for="po-status">Status</label>
+                <select id="po-status" name="status" class="input">
+                    <option value="">All statuses</option>
+                    @foreach (var s in Model.Statuses)
+                    {
+                        <option value="@s" selected="@(Model.Status == s)">@s</option>
+                    }
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="po-vendor">Vendor</label>
+                <select id="po-vendor" name="vendorId" class="input">
+                    <option value="">All vendors</option>
+                    @foreach (var v in Model.Vendors)
+                    {
+                        <option value="@v.Id" selected="@(Model.VendorId == v.Id)">@v.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div class="field filter-actions">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-filter"></i> Apply </button>
+
+                @if (!string.IsNullOrWhiteSpace(Model.Status) || Model.VendorId is not null)
+                {
+                    <a href="@Url.Action("Index")" class="btn btn-ghost">
+                        <i class="fa-solid fa-xmark"></i> Clear </a>
+                }
+            </div>
+        </div>
+    </form>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col">Order</th>
+                    <th scope="col">Vendor</th>
+                    <th scope="col" class="num hide-sm">Lines</th>
+                    <th scope="col" class="num">Units</th>
+                    <th scope="col" class="num">Total</th>
+                    <th scope="col">State</th>
+                    <th scope="col" class="hide-sm">Ordered</th>
+                    <th scope="col"><span class="sr-only">Actions</span></th> </tr> </thead>
+            <tbody>
+                @if (Model.IsEmpty)
+                {
+                    <tr><td colspan="8" class="table-empty">
+                        @(Model.Status is not null || Model.VendorId is not null
+                            ? "No purchase orders match this filter."
+                            : "No purchase orders yet. Raise the first one.")
+                    </td></tr>
+                }
+                else
+                {
+                    foreach (var o in Model.Orders)
+                    {
+                        <tr>
+                            <td><a href="@Url.Action("Details", new { id = o.Id })" class="mono">@o.PoNumber</a></td>
+                            <td>@o.VendorName</td>
+                            <td class="num hide-sm">@o.LineCount</td>
+                            <td class="num">
+                                @if (o.UnitsReceived > 0 && !o.IsFullyReceived)
+                                {
+                                    <text>@o.UnitsReceived / @o.UnitsOrdered</text>
+                                }
+                                else
+                                {
+                                    @o.UnitsOrdered
+                                } </td>
+                            <td class="num">@o.TotalAmount.ToString("C")</td>
+                            <td><span class="badge badge-@Tone(o.StatusToken)">@o.Status</span></td>
+                            <td class="hide-sm">@o.OrderedOn.ToString("dd MMM yyyy")</td>
+                            <td class="actions">
+                                <a href="@Url.Action("Details", new { id = o.Id })" class="btn btn-ghost btn-sm">
+                                    <i class="fa-solid fa-eye"></i> View </a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

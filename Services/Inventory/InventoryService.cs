@@ -19,6 +19,7 @@ public interface IInventoryService
 
     Task<Result<ProductListPage>> ListProductsAsync(string? search, bool showInactive, CancellationToken ct = default);
     Task<Result<ProductEditViewModel>> GetProductAsync(int id, CancellationToken ct = default);
+    Task<ProductEditViewModel> NewProductAsync(CancellationToken ct = default);
     Task<Result<int>> SaveProductAsync(ProductEditViewModel model, CancellationToken ct = default);
     Task<Result<bool>> SetProductActiveAsync(int id, bool active, CancellationToken ct = default);
     Task<Result<bool>> DeleteProductAsync(int id, CancellationToken ct = default);
@@ -221,7 +222,10 @@ public sealed class InventoryService : IInventoryService
 
     public async Task<Result<ProductEditViewModel>> GetProductAsync(int id, CancellationToken ct = default)
     {
-        var product = await _db.EquipmentProducts.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id, ct);
+        var product = await _db.EquipmentProducts.AsNoTracking()
+            .Include(p => p.PreferredVendor)
+            .FirstOrDefaultAsync(p => p.Id == id, ct);
+
         if (product is null) return Result<ProductEditViewModel>.NotFound("Product");
 
         return Result<ProductEditViewModel>.Ok(new ProductEditViewModel
@@ -232,9 +236,24 @@ public sealed class InventoryService : IInventoryService
             Description = product.Description,
             UnitPrice = product.UnitPrice,
             LowStockThreshold = product.LowStockThreshold,
-            IsActive = product.IsActive
+            IsActive = product.IsActive,
+            PreferredVendorId = product.PreferredVendorId,
+            PreferredVendorName = product.PreferredVendor?.Name,
+            Vendors = await VendorOptionsAsync(ct)
         });
     }
+
+    /** A blank form with the vendor picker already populated. */
+    public async Task<ProductEditViewModel> NewProductAsync(CancellationToken ct = default) =>
+        new() { Vendors = await VendorOptionsAsync(ct) };
+
+    private async Task<IReadOnlyList<VendorOption>> VendorOptionsAsync(CancellationToken ct) =>
+        await _db.Vendors
+            .AsNoTracking()
+            .Where(v => !v.IsDeleted && v.IsActive)
+            .OrderBy(v => v.Name)
+            .Select(v => new VendorOption(v.Id, v.Name))
+            .ToListAsync(ct);
 
     public async Task<Result<int>> SaveProductAsync(ProductEditViewModel model, CancellationToken ct = default)
     {
@@ -252,7 +271,8 @@ public sealed class InventoryService : IInventoryService
                 Description = model.Description?.Trim() ?? string.Empty,
                 UnitPrice = model.UnitPrice,
                 LowStockThreshold = model.LowStockThreshold,
-                IsActive = model.IsActive
+                IsActive = model.IsActive,
+                PreferredVendorId = model.PreferredVendorId
             };
 
             _db.EquipmentProducts.Add(product);
@@ -269,6 +289,7 @@ public sealed class InventoryService : IInventoryService
         existing.UnitPrice = model.UnitPrice;
         existing.LowStockThreshold = model.LowStockThreshold;
         existing.IsActive = model.IsActive;
+        existing.PreferredVendorId = model.PreferredVendorId;
 
         await _db.SaveChangesAsync(ct);
         return Result<int>.Ok(existing.Id);

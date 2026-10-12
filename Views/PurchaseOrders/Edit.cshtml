@@ -1,0 +1,164 @@
+@model NEXUS.Models.ViewModels.PurchaseOrderEditViewModel
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = $"{Model.PageTitle} — NEXUS";
+}
+
+@section DashboardStyles {
+    <link rel="stylesheet" href="~/css/dashboards-luxury.css" />
+    <link rel="stylesheet" href="~/css/admin.css" />
+}
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/Admin/Dashboard">Admin</a>
+    <span class="sep">/</span>
+    <a href="@Url.Action("Index")">Purchase Orders</a>
+    <span class="sep">/</span>
+    <span class="current">@(Model.IsNew ? "New" : Model.PoNumber)</span>
+</nav>
+
+<div class="page-header reveal">
+    <div>
+        <h1>@Model.PageTitle</h1>
+        <p class="muted">Pick the vendor and the equipment being ordered. Receiving it later books it into stock.</p>
+    </div>
+</div>
+
+<form method="post" asp-action="Create" id="po-form" class="reveal">
+    @Html.AntiForgeryToken()
+
+    <div asp-validation-summary="All" class="validation-summary"></div>
+
+    <div class="chart-card">
+        <div class="filter-grid">
+            <div class="field">
+                <label for="po-vendor">Vendor</label>
+                <select id="po-vendor" asp-for="VendorId" class="input">
+                    <option value="">Select a vendor…</option>
+                    @foreach (var v in Model.Vendors)
+                    {
+                        <option value="@v.Id" selected="@(Model.VendorId == v.Id)">@v.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="VendorId" class="field-error"></span>
+            </div>
+
+            <div class="field">
+                <label for="po-expected">Expected On</label>
+                <input id="po-expected" asp-for="ExpectedOn" type="date" class="input" />
+                <span asp-validation-for="ExpectedOn" class="field-error"></span>
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="po-notes">Notes</label>
+            <input id="po-notes" asp-for="Notes" class="input" maxlength="300"
+                   placeholder="Optional — delivery instructions, reference numbers…" />
+            <span asp-validation-for="Notes" class="field-error"></span>
+        </div>
+    </div>
+
+    <section class="dash-section">
+        <h2 class="dash-heading">Order Lines</h2>
+
+        <div class="chart-card">
+            <div class="table-wrap">
+                <table id="po-lines">
+                    <thead>
+                        <tr>
+                            <th scope="col">Product</th>
+                            <th scope="col" class="num" style="width:130px;">Quantity</th>
+                            <th scope="col" class="num" style="width:150px;">Unit Cost</th>
+                            <th scope="col" class="num" style="width:150px;">Line Amount</th>
+                            <th scope="col" style="width:60px;"><span class="sr-only">Remove</span></th>
+                        </tr> </thead>
+                    <tbody id="po-line-body">
+                        @for (var i = 0; i < Model.Lines.Count; i++)
+                        {
+                            <tr class="po-line">
+                                <td>
+                                    <select name="Lines[@i].ProductId" class="input po-product" aria-label="Product">
+                                        <option value="">Select product…</option>
+                                        @foreach (var p in Model.Products)
+                                        {
+                                            <option value="@p.Id"
+                                                    data-cost="@p.UnitCost"
+                                                    selected="@(Model.Lines[i].ProductId == p.Id)">
+                                                @p.Name (@p.Sku)
+                                            </option>
+                                        }
+                                    </select>
+                                </td>
+                                <td class="num">
+                                    <input name="Lines[@i].Quantity" type="number" min="1" step="1"
+                                           value="@(Model.Lines[i].Quantity == 0 ? "" : Model.Lines[i].Quantity.ToString())"
+                                           class="input po-qty" aria-label="Quantity" />
+                                </td>
+                                <td class="num">
+                                    <input name="Lines[@i].UnitCost" type="number" min="0" step="0.01"
+                                           value="@Model.Lines[i].UnitCost" class="input po-cost" aria-label="Unit cost" />
+                                </td>
+                                <td class="num po-amount">@((Model.Lines[i].Quantity * Model.Lines[i].UnitCost).ToString("C"))</td>
+                                <td class="actions">
+                                    <button type="button" class="btn btn-ghost btn-sm po-remove"
+                                            aria-label="Remove line">
+                                        <i class="fa-solid fa-xmark"></i> </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" class="num"><strong>Order total</strong></td>
+                            <td class="num"><strong id="po-total">$0.00</strong></td>
+                            <td></td>
+                        </tr> </tfoot>
+                </table>
+            </div>
+
+            <div class="inline-actions" style="margin-top:14px;">
+                <button type="button" class="btn btn-ghost" id="po-add-line">
+                    <i class="fa-solid fa-plus"></i> Add line </button>
+            </div>
+
+            <span asp-validation-for="Lines" class="field-error"></span>
+        </div>
+    </section>
+
+    <div class="inline-actions" style="margin-top:20px;">
+        <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-check"></i> Raise order </button>
+        <a href="@Url.Action("Index")" class="btn btn-ghost">Cancel</a>
+    </div>
+</form>
+
+<template id="po-line-template">
+    <tr class="po-line">
+        <td>
+            <select name="Lines[__i__].ProductId" class="input po-product" aria-label="Product">
+                <option value="">Select product…</option>
+                @foreach (var p in Model.Products)
+                {
+                    <option value="@p.Id" data-cost="@p.UnitCost">@p.Name (@p.Sku)</option>
+                }
+            </select>
+        </td>
+        <td class="num">
+            <input name="Lines[__i__].Quantity" type="number" min="1" step="1"
+                   class="input po-qty" aria-label="Quantity" />
+        </td>
+        <td class="num">
+            <input name="Lines[__i__].UnitCost" type="number" min="0" step="0.01"
+                   class="input po-cost" aria-label="Unit cost" />
+        </td>
+        <td class="num po-amount">$0.00</td>
+        <td class="actions">
+            <button type="button" class="btn btn-ghost btn-sm po-remove" aria-label="Remove line">
+                <i class="fa-solid fa-xmark"></i> </button>
+        </td>
+    </tr>
+</template>
+
+@section DashboardScripts {
+    <script src="~/js/purchase-order.js"></script>
+}

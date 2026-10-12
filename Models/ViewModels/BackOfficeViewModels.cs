@@ -133,6 +133,17 @@ public sealed class ProductEditViewModel
     [Display(Name = "Active")]
     public bool IsActive { get; set; } = true;
 
+    /**
+     * FR-06: the vendor this item is normally bought from. Optional - an item
+     * can be in the catalogue before a supplier is chosen for it.
+     */
+    [Display(Name = "Preferred Vendor")]
+    public int? PreferredVendorId { get; set; }
+
+    public string? PreferredVendorName { get; set; }
+
+    public IReadOnlyList<VendorOption> Vendors { get; set; } = Array.Empty<VendorOption>();
+
     public bool IsNew => Id == 0;
     public string PageTitle => IsNew ? "New Equipment" : $"Edit {Name}";
 }
@@ -331,3 +342,110 @@ public sealed class EmployeeEditViewModel
     public bool IsNew => Id == 0;
     public string PageTitle => IsNew ? "New Employee" : $"Edit {FullName}";
 }
+
+// ------------------------------------------------------------ purchase orders
+
+public sealed class PurchaseOrderListPage
+{
+    public IReadOnlyList<PurchaseOrderRow> Orders { get; set; } = Array.Empty<PurchaseOrderRow>();
+
+    public PurchaseTotals Totals { get; set; } = new(0, 0, 0, 0m);
+
+    public string? Status { get; set; }
+    public int? VendorId { get; set; }
+
+    public IReadOnlyList<VendorOption> Vendors { get; set; } = Array.Empty<VendorOption>();
+    public IReadOnlyList<string> Statuses { get; set; } = Array.Empty<string>();
+
+    public bool IsEmpty => Orders.Count == 0;
+}
+
+public sealed record PurchaseTotals(int Total, int Open, int Received, decimal CommittedValue);
+
+public sealed record VendorOption(int Id, string Name);
+
+public sealed record PurchaseOrderRow(
+    int Id,
+    string PoNumber,
+    string VendorName,
+    string Status,
+    string StatusToken,
+    int LineCount,
+    int UnitsOrdered,
+    int UnitsReceived,
+    decimal TotalAmount,
+    DateTime OrderedOn,
+    DateTime? ExpectedOn,
+    DateTime? ReceivedOn,
+    bool IsFullyReceived,
+    bool CanReceive,
+    bool CanCancel);
+
+/**
+ * A new order carries its lines inline the way the stock adjustment form
+ * does - the picker writes hidden ProductId/Quantity/UnitCost triples and the
+ * service rejects the whole save if any line is malformed.
+ */
+public sealed class PurchaseOrderEditViewModel
+{
+    public int Id { get; set; }
+
+    [Range(1, int.MaxValue, ErrorMessage = "Pick a vendor.")]
+    [Display(Name = "Vendor")]
+    public int VendorId { get; set; }
+
+    [Display(Name = "Expected On")]
+    [DataType(DataType.Date)]
+    public DateTime? ExpectedOn { get; set; }
+
+    [MaxLength(300)]
+    [Display(Name = "Notes")]
+    public string? Notes { get; set; }
+
+    public List<PurchaseLineInput> Lines { get; set; } = new();
+
+    public IReadOnlyList<VendorOption> Vendors { get; set; } = Array.Empty<VendorOption>();
+    public IReadOnlyList<ProductOption> Products { get; set; } = Array.Empty<ProductOption>();
+
+    public string? PoNumber { get; set; }
+    public string Status { get; set; } = "Draft";
+
+    public bool IsNew => Id == 0;
+    public string PageTitle => IsNew ? "New Purchase Order" : $"Purchase Order {PoNumber}";
+}
+
+public sealed class PurchaseLineInput
+{
+    public int ProductId { get; set; }
+
+    [Range(1, 100000, ErrorMessage = "Quantity must be at least 1.")]
+    public int Quantity { get; set; }
+
+    [Range(0, 1000000, ErrorMessage = "Unit cost cannot be negative.")]
+    public decimal UnitCost { get; set; }
+
+    public int QuantityReceived { get; set; }
+}
+
+public sealed record ProductOption(int Id, string Sku, string Name, decimal UnitCost);
+
+public sealed class PurchaseOrderDetailPage
+{
+    public PurchaseOrderRow Order { get; set; } = null!;
+    public IReadOnlyList<PurchaseLineRow> Lines { get; set; } = Array.Empty<PurchaseLineRow>();
+
+    public string? Notes { get; set; }
+
+    public int? ReceivingShopId { get; set; }
+    public IReadOnlyList<ShopOption> Shops { get; set; } = Array.Empty<ShopOption>();
+}
+
+public sealed record PurchaseLineRow(
+    int Id,
+    string Sku,
+    string ProductName,
+    int Quantity,
+    int QuantityReceived,
+    decimal UnitCost,
+    decimal LineAmount,
+    bool IsFullyReceived);

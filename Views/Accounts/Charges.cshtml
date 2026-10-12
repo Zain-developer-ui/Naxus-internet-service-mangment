@@ -1,0 +1,147 @@
+@model NEXUS.Models.ViewModels.ChargePage
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "One-off Charges — NEXUS";
+}
+
+@section DashboardStyles {
+    <link rel="stylesheet" href="~/css/dashboards-luxury.css" />
+    <link rel="stylesheet" href="~/css/admin.css" />
+}
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/Accounts/Dashboard">Accounts</a>
+    <span class="sep">/</span>
+    <span class="current">One-off Charges</span>
+</nav>
+
+<div class="page-header reveal">
+    <div>
+        <h1><i class="fa-solid fa-screwdriver-wrench" style="color:var(--nexus-blue);"></i> One-off Charges</h1>
+        <p class="muted">Charges raised outside the monthly cycle — a replacement when the customer damages equipment, or a manual adjustment. Each one is swept onto the customer's next bill.</p>
+    </div>
+</div>
+
+@if (TempData["Success"] is string ok)
+{
+    <div class="alert alert-success reveal" role="status">
+        <i class="fa-solid fa-circle-check"></i> @ok </div>
+}
+@if (TempData["Error"] is string bad)
+{
+    <div class="alert alert-danger reveal" role="alert">
+        <i class="fa-solid fa-circle-exclamation"></i> @bad </div>
+}
+
+<div class="chart-card reveal">
+    <h2 class="dash-heading">Raise a charge</h2>
+
+    @if (Model.Connections.Count == 0)
+    {
+        <p class="table-empty">No connections are on record yet.</p>
+    }
+    else
+    {
+        <form method="post" asp-action="Charges">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="All" class="validation-summary"></div>
+
+            <div class="field">
+                <label for="charge-line">Connection</label>
+                <select id="charge-line" name="ConnectionId" class="input" required>
+                    <option value="">Select a connection…</option>
+                    @foreach (var line in Model.Connections)
+                    {
+                        var label = $"{line.ConnectionNumber} · {line.CustomerName} · {line.StatusLabel}";
+                        <option value="@line.Id" selected="@(Model.Input.ConnectionId == line.Id)">@label</option>
+                    }
+                </select>
+                <span asp-validation-for="Input.ConnectionId" class="field-error"></span>
+            </div>
+
+            <div class="field">
+                <label for="charge-desc">What it is for</label>
+                <input id="charge-desc" name="Description" class="input" maxlength="200" required
+                       value="@Model.Input.Description"
+                       placeholder="e.g. Replacement router — damaged by customer" />
+                <span asp-validation-for="Input.Description" class="field-error"></span>
+            </div>
+
+            <div class="filter-grid">
+                <div class="field">
+                    <label for="charge-type">Charge type</label>
+                    <select id="charge-type" name="ChargeType" class="input">
+                        @foreach (var type in NEXUS.Models.ViewModels.RaiseChargeInput.TypeOptions)
+                        {
+                            <option value="@type" selected="@(Model.Input.ChargeType == type)">@type</option>
+                        }
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="charge-amount">Amount</label>
+                    <input id="charge-amount" name="Amount" type="number" min="0.01" step="0.01"
+                           class="input" required
+                           value="@(Model.Input.Amount > 0 ? Model.Input.Amount.ToString("0.00") : "")" />
+                    <span asp-validation-for="Input.Amount" class="field-error"></span>
+                </div>
+            </div>
+
+            <div class="inline-actions" style="margin-top:16px;">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-check"></i> Raise charge </button>
+            </div>
+        </form>
+    }
+</div>
+
+<section class="dash-section reveal" aria-labelledby="charge-log">
+    <h2 id="charge-log" class="dash-heading">
+        Pending charges <span class="count">@Model.Charges.Count</span>
+    </h2>
+
+    <div class="chart-card">
+        @if (Model.IsEmpty)
+        {
+            <p class="table-empty">No charges are waiting to be billed.</p>
+        }
+        else
+        {
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Line</th>
+                            <th scope="col">Customer</th>
+                            <th scope="col">Description</th>
+                            <th scope="col" class="hide-sm">Type</th>
+                            <th scope="col">Raised</th>
+                            <th scope="col" class="num">Amount</th>
+                            <th scope="col"><span class="sr-only">Actions</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var charge in Model.Charges)
+                        {
+                            <tr>
+                                <td class="mono">@charge.ConnectionNumber</td>
+                                <td>@charge.CustomerName <span class="muted mono">@charge.AccountId</span></td>
+                                <td>@charge.Description</td>
+                                <td class="hide-sm">@charge.ChargeType</td>
+                                <td>@charge.RaisedOn.ToString("dd MMM yyyy")</td>
+                                <td class="num">@charge.Amount.ToString("C")</td>
+                                <td class="actions">
+                                    <form method="post" asp-action="CancelCharge" asp-route-id="@charge.Id"
+                                          data-confirm="Withdraw this charge?">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-ghost btn-sm">
+                                            <i class="fa-solid fa-xmark"></i> Withdraw </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</section>

@@ -1,0 +1,153 @@
+@model NEXUS.Models.ViewModels.PurchaseOrderDetailPage
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = $"{Model.Order.PoNumber} — NEXUS";
+
+    var order = Model.Order;
+
+    string Tone(string token) => token switch
+    {
+        "Received" => "success",
+        "Ordered" or "PartiallyReceived" => "warning",
+        "Cancelled" => "danger",
+        _ => "muted"
+    };
+}
+
+@section DashboardStyles {
+    <link rel="stylesheet" href="~/css/dashboards-luxury.css" />
+    <link rel="stylesheet" href="~/css/admin.css" />
+}
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/Admin/Dashboard">Admin</a>
+    <span class="sep">/</span>
+    <a href="@Url.Action("Index")">Purchase Orders</a>
+    <span class="sep">/</span>
+    <span class="current">@order.PoNumber</span>
+</nav>
+
+<div class="page-header reveal">
+    <div>
+        <h1 class="mono">@order.PoNumber</h1>
+        <p class="muted">
+            @order.VendorName —
+            <span class="badge badge-@Tone(order.StatusToken)">@order.Status</span>
+        </p>
+    </div>
+    <div class="page-header-actions">
+        @if (order.CanReceive)
+        {
+            <form method="post" asp-action="Receive" asp-route-id="@order.Id" class="inline-actions">
+                @Html.AntiForgeryToken()
+                <select name="shopId" class="input" aria-label="Receiving outlet" required>
+                    <option value="">Receive at…</option>
+                    @foreach (var shop in Model.Shops)
+                    {
+                        <option value="@shop.Id">@shop.Name (@shop.OutletCode)</option>
+                    }
+                </select>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-boxes-packing"></i> Receive into stock </button>
+            </form>
+        }
+
+        @if (order.CanCancel)
+        {
+            <form method="post" asp-action="Cancel" asp-route-id="@order.Id"
+                  data-confirm="Cancel @order.PoNumber? This cannot be undone.">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-ghost">
+                    <i class="fa-solid fa-ban"></i> Cancel </button>
+            </form>
+        }
+    </div>
+</div>
+
+@if (TempData["Success"] is string ok)
+{
+    <div class="alert alert-success reveal" role="status">
+        <i class="fa-solid fa-circle-check"></i> @ok </div>
+}
+@if (TempData["Error"] is string bad)
+{
+    <div class="alert alert-danger reveal" role="alert">
+        <i class="fa-solid fa-circle-exclamation"></i> @bad </div>
+}
+
+<div class="stats-grid reveal">
+    <div class="stat-card">
+        <div class="stat-icon navy"><i class="fa-solid fa-hashtag"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value">@order.LineCount</div>
+            <div class="stat-label">Lines</div> </div> </div>
+    <div class="stat-card">
+        <div class="stat-icon warning"><i class="fa-solid fa-cubes"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value">@order.UnitsReceived / @order.UnitsOrdered</div>
+            <div class="stat-label">Units Received</div> </div> </div>
+    <div class="stat-card">
+        <div class="stat-icon accent"><i class="fa-solid fa-sack-dollar"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value">@order.TotalAmount.ToString("C")</div>
+            <div class="stat-label">Order Value</div> </div> </div>
+    <div class="stat-card">
+        <div class="stat-icon success"><i class="fa-solid fa-calendar-check"></i></div>
+        <div class="stat-meta">
+            <div class="stat-value">
+                @(order.ReceivedOn is null ? "—" : order.ReceivedOn.Value.ToString("dd MMM")) </div>
+            <div class="stat-label">@(order.ReceivedOn is null ? "Not received" : "Received On")</div> </div> </div>
+</div>
+
+<section class="dash-section reveal" aria-labelledby="po-lines">
+    <h2 id="po-lines" class="dash-heading">
+        Lines <span class="count">@Model.Lines.Count</span>
+    </h2>
+
+    <div class="chart-card">
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col">Product</th>
+                        <th scope="col">SKU</th>
+                        <th scope="col" class="num">Ordered</th>
+                        <th scope="col" class="num">Received</th>
+                        <th scope="col" class="num">Unit Cost</th>
+                        <th scope="col" class="num">Line Amount</th>
+                    </tr> </thead>
+                <tbody>
+                    @foreach (var line in Model.Lines)
+                    {
+                        <tr>
+                            <td>@line.ProductName</td>
+                            <td class="mono">@line.Sku</td>
+                            <td class="num">@line.Quantity</td>
+                            <td class="num">
+                                @if (line.IsFullyReceived)
+                                {
+                                    <span class="badge badge-success">@line.QuantityReceived</span>
+                                }
+                                else
+                                {
+                                    @line.QuantityReceived
+                                } </td>
+                            <td class="num">@line.UnitCost.ToString("C")</td>
+                            <td class="num">@line.LineAmount.ToString("C")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+@if (!string.IsNullOrWhiteSpace(Model.Notes))
+{
+    <section class="dash-section reveal" aria-labelledby="po-notes">
+        <h2 id="po-notes" class="dash-heading">Notes</h2>
+        <div class="chart-card">
+            <p>@Model.Notes</p>
+        </div>
+    </section>
+}

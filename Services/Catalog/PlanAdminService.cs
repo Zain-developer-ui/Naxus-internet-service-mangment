@@ -117,6 +117,7 @@ public sealed class PlanAdminService : IPlanAdminService
             IsActive = plan.IsActive,
             SortOrder = plan.SortOrder,
             SecurityDeposit = plan.SecurityDeposit,
+            CallTariffLabel = plan.CallTariffLabel,
             Prices = BuildPriceRows(plan.Prices)
         };
 
@@ -141,7 +142,8 @@ public sealed class PlanAdminService : IPlanAdminService
             Description = model.Description?.Trim() ?? string.Empty,
             IsActive = model.IsActive,
             SortOrder = model.SortOrder,
-            SecurityDeposit = model.SecurityDeposit
+            SecurityDeposit = model.SecurityDeposit,
+            CallTariffLabel = NormaliseTariff(model)
         };
 
         ApplyPrices(plan, model);
@@ -175,12 +177,30 @@ public sealed class PlanAdminService : IPlanAdminService
         plan.IsActive = model.IsActive;
         plan.SortOrder = model.SortOrder;
         plan.SecurityDeposit = model.SecurityDeposit;
+        plan.CallTariffLabel = NormaliseTariff(model);
 
         ApplyPrices(plan, model);
 
         await _db.SaveChangesAsync(ct);
 
         return Result<int>.Ok(plan.Id);
+    }
+
+    /**
+     * A tariff only means something on a metered line. Leaving it on a
+     * broadband plan would show a meaningless column on the metering screen,
+     * so the field is cleared for anything that is not telephone or dial-up.
+     */
+    private static string? NormaliseTariff(PlanEditViewModel model)
+    {
+        if (model.ConnectionType is not (ConnectionType.Telephone or ConnectionType.DialUp))
+            return null;
+
+        var label = model.CallTariffLabel?.Trim();
+
+        return string.IsNullOrEmpty(label) || CallTariff.All.All(r => r.Label != label)
+            ? null
+            : label;
     }
 
     public async Task<Result<bool>> SetActiveAsync(int id, bool active, CancellationToken ct = default)

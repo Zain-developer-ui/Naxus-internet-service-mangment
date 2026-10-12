@@ -40,6 +40,12 @@ public class ConnectionOrder : AuditableEntity
 
     public decimal QuotedAmount { get; set; }
 
+    /**
+     * Set the first time the quoted amount is credited against a bill.
+     * Guards FR-100: the advance is adjusted once, not every period.
+     */
+    public DateTime? AdvanceAdjustedOn { get; set; }
+
     public int? AssignedTechnicianId { get; set; }
     public Employee? AssignedTechnician { get; set; }
 

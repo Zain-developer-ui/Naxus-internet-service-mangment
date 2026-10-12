@@ -1,0 +1,254 @@
+@model NEXUS.Models.ViewModels.RetailRegisterPage
+@using NEXUS.Common.Constants
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Retail Register — NEXUS";
+
+    string Tone(string token) => token switch
+    {
+        "Active" or "Completed" or "Paid" => "success",
+        "Pending" or "Installing" or "PartiallyPaid" or "TemporarilyInactive" => "warning",
+        "Overdue" or "Cancelled" or "FeasibilityFailed" or "PermanentlyInactive" => "danger",
+        _ => "info"
+    };
+}
+
+@section DashboardStyles {
+    <link rel="stylesheet" href="~/css/dashboards-luxury.css" />
+}
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/Retail/Dashboard">Retail</a>
+    <span class="sep">/</span>
+    <span class="current">Register</span>
+</nav>
+
+<div class="page-head">
+    <div>
+        <h1>Retail register</h1>
+        <p class="muted">
+            Orders placed, lines activated, bills raised and payments taken —
+            @Model.Query.PeriodLabel.
+        </p>
+    </div>
+</div>
+
+<div class="chart-card reveal">
+    <form method="get" asp-action="Register" class="filter-grid">
+        <div class="field">
+            <label for="reg-from">From</label>
+            <input id="reg-from" name="From" type="date" class="input" value="@Model.Query.FromValue" />
+        </div>
+        <div class="field">
+            <label for="reg-to">To</label>
+            <input id="reg-to" name="To" type="date" class="input" value="@Model.Query.ToValue" />
+        </div>
+        <div class="field filter-actions">
+            <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-filter"></i> Apply
+            </button>
+            <a href="/Retail/Register" class="btn btn-ghost">All time</a>
+        </div>
+    </form>
+</div>
+
+<div class="attention-board dash-section reveal">
+    <div class="attention-cell">
+        <span class="attention-label">Orders placed</span>
+        <span class="attention-value">@Model.Totals.Orders</span>
+        <span class="attention-go">@Model.Query.PeriodLabel</span>
+    </div>
+    <div class="attention-cell">
+        <span class="attention-label">Lines activated</span>
+        <span class="attention-value">@Model.Totals.Connections</span>
+        <span class="attention-go">Connections on the register</span>
+    </div>
+    <div class="attention-cell">
+        <span class="attention-label">Billed</span>
+        <span class="attention-value">@Model.Totals.Billed.ToString("C")</span>
+        <span class="attention-go">@Model.Totals.Outstanding.ToString("C") outstanding</span>
+    </div>
+    <div class="attention-cell">
+        <span class="attention-label">Collected</span>
+        <span class="attention-value">@Model.Totals.Collected.ToString("C")</span>
+        <span class="attention-go">@Model.Payments.Count receipt(s)</span>
+    </div>
+</div>
+
+<section class="dash-section reveal" aria-labelledby="reg-orders">
+    <h2 id="reg-orders" class="dash-heading">
+        Orders <span class="count">@Model.Orders.Count</span>
+    </h2>
+
+    <div class="chart-card">
+        @if (Model.Orders.Count == 0)
+        {
+            <p class="table-empty">No order was placed in this period.</p>
+        }
+        else
+        {
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Order</th>
+                            <th scope="col">Customer</th>
+                            <th scope="col" class="hide-sm">Type</th>
+                            <th scope="col" class="hide-sm">Plan</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Placed on</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var order in Model.Orders)
+                        {
+                            <tr>
+                                <td><a href="/Operations/Review/@order.OrderId" class="mono">@order.OrderId</a></td>
+                                <td>@order.CustomerName</td>
+                                <td class="hide-sm">@order.ServiceTypeName</td>
+                                <td class="hide-sm">@order.PlanName</td>
+                                <td><span class="badge badge-@Tone(order.StatusToken)">@order.StatusLabel</span></td>
+                                <td>@order.CreatedAt.ToLocalTime().ToString("dd MMM yyyy")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</section>
+
+<section class="dash-section reveal" aria-labelledby="reg-lines">
+    <h2 id="reg-lines" class="dash-heading">
+        Connections <span class="count">@Model.Connections.Count</span>
+    </h2>
+
+    <div class="chart-card">
+        @if (Model.Connections.Count == 0)
+        {
+            <p class="table-empty">No line was activated in this period.</p>
+        }
+        else
+        {
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Line</th>
+                            <th scope="col">Account</th>
+                            <th scope="col">Customer</th>
+                            <th scope="col" class="hide-sm">Plan</th>
+                            <th scope="col">Status</th>
+                            <th scope="col" class="hide-sm">City</th>
+                            <th scope="col">Activated</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var line in Model.Connections)
+                        {
+                            <tr>
+                                <td><a href="/Operations/Connection/@line.ConnectionId" class="mono">@line.ConnectionNumber</a></td>
+                                <td class="mono">@line.AccountId</td>
+                                <td>@line.CustomerName</td>
+                                <td class="hide-sm">@line.Plan</td>
+                                <td><span class="badge badge-@Tone(line.StatusToken)">@line.Status</span></td>
+                                <td class="hide-sm">@line.City</td>
+                                <td>@line.ActivatedOn.ToLocalTime().ToString("dd MMM yyyy")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</section>
+
+<section class="dash-section reveal" aria-labelledby="reg-bills">
+    <h2 id="reg-bills" class="dash-heading">
+        Billing <span class="count">@Model.Bills.Count</span>
+    </h2>
+
+    <div class="chart-card">
+        @if (Model.Bills.Count == 0)
+        {
+            <p class="table-empty">No bill was raised for this period.</p>
+        }
+        else
+        {
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Bill</th>
+                            <th scope="col">Customer</th>
+                            <th scope="col" class="hide-sm">Account</th>
+                            <th scope="col" class="hide-sm">Period</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">Paid</th>
+                            <th scope="col">Balance</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var bill in Model.Bills)
+                        {
+                            <tr>
+                                <td><a href="/Bills/Details/@bill.BillId" class="mono">@bill.BillNumber</a></td>
+                                <td>@bill.CustomerName</td>
+                                <td class="hide-sm mono">@bill.AccountId</td>
+                                <td class="hide-sm">@bill.Period</td>
+                                <td>@bill.Total.ToString("C")</td>
+                                <td>@bill.Paid.ToString("C")</td>
+                                <td><strong>@bill.Balance.ToString("C")</strong></td>
+                                <td><span class="badge badge-@Tone(bill.StatusToken)">@bill.Status</span></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</section>
+
+<section class="dash-section reveal" aria-labelledby="reg-payments">
+    <h2 id="reg-payments" class="dash-heading">
+        Payments <span class="count">@Model.Payments.Count</span>
+    </h2>
+
+    <div class="chart-card">
+        @if (Model.Payments.Count == 0)
+        {
+            <p class="table-empty">No payment was recorded in this period.</p>
+        }
+        else
+        {
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Receipt</th>
+                            <th scope="col">Bill</th>
+                            <th scope="col">Customer</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col" class="hide-sm">Method</th>
+                            <th scope="col">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var payment in Model.Payments)
+                        {
+                            <tr>
+                                <td class="mono">@payment.ReceiptNumber</td>
+                                <td class="mono">@payment.BillNumber</td>
+                                <td>@payment.CustomerName</td>
+                                <td><strong>@payment.Amount.ToString("C")</strong></td>
+                                <td class="hide-sm">@payment.Method</td>
+                                <td>@payment.PaidOn.ToLocalTime().ToString("dd MMM yyyy")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</section>

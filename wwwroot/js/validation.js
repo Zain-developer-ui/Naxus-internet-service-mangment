@@ -20,21 +20,43 @@
     // ---------------------------------------------------------
     // Show / clear inline error on an input
     // ---------------------------------------------------------
-    function setError(input, message) {
-        input.classList.add('input-error');
+    let errorSeq = 0;
+
+    function errorFor(input) {
+        // One error node per field, created lazily and then reused. Keyed off
+        // the input id so a field that already has a server-rendered
+        // validation span does not end up with two messages under it.
         let err = input.parentElement.querySelector('.field-error');
         if (!err) {
             err = document.createElement('span');
             err.className = 'field-error';
+            err.setAttribute('role', 'alert');
             input.parentElement.appendChild(err);
         }
+        if (!err.id) err.id = 'err-' + (input.id || 'field-' + (++errorSeq));
+        return err;
+    }
+
+    function setError(input, message) {
+        input.classList.add('input-error');
+        input.setAttribute('aria-invalid', 'true');
+
+        const err = errorFor(input);
         err.textContent = message;
+        input.setAttribute('aria-describedby', err.id);
     }
 
     function clearError(input) {
         input.classList.remove('input-error');
+        input.removeAttribute('aria-invalid');
+
         const err = input.parentElement.querySelector('.field-error');
-        if (err) err.textContent = '';
+        if (err) {
+            err.textContent = '';
+            if (input.getAttribute('aria-describedby') === err.id) {
+                input.removeAttribute('aria-describedby');
+            }
+        }
     }
 
     // ---------------------------------------------------------

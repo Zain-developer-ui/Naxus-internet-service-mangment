@@ -157,6 +157,21 @@
                     <span class="form-hint">Refundable on permanent disconnection.</span>
                     <span asp-validation-for="SecurityDeposit" class="field-error"></span> </div>
 
+                <div class="form-group" data-tariff-group>
+                    <label asp-for="CallTariffLabel">Call Tariff <span class="opt">optional</span></label>
+                    <select asp-for="CallTariffLabel">
+                        <option value="">No call charges</option>
+                        @foreach (var rate in NEXUS.Models.ViewModels.PlanEditViewModel.TariffOptions)
+                        {
+                            <option value="@rate">@rate</option>
+                        }
+                    </select>
+                    <span class="form-hint">
+                        Only applies to telephone and dial-up lines. The metering screen
+                        prices calls at this rate; leave blank for rental only.
+                    </span>
+                    <span asp-validation-for="CallTariffLabel" class="field-error"></span> </div>
+
                 <div class="form-group">
                     <label class="checkbox-line">
                         <input asp-for="IsActive" />

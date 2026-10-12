@@ -11,6 +11,7 @@ public interface IAccountIdGenerator
     Task<string> NextBillNumberAsync(DateOnly period, CancellationToken ct = default);
     Task<string> NextReceiptNumberAsync(CancellationToken ct = default);
     Task<string> NextConnectionNumberAsync(ConnectionType type, CancellationToken ct = default);
+    Task<string> NextPurchaseOrderNumberAsync(CancellationToken ct = default);
 }
 
 /**
@@ -150,6 +151,29 @@ public sealed class AccountIdGenerator : IAccountIdGenerator
             },
             candidate => _db.Connections.IgnoreQueryFilters()
                                  .AnyAsync(c => c.ConnectionNumber == candidate, ct),
+            ct);
+    }
+
+    public async Task<string> NextPurchaseOrderNumberAsync(CancellationToken ct = default)
+    {
+        var prefix = $"PO-{DateTime.UtcNow:yyyy}-";
+
+        return await GenerateAsync(
+            async () =>
+            {
+                var existing = await _db.PurchaseOrders
+                    .Where(p => p.PoNumber.StartsWith(prefix))
+                    .Select(p => p.PoNumber)
+                    .ToListAsync(ct);
+
+                var maxSerial = existing
+                    .Select(n => int.TryParse(n[prefix.Length..], out var v) ? v : 0)
+                    .DefaultIfEmpty(0)
+                    .Max();
+
+                return $"{prefix}{maxSerial + 1:D4}";
+            },
+            candidate => _db.PurchaseOrders.AnyAsync(p => p.PoNumber == candidate, ct),
             ct);
     }
 

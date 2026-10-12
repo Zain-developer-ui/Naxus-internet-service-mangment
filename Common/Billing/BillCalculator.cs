@@ -21,13 +21,16 @@ public sealed record ChargeLine(
  * to the service tax. The order matters and comes straight off the SRS:
  *
  *   subtotal  = sum of lines
- *   discount  = subtotal * tier rate          (bulk/corporate)
+ *   discount  = discountable lines only * tier rate
  *   taxable   = subtotal - discount
  *   tax       = taxable * 12.24%
  *   total     = taxable + tax
  *
- * Tax is charged on the discounted amount, not the gross - the SRS computes
- * service tax on the amount actually payable.
+ * FR-99 is the reason the discount is not simply subtotal * rate. The SRS
+ * grants the bulk/corporate rate on the advance and the security deposit - the
+ * one-off money a customer puts down - and says nothing about the recurring
+ * rental. Discounting the rental too would quietly under-bill every month, so
+ * only the lines in DiscountableChargeTypes count.
  */
 public sealed record BillBreakdown(
     IReadOnlyList<ChargeLine> Lines,
@@ -37,10 +40,15 @@ public sealed record BillBreakdown(
     public decimal SubTotal =>
         Math.Round(Lines.Sum(l => l.LineAmount), 2, MidpointRounding.AwayFromZero);
 
+    /** The part of the subtotal the tier applies to (FR-99). */
+    public decimal DiscountableSubTotal =>
+        Math.Round(Lines.Where(l => ChargeTypes.IsDiscountable(l.ChargeType))
+                        .Sum(l => l.LineAmount), 2, MidpointRounding.AwayFromZero);
+
     public decimal DiscountRate => Tier?.Rate ?? 0m;
 
     public decimal DiscountAmount =>
-        Math.Round(SubTotal * DiscountRate, 2, MidpointRounding.AwayFromZero);
+        Math.Round(DiscountableSubTotal * DiscountRate, 2, MidpointRounding.AwayFromZero);
 
     public decimal TaxableAmount => SubTotal - DiscountAmount;
 
@@ -161,4 +169,22 @@ public static class ChargeTypes
     public const string SecurityDeposit = "Security Deposit";
     public const string Equipment = "Equipment";
     public const string Adjustment = "Adjustment";
+    public const string AdvancePayment = "Advance Payment";
+    public const string Replacement = "Replacement";
+
+    /**
+     * FR-99: the bulk/corporate discount is granted on the advance and the
+     * security deposit. Installation sits with them as part of the same
+     * one-off connection cost; the recurring rental and any usage are never
+     * discounted.
+     */
+    private static readonly HashSet<string> Discountable = new(StringComparer.OrdinalIgnoreCase)
+    {
+        AdvancePayment,
+        SecurityDeposit,
+        Installation
+    };
+
+    public static bool IsDiscountable(string? chargeType) =>
+        chargeType is not null && Discountable.Contains(chargeType);
 }

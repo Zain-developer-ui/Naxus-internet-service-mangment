@@ -3,7 +3,15 @@
 Ye guide us bande ke liye hai jo testing karega. Har feature ke saath: **kya test
 karna hai, kaise, kya expect karna hai, aur kya galat lagna chahiye.**
 
-Aakhri update: 8 Oct 2026
+Aakhri update: 12 Oct 2026
+
+> **Ye manual guide hai.** Automated testing ke liye **`TESTSPRITE-PLAN.md`** dekho —
+> usme TestSprite ka setup, 49 end-to-end journeys, aur Aptech deliverable mein
+> kya jama karna hai likha hua hai.
+>
+> Dono ek doosre ke replacement nahi:
+> - **TestSprite** — user journeys (login, authorization, CRUD, error pages)
+> - **Ye guide** — exact numbers (billing arithmetic, tax, discount tiers)
 
 ---
 
@@ -16,6 +24,11 @@ cd "C:\Users\Zain Ansari\source\repos\Zain-developer-ui\Naxus-internet-service-m
 ```
 
 Phir browser: `http://localhost:5199`
+
+**⚠️ Agar app chalti hui magar login POST fail ho jaye** — pehle SQL Server check
+karo, password mat badlo. 12 Oct ko yehi hua tha: error
+`Connection Timeout Expired ... [Post-Login] complete=13079` tha, aur SQL Server
+theek chal raha tha. Ye **transient network timeout** tha, ghalat password nahi.
 
 ### Login accounts
 
@@ -32,10 +45,13 @@ Phir browser: `http://localhost:5199`
 ### DB counts (test se pehle aur baad mein)
 
 ```cmd
-"C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\sqlcmd" -S "DESKTOP-BD6OLPC\SQLEXPRESS" -U sa -P aptech -d NexusDb -Q "SET NOCOUNT ON; SELECT 'Users' T, COUNT(*) N FROM Users UNION ALL SELECT 'Customers',COUNT(*) FROM Customers UNION ALL SELECT 'Orders',COUNT(*) FROM ConnectionOrders UNION ALL SELECT 'Connections',COUNT(*) FROM Connections UNION ALL SELECT 'Bills',COUNT(*) FROM Bills UNION ALL SELECT 'Payments',COUNT(*) FROM Payments;"
+"C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\sqlcmd" -S "DESKTOP-BD6OLPC\SQLEXPRESS" -U sa -P aptech -d NexusDb -Q "SET NOCOUNT ON; SELECT 'Users' T, COUNT(*) N FROM Users UNION ALL SELECT 'Customers',COUNT(*) FROM Customers UNION ALL SELECT 'Orders',COUNT(*) FROM ConnectionOrders UNION ALL SELECT 'Connections',COUNT(*) FROM Connections UNION ALL SELECT 'Bills',COUNT(*) FROM Bills UNION ALL SELECT 'Payments',COUNT(*) FROM Payments UNION ALL SELECT 'CallUsages',COUNT(*) FROM CallUsages;"
 ```
 
-**Baseline:** Users 6 · Customers 2 · Orders 2 · Connections 1 · Bills 0 · Payments 0
+**Baseline:** Users 6 · Customers 2 · Orders 2 · Connections 1 · Bills 0 ·
+Payments 0 · CallUsages 0
+
+Test ke baad apne banaye rows **delete** karo — baseline par wapas lao.
 
 ---
 
@@ -241,19 +257,126 @@ Orders `CreatedAt` (application date) par, lines `ActivatedOn` (received date) p
 Ye SRS ke *"date or period of application or received the connection"* ka seedha
 matlab hai. Aur `To` date **poora din** cover karti hai.
 
+### K. Retail till-date register
+
+Route: `/Retail/Register` — Retail aur Admin ke liye.
+
+| # | Test | Kaise | Expected |
+|---|---|---|---|
+| K1 | Page khule | Retail se login → sidebar "Till Date Register" | 4 sections: Orders / Connections / Billing / Payments |
+| K2 | All time | Bina filter kholo | Sab records, header "All time" |
+| K3 | Period filter | `From` = 2026-10-01, `To` = 2026-10-31 | Sirf October |
+| K4 | Khaali period | `From` = 2026-01-01, `To` = 2026-01-31 | Har section apna "No … in this period" |
+| K5 | Totals | Filter lagao | Orders placed / Lines activated / Billed / Collected update hon |
+| K6 | Billed vs Collected | Ek bill ke saath | `Billed` total, `Collected` sirf paid, `outstanding` difference |
+| K7 | Guest | Logout kar ke kholo | 302 → login |
+| K8 | Technical role | Technical se kholo | AccessDenied (sirf Retail + Admin) |
+| K9 | Sidebar | Page kholo | Sirf "Till Date Register" active (ek hi) |
+| K10 | URL shareable | Filter lagao, URL copy, naye tab | Wahi result |
+
+**Cross question:** *"Retail register order kab dikhata hai, line kab?"* → Order
+`CreatedAt` par — jis din customer ne apply kiya. Line `ActivatedOn` par — jis din
+activate hui. Dono alag column hain is liye ek hi period mein order aa sakta hai
+aur line nahi (ya ulta).
+
+### L. Purchase orders (vendor se equipment mangwana)
+
+Route: `/Admin/PurchaseOrders` — sirf Admin.
+
+| # | Test | Kaise | Expected |
+|---|---|---|---|
+| L1 | List khule | Admin → sidebar "Purchase Orders" | Orders + totals (on record / awaiting / received / committed) |
+| L2 | Naya PO | "New Purchase Order" → vendor + 2 lines → Raise | 302 → Details, number `PO-2026-000N` |
+| L3 | Numbering | Do PO banao | Serial barhe, duplicate nahi |
+| L4 | Vendor zaroori | Blank vendor chhor ke submit | Field error "Pick an active vendor." |
+| L5 | Khaali lines | Bina line submit | "Add at least one line to the order." |
+| L6 | Duplicate line | Ek product do lines par | "'…' appears on more than one line." |
+| L7 | Line total | Qty × cost | Line amount + order total live update |
+| L8 | Cost auto-fill | Product chuno | Unit cost catalogue se bhar jaye |
+| L9 | Receive | Details → outlet chuno → Receive | Stock badhe, lines 100%, status "Received" |
+| L10 | Stock ledger | Receive ke baad stock screen | Movement row `Received on PO-…` |
+| L11 | Double receive | Dobara Receive | Error "already been received", stock **nahi** badhe |
+| L12 | Received cancel | Received PO cancel karo | Error "Received stock cannot be un-done…" |
+| L13 | Cancel | Ordered PO cancel karo | Status "Cancelled" |
+| L14 | Cancelled receive | Cancelled PO receive karo | Error "A cancelled order cannot be received." |
+| L15 | Filter | Status / vendor filter | Sirf matching rows |
+| L16 | Guest | Logout kar ke kholo | 302 → login |
+
+**Cross question:** *"Stock kab barhta hai?"* → Sirf **receive** par. Order raise
+karna sirf commitment hai — jab tak maal nahi aata, shelf par kuch nahi jata.
+
+### M. Call metering (landline call charges)
+
+Route: `/Accounts/Calls` — sirf Accounts role.
+
+Pehle ek Telephone line honi chahiye (plan "Telephone Line", jo
+`Local - monthly` tariff ke saath seed hota hai). Koi line na ho to form chhup
+jata hai aur "No metered lines are available" message aata hai — ye bhi L/M0
+test hai.
+
+| # | Test | Kaise | Expected |
+|---|---|---|---|
+| M0 | Koi meterable line nahi | Bina Telephone connection kholo | Form chhupa, saaf message |
+| M1 | Page khule | Accounts → sidebar "Call Metering" | Reading form + readings table |
+| M2 | Reading save | Line + period + minutes → Save | 302, row table mein, badge "Pending" |
+| M3 | Tariff preview | Line chuno | Tariff box `Local - monthly` dikhaye |
+| M4 | Same period dobara | Wahi line + period, nayi minutes | Row **replace** ho, duplicate **na** bane |
+| M5 | Khaali line | Line select na karo | "Pick a landline." |
+| M6 | Saare minutes 0 | Teeno 0 chhor ke save | "Enter at least one minute figure." |
+| M7 | Ulta period | End < Start | "period end cannot be before its start." |
+| M8 | Ghair-number | Minutes mein `abc` | Binder error, form wapas (data save na ho) |
+| M9 | Bill par charges | Reading save karo, phir us period ka bill banao | Bill par "Local calls" line, 120 min × $0.75 = **$90.00** |
+| M10 | Billed lock | DB mein `IsBilled=1` karo, page reload | Badge "Billed", koi Remove button nahi |
+| M11 | Delete | Unbilled row → Remove | 302, row gayab |
+| M12 | Guest | Logout kar ke kholo | 302 → login |
+| M13 | Tariff set | Admin → Plans → Telephone plan Edit | "Call Tariff" dropdown, 5 rates |
+| M14 | Tariff save | Tariff badal ke save | Save ho, plan list par wapas |
+| M15 | Tariff meter-only | Broadband plan par tariff chuno | Field **chhup** jaye; save par DB mein null |
+
+**Cross question:** *"Call charges bill par kaise aate hain?"* → Accounts
+exchange ka meter reading enter karti hai; us line ke plan ka tariff
+(`CallTariffLabel`) utha kar `minutes × rate` ka line banta hai. Reading na ho
+to bill sirf rental dikhati hai — guessed figure **nahi** ghadti.
+
+**Cross question:** *"Local-monthly mein STD calls kyun nahi dikhte?"* → Us
+tariff mein STD rate `0` hai (SRS), aur `0` rate wali line jaan-boojh kar skip
+hoti hai. Galat rate se charge karna se behtar hai line na banana.
+
+### N. Security headers + rate limiting
+
+| # | Test | Kaise | Expected |
+|---|---|---|---|
+| N1 | Headers | Kisi bhi page par browser DevTools → Network → Response Headers | `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy`, `Cross-Origin-Opener-Policy` |
+| N2 | CSP | Response header `Content-Security-Policy` | `default-src 'self'`, `script-src` mein nonce, `frame-ancestors 'none'` |
+| N3 | Nonce match | Inline `<script>` ka `nonce` vs header ka nonce | **Dono bilkul same** |
+| N4 | External scripts | `<script src="…">` | Nonce **nahi** hona chahiye |
+| N5 | Login throttle | Login par 11+ baar ghalat password try karo | 10 ke baad "Too many sign in attempts" error |
+| N6 | Throttle reset | Ek minute ruk kar dobara try | Normal login chale |
+
+**Cross question:** *"Nonce kya hai aur kyun?"* → Har request par ek random
+token banta hai jo CSP header aur asli inline scripts dono mein hota hai.
+Attacker ka inject kiya hua `<script>` token guess nahi kar sakta, is liye
+browser usay block kar deta hai — lekin hamare apne scripts chalte rehte hain.
+
+**Cross question:** *"`style-src` mein `'unsafe-inline'` kyun hai?"* → Kyunke
+kuch purane views `style=""` attributes use karte hain (Status page, Tracking
+page). Ye ek jaana-boojha gap hai; inline styles saaf hone par isay bhi hata
+denge. `script-src` par `'unsafe-inline'` **nahi** hai — wahan sirf nonce chalta hai.
+
 ## 2. Cross questions — jo examiner pooch sakta hai
 
 ### Architecture
 
 **Q: Database kaunsi hai?**
-SQL Server 2022 Express, DB `NexusDb`, 23 tables. EF Core 8 **Code First** —
+SQL Server 2022 Express, DB `NexusDb`, 24 tables. EF Core 8 **Code First** —
 C# entities se tables banti hain, `Data/Migrations/` mein migrations hain.
 
 **Q: Kitni tables hain?**
-23. Users, Customers, ConnectionOrders, Connections, ConnectionStatusHistory,
-FeasibilityChecks, Plans, PlanPrices, Bills, BillLines, Payments, Cities,
-BulkDiscountTiers, EquipmentProducts, StockItems, StockMovements, Vendors,
-PurchaseOrders, PurchaseOrderLines, Employees, RetailShops, Feedback, SiteSettings.
+24 (plus EF ka `__EFMigrationsHistory`). Users, Customers, ConnectionOrders,
+Connections, ConnectionStatusHistory, FeasibilityChecks, Plans, PlanPrices,
+Bills, BillLines, Payments, CallUsages, Cities, BulkDiscountTiers,
+EquipmentProducts, StockItems, StockMovements, Vendors, PurchaseOrders,
+PurchaseOrderLines, Employees, RetailShops, Feedback, SiteSettings.
 
 **Q: Enums kaise store hote hain?**
 **Strings** mein (`HasConversion<string>()`). Yani `Status` column mein `'Active'`
@@ -266,7 +389,7 @@ jata hai, `1` nahi. Isi liye raw SQL se test data daalte waqt string likhna part
 text kahin nahi.
 
 **Q: CSRF se kaise bachate ho?**
-Har POST par `[ValidateAntiForgeryToken]` — **44** actions par. Token ke baghair
+Har POST par `[ValidateAntiForgeryToken]` — **50** actions par. Token ke baghair
 400 aata hai (test karke dikhao).
 
 **Q: SQL injection?**
@@ -275,7 +398,7 @@ Poora EF Core use hota hai — parameterised queries. Koi raw SQL string nahi
 
 **Q: Authorization kaise?**
 5 roles: Admin, Accounts, Technical, Retail, Customer. Har dashboard controller
-par `[Authorize(Roles=...)]` — **20** attributes, **0** `AllowAnonymous`.
+par `[Authorize(Roles=...)]` — **17** attributes, **0** `AllowAnonymous`.
 
 **Q: IDOR (doosre ka data)?**
 `BillsController` aur `CustomerController` claims se customer ID lete hain, URL ka
@@ -284,6 +407,19 @@ ID ignore karte hain. Customer A customer B ka record nahi khol sakta.
 **Q: Session kaise?**
 Cookie auth — `NEXUS.Auth`, `HttpOnly` (JS padh nahi sakta), `SameSite=Lax`,
 60 minute, no sliding.
+
+**Q: Brute-force (password guessing) rok kyun?**
+Login par per-IP rate limit — **10 attempts / minute**. Limit cross hone par
+`429`. Test: 11+ baar ghalat password maaro (section N, test N5).
+
+**Q: XSS ka kya?**
+CSP header `script-src` mein sirf `'self'` aur ek per-request nonce. Injected
+`<script>` block ho jata hai kyunke usay nonce nahi milta. Razor by default
+HTML encode bhi karta hai.
+
+**Q: Clickjacking?**
+`X-Frame-Options: DENY` + CSP `frame-ancestors 'none'` — site kisi iframe mein
+load nahi hoti.
 
 ### Business logic
 
@@ -350,9 +486,6 @@ Ye features abhi **adhoori** hain — inmein bug mile to wo naya nahi hai:
 
 | Feature | Kya baqi |
 |---|---|
-| Retail till-date views | Orders/connections/billing/payment ke alag views nahi hain (advanced search se kaam chal jata hai) |
-| Purchase orders | Tables hain, UI nahi |
-| Call charges | Arithmetic ready (`BillCalculator.CallLine`), input screen nahi |
 | First payment adjust | Pehli payment billing mein adjust nahi hoti |
 | Replacement charges | Line item hai, charge lagane ka flow nahi |
 | Technical equipment maintain | Abhi Admin/Retail ke paas hai, Technical ke paas nahi |
@@ -360,8 +493,10 @@ Ye features abhi **adhoori** hain — inmein bug mile to wo naya nahi hai:
 
 **Poori list:** `STATIC-DATA-AUDIT.md` aur `PLAN-4-DAYS.md`
 
-> **Note:** Customer My Connection, Advanced search, aur Overdue policy ab
-> **poori tarah kaam karte hain** — inhe test karo (sections E, J aur upar wale).
+> **Note:** Customer My Connection, Advanced search, Overdue policy, **Retail
+> till-date register (section K)**, **purchase orders (section L)**,
+> **call metering (section M)** aur **security headers + rate limiting
+> (section N)** ab **poori tarah kaam karte hain** — inhe test karo.
 
 ---
 

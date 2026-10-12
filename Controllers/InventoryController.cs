@@ -11,8 +11,13 @@ namespace NEXUS.Controllers
     /**
      * Equipment stock and the product catalogue behind it. Admin and Retail
      * both work stock - the warehouse and the counter are the same ledger.
+     *
+     * FR-44 puts equipment maintenance with the technical team as well: the
+     * people who fit and fault-find the kit are the ones who know what is on
+     * the shelf, so they read and adjust stock too. They cannot manage the
+     * catalogue itself - adding products and retiring them stays with Admin.
      */
-    [Authorize(Roles = NexusRoles.Admin + "," + NexusRoles.Retail)]
+    [Authorize(Roles = NexusRoles.Admin + "," + NexusRoles.Retail + "," + NexusRoles.Technical)]
     [Route("Admin/Inventory")]
     public class InventoryController : Controller
     {
@@ -102,23 +107,30 @@ namespace NEXUS.Controllers
         }
 
         [HttpGet("Products/New")]
-        public IActionResult CreateProduct()
+        [Authorize(Roles = NexusRoles.Admin)]
+        public async Task<IActionResult> CreateProduct(CancellationToken ct)
         {
             ViewData.SetActiveItem("inventory-products");
-            return View("ProductEdit", new ProductEditViewModel());
+            return View("ProductEdit", await _inventory.NewProductAsync(ct));
         }
 
         [HttpPost("Products/New")]
+        [Authorize(Roles = NexusRoles.Admin)]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateProduct(ProductEditViewModel model, CancellationToken ct)
         {
             ViewData.SetActiveItem("inventory-products");
-            if (!ModelState.IsValid) return View("ProductEdit", model);
+            if (!ModelState.IsValid)
+            {
+                model.Vendors = (await _inventory.NewProductAsync(ct)).Vendors;
+                return View("ProductEdit", model);
+            }
 
             var result = await _inventory.SaveProductAsync(model, ct);
             if (!result.IsSuccess)
             {
                 ApplyErrors(result);
+                model.Vendors = (await _inventory.NewProductAsync(ct)).Vendors;
                 return View("ProductEdit", model);
             }
 
@@ -127,6 +139,7 @@ namespace NEXUS.Controllers
         }
 
         [HttpGet("Products/{id:int}/Edit")]
+        [Authorize(Roles = NexusRoles.Admin)]
         public async Task<IActionResult> EditProduct(int id, CancellationToken ct)
         {
             ViewData.SetActiveItem("inventory-products");
@@ -138,6 +151,7 @@ namespace NEXUS.Controllers
         }
 
         [HttpPost("Products/{id:int}/Edit")]
+        [Authorize(Roles = NexusRoles.Admin)]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditProduct(ProductEditViewModel model, CancellationToken ct)
         {
@@ -156,6 +170,7 @@ namespace NEXUS.Controllers
         }
 
         [HttpPost("Products/{id:int}/ToggleActive")]
+        [Authorize(Roles = NexusRoles.Admin)]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ToggleProduct(int id, bool active, CancellationToken ct)
         {
@@ -169,6 +184,7 @@ namespace NEXUS.Controllers
         }
 
         [HttpPost("Products/{id:int}/Delete")]
+        [Authorize(Roles = NexusRoles.Admin)]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteProduct(int id, CancellationToken ct)
         {

@@ -119,6 +119,9 @@ public static class NexusSeeder
         {
             Code = "TEL-LINE", Name = "Telephone Line", ConnectionType = ConnectionType.Telephone,
             IsUnlimited = false, SecurityDeposit = 250m, SortOrder = 100,
+            // The SRS bills a residential line per minute; the local monthly
+            // package is the one a walk-in customer signs up to by default.
+            CallTariffLabel = CallTariff.LocalMonthly.Label,
             Description = "Residential landline with local and STD call billing."
         };
 

@@ -430,6 +430,83 @@ else
                 } </tbody> </table> </div>
 </div>
 
+@* =========================================================
+   CITY-WISE + YEAR-WISE RECORDS  (FR-132)
+   ========================================================= *@
+<div class="dash-grid-2 reveal" style="margin-top:22px;">
+    <div class="chart-card" style="margin-bottom:0;" id="cityRecords">
+        <div class="chart-head">
+            <div>
+                <h4><i class="fa-solid fa-location-dot"></i> City-wise Records</h4>
+                <p class="chart-sub">Whole history, every city we serve.</p> </div> </div>
+
+        <div class="table-wrap">
+            <table id="cityRecordsTable">
+                <thead>
+                    <tr>
+                        <th>City</th>
+                        <th class="num">Customers</th>
+                        <th class="num">Lines</th>
+                        <th class="num">Orders</th>
+                        <th class="num">Billed</th>
+                        <th class="num">Collected</th> </tr> </thead>
+                <tbody>
+                    @if (Model.ByCity.Count == 0)
+                    {
+                        <tr><td colspan="6" class="table-empty">No records by city yet.</td></tr>
+                    }
+                    else
+                    {
+                        foreach (var c in Model.ByCity)
+                        {
+                            <tr>
+                                <td><strong>@c.City</strong></td>
+                                <td class="num">@c.Customers</td>
+                                <td class="num">@c.Connections</td>
+                                <td class="num">@c.Orders</td>
+                                <td class="num">@c.Billed.ToString("C")</td>
+                                <td class="num">@c.Collected.ToString("C")</td> </tr>
+                        }
+                    } </tbody> </table> </div>
+    </div>
+
+    <div class="chart-card" style="margin-bottom:0;" id="yearRecords">
+        <div class="chart-head">
+            <div>
+                <h4><i class="fa-solid fa-calendar-days"></i> Year-wise Records</h4>
+                <p class="chart-sub">Whole history, by calendar year.</p> </div> </div>
+
+        <div class="table-wrap">
+            <table id="yearRecordsTable">
+                <thead>
+                    <tr>
+                        <th>Year</th>
+                        <th class="num">Customers</th>
+                        <th class="num">Orders</th>
+                        <th class="num">Completed</th>
+                        <th class="num">Billed</th>
+                        <th class="num">Collected</th> </tr> </thead>
+                <tbody>
+                    @if (Model.ByYear.Count == 0)
+                    {
+                        <tr><td colspan="6" class="table-empty">No records by year yet.</td></tr>
+                    }
+                    else
+                    {
+                        foreach (var y in Model.ByYear)
+                        {
+                            <tr>
+                                <td><strong>@y.Year</strong></td>
+                                <td class="num">@y.Customers</td>
+                                <td class="num">@y.Orders</td>
+                                <td class="num">@y.CompletedOrders</td>
+                                <td class="num">@y.Billed.ToString("C")</td>
+                                <td class="num">@y.Collected.ToString("C")</td> </tr>
+                        }
+                    } </tbody> </table> </div>
+    </div>
+</div>
+
 @section DashboardScripts {
     <script>
         document.addEventListener('click', function (e) {

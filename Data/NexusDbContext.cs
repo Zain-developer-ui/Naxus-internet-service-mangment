@@ -35,6 +35,8 @@ public class NexusDbContext : DbContext
     public DbSet<Bill> Bills => Set<Bill>();
     public DbSet<BillLine> BillLines => Set<BillLine>();
     public DbSet<Payment> Payments => Set<Payment>();
+    public DbSet<CallUsage> CallUsages => Set<CallUsage>();
+    public DbSet<ConnectionCharge> ConnectionCharges => Set<ConnectionCharge>();
 
     public DbSet<Vendor> Vendors => Set<Vendor>();
     public DbSet<PurchaseOrder> PurchaseOrders => Set<PurchaseOrder>();

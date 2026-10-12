@@ -174,6 +174,123 @@ namespace NEXUS.Data.Migrations
                     b.ToTable("BillLines", (string)null);
                 });
 
+            modelBuilder.Entity("NEXUS.Domain.Billing.CallUsage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ConnectionId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsBilled")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("LocalMinutes")
+                        .HasColumnType("decimal(10,2)");
+
+                    b.Property<decimal>("MobileMinutes")
+                        .HasColumnType("decimal(10,2)");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<DateTime>("PeriodEnd")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("PeriodStart")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("StdMinutes")
+                        .HasColumnType("decimal(10,2)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ConnectionId", "PeriodStart", "PeriodEnd")
+                        .IsUnique()
+                        .HasDatabaseName("UX_CallUsages_Connection_Period");
+
+                    b.ToTable("CallUsages", (string)null);
+                });
+
+            modelBuilder.Entity("NEXUS.Domain.Billing.ConnectionCharge", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("BilledOnBillId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ChargeType")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<int>("ConnectionId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int?>("RaisedByEmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BilledOnBillId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("RaisedByEmployeeId");
+
+                    b.HasIndex("ConnectionId", "BilledOnBillId")
+                        .HasDatabaseName("IX_ConnectionCharges_Connection_Pending");
+
+                    b.ToTable("ConnectionCharges", (string)null);
+                });
+
             modelBuilder.Entity("NEXUS.Domain.Billing.Payment", b =>
                 {
                     b.Property<int>("Id")
@@ -359,6 +476,10 @@ namespace NEXUS.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CallTariffLabel")
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
                     b.Property<string>("Code")
                         .IsRequired()
@@ -782,6 +903,9 @@ namespace NEXUS.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("AdvanceAdjustedOn")
+                        .HasColumnType("datetime2(0)");
 
                     b.Property<int?>("AssignedTechnicianId")
                         .HasColumnType("int");
@@ -1584,6 +1708,50 @@ namespace NEXUS.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Bill");
+                });
+
+            modelBuilder.Entity("NEXUS.Domain.Billing.CallUsage", b =>
+                {
+                    b.HasOne("NEXUS.Domain.Orders.Connection", "Connection")
+                        .WithMany()
+                        .HasForeignKey("ConnectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Connection");
+                });
+
+            modelBuilder.Entity("NEXUS.Domain.Billing.ConnectionCharge", b =>
+                {
+                    b.HasOne("NEXUS.Domain.Billing.Bill", "BilledOnBill")
+                        .WithMany()
+                        .HasForeignKey("BilledOnBillId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("NEXUS.Domain.Orders.Connection", "Connection")
+                        .WithMany()
+                        .HasForeignKey("ConnectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("NEXUS.Domain.Customers.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("NEXUS.Domain.Organisation.Employee", "RaisedBy")
+                        .WithMany()
+                        .HasForeignKey("RaisedByEmployeeId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("BilledOnBill");
+
+                    b.Navigation("Connection");
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("RaisedBy");
                 });
 
             modelBuilder.Entity("NEXUS.Domain.Billing.Payment", b =>

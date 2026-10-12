@@ -39,12 +39,22 @@ public class Plan : AuditableEntity
     /** SRS: deposit refundable on permanent disconnection. */
     public decimal SecurityDeposit { get; set; }
 
+    /**
+     * Which call tariff a landline line on this plan is metered at. Null for
+     * plans that carry no calls, so a broadband plan cannot silently pick up a
+     * landline rate.
+     */
+    [MaxLength(40)]
+    public string? CallTariffLabel { get; set; }
+
     public ICollection<PlanPrice> Prices { get; set; } = new List<PlanPrice>();
     public ICollection<ConnectionOrder> Orders { get; set; } = new List<ConnectionOrder>();
 
     public string DisplayName => IsUnlimited
         ? $"{Name} (Unlimited)"
         : $"{Name} ({HoursIncluded}h)";
+
+    public Common.Constants.CallTariff.Rate CallTariff => Common.Constants.CallTariff.ByLabel(CallTariffLabel);
 }
 
 public class PlanPrice : AuditableEntity

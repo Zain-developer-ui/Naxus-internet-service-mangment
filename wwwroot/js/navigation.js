@@ -133,11 +133,21 @@
         });
     }
 
+    /* The sidebar's active row is decided server-side; mirror it onto
+       aria-current so a screen reader announces "current page" rather than
+       relying on the colour alone. */
+    function initAriaCurrent() {
+        NEXUS.$$('.sidebar-nav a.active, .nav-links a.active').forEach(a => {
+            a.setAttribute('aria-current', 'page');
+        });
+    }
+
     NEXUS.ready(() => {
         initNavbarToggle();
         initSidebar();
         initEscape();
         initActiveLink();
+        initAriaCurrent();
     });
 
 })();

@@ -72,7 +72,23 @@
                         <label asp-for="LowStockThreshold">Low Stock Threshold</label>
                         <input asp-for="LowStockThreshold" type="number" min="0" />
                         <span class="form-hint">Flag the item once on-hand drops below this.</span>
-                        <span asp-validation-for="LowStockThreshold" class="field-error"></span> </div> </div> </div>
+                        <span asp-validation-for="LowStockThreshold" class="field-error"></span> </div> </div>
+
+                <div class="form-group">
+                    <label asp-for="PreferredVendorId">
+                        Preferred Vendor <span class="opt">optional</span> </label>
+                    <select asp-for="PreferredVendorId" class="input">
+                        <option value="">-- none recorded --</option>
+                        @foreach (var v in Model.Vendors)
+                        {
+                            <option value="@v.Id" selected="@(Model.PreferredVendorId == v.Id)">@v.Name</option>
+                        }
+                    </select>
+                    <span class="form-hint">
+                        Who this item is normally bought from. The purchase order screen offers
+                        this vendor when restocking the item.
+                    </span>
+                    <span asp-validation-for="PreferredVendorId" class="field-error"></span> </div> </div>
         </div>
 
         <aside class="edit-side">

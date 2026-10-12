@@ -47,6 +47,17 @@ public sealed record OrderReportRow(string OrderId, string Customer, string Conn
 public sealed record PaymentReportRow(string ReceiptNumber, string BillNumber, string Customer,
     decimal Amount, string Method, DateTime PaidOn);
 
+/**
+ * FR-132 asks for records kept city-wise and year-wise. Both are roll-ups of
+ * the same activity the rest of the page shows, cut along the two axes the
+ * SRS names rather than any of the filters above.
+ */
+public sealed record CityRecordRow(string City, int Customers, int Connections,
+    int Orders, int Bills, decimal Billed, decimal Collected);
+
+public sealed record YearRecordRow(int Year, int Customers, int Orders, int Bills,
+    decimal Billed, decimal Collected, int CompletedOrders);
+
 public sealed class ReportPage
 {
     public ReportFilter Filter { get; init; } = ReportFilter.Default();
@@ -59,6 +70,10 @@ public sealed class ReportPage
     public IReadOnlyList<CustomerReportRow> Customers { get; init; } = Array.Empty<CustomerReportRow>();
     public IReadOnlyList<OrderReportRow> Orders { get; init; } = Array.Empty<OrderReportRow>();
     public IReadOnlyList<PaymentReportRow> Payments { get; init; } = Array.Empty<PaymentReportRow>();
+
+    /** FR-132 roll-ups. These ignore the filter - they are the whole history. */
+    public IReadOnlyList<CityRecordRow> ByCity { get; init; } = Array.Empty<CityRecordRow>();
+    public IReadOnlyList<YearRecordRow> ByYear { get; init; } = Array.Empty<YearRecordRow>();
 }
 
 public sealed class ReportService : IReportService
@@ -114,10 +129,112 @@ public sealed class ReportService : IReportService
             RevenueByService = await RevenueByServiceAsync(payments, ct),
             Customers = await CustomerRowsAsync(customers, filter, ct),
             Orders = await OrderRowsAsync(orders, ct),
-            Payments = await PaymentRowsAsync(payments, ct)
+            Payments = await PaymentRowsAsync(payments, ct),
+            ByCity = await CityRecordsAsync(ct),
+            ByYear = await YearRecordsAsync(ct)
         };
 
         return Result<ReportPage>.Ok(page);
+    }
+
+    /**
+     * City-wise records (FR-132). Counts come from three separate tallies
+     * joined on the city name rather than a chain of navigations, because the
+     * same city can be reached through a customer, a connection or an order and
+     * a single join would multiply the rows.
+     */
+    private async Task<IReadOnlyList<CityRecordRow>> CityRecordsAsync(CancellationToken ct)
+    {
+        var customers = await _db.Customers.AsNoTracking()
+            .Where(c => !c.IsDeleted && c.City != null)
+            .GroupBy(c => c.City.Name)
+            .Select(g => new { City = g.Key, Count = g.Count() })
+            .ToListAsync(ct);
+
+        var connections = await _db.Connections.AsNoTracking()
+            .Where(c => !c.IsDeleted)
+            .GroupBy(c => c.City.Name)
+            .Select(g => new { City = g.Key, Count = g.Count() })
+            .ToListAsync(ct);
+
+        var orders = await _db.ConnectionOrders.AsNoTracking()
+            .GroupBy(o => o.City.Name)
+            .Select(g => new { City = g.Key, Count = g.Count() })
+            .ToListAsync(ct);
+
+        var bills = await _db.Bills.AsNoTracking()
+            .Where(b => b.Customer.City != null)
+            .GroupBy(b => b.Customer.City.Name)
+            .Select(g => new
+            {
+                City = g.Key,
+                Count = g.Count(),
+                Billed = g.Sum(b => b.TotalAmount),
+                Collected = g.Sum(b => b.AmountPaid)
+            })
+            .ToListAsync(ct);
+
+        var names = customers.Select(x => x.City)
+            .Concat(connections.Select(x => x.City))
+            .Concat(orders.Select(x => x.City))
+            .Concat(bills.Select(x => x.City))
+            .Distinct()
+            .OrderBy(n => n);
+
+        return names.Select(name => new CityRecordRow(
+            name,
+            customers.FirstOrDefault(x => x.City == name)?.Count ?? 0,
+            connections.FirstOrDefault(x => x.City == name)?.Count ?? 0,
+            orders.FirstOrDefault(x => x.City == name)?.Count ?? 0,
+            bills.FirstOrDefault(x => x.City == name)?.Count ?? 0,
+            bills.FirstOrDefault(x => x.City == name)?.Billed ?? 0m,
+            bills.FirstOrDefault(x => x.City == name)?.Collected ?? 0m)).ToList();
+    }
+
+    /** Year-wise records (FR-132): the same activity cut by calendar year. */
+    private async Task<IReadOnlyList<YearRecordRow>> YearRecordsAsync(CancellationToken ct)
+    {
+        var customers = await _db.Customers.AsNoTracking()
+            .Where(c => !c.IsDeleted)
+            .GroupBy(c => c.CreatedAt.Year)
+            .Select(g => new { Year = g.Key, Count = g.Count() })
+            .ToListAsync(ct);
+
+        var orders = await _db.ConnectionOrders.AsNoTracking()
+            .GroupBy(o => o.CreatedAt.Year)
+            .Select(g => new
+            {
+                Year = g.Key,
+                Count = g.Count(),
+                Completed = g.Count(o => o.Status == OrderStatus.Completed)
+            })
+            .ToListAsync(ct);
+
+        var bills = await _db.Bills.AsNoTracking()
+            .GroupBy(b => b.IssuedOn.Year)
+            .Select(g => new
+            {
+                Year = g.Key,
+                Count = g.Count(),
+                Billed = g.Sum(b => b.TotalAmount),
+                Collected = g.Sum(b => b.AmountPaid)
+            })
+            .ToListAsync(ct);
+
+        var years = customers.Select(x => x.Year)
+            .Concat(orders.Select(x => x.Year))
+            .Concat(bills.Select(x => x.Year))
+            .Distinct()
+            .OrderByDescending(y => y);
+
+        return years.Select(year => new YearRecordRow(
+            year,
+            customers.FirstOrDefault(x => x.Year == year)?.Count ?? 0,
+            orders.FirstOrDefault(x => x.Year == year)?.Count ?? 0,
+            bills.FirstOrDefault(x => x.Year == year)?.Count ?? 0,
+            bills.FirstOrDefault(x => x.Year == year)?.Billed ?? 0m,
+            bills.FirstOrDefault(x => x.Year == year)?.Collected ?? 0m,
+            orders.FirstOrDefault(x => x.Year == year)?.Completed ?? 0)).ToList();
     }
 
     private async Task<ReportTotals> TotalsAsync(

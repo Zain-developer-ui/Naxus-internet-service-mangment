@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using NEXUS.Common;
 using NEXUS.Common.Constants;
 using NEXUS.Common.Extensions;
@@ -39,10 +40,17 @@ namespace NEXUS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [EnableRateLimiting("login")]
         public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl,
                                                CancellationToken ct)
         {
             ViewData["ReturnUrl"] = returnUrl;
+
+            // The limiter redirects back here once a caller is throttled; the
+            // flag turns that into a visible message instead of a silent reload.
+            if (Request.Query.ContainsKey("throttled"))
+                ModelState.AddModelError(string.Empty,
+                    "Too many sign in attempts. Please wait a minute and try again.");
 
             if (!ModelState.IsValid) return View(model);
 

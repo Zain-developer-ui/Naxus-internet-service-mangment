@@ -236,10 +236,10 @@
 @if (TempData["Success"] != null)
 {
     <div class="modal-backdrop open" id="feedbackSuccess" aria-hidden="false">
-        <div class="modal" role="dialog" aria-modal="true">
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="feedbackSuccessTitle">
             <div class="modal-header">
-                <h3><i class="fa-solid fa-circle-check" style="color:var(--nexus-success);"></i> Thank You!</h3>
-                <button class="modal-close" data-modal-close aria-label="Close"><i class="fa-solid fa-xmark"></i></button> </div>
+                <h3 id="feedbackSuccessTitle"><i class="fa-solid fa-circle-check" aria-hidden="true" style="color:var(--nexus-success);"></i> Thank You!</h3>
+                <button class="modal-close" data-modal-close aria-label="Close"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button> </div>
             <div class="modal-body">
                 <p>Your feedback has been received. Our team reads every submission.</p> </div>
             <div class="modal-footer">

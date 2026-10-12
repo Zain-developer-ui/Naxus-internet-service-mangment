@@ -6,6 +6,7 @@ using NEXUS.Common.Extensions;
 using NEXUS.Models.ViewModels;
 using NEXUS.Services.Dashboards;
 using NEXUS.Services.Registration;
+using NEXUS.Services.Retail;
 using NEXUS.Services.Search;
 
 namespace NEXUS.Controllers
@@ -16,16 +17,37 @@ namespace NEXUS.Controllers
         private readonly IRetailDashboardService _dash;
         private readonly ISearchService _search;
         private readonly IRegistrationService _registration;
+        private readonly IRetailRegisterService _register;
         private readonly ILogger<RetailController> _logger;
 
         public RetailController(IRetailDashboardService dash, ISearchService search,
-                                IRegistrationService registration,
+                                IRegistrationService registration, IRetailRegisterService register,
                                 ILogger<RetailController> logger)
         {
             _dash = dash;
             _search = search;
             _registration = registration;
+            _register = register;
             _logger = logger;
+        }
+
+        /**
+         * The till-date registers: orders placed, lines activated, bills raised
+         * and payments taken, all behind one period filter.
+         */
+        public async Task<IActionResult> Register(RetailRegisterQuery query, CancellationToken ct)
+        {
+            ViewData.SetActiveItem("register");
+
+            var result = await _register.BuildAsync(query ?? new RetailRegisterQuery(), ct);
+
+            if (!result.IsSuccess)
+            {
+                TempData["Error"] = result.Message;
+                return View(new RetailRegisterPage());
+            }
+
+            return View(result.Value!);
         }
 
         public async Task<IActionResult> Dashboard(CancellationToken ct)

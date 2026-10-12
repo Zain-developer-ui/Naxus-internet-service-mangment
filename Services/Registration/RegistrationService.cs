@@ -104,7 +104,7 @@ public sealed class RegistrationService : IRegistrationService
                 "A customer with this CNIC is already registered. Use the status lookup on the sign in page.");
 
         if (await _db.Customers.IgnoreQueryFilters().AnyAsync(c => c.Phone == phone, ct))
-            Add(errors, nameof(form.Cnic), "This mobile number is already registered.");
+            Add(errors, nameof(form.Phone), "This mobile number is already registered.");
 
         var email = Optional(form.Email)?.ToLowerInvariant();
         if (email is not null &&

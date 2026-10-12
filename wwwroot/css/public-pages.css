@@ -1388,3 +1388,54 @@
     max-height: 400px;
     padding: 0 20px 18px;
 }
+
+/* Error pages — one layout for 404, 403, 500 and the rest. */
+.error-hero {
+    text-align: center;
+    padding: 96px 0 40px;
+}
+
+.error-code {
+    font-size: clamp(3.5rem, 12vw, 7rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--nexus-accent);
+    margin: 0 0 12px;
+}
+
+.error-hero h1 {
+    font-size: clamp(1.5rem, 3vw, 2.15rem);
+    color: var(--nexus-navy);
+    margin: 0 0 10px;
+}
+
+.error-hero p {
+    color: var(--nexus-muted);
+    font-size: 1.02rem;
+    max-width: 46ch;
+    margin: 0 auto;
+}
+
+.error-card {
+    max-width: 620px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.error-card .muted {
+    line-height: 1.7;
+    margin-bottom: 8px;
+}
+
+.error-reference {
+    font-size: 0.85rem;
+    color: var(--nexus-muted);
+    margin: 4px 0 0;
+}
+
+.error-actions {
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 22px;
+}

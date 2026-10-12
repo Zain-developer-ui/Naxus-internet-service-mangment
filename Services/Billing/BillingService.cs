@@ -70,6 +70,18 @@ public sealed record PaymentRecord(
 
 public sealed record PaymentRecorded(BillSummary Bill, PaymentRecord Payment);
 
+/** A pending one-off charge waiting to be pulled onto the next bill. */
+public sealed record PendingCharge(
+    int Id,
+    int ConnectionId,
+    string ConnectionNumber,
+    string CustomerName,
+    string AccountId,
+    string Description,
+    string ChargeType,
+    decimal Amount,
+    DateTime RaisedOn);
+
 /** What a generation run did, so the UI can report honestly. */
 public sealed record GenerationOutcome(int Created, int Skipped, IReadOnlyList<string> SkippedReasons);
 
@@ -96,6 +108,19 @@ public interface IBillingService
                                                      CancellationToken ct = default);
 
     Task<Result<IReadOnlyList<PaymentRecord>>> PaymentsForAsync(int billId, CancellationToken ct = default);
+
+    /** Raises a one-off charge (replacement, adjustment) against a connection. */
+    Task<Result<int>> RaiseChargeAsync(int connectionId, string description, string chargeType,
+                                       decimal amount, int? userId, CancellationToken ct = default);
+
+    /** Every charge not yet carried by a bill, newest first. */
+    Task<Result<IReadOnlyList<PendingCharge>>> PendingChargesAsync(int? connectionId = null,
+                                                                  CancellationToken ct = default);
+
+    Task<Result<bool>> CancelChargeAsync(int chargeId, CancellationToken ct = default);
+
+    Task<Result<IReadOnlyList<ChargeableConnection>>> ChargeableConnectionsAsync(
+        CancellationToken ct = default);
 }
 
 public sealed record BillQuery(
@@ -106,6 +131,14 @@ public sealed record BillQuery(
     string? Search = null,
     bool OverdueOnly = false,
     int Take = 100);
+
+/** A connection a one-off charge can be raised on, for the picker. */
+public sealed record ChargeableConnection(
+    int Id,
+    string ConnectionNumber,
+    string AccountId,
+    string CustomerName,
+    string StatusLabel);
 
 /**
  * The billing engine.
@@ -243,9 +276,12 @@ public sealed class BillingService : IBillingService
                 $"A bill for {connection.ConnectionNumber} already covers this period.");
         }
 
-        var lines = BuildLines(connection, periodStart, periodEnd);
+        var lines = await BuildLinesAsync(connection, periodStart, periodEnd, ct);
         if (lines.Count == 0)
             return Result<BillDraft>.Conflict("This plan has no rate configured for the selected period.");
+
+        await ApplyAdvanceAsync(connection, lines, ct);
+        await ApplyPendingChargesAsync(connection, lines, ct);
 
         return Result<BillDraft>.Ok(new BillDraft(customerId, connectionId, periodStart, periodEnd, lines));
     }
@@ -304,7 +340,8 @@ public sealed class BillingService : IBillingService
         {
             bill.Lines.Add(new BillLine
             {
-                Description = $"Bulk discount - {breakdown.Tier!.Label} at {breakdown.DiscountRate:P0}",
+                Description = $"Bulk discount - {breakdown.Tier!.Label} at {breakdown.DiscountRate:P0} " +
+                              "on advance and security deposit",
                 ChargeType = ChargeTypes.Adjustment,
                 Quantity = 1m,
                 UnitAmount = 0m,
@@ -324,6 +361,17 @@ public sealed class BillingService : IBillingService
 
             _db.Bills.Add(bill);
             await _db.SaveChangesAsync(ct);
+
+            if (bill.Lines.Any(l => l.ChargeType == ChargeTypes.AdvancePayment))
+            {
+                var order = await _db.ConnectionOrders
+                    .FirstOrDefaultAsync(o => o.Id == connection.OrderId, ct);
+                MarkAdvanceAdjusted(order);
+            }
+
+            await StampChargesAsync(bill.Id, connection.Id, ct);
+            await _db.SaveChangesAsync(ct);
+
             await tx.CommitAsync(ct);
         });
 
@@ -366,13 +414,16 @@ public sealed class BillingService : IBillingService
                 continue;
             }
 
-            var lines = BuildLines(connection, periodStart, periodEnd);
+            var lines = await BuildLinesAsync(connection, periodStart, periodEnd, ct);
             if (lines.Count == 0)
             {
                 skipped++;
                 reasons.Add($"{connection.ConnectionNumber}: no rate configured for this period.");
                 continue;
             }
+
+            var advanceOrder = await ApplyAdvanceAsync(connection, lines, ct);
+            await ApplyPendingChargesAsync(connection, lines, ct);
 
             var customer = connection.Customer;
             var breakdown = BillCalculator.Compute(lines, customer.LiveConnectionCount);
@@ -416,6 +467,16 @@ public sealed class BillingService : IBillingService
                     new DateOnly(periodStart.Year, periodStart.Month, 1), ct);
                 _db.Bills.Add(bill);
                 await _db.SaveChangesAsync(ct);
+
+                if (advanceOrder is not null)
+                {
+                    advanceOrder.AdvanceAdjustedOn = DateTime.UtcNow;
+                    await _db.SaveChangesAsync(ct);
+                }
+
+                await StampChargesAsync(bill.Id, connection.Id, ct);
+                await _db.SaveChangesAsync(ct);
+
                 await tx.CommitAsync(ct);
             });
 
@@ -582,13 +643,152 @@ public sealed class BillingService : IBillingService
     }
 
     /**
+     * One-off charges are raised by hand - a technician reporting damaged
+     * equipment, or accounts correcting a bill that had to be cancelled. The
+     * amount has to be positive: a negative charge is a credit note and goes
+     * through the bill instead, where it is visible to the customer.
+     */
+    public async Task<Result<int>> RaiseChargeAsync(int connectionId, string description,
+                                                    string chargeType, decimal amount,
+                                                    int? employeeId, CancellationToken ct = default)
+    {
+        if (string.IsNullOrWhiteSpace(description))
+            return Result<int>.Fail(nameof(description), "Say what the charge is for.");
+
+        if (amount <= 0m)
+            return Result<int>.Fail(nameof(amount), "A one-off charge must be greater than zero.");
+
+        var connection = await _db.Connections
+            .Include(c => c.Customer)
+            .FirstOrDefaultAsync(c => c.Id == connectionId, ct);
+
+        if (connection is null) return Result<int>.NotFound("Connection");
+
+        if (connection.IsDeleted)
+            return Result<int>.Conflict("That connection has been removed.");
+
+        var charge = new ConnectionCharge
+        {
+            ConnectionId = connection.Id,
+            CustomerId = connection.CustomerId,
+            Description = description.Trim(),
+            ChargeType = string.IsNullOrWhiteSpace(chargeType) ? ChargeTypes.Replacement : chargeType,
+            Amount = Math.Round(amount, 2),
+            RaisedByEmployeeId = employeeId
+        };
+
+        _db.ConnectionCharges.Add(charge);
+        await _db.SaveChangesAsync(ct);
+
+        _log.LogInformation("Charge {Amount} raised on {ConnectionNumber}: {Description}",
+            charge.Amount, connection.ConnectionNumber, charge.Description);
+
+        return Result<int>.Ok(charge.Id);
+    }
+
+    public async Task<Result<IReadOnlyList<PendingCharge>>> PendingChargesAsync(
+        int? connectionId = null, CancellationToken ct = default)
+    {
+        var q = _db.ConnectionCharges
+            .AsNoTracking()
+            .Include(c => c.Connection)
+            .Include(c => c.Customer)
+            .Where(c => c.BilledOnBillId == null);
+
+        if (connectionId is { } id) q = q.Where(c => c.ConnectionId == id);
+
+        var charges = await q
+            .OrderByDescending(c => c.CreatedAt)
+            .ThenByDescending(c => c.Id)
+            .ToListAsync(ct);
+
+        return Result<IReadOnlyList<PendingCharge>>.Ok(
+            charges.Select(c => new PendingCharge(
+                c.Id,
+                c.ConnectionId,
+                c.Connection?.ConnectionNumber ?? string.Empty,
+                c.Customer?.FullName ?? string.Empty,
+                c.Customer?.AccountId ?? string.Empty,
+                c.Description,
+                c.ChargeType,
+                c.Amount,
+                c.CreatedAt)).ToList());
+    }
+
+    public async Task<Result<bool>> CancelChargeAsync(int chargeId, CancellationToken ct = default)
+    {
+        var charge = await _db.ConnectionCharges.FirstOrDefaultAsync(c => c.Id == chargeId, ct);
+        if (charge is null) return Result<bool>.NotFound("Charge");
+
+        /**
+         * A charge already swept onto a bill cannot be withdrawn here - the
+         * figure is on the customer's statement, so the bill has to be
+         * cancelled or credited instead.
+         */
+        if (charge.BilledOnBillId is not null)
+            return Result<bool>.Conflict("This charge is already on a bill.");
+
+        _db.ConnectionCharges.Remove(charge);
+        await _db.SaveChangesAsync(ct);
+
+        return Result<bool>.Ok(true);
+    }
+
+    /**
+     * Sweeps any pending one-off charges onto the bill being built and stamps
+     * them with its id, so the next period cannot pick them up again.
+     */
+    private async Task ApplyPendingChargesAsync(Connection connection, List<ChargeLine> lines,
+                                                CancellationToken ct)
+    {
+        var charges = await _db.ConnectionCharges
+            .Where(c => c.ConnectionId == connection.Id && c.BilledOnBillId == null)
+            .OrderBy(c => c.CreatedAt)
+            .ToListAsync(ct);
+
+        foreach (var charge in charges)
+        {
+            lines.Add(BillCalculator.OneOffLine(charge.Description, charge.Amount,
+                                                charge.ChargeType));
+        }
+    }
+
+    public async Task<Result<IReadOnlyList<ChargeableConnection>>> ChargeableConnectionsAsync(
+        CancellationToken ct = default)
+    {
+        var connections = await _db.Connections
+            .AsNoTracking()
+            .Include(c => c.Customer)
+            .Where(c => !c.IsDeleted)
+            .OrderBy(c => c.ConnectionNumber)
+            .Select(c => new ChargeableConnection(
+                c.Id,
+                c.ConnectionNumber,
+                c.Customer.AccountId,
+                c.Customer.FullName,
+                c.Status.DisplayName()))
+            .ToListAsync(ct);
+
+        return Result<IReadOnlyList<ChargeableConnection>>.Ok(connections);
+    }
+
+    private async Task StampChargesAsync(int billId, int connectionId, CancellationToken ct)
+    {
+        var charges = await _db.ConnectionCharges
+            .Where(c => c.ConnectionId == connectionId && c.BilledOnBillId == null)
+            .ToListAsync(ct);
+
+        foreach (var charge in charges) charge.BilledOnBillId = billId;
+    }
+
+    /**
      * Rental for the window, priced off the cycle the customer signed up for.
      * An hourly plan that is unlimited produces no usage line; a metered plan
      * has nothing to measure here because the SRS tracks nothing per period,
      * so usage only appears when accounts enters it.
      */
-    private static List<ChargeLine> BuildLines(Connection connection, DateTime periodStart,
-                                               DateTime periodEnd)
+    private async Task<List<ChargeLine>> BuildLinesAsync(Connection connection, DateTime periodStart,
+                                                         DateTime periodEnd, CancellationToken ct)
     {
         var lines = new List<ChargeLine>();
         var plan = connection.Plan;
@@ -604,7 +804,65 @@ public sealed class BillingService : IBillingService
         lines.Add(BillCalculator.RentalLine(plan.DisplayName, monthlyRate,
                                             BillingCycle.Monthly, periodStart, periodEnd));
 
+        /**
+         * Landline calls. The exchange gives us a meter read for the window;
+         * without one the bill carries rental only, which is the honest figure
+         * rather than a guessed call charge.
+         */
+        var metered = await _db.CallUsages
+            .AsNoTracking()
+            .FirstOrDefaultAsync(u => u.ConnectionId == connection.Id &&
+                                      u.PeriodStart == periodStart.Date &&
+                                      u.PeriodEnd == periodEnd.Date, ct);
+
+        if (metered is null) return lines;
+
+        var tariff = connection.Plan.CallTariff;
+
+        if (metered.LocalMinutes > 0m && tariff.Local > 0m)
+            lines.Add(BillCalculator.CallLine("Local calls", metered.LocalMinutes, tariff.Local));
+
+        if (metered.StdMinutes > 0m && tariff.Std > 0m)
+            lines.Add(BillCalculator.CallLine("STD calls", metered.StdMinutes, tariff.Std));
+
+        if (metered.MobileMinutes > 0m && tariff.Mobile > 0m)
+            lines.Add(BillCalculator.CallLine("Mobile messaging", metered.MobileMinutes, tariff.Mobile));
+
         return lines;
+    }
+
+    /**
+     * The SRS takes an advance at connection time and expects it to come off the
+     * first bill rather than sit as an unexplained credit. The amount recorded
+     * on the order is that advance; once a bill has carried it, the order is
+     * marked settled so a later period cannot claim it a second time.
+     */
+    private async Task<ConnectionOrder?> ApplyAdvanceAsync(Connection connection,
+                                                           List<ChargeLine> lines,
+                                                           CancellationToken ct)
+    {
+        var order = await _db.ConnectionOrders
+            .FirstOrDefaultAsync(o => o.Id == connection.OrderId, ct);
+
+        if (order is null || order.QuotedAmount <= 0m || order.AdvanceAdjustedOn is not null)
+            return null;
+
+        lines.Add(BillCalculator.OneOffLine(
+            "Advance paid at connection",
+            -order.QuotedAmount,
+            ChargeTypes.AdvancePayment));
+
+        return order;
+    }
+
+    /**
+     * Stamps the order once the advance is on a saved bill. A preview never
+     * calls this, so opening the draft screen twice still charges the advance
+     * exactly once - only a committed bill consumes it.
+     */
+    private static void MarkAdvanceAdjusted(ConnectionOrder? order)
+    {
+        if (order is not null) order.AdvanceAdjustedOn = DateTime.UtcNow;
     }
 
     private Task<bool> HasBillForPeriodAsync(int connectionId, DateTime periodStart,

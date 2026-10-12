@@ -63,6 +63,11 @@ public class EquipmentProductConfiguration : IEntityTypeConfiguration<EquipmentP
 
         // Nullable on purpose - the SRS never prices equipment.
         b.Property(p => p.UnitPrice).HasColumnType("decimal(18,2)");
+
+        b.HasOne(p => p.PreferredVendor)
+            .WithMany()
+            .HasForeignKey(p => p.PreferredVendorId)
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }
 

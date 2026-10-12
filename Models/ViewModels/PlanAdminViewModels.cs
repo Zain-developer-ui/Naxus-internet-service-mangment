@@ -81,6 +81,16 @@ public sealed class PlanEditViewModel
     [Display(Name = "Security Deposit (USD)")]
     public decimal SecurityDeposit { get; set; }
 
+    /**
+     * Only meaningful for a line the exchange meters - telephone and dial-up.
+     * Blank means the plan carries rental only and no call charges.
+     */
+    [Display(Name = "Call Tariff")]
+    public string? CallTariffLabel { get; set; }
+
+    public static IReadOnlyList<string> TariffOptions =>
+        CallTariff.All.Select(r => r.Label).ToList();
+
     /** One row per billing cycle. Always three rows, available or not. */
     public List<PlanPriceRow> Prices { get; set; } = new();
 

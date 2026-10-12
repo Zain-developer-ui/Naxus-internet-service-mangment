@@ -6,144 +6,139 @@ Aptech eProject — **NEXUS Service Marketing System** (telecom + internet vendo
 ASP.NET Core 8 MVC + Razor + vanilla CSS/JS. Root namespace `NEXUS`.
 Workspace: `C:\Users\Zain Ansari\source\repos\Zain-developer-ui\Naxus-internet-service-mangment`
 
-Teammate ne frontend banaya hai ("frontend ready just some improvements").
-Zain ko **backend + security** par kaam karna hai, aur frontend ko improve karna hai.
+Teammate ne frontend banaya. Zain ka kaam: **backend + security** + frontend improve.
+
+**Status (12 Oct 2026): SRS 100% done.** Baqi sirf Aptech deliverables (6.1–6.7),
+jo Zain ne alag rakhe hain.
 
 ## Source of truth
 
-Do SRS documents (legacy OLE2 `.doc`, readable text extract
-`.workbuddy-ai/tmp/*.clean.txt` mein):
+Do SRS documents (legacy OLE2 `.doc`, text extract `.workbuddy-ai/tmp/*.clean.txt`):
 - `NEXUS SERVICE MARKETING SYSTEM.doc` — asli requirements
-- `Project Specification - NEXUS SERVICE MARKETING SYSTEM.DOC` — Aptech ka process,
-  deliverables, documentation standards
+- `Project Specification - NEXUS SERVICE MARKETING SYSTEM.DOC` — Aptech process
+
+Planning docs (root): `PLAN-4-DAYS.md`, `TASK-LEDGER.md`, `TESTING-GUIDE.md`,
+`TESTSPRITE-PLAN.md`, `STATIC-DATA-AUDIT.md`.
 
 ## Hard rules (Zain ki preferences)
 
-- Code human-written lagna chahiye: **koi emoji nahi**, koi filler/narrating comment
-  nahi, koi boilerplate docblock nahi. Comment sirf genuine non-obvious "why" par.
-- **Fake statistics, fake testimonials, fake logos — nahi.** Existing homepage mein
-  1245 customers / 42 cities / 4.8★ rating / fake testimonials sab hatane hain.
+- Code human-written lagna chahiye: **koi emoji nahi**, filler/narrating comment
+  nahi, boilerplate docblock nahi. Comment sirf genuine non-obvious "why" par.
+- **Fake statistics, testimonials, logos — nahi.**
 - Excessive gradients, glassmorphism, neon, flashy animation — nahi.
 - Default Bootstrap / student-project look — nahi. Portfolio-grade chahiye.
 - **Navbar mein search bar — nahi.**
-- Data loss ka darr — actual counts se tasalli do, alfaaz se nahi.
+- Data loss ka darr — actual DB counts se tasalli do, alfaaz se nahi.
+- Roman Urdu mein jawab. Chhote, seedhe. Sawaal ka jawab do, process narration nahi.
+- Zain `cmd.exe` use karta hai, Git Bash nahi. Shell commands cmd syntax mein do.
 
-## Frontend ka state (5 Oct 2026 audit)
+## Gotchas — C# / EF Core
 
-- `wwwroot/js/validation.js` **missing** lekin `_Layout` load karta hai (404).
-- `NEXUS.getUser()` / `NEXUS.saveUser()` **kahin define nahi** — Login crash karega.
-- `home.css` mein **0 design tokens**, 99 hardcoded hex. Load order bhi galat
-  (`home.css` doosri files se pehle, halanke baad mein aana chahiye).
-- Dup CSS loads (Layout + per-page), 49 inline styles Reports mein.
-- `csproj` mein EF Core SqlServer refs hain lekin header comments "frontend only"
-  claim karte hain — ye comment galat hai.
-- Login ANY password accept karta hai, koi authorization nahi.
-
-## Gotchas — ye dobara milenge
-
-- **Date range: `To` ko poora din cover karo.** `x <= To` likhne se aakhri din ka
-  baaki hissa chhoot jata hai. Sahi: `x < To.Date.AddDays(1)`.
-- **`Employee` class `Domain/Organisation/RetailShop.cs` mein hai** (alag file
-  nahi), aur field `FullName` hai `Name` nahi. `grep` `RetailShop` ke fields bhi
-  dikhata hai — dhyaan se padho.
-- **`SearchOrderRow` ke fields** `ServiceTypeName` / `PlanName` / `StatusLabel`
-  hain, `ConnectionType` / `Plan` / `Status` nahi.
-- **`User.EmployeeId()` `int?` deta hai.** Koi bhi service jo employee id leti ho
-  usay `int?` lena chahiye, warna controller se `CS1503`.
-- **Ek hi action name par GET + POST overload compiler tod deta hai (CS0111).**
-  C# mein attributes signature ka hissa nahi, is liye `[HttpGet] Settings(...)`
-  aur `[HttpPost] Settings(...)` **duplicate** hain. POST ka method naam alag
-  rakho + `[ActionName("Settings")]`. (Route/`asp-action` wahi rehta hai.)
-- **`[ValidateAntiForgeryToken]` + `IFormCollection` parameter = 400.** Binder
-  body pehle kha jata hai. Seedha `Request.Form` padho, action param hatao.
-- **Razor partial mein `decimal / decimal` implicit double nahi hota** —
-  `(double)(a / b)` chahiye, warna `CS0019`.
-- **Enums DB mein strings hain.** Poore project mein `HasConversion<string>()`
-  hai (ConnectionType, ConnectionStatus, OrderStatus, BillStatus, PaymentMethod,
-  BillingCycle, FeasibilityResult). Yani `[Status]` column `nvarchar` hai aur
-  usme `'Active'` jaisa string jata hai. **Raw SQL se test data seed karte waqt
-  `Status='Active'` likho, `Status=1` nahi** — warna row ban to jayegi magar EF
-  usay kabhi match nahi karega (SQL `N'Active'` bhejta hai).
-- **`EnableRetryOnFailure` + manual transaction = 500.** EF khud ke banaye
-  transaction ko replay nahi kar sakti. Har transaction wale write path ko
-  `_db.Database.CreateExecutionStrategy().ExecuteAsync(async () => { ... })`
-  ke andar wrap karo.
+- **Date range: `To` ko poora din cover karo.** `x < To.Date.AddDays(1)`, `x <= To` nahi.
+- **`Employee` class `Domain/Organisation/RetailShop.cs` mein hai** (alag file nahi),
+  field `FullName` hai `Name` nahi.
+- **`SearchOrderRow`** ke fields `ServiceTypeName` / `PlanName` / `StatusLabel` hain.
+- **`User.EmployeeId()` `int?` deta hai.** Service ko bhi `int?` lena chahiye, warna `CS1503`.
+- **GET + POST same action name = `CS0111`.** C# mein attributes signature ka hissa
+  nahi. POST ka method naam alag rakho + `[ActionName("...")]`.
+- **`[ValidateAntiForgeryToken]` + `IFormCollection` param = 400.** Seedha `Request.Form` padho.
+- **Razor partial mein `decimal / decimal` implicit double nahi** — `(double)(a / b)`.
+- **Enums DB mein strings hain** (`HasConversion<string>()` poore project mein).
+  Raw SQL seed karte waqt `Status='Active'` likho, `Status=1` nahi — warna EF
+  usay kabhi match nahi karega.
+- **`EnableRetryOnFailure` + manual transaction = 500.** Wrap karo:
+  `_db.Database.CreateExecutionStrategy().ExecuteAsync(async () => { ... })`.
 - **`Connections.OrderId` par unique index hai** — ek order = ek connection.
-  Zyada connections chahiye to alag ConnectionOrders banao.
-- **Registration ab `/Orders/New` par hai**, `/Account/Register` sirf 302 karta
-  hai. Alag register page delete ho gaya.
-- **Optional text field ke liye `IsNullOrWhiteSpace` use karo, `is null` nahi.**
-  Browser khaali input ko `""` bhejta hai, null nahi.
-- **`sqlcmd` path:** `C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\sqlcmd`
-  (x86 wala 160 path is machine par maujood nahi hai).
-- **Filter token ke liye `DisplayName()` use mat karo.** `ConnectionType.DialUp`
-  ka `DisplayName()` `"Dial-Up"` hai (hyphen), enum member name `"DialUp"` hai.
-  Jab JS do attributes match karta hai (jaise plan ka `data-type` aur type
-  radio ka `value`), dono taraf **enum member name** bhejo. Warna `DialUp`
-  kabhi `Dial-Up` se match nahi karega. Sirf screen par dikhane ke liye
-  `DisplayName()` — token kabhi nahi.
-- **`playwright-cli` is machine par setup hai** (plugin cache folder mein
-  `npm install` chal chuka). Use: `node playwright-cli.js -s=<name> open <url>`
-  phir `eval "<fn>"`. **Har call alag process hai** — `open` aur `eval` ek hi
-  command mein `&&` se chain karo, warna page `about:blank` reh jata hai.
-  - `run-code` ka return value `### Result` ke neeche aata hai (JSON string).
-    `console.log` capture **nahi** hota — `return` karo.
-  - Login: `page.evaluate(() => { …value = …; form.submit(); })`. `click` +
-    `waitForNavigation` hang karta hai.
-  - `fullPage: true` screenshot mein `.reveal` sections **invisible** aate hain
-    (IntersectionObserver scroll tak trigger nahi hota). Pehle scroll karo.
-  - Screenshot ki resolution par text kata hua **lag** sakta hai jo actually fit
-    hai — `getBoundingClientRect().width` vs `scrollWidth` se confirm karo.
-- **JS sirf `form` ke andar mat dhoondo.** `/Orders/New` ka summary panel
-  `<aside>` hai jo form ke **bahar** hai. `form.querySelectorAll` se summary
-  elements milte hi nahi — chup-chaap kuch update nahi hota. Summary ke liye
-  `document` par search karo.
-- **Har input form ke andar hona chahiye.** `BillingCycle` radios galti se
-  `<form>` ke bahar the — yani wo POST hi nahi hote the aur har order default
-  par chala jata. Agar koi input visually aside mein rakho to `form="<id>"`
-  attribute lazmi hai, warna move kar do.
+- **Registration `/Orders/New` par hai**; `/Account/Register` sirf 302 karta hai.
+- **Optional text field ke liye `IsNullOrWhiteSpace`**, `is null` nahi — browser `""` bhejta hai.
+- **Filter token ke liye `DisplayName()` use mat karo.** `ConnectionType.DialUp` ka
+  `DisplayName()` `"Dial-Up"` hai (hyphen). JS matching ke liye **enum member name**
+  bhejo dono taraf. `DisplayName()` sirf screen par.
+- **Static member Razor mein instance se access nahi hota** (`CS0176`) — poora type likho.
+- **Plan tariff sirf metered lines par.** `PlanAdminService.NormaliseTariff` broadband
+  par null karta hai; `plan-edit.js` field chhupata hai. Dono taraf guard rakho.
+- **`RateLimitPartition.GetFixedWindowLimiter` ka param `partitionKey` hai** (camelCase).
+- **`Result<T>.Value` nullable hai.** `result.Value ?? Array.Empty<T>()` se CS8600/CS8604 chupte hain.
 
-## SRS features jo abhi bhi nahi hain
+## Gotchas — CSP / TagHelper / Layout
 
-Vendor mgmt, Stock/inventory, Retail shop mgmt, Employee management,
-Advanced search, Reports.
+- **`_DashboardLayout` ka script section `DashboardScripts` hai, `Scripts` nahi.**
+  `@section Scripts` likhne se page **500**. Styles ke liye `DashboardStyles`.
+  Public `_Layout` mein `Scripts` hai.
+- **Sirf do layout hain**: `_Layout` (public) aur `_DashboardLayout`.
+- **TagHelper ko `[HtmlTargetElement("script")]` rakho**, `Attributes = "~nonce"` ke saath
+  nahi. Nonce sirf un tags par lagao jin par `src` **nahi**.
+- **Inline `<script>` par nonce auto lagta hai** — `ScriptNonceTagHelper`
+  `Views/_ViewImports.cshtml` mein `@addTagHelper *, NEXUS.Services` se register hota hai.
+  Naya `_ViewImports` banao to ye line bhool mat jao.
+- **Logout sirf POST hai.** `<a href>` se logout mat banao — redirect loop banta hai.
+- `_Sidebar.cshtml` role `User.SidebarRole()` se uthata hai, `ViewData["UserRole"]` se nahi.
 
-(DONE: registration + order, billing engine + payments + invoices,
-bulk discount, service tax, **feasibility workflow + connection lifecycle**.)
+## Gotchas — JS / DOM
 
-## Layout, navbar aur logout
+- **JS sirf `form` ke andar mat dhoondo.** `/Orders/New` ka summary `<aside>` form ke
+  **bahar** hai. Summary ke liye `document` par search karo.
+- **Har input form ke andar hona chahiye.** Warna wo POST hi nahi hota. Visually aside
+  mein rakho to `form="<id>"` lazmi hai.
+- **Font Awesome icons par `aria-hidden` central pass se lagta hai** —
+  `site.js` → `initDecorativeIcons()`. 841 `<i>` tags hain, haath se mat likho.
+- **`aria-current="page"` sidebar par JS se lagta hai** — `navigation.js` → `initAriaCurrent()`.
+  Server-side sirf `class="active"` aata hai.
 
-- **Sirf do layout hain**: `_Layout` (public) aur `_DashboardLayout`
-  (dashboards, `BodyClass = dashboard-body`). Dashboard views khud
-  `Layout = "_DashboardLayout"` set karte hain.
-- `_Sidebar.cshtml` role `ViewData["UserRole"]` se uthata hai; default
-  `"Customer"` hai — dashboard view ko ye set karna **zaroori** hai warna
-  galat sidebar aayega.
-- **Logout sirf POST hai** (`AccountController.Logout`, `[ValidateAntiForgeryToken]`).
-  Kabhi `<a href="/Account/Login">` se logout mat banao — us se redirect loop
-  banta hai aur user logged-in reh jata hai. Hamesha form + token.
-- `_Navbar.cshtml` auth-aware hai: signed-in → "My Dashboard" + Logout;
-  guest → Login + New Connection.
+## Gotchas — playwright-cli (is machine par setup hai)
 
-## Password hashing ka gotcha
+Plugin cache folder mein: `.../playwright-cli/0.1.0/playwright-cli.js`.
 
-.NET 8 `PasswordHasher` **210,000** iterations (100,000 nahi). Hash ka doosra
-byte-group: `AQAAAAEAAYag` = 100k, `AQAAAAIAAYag` = 210k. Seed user
-`admin@nexus.example` / `Nexus@2026` hai laken `MustChangePassword=1` hai —
-aur `ChangePassword` POST abhi **disabled** hai ("not enabled yet"), to pehla
-login change-password page pe atak jayega. DB se reset karke ya
-`MustChangePassword=0` karke hi aage ja sakte ho.
+- **`page.click(sel, { noWaitAfter: true })` POST ABORT kar deta hai.** Server log mein
+  `Operation cancelled by user` aata hai, aur lagta hai "login fail ho raha hai" jabke
+  sign-in ho chuka tha. Sahi:
+  ```js
+  await Promise.all([
+      page.waitForNavigation({ timeout: 90000 }).catch(() => {}),
+      page.click('button[type="submit"]')
+  ]);
+  ```
+- **Browser `user-data-dir: <in-memory>` hai — cookies invocations ke darmiyan nahi rehti.**
+  Login aur audit **ek hi `run-code` call** mein karo.
+- **`run-code` ko async arrow function do**, bare statements nahi (`SyntaxError: Unexpected token 'const'`).
+  Return value `### Result` ke neeche aata hai; `console.log` capture **nahi** hota.
+- `open` ke baad `eval` alag process mein `about:blank` deta hai — `goto` + `eval` chain karo.
+- `fullPage: true` screenshot mein `.reveal` sections **invisible** aate hain
+  (IntersectionObserver). Pehle scroll karo.
+- Login page ke fields: `#AccountIdOrEmail`, `#Password`. `button[type="submit"]`.
+  Uske pehle ek `button[type="button"].toggle` hai — `button` se match mat karo.
 
-## SQL / CLI notes (is machine par)
+## SQL / DB (is machine par)
 
 - `sqlcmd`: `C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\sqlcmd`
 - Server `DESKTOP-BD6OLPC\SQLEXPRESS`, `sa`/`aptech`, DB `NexusDb`.
+  Handshake ~1s leta hai — server doosri machine par lagta hai.
 - Tables: `Users` (custom, `Role` column — Identity tables nahi), `Roles` nahi.
-  `ConnectionOrders` mein `FeasibilityStatus`/`TotalAmount` columns **nahi** hain;
+  `ConnectionOrders` mein `FeasibilityStatus`/`TotalAmount` columns **nahi**;
   `FeasibilityChecks` mein column `Result` hai (`FeasibilityResult` nahi).
-- SQL Express connection pool bhaari load pe `Post-Login complete=14158` timeout
-  de sakta hai. Thora ruk kar retry karo, query galat nahi hai.
+- **Baseline counts:** Users 6, Plans 10, Customers 2, Orders 2, Connections 1.
+- **⚠️ `Connection Timeout Expired ... [Post-Login] complete=13079` = transient network
+  timeout, GHALAT PASSWORD NAHI.** 12 Oct ko yehi hua. Pehle SQL Server check karo
+  (`SELECT COUNT(*) FROM Users`), phir `sys.dm_exec_sessions` se dekho ke connection
+  leak hai ya nahi. **Password mat badlo, baar baar login try mat karo** — account lock
+  ho jayega. Seedha HTTP client (Python) se test karo, wo saaf jawab deta hai.
+- **Seed passwords:** sab staff accounts (`admin@nexus.example`,
+  `retail@nexus.example`, `technical@nexus.example`, `accounts@nexus.example`) ka
+  password **`Nexus@2027`** hai. Seeder mein `Nexus@2026` likha hai — wo **purani**
+  value hai, DB mein nahi chalti.
+  Lockout unlock: `UPDATE Users SET AccessFailedCount=0, LockoutEnd=NULL WHERE Email='...'`.
+- **Password hashing:** .NET 8 `PasswordHasher` **210,000** iterations.
+  Hash ka doosra byte-group: `AQAAAAEAAYag` = 100k, `AQAAAAIAAYag` = 210k.
 
+## Security
+
+- `Services/Security/SecurityHeadersMiddleware.cs` — 6 headers + CSP.
+- CSP `script-src` per-request **nonce** par; `Items["csp-nonce"]` pipeline ke shuru mein.
+- `style-src` mein `'unsafe-inline'` **abhi hai** (purane inline `style=""` ki wajah se) —
+  jaana-boojha gap.
+- Login rate limit: per-IP 10/min fixed window, queue 0.
+- **Rate limit + lockout TestSprite/load testing todenge** — dozens of cloud IPs ek saath
+  login karenge. Test se pehle limit barhao, dedicated account banao.
 
 ## Design tokens (site.css)
 
@@ -152,17 +147,13 @@ login change-password page pe atak jayega. DB se reset karke ya
 `--nexus-border: #E2E8F0`, `--nexus-success: #10B981`, `--nexus-warning: #F59E0B`,
 `--nexus-danger: #EF4444`. Naye CSS mein inhe use karo, hardcoded hex nahi.
 
-## Workflow notes
+## Workflow
 
-- **24 user-level skills installed hain** (`~/.workbuddy-ai/skills/`). UI/design kaam
-  se pehle `impeccable-design/craft-floor.md` aur `redesign-existing-projects` padho;
-  security/auth wale kaam se pehle `security-review`; kaam khatam karne ke baad
-  `verification-loop`. Tafseel: Obsidian vault `NEXUS - Skills & Tooling.md`.
-- **Obsidian vault** `C:\Users\Zain Ansari\Documents\Obsidian Vault\NEXUS\` —
-  context, architecture, gotchas, progress sab wahin rakho.
-- Build `dotnet build` sandbox mein block hota hai. Zain ne kaha build par waqt
-  zaya na karo — design/code padh kar audit karo.
-- Zain `cmd.exe` use karta hai, Git Bash nahi. Shell commands cmd syntax mein do.
-- Roman Urdu mein jawab do. Chhote, seedhe. Sawaal ka jawab do, process narration
-  mat karo.
-- Progress `TASK-LEDGER.md` mein track karni hai (root mein, abhi banani hai).
+- 24 user-level skills installed hain (`~/.workbuddy-ai/skills/`). UI/design se pehle
+  `impeccable-design/craft-floor.md` + `redesign-existing-projects`; security se pehle
+  `security-review`; kaam ke baad `verification-loop`.
+- `dotnet build` ab sandbox mein **chalta hai** (~2-3 min). Background mein chalao.
+- Server: `dotnet run --no-build --urls http://0.0.0.0:5199`.
+  Band karo: `taskkill //F //IM NEXUS.Services.exe` (migrations se pehle zaroori).
+- App logs: `Logs/nexus-YYYYMMDD.log` (Serilog).
+- `dotnet ef --no-build` stale DLL use karta hai — pehle `dotnet build`.

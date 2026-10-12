@@ -146,8 +146,66 @@ public class PurchaseOrderLineConfiguration : IEntityTypeConfiguration<PurchaseO
     }
 }
 
-public class FeedbackConfiguration : IEntityTypeConfiguration<Feedback>
+public class CallUsageConfiguration : IEntityTypeConfiguration<CallUsage>
 {
+    public void Configure(EntityTypeBuilder<CallUsage> b)
+    {
+        b.ToTable("CallUsages");
+
+        b.Property(c => c.LocalMinutes).HasColumnType("decimal(10,2)");
+        b.Property(c => c.StdMinutes).HasColumnType("decimal(10,2)");
+        b.Property(c => c.MobileMinutes).HasColumnType("decimal(10,2)");
+
+        // One meter read per connection per period; entering the same window
+        // twice would double-bill the customer.
+        b.HasIndex(c => new { c.ConnectionId, c.PeriodStart, c.PeriodEnd })
+            .IsUnique()
+            .HasDatabaseName("UX_CallUsages_Connection_Period");
+
+        b.HasOne(c => c.Connection)
+            .WithMany()
+            .HasForeignKey(c => c.ConnectionId)
+            .OnDelete(DeleteBehavior.Cascade);
+    }
+}
+
+public class ConnectionChargeConfiguration : IEntityTypeConfiguration<ConnectionCharge>
+{
+    public void Configure(EntityTypeBuilder<ConnectionCharge> b)
+    {
+        b.ToTable("ConnectionCharges");
+
+        b.Property(c => c.Amount).HasColumnType("decimal(18,2)");
+        b.Property(c => c.ChargeType).HasMaxLength(30);
+
+        // The billing sweep only ever asks for the unbilled rows of one
+        // connection, so that pair carries the index.
+        b.HasIndex(c => new { c.ConnectionId, c.BilledOnBillId })
+            .HasDatabaseName("IX_ConnectionCharges_Connection_Pending");
+
+        b.HasOne(c => c.Connection)
+            .WithMany()
+            .HasForeignKey(c => c.ConnectionId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        b.HasOne(c => c.Customer)
+            .WithMany()
+            .HasForeignKey(c => c.CustomerId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        b.HasOne(c => c.BilledOnBill)
+            .WithMany()
+            .HasForeignKey(c => c.BilledOnBillId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        b.HasOne(c => c.RaisedBy)
+            .WithMany()
+            .HasForeignKey(c => c.RaisedByEmployeeId)
+            .OnDelete(DeleteBehavior.SetNull);
+    }
+}
+
+public class FeedbackConfiguration : IEntityTypeConfiguration<Feedback>{
     public void Configure(EntityTypeBuilder<Feedback> b)
     {
         b.ToTable("Feedback");

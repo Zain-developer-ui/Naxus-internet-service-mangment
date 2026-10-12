@@ -2,109 +2,299 @@
 
 Yahan sab kaam track hoti hai. Jo **nahi** hua wo bhi likhna hai — sirf done wali list nahi.
 
-Last updated: 8 Oct 2026 (4-din plan tayyar)
+Last updated: 12 Oct 2026 (SRS 100% + N5 accessibility + N6 CDN-local; N4 → TestSprite)
 
-> **SRS scorecard (8 Oct, code padh kar):** 53 requirements mein se
-> **37 DONE (70%)**, **8 PARTIAL (15%)**, **8 MISSING (15%)**.
+> **SRS scorecard (12 Oct, code padh kar):** 53 requirements mein se  
+> **53 DONE (100%)**, **0 PARTIAL**, **0 MISSING**.  
 > Purani `docs/03-requirements-matrix.md` (5 Oct) **ghalat hai** — us waqt 2% tha.
 >
-> **4-din ka plan: `PLAN-4-DAYS.md`** (workspace root) ya
-> `Documents/Obsidian Vault/NEXUS/NEXUS - 4 Day Plan.md`
+> **Baqi sirf Aptech deliverables (6.1–6.7)** hain — documentation, code nahi.
 >
-> **Static audit: `STATIC-DATA-AUDIT.md`** — 4 HIGH, 5 MEDIUM, 4 LOW findings (~7 ghante ka kaam)
+> **4-din ka plan: `PLAN-4-DAYS.md`** (workspace root) — section 5A mein
+> **TestSprite** ka faisla (N4 test project ke bajaye).
+>
+> **Static audit: `STATIC-DATA-AUDIT.md`** — 4 HIGH, 5 MEDIUM, 4 LOW findings  
 > **Testing: `TESTING-GUIDE.md`** — team member ke liye ~70 test cases + cross questions
 
 ---
 
 ## Static data — POORA FIX HO GAYA (8 Oct audit + fix)
 
-**Achhi khabar:** zyadatar project asli DB par chalta hai. Static sirf Customer
+**Achhi khabar:** zyadatar project asli DB par chalta hai. Static sirf Customer  
 portal aur JS ke dead functions mein tha. **13 findings — sab fix.**
 
-| Sev | Kahan | Kya tha | Ab |
-|---|---|---|---|
-| HIGH | `wwwroot/js/bills.js` | 148-line **dead file** — saare 9 selectors kisi view mein nahi, har page par load, "Payment processed (demo)" fake toast | **Poori file delete** + `_Layout` se script tag hata |
-| HIGH | `Views/Customer/MyConnection.cshtml` | Fallback model `Ahmed Khan` / `NX12345678` | Fallback poora hata (`var acc = Model`) |
-| HIGH | `Views/Customer/MyConnection.cshtml` | Timeline hardcoded ("08 Jan 2025", "Usman Ahmed") | `ConnectionStatusHistory` + `FeasibilityChecks` se real |
-| HIGH | `Views/Customer/MyConnection.cshtml` | Plan features + equipment hardcoded ("Unlimited data" — SRS ke against) | `Plan` columns se derive + `EquipmentProducts` se |
-| MED | `MyConnection` + `Customer/Dashboard` | Fake service health ("Excellent", "Stable", "Verified") | Real fields (status, speed, billing) |
-| MED | `Customer/Dashboard` | Fallback dates ("25 Oct 2025" waghera) | `"—"` |
-| MED | `dashboard.js` | "not available in this demo" | "not wired up yet" |
-| MED | `Account/Status.cshtml` | placeholder purana format | `B042000000000001` |
-| LOW | `charts.js` | stale comment ("demo data") | Comment update |
-| LOW | `Home/Contact` + `Home/Index` | Fake "Live Chat" (4 jagah) | "Send a Message" → real form |
-| LOW | `MyConnection` | 40+ inline styles | Classes (`banner-identity`, `badge-ghost`, `stat-value.compact`, `inline-actions`) |
+| Sev  | Kahan                                 | Kya tha                                                                                                                  | Ab                                                                                 |
+| ---- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
+| HIGH | `wwwroot/js/bills.js`                 | 148-line **dead file** — saare 9 selectors kisi view mein nahi, har page par load, "Payment processed (demo)" fake toast | **Poori file delete** + `_Layout` se script tag hata                               |
+| HIGH | `Views/Customer/MyConnection.cshtml`  | Fallback model `Ahmed Khan` / `NX12345678`                                                                               | Fallback poora hata (`var acc = Model`)                                            |
+| HIGH | `Views/Customer/MyConnection.cshtml`  | Timeline hardcoded ("08 Jan 2025", "Usman Ahmed")                                                                        | `ConnectionStatusHistory` + `FeasibilityChecks` se real                            |
+| HIGH | `Views/Customer/MyConnection.cshtml`  | Plan features + equipment hardcoded ("Unlimited data" — SRS ke against)                                                  | `Plan` columns se derive + `EquipmentProducts` se                                  |
+| MED  | `MyConnection` + `Customer/Dashboard` | Fake service health ("Excellent", "Stable", "Verified")                                                                  | Real fields (status, speed, billing)                                               |
+| MED  | `Customer/Dashboard`                  | Fallback dates ("25 Oct 2025" waghera)                                                                                   | `"—"`                                                                              |
+| MED  | `dashboard.js`                        | "not available in this demo"                                                                                             | "not wired up yet"                                                                 |
+| MED  | `Account/Status.cshtml`               | placeholder purana format                                                                                                | `B042000000000001`                                                                 |
+| LOW  | `charts.js`                           | stale comment ("demo data")                                                                                              | Comment update                                                                     |
+| LOW  | `Home/Contact` + `Home/Index`         | Fake "Live Chat" (4 jagah)                                                                                               | "Send a Message" → real form                                                       |
+| LOW  | `MyConnection`                        | 40+ inline styles                                                                                                        | Classes (`banner-identity`, `badge-ghost`, `stat-value.compact`, `inline-actions`) |
 
-**Naye view-model fields** (`AccountViewModel`): `PlanId`, `PlanFeatures`,
-`Timeline`, `Equipment` + `HasPlanFeatures`/`HasTimeline`/`HasEquipment`.
+**Naye view-model fields** (`AccountViewModel`): `PlanId`, `PlanFeatures`,  
+`Timeline`, `Equipment` + `HasPlanFeatures`/`HasTimeline`/`HasEquipment`.  
 `BillingStatus` ab bills se compute hota hai (pehle khaali reh jata tha).
 
-**Dead field hataya:** `TechnicianName`. **`RouterModel`** ab
+**Dead field hataya:** `TechnicianName`. **`RouterModel`** ab  
 `EquipmentProducts` se set hota hai.
 
-**Verified (curl + screenshot):** `/js/bills.js` → **404**. `MyConnection` par
-"Bilal Ahmed Khan · B042000000000002 · Broadband 60 Hours", plan features
-"60 hours of usage included each cycle" + "$500.00 security deposit", timeline
+**Verified (curl + screenshot):** `/js/bills.js` → **404**. `MyConnection` par  
+"Bilal Ahmed Khan · B042000000000002 · Broadband 60 Hours", plan features  
+"60 hours of usage included each cycle" + "$500.00 security deposit", timeline  
 3 real entries (06 Oct 2026), equipment 6 real products. 10 pages → sab 200.
 
-**Data safe:** Users 6, Customers 2, Orders 2, Connections 1, Bills 0, Plans 10,
+**Data safe:** Users 6, Customers 2, Orders 2, Connections 1, Bills 0, Plans 10,  
 Cities 8, EquipmentProducts 6.
 
 ---
 
 ## M2 — Advanced search (9 Oct 2026) ✅ DONE
 
-SRS: *"The advanced search option should be included for checking the status of the
-order or the status of the connection with the options being the unique id, name on
-which the order is placed or the connection is taken, type of connection, date or
+SRS: *"The advanced search option should be included for checking the status of the  
+order or the status of the connection with the options being the unique id, name on  
+which the order is placed or the connection is taken, type of connection, date or  
 period of application or received the connection, contact number."*
 
 Pehle: `/Retail/Search` par **ek text box** tha (`SearchService.SearchAsync(string? term)`).
 
 Ab: naya `/Search/Advanced` — **5 filters**, SRS ke exactly.
 
-| Cheez | Kahan |
-|---|---|
-| Query + results view model | `Models/ViewModels/AdvancedSearchViewModel.cs` |
-| Service | `Services/Search/AdvancedSearchService.cs` |
-| Controller | `Controllers/SearchController.cs` (`[Authorize(Roles = StaffRoles)]`) |
-| View | `Views/Search/Advanced.cshtml` |
-| Sidebar | `_Sidebar.cshtml` — dono branches mein |
+| Cheez                      | Kahan                                                                 |
+| -------------------------- | --------------------------------------------------------------------- |
+| Query + results view model | `Models/ViewModels/AdvancedSearchViewModel.cs`                        |
+| Service                    | `Services/Search/AdvancedSearchService.cs`                            |
+| Controller                 | `Controllers/SearchController.cs` (`[Authorize(Roles = StaffRoles)]`) |
+| View                       | `Views/Search/Advanced.cshtml`                                        |
+| Sidebar                    | `_Sidebar.cshtml` — dono branches mein                                |
 
 **Design faisle:**
 
-- **Alag controller.** `/Retail/...` ke andar nahi rakha kyunki technician aur
-  accounts clerk ko bhi wahi filters chahiye. `StaffRoles` = Admin + Accounts +
+- **Alag controller.** `/Retail/...` ke andar nahi rakha kyunki technician aur  
+  accounts clerk ko bhi wahi filters chahiye. `StaffRoles` = Admin + Accounts +  
   Technical + Retail.
-- **Do result sets.** Orders `CreatedAt` par filter hote hain (application date),
-  lines `ActivatedOn` par (received date). Ek hi period, dono apne apne column se —
+- **Do result sets.** Orders `CreatedAt` par filter hote hain (application date),  
+  lines `ActivatedOn` par (received date). Ek hi period, dono apne apne column se —  
   yahi SRS ka *"date or period of application or received the connection"* hai.
-- **Khaali query = kuch nahi.** Bina filter ke poori book nahi dikhati; screen
+- **Khaali query = kuch nahi.** Bina filter ke poori book nahi dikhati; screen  
   kehti hai "Enter at least one filter".
 - **GET form.** URL shareable rehta hai.
-- **`To` date poora din cover karta hai** — `To.Date.AddDays(1)` se `<` compare,
+- **`To` date poora din cover karta hai** — `To.Date.AddDays(1)` se `<` compare,  
   warna 31 Oct ka din chhoot jata.
 
 **Live verification (curl, 8 tests):**
 
-| Test | Nateeja |
-|---|---|
-| Build | 0 errors |
-| Khaali query | 200 — "Enter at least one filter" |
-| `?Id=B0000000001` | 200 — order mila |
-| `?Name=Bilal` | 200 — 1 order + 1 line |
-| `?Type=Broadband` | 200 — 2 orders + 1 line |
-| `?Contact=0321` | 200 — 1 order + 1 line |
-| `?From=2026-10-01&To=2026-10-31` | 200 — 2 orders + 1 line |
-| `?From=2026-01-01&To=2026-01-31` | 200 — "Nothing matches those filters" |
-| `?Name=ZZZNobody` | 200 — "Nothing matches those filters" |
-| Guest | **302 → /Account/Login?ReturnUrl=%2FSearch%2FAdvanced** |
-| Retail login | **200** |
-| Sidebar | har page par exactly **1** active link |
+| Test                             | Nateeja                                                 |
+| -------------------------------- | ------------------------------------------------------- |
+| Build                            | 0 errors                                                |
+| Khaali query                     | 200 — "Enter at least one filter"                       |
+| `?Id=B0000000001`                | 200 — order mila                                        |
+| `?Name=Bilal`                    | 200 — 1 order + 1 line                                  |
+| `?Type=Broadband`                | 200 — 2 orders + 1 line                                 |
+| `?Contact=0321`                  | 200 — 1 order + 1 line                                  |
+| `?From=2026-10-01&To=2026-10-31` | 200 — 2 orders + 1 line                                 |
+| `?From=2026-01-01&To=2026-01-31` | 200 — "Nothing matches those filters"                   |
+| `?Name=ZZZNobody`                | 200 — "Nothing matches those filters"                   |
+| Guest                            | **302 → /Account/Login?ReturnUrl=%2FSearch%2FAdvanced** |
+| Retail login                     | **200**                                                 |
+| Sidebar                          | har page par exactly **1** active link                  |
 
 **Data safe:** Users 6, Customers 2, Orders 2, Connections 1, Bills 0, Plans 10, Cities 8.
 
 Legend: `DONE` / `PARTIAL` / `TODO` / `PLAN`
+
+---
+
+## M3–M6 — Retail till-date register (10 Oct 2026) ✅ DONE
+
+SRS: retail login ko *"till date register"* chahiye — orders, connections, billing  
+aur payments, ek period filter ke andar.
+
+Pehle: retail ke paas sirf dashboard + search tha. Koi register nahi.
+
+| Cheez                   | Kahan                                                 |
+| ----------------------- | ----------------------------------------------------- |
+| Query + page view model | `Models/ViewModels/RetailRegisterViewModel.cs`        |
+| Service                 | `Services/Retail/RetailRegisterService.cs`            |
+| Controller action       | `RetailController.Register` (GET form, shareable URL) |
+| View                    | `Views/Retail/Register.cshtml`                        |
+| Sidebar                 | Retail branch + Admin branch (`retail-register` key)  |
+
+**Design faisle:**
+
+- **Orders `CreatedAt` par, lines `ActivatedOn` par** — dono apne apne column se  
+  filter hote hain. Yahi SRS ka *"application or received the connection"* hai.
+- **Totals header mein** — Orders placed / Lines activated / Billed+outstanding /  
+  Collected, period ke hisaab se.
+- **`To` poora din cover** — `To.Date.AddDays(1)` (date-range ka standard trap).
+- Live test: Oct range → 2 orders; Jan range → 0 orders + "No order was placed in  
+  this period"; guest → 302 login; Admin → 200; Technical → 302 (register sirf  
+  Retail+Admin ke liye).
+
+**Ek bug pakra:** controller `SetActiveItem("retail-register")` set kar raha tha  
+magar sidebar `IsActive("register")` check karti hai — match nahi hota, highlight  
+gum. `"register"` kar diya.
+
+---
+
+## M7 — Purchase order workflow (10 Oct 2026) ✅ DONE
+
+SRS: vendor se equipment mangwana — tables the magar **koi UI nahi**.
+
+| Cheez          | Kahan                                                                      |
+| -------------- | -------------------------------------------------------------------------- |
+| View models    | `BackOfficeViewModels.cs` (purchase order section)                         |
+| Service        | `Services/Procurement/PurchaseOrderService.cs`                             |
+| Controller     | `Controllers/PurchaseOrdersController.cs` (`/Admin/PurchaseOrders`)        |
+| Views          | `Views/PurchaseOrders/{Index,Details,Edit}.cshtml`                         |
+| Line picker JS | `wwwroot/js/purchase-order.js`                                             |
+| PO numbering   | `AccountIdGenerator.NextPurchaseOrderNumberAsync` (`PO-{year}-{serial:4}`) |
+| Sidebar        | Admin "Back Office" (`purchase-orders` key)                                |
+
+**Rules service mein:**
+
+- **Receive hi stock badhata hai** — poora order ek shop mein book hota hai,  
+  har line ka movement row usi transaction mein likha jata hai (stock screen ka  
+  wahi rule). Order whole land karta hai, aur **sirf ek dafa** — status guard  
+  double-receive block karta hai.
+- **Cancelled order receive nahi ho sakti; received order cancel nahi ho sakti.**
+- **Duplicate product line block** — ek order mein ek product ek hi line par.
+- **Khaali/placeholder line drop** hoti hai (picker ka "add row" template).
+
+**Live verification (curl + sqlcmd):**
+
+| Test                              | Nateeja                                                                  |
+| --------------------------------- | ------------------------------------------------------------------------ |
+| Build                             | 0 errors                                                                 |
+| `/Admin/PurchaseOrders` (naya)    | 200                                                                      |
+| `/Admin/PurchaseOrders/New`       | 200 — 6 products, vendor dropdown                                        |
+| **Pehla bug:** `@section Scripts` | **500** — layout section ka naam `DashboardScripts` hai. Fix             |
+| **Doosra bug:** status "Draft"    | `Create` action `Ordered` set nahi kar raha tha → saved order Draft. Fix |
+| PO create (2 lines, $1,050)       | 302 → `/Admin/PurchaseOrders/1`                                          |
+| Receive into stock                | 302 → stock 0 → **10 + 5**, 2 movement rows `Received on PO-2026-0001`   |
+| Double receive                    | 302 + error alert, DB unchanged                                          |
+| Cancel received                   | 302 + error alert, status `Received` rehta                               |
+| Guest                             | 302 → login                                                              |
+
+**Data safe (cleanup ke baad):** POs 0, POLines 0, Movements 0, Stock 0,  
+Vendors 1, Customers 2, Orders 2, Connections 1, Bills 0, Plans 10, Users 6.
+
+**Test data hata diya** (PO + 2 stock items + 2 movements + test vendor).
+
+---
+
+## M8 — Call metering (10 Oct 2026) ✅ DONE
+
+SRS: landline ke STD/local/mobile calls per-minute bill hote hain. Pehle koi  
+jagah nahi thi jahan exchange ka meter reading enter ho, is liye har landline  
+bill sirf rental dikhati thi.
+
+| Cheez            | Kahan                                                                      |
+| ---------------- | -------------------------------------------------------------------------- |
+| Entity           | `Domain/Billing/CallUsage.cs`                                              |
+| Tariff constants | `Common/Constants/CallTariff.cs` (5 rates, SRS se)                         |
+| Plan hook        | `Plan.CallTariffLabel` + `Plan.CallTariff`                                 |
+| EF mapping       | `BillingConfigurations.CallUsageConfiguration`                             |
+| Service          | `Services/Accounts/CallMeteringService.cs`                                 |
+| Controller       | `AccountsController.Calls` / `DeleteCall`                                  |
+| View             | `Views/Accounts/Calls.cshtml`                                              |
+| Sidebar          | Accounts header (`calls` key)                                              |
+| Billing wiring   | `BillingService.BuildLinesAsync` call lines add karta hai                  |
+| Plan admin       | `PlanEditViewModel.CallTariffLabel` + `Views/AdminPlans/Edit.cshtml` field |
+
+**Rules:**
+
+- **Ek line + ek period = ek reading.** `UX_CallUsages_Connection_Period`  
+  unique index tenant hai, is liye dobara save karne par row **replace** hoti  
+  hai, duplicate nahi banti.
+- **Sirf meterable lines** list hoti hain — Telephone ya DialUp type, jin ka  
+  plan `CallTariffLabel` rakhta hai, aur jo delete nahi hui.
+- **Billed reading edit ya delete nahi ho sakti.** `IsBilled` set hone ke baad  
+  service mana kar deti hai, aur view Remove button hi nahi dikhata.
+- **Bill lines tabhi bante hain jab tariff rate > 0 ho.** Local-monthly mein  
+  STD/Mobile rate 0 hai, is liye wo calls bill par nahi aatin — SRS ke mutabiq.
+- **Koi reading na mile to bill sirf rental** dikhati hai. Guessed call charge  
+  se behtar hai honest khaali figure.
+
+
+**Seed fix:** `Telephone Line` plan ab `CallTariffLabel = "Local - monthly"`
+ke saath seed hota hai. Pehle null tha, is liye koi bhi landline meterable
+nahi thi.
+
+**Live verification (curl + sqlcmd):**
+
+| Test | Nateeja |
+|---|---|
+| Build | 0 errors |
+| Migration `20261010143933_CallMetering` | applied, `CallUsages` table live |
+| `/Accounts/Calls` (Accounts role) | 200 |
+| Meterable lines | Telephone line select mein aa gayi |
+| Reading save (120 / 45.5 / 30 min) | 302, row DB mein |
+| Same period dobara save | 302, **n=1** (replace, duplicate nahi) |
+| Period end < start | 200 + "period end cannot be before its start" |
+| No line selected | 200 + "Pick a landline." |
+| Saare minutes khaali | 200 + "Enter at least one minute figure." |
+| Malformed minutes (`abc`) | 200 + binder error (form wapas) |
+| Billed row delete | page par badge **Billed**, koi Remove button nahi |
+| Unbilled row delete | 302 → list, row gayab |
+| Guest | 302 → login |
+| Plan admin dropdown | `/Admin/Plans/10/Edit` 200, 5 tariffs, `Local - monthly` selected |
+| Tariff change save | `STD - monthly` → DB mein save, redirect `/Admin/Plans` |
+| Tariff on broadband | Broadband plan par tariff bheja → server ne **NULL** kiya (sirf metered lines) |
+
+**Bill math (Local-monthly, verify kiya):** 120 min × $0.75 = **$90.00**,
+STD/Mobile rate 0 is liye skip. Rental $15.00 + $90.00 = $105.00 subtotal,
++12.24% tax = **$117.85**.
+
+**Data safe (cleanup ke baad):** Connections 1, Orders 2, CallUsages 0,
+Bills 0, Users 6, Plans 10, Vendors 1.
+
+---
+
+## Day 3 (4.5.3) — Security headers + rate limiting (10 Oct 2026) ✅ DONE
+
+| Cheez | Kahan |
+|---|---|
+| Header middleware | `Services/Security/SecurityHeadersMiddleware.cs` |
+| Nonce tag helper | `Common/TagHelpers/ScriptNonceTagHelper.cs` |
+| Rate limiter + nonce | `Program.cs` |
+| Login policy | `AccountController.Login` (`[EnableRateLimiting("login")]`) |
+
+**Kya lagta hai:**
+
+- `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`,
+  `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy`
+  (camera/mic/geo/payment sab band), `Cross-Origin-Opener-Policy: same-origin`.
+- `Strict-Transport-Security` sirf TLS par (dev HTTP par browser ignore karta,
+  shor fizool).
+- **CSP:** `default-src 'self'`, `script-src 'self' 'nonce-...'`,
+  `style-src 'self' 'unsafe-inline'`, `frame-ancestors 'none'`,
+  `object-src 'none'`, `base-uri 'self'`.
+- **Nonce per request** — `IHttpContextAccessor` ke through views tak jata hai,
+  aur `ScriptNonceTagHelper` har inline `<script>` par stamp karta hai.
+  `src` wale scripts ko nonce nahi milta (unhe `'self'` cover karta hai).
+- **Login rate limit:** per-IP fixed window, **10/minute**, queue 0. Limit
+  cross hone par AJAX ko 429 text, normal form ko `/Account/Login?throttled=1`
+  redirect + visible error.
+
+**Live verification:**
+
+| Test | Nateeja |
+|---|---|
+| Homepage headers | saare 6 security headers maujood |
+| CSP nonce header vs inline script | **dono match** (`nonce="3lBeGjoEB4aJTxIm0SlEFg=="`) |
+| External scripts | nonce nahi (sahi) |
+| 13 rapid login POST | 1–10 → 400 (CSRF check tak pahunche), **11–13 → 429** |
+
+**Note:** `style-src` mein `'unsafe-inline'` abhi reh gaya hai kyunke kuch purane
+views inline `style=""` attributes use karte hain (`Account/Status.cshtml` 140,
+`Orders/Tracking.cshtml` 115). Ye ek asli gap hai, oversight nahi — inline
+styles saaf hone ke baad `'unsafe-inline'` bhi hata sakte hain.
 
 ---
 
@@ -264,6 +454,8 @@ Legend: `DONE` / `PARTIAL` / `TODO` / `PLAN`
 | 4.6.2 | Domain services (customer, order, billing…) | TODO (Phase 5) |
 | 4.7.1 | AccessDenied page | DONE |
 | 4.7.2 | 404 / 500 pages, global handler | TODO |
+
+
 
 ---
 
@@ -484,6 +676,7 @@ SRS ke woh features jo "nahi hain" list mein the. Chaar registers ek saath:
 | Vendors | `/Admin/Vendors` | `VendorService` | Admin |
 | Outlets + Staff | `/Admin/Organisation` | `OrganisationService` | Admin |
 
+
 ### Rules jo service layer mein hain
 
 - **Stock cannot go negative.** `after < 0` → `Fail` with the exact on-hand figure.
@@ -701,6 +894,7 @@ runtime-scripts hain. `impeccable` ka native binary skip, markdown reference ado
 `taste-skill` poora adopt. `sandbaseai/workbuddy-skill` catalog (21,818 skills)
 discovery source banaya.
 
+
 Tafseel: `Documents/Obsidian Vault/NEXUS/NEXUS - Skills & Tooling.md`.
 
 ### F8 — Obsidian vault
@@ -851,3 +1045,94 @@ Poora implementation plan: **`docs/11-implementation-plan.md`**
   ke saath `PreferredSlot` / `ScheduledFor` / `Notes` bhi persist hote hain.
   POST end-to-end verify hua: `302` → `/Customer/Dashboard`, teen tables
   (Users → Customers → ConnectionOrders) linked, phir test rows delete.
+
+---
+
+## 12 Oct 2026 — N5 accessibility + N6 CDN-local + SRS ke baqi PARTIAL ✅ DONE
+
+### N5 — Accessibility pass
+
+| Kya | Kahan | Verification |
+|---|---|---|
+| Skip link + `<main id="main-content" tabindex="-1">` | `_Layout.cshtml`, `site.css` | Live: `skipLink: true`, `mainTag: MAIN` |
+| Sidebar active link par `aria-current="page"` | `navigation.js` → `initAriaCurrent()` | **Live: `sidebarAriaCurrent: ["page"]`** |
+| Modal focus trap + `role="dialog"` / `aria-modal` auto | `modal.js` | **Live: Tab wrap p1→p1, Shift+Tab p1→p3, bahar escape nahi, Escape band** |
+| Modal `aria-labelledby` | `Feedback/Index.cshtml` | — |
+| Decorative icons par `aria-hidden` | `site.js` → `initDecorativeIcons()` | **Live: 53/53 icons hidden** |
+| Validation error par `aria-invalid` + `aria-describedby` | `validation.js` | `setError` / `clearError` dono |
+| Counter animation reduced-motion respect | `dashboard.js` | — |
+| Topbar icons par `aria-hidden` | `_DashboardTopbar.cshtml` | **Live: 7/7** |
+
+**Icons ka faisla:** 841 `<i class="fa-...">` tags 30+ views mein bikhre hue the.
+Har ek par haath se `aria-hidden` likhna bewaqoofi thi, is liye ek central pass
+(`initDecorativeIcons`) likha — jo icon apna `aria-hidden` ya `aria-label` pehle
+se rakhta ho, ya jiska apna text ho, usay chhoda nahi jata.
+
+### N6 — CDN → local
+
+- Inter font → `wwwroot/lib/inter/` (Google Fonts preconnect hata diye)
+- Font Awesome 6.5.1 → `wwwroot/lib/fontawesome/` (css + 4 woff2)
+- jQuery / jquery-validation / unobtrusive → `wwwroot/lib/...`
+- `site.css` se aakhri `@import` (Google Fonts) hataya
+
+**Verify:** `Views/` mein zero CDN references.
+
+### Dead code hataya
+
+`dashboard.js` ke 7 functions mein se **6 kabhi chalti hi nahi thin** — un ke
+selectors (`data-notifications-toggle`, `data-user-chip`, `data-quick-action`,
+`data-dashboard-filter`, `data-topbar-search`, `data-activity-toggle`) poore
+project mein kahin maujood nahi. Sirf `animateCounters` live thi. File 188 se
+66 lines rah gayi.
+
+### Build
+
+**0 Errors, 0 Warnings.** (Do CS8600/CS8604 `HomeController.Index` mein the —
+`result.Value ?? Array.Empty<PublicPlan>()` se fix.)
+
+### ⚠️ N4 — test project nahi likha jayega
+
+Bahar ka tool **TestSprite** use hoga. Tafseel: **`TESTSPRITE-PLAN.md`**.
+
+Ahem baat jo mile: TestSprite ke tests **cloud mein** chalte hain aur uska CLI
+`localhost` **reject** kar deta hai. Local app ke liye **MCP Server** hi raasta
+hai (khud tunnel kholta hai). Details plan file mein.
+
+### 🐛 Jo bug mile — aur jo bug NAHI tha
+
+**Login POST fail ho raha tha.** Pehla gumaan: ghalat password. **Ghalat tha.**
+
+```
+Connection Timeout Expired. The timeout period elapsed during the post-login phase.
+[Pre-Login] initialization=510; handshake=1110; [Post-Login] complete=13079;
+Error Number:-2, State:0, Class:11
+```
+
+Check kiya:
+- SQL Server **chal raha hai** — `SELECT COUNT(*) FROM Users` = **6** (baseline wahi)
+- `sys.dm_exec_sessions` mein app ke connections **0** — yani **leak nahi hai**
+- Connection string `DESKTOP-BD6OLPC\SQLEXPRESS` — handshake ~1s, server doosri machine par
+
+Natija: **transient network timeout.** Python se seedha HTTP login kiya to
+`POST 200` → `/Admin/Dashboard`, `NEXUS.Auth` cookie set — **sab theek.**
+
+**Ye gotcha yaad rakho:** DB timeout ko password ka masla samajh kar password
+badalna — ya baar baar login try karna — account ko lock karwa dega.
+
+### Harness gotcha (playwright)
+
+`page.click(sel, { noWaitAfter: true })` **POST abort kar deta hai** — server
+log mein `Operation cancelled by user` aata hai. Isi wajah se kai baar laga ke
+"login fail ho raha hai" jabke server par sign-in ho chuka tha.
+
+**Sahi tareeqa:**
+```js
+await Promise.all([
+    page.waitForNavigation({ timeout: 90000 }).catch(() => {}),
+    page.click('button[type="submit"]')
+]);
+```
+
+Aur `playwright-cli` ka browser `user-data-dir: <in-memory>` hai — **cookies
+invocations ke darmiyan nahi rehti.** Login aur audit **ek hi `run-code` call**
+mein karo, warna agla call naya browser kholega aur session gayab.

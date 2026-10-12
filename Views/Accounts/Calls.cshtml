@@ -1,0 +1,213 @@
+@model NEXUS.Models.ViewModels.CallMeteringPage
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Call Metering — NEXUS";
+}
+
+@section DashboardStyles {
+    <link rel="stylesheet" href="~/css/dashboards-luxury.css" />
+    <link rel="stylesheet" href="~/css/admin.css" />
+}
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/Accounts/Dashboard">Accounts</a>
+    <span class="sep">/</span>
+    <span class="current">Call Metering</span>
+</nav>
+
+<div class="page-header reveal">
+    <div>
+        <h1><i class="fa-solid fa-phone-volume" style="color:var(--nexus-blue);"></i> Call Metering</h1>
+        <p class="muted">Minutes logged against a line for one period. The next bill for that window carries the charges.</p>
+    </div>
+</div>
+
+@if (TempData["Success"] is string ok)
+{
+    <div class="alert alert-success reveal" role="status">
+        <i class="fa-solid fa-circle-check"></i> @ok </div>
+}
+@if (TempData["Error"] is string bad)
+{
+    <div class="alert alert-danger reveal" role="alert">
+        <i class="fa-solid fa-circle-exclamation"></i> @bad </div>
+}
+
+<div class="chart-card reveal">
+    <h2 class="dash-heading">Log a reading</h2>
+
+    @if (Model.Lines.Count == 0)
+    {
+        <p class="table-empty">
+            No metered lines are available. Calls can only be logged against a telephone or
+            dial-up line whose plan carries a call tariff.
+        </p>
+    }
+    else
+    {
+        <form method="post" asp-action="Calls">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="All" class="validation-summary"></div>
+
+            <div class="filter-grid">
+                <div class="field">
+                    <label for="call-line">Connection</label>
+                    <select id="call-line" name="ConnectionId" class="input" required>
+                        <option value="">Select a line…</option>
+                        @foreach (var line in Model.Lines)
+                        {
+                            var label = $"{line.ConnectionNumber} · {line.CustomerName} · {line.PlanName}";
+                            <option value="@line.Id" selected="@(Model.Input.ConnectionId == line.Id)">@label</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Input.ConnectionId" class="field-error"></span>
+                </div>
+
+                <div class="field">
+                    <label for="call-tariff-note">Tariff</label>
+                    <input id="call-tariff-note" type="text" class="input" value="" readonly
+                           placeholder="Picked from the line" />
+                </div>
+            </div>
+
+            <div class="filter-grid">
+                <div class="field">
+                    <label for="call-from">Period Start</label>
+                    <input id="call-from" name="PeriodStart" type="date" class="input"
+                           value="@Model.Input.PeriodStart.ToString("yyyy-MM-dd")" required />
+                    <span asp-validation-for="Input.PeriodStart" class="field-error"></span>
+                </div>
+                <div class="field">
+                    <label for="call-to">Period End</label>
+                    <input id="call-to" name="PeriodEnd" type="date" class="input"
+                           value="@Model.Input.PeriodEnd.ToString("yyyy-MM-dd")" required />
+                    <span asp-validation-for="Input.PeriodEnd" class="field-error"></span>
+                </div>
+            </div>
+
+            <div class="filter-grid">
+                <div class="field">
+                    <label for="call-local">Local minutes</label>
+                    <input id="call-local" name="LocalMinutes" type="number" min="0" step="0.01"
+                           class="input" value="@(Model.Input.LocalMinutes > 0 ? Model.Input.LocalMinutes.ToString("0.##") : "")" />
+                    <span asp-validation-for="Input.LocalMinutes" class="field-error"></span>
+                </div>
+                <div class="field">
+                    <label for="call-std">STD minutes</label>
+                    <input id="call-std" name="StdMinutes" type="number" min="0" step="0.01"
+                           class="input" value="@(Model.Input.StdMinutes > 0 ? Model.Input.StdMinutes.ToString("0.##") : "")" />
+                    <span asp-validation-for="Input.StdMinutes" class="field-error"></span>
+                </div>
+                <div class="field">
+                    <label for="call-mobile">Mobile minutes</label>
+                    <input id="call-mobile" name="MobileMinutes" type="number" min="0" step="0.01"
+                           class="input" value="@(Model.Input.MobileMinutes > 0 ? Model.Input.MobileMinutes.ToString("0.##") : "")" />
+                    <span asp-validation-for="Input.MobileMinutes" class="field-error"></span>
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="call-notes">Notes</label>
+                <input id="call-notes" name="Notes" class="input" maxlength="300"
+                       value="@Model.Input.Notes" placeholder="Optional — reference, meter slip number…" />
+                <span asp-validation-for="Input.Notes" class="field-error"></span>
+            </div>
+
+            <div class="inline-actions" style="margin-top:16px;">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-check"></i> Save reading </button>
+            </div>
+        </form>
+    }
+</div>
+
+<section class="dash-section reveal" aria-labelledby="call-log">
+    <h2 id="call-log" class="dash-heading">
+        Readings on record <span class="count">@Model.Entries.Count</span>
+    </h2>
+
+    <div class="chart-card">
+        @if (Model.IsEmpty)
+        {
+            <p class="table-empty">No call readings logged yet.</p>
+        }
+        else
+        {
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Line</th>
+                            <th scope="col">Customer</th>
+                            <th scope="col">Period</th>
+                            <th scope="col" class="num">Local</th>
+                            <th scope="col" class="num">STD</th>
+                            <th scope="col" class="num">Mobile</th>
+                            <th scope="col" class="hide-sm">Tariff</th>
+                            <th scope="col">State</th>
+                            <th scope="col"><span class="sr-only">Actions</span></th> </tr> </thead>
+                    <tbody>
+                        @foreach (var row in Model.Entries)
+                        {
+                            <tr>
+                                <td class="mono">@row.ConnectionNumber</td>
+                                <td>@row.CustomerName</td>
+                                <td>@row.PeriodStart.ToString("dd MMM") – @row.PeriodEnd.ToString("dd MMM yyyy")</td>
+                                <td class="num">@row.LocalMinutes.ToString("0.##")</td>
+                                <td class="num">@row.StdMinutes.ToString("0.##")</td>
+                                <td class="num">@row.MobileMinutes.ToString("0.##")</td>
+                                <td class="hide-sm">@row.TariffLabel</td>
+                                <td>
+                                    @if (row.IsBilled)
+                                    {
+                                        <span class="badge badge-success">Billed</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-warning">Pending</span>
+                                    } </td>
+                                <td class="actions">
+                                    @if (!row.IsBilled)
+                                    {
+                                        <form method="post" asp-action="DeleteCall" asp-route-id="@row.Id"
+                                              data-confirm="Remove this reading?">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-ghost btn-sm">
+                                                <i class="fa-solid fa-trash"></i> Remove </button>
+                                        </form>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</section>
+
+@section DashboardScripts {
+    <script>
+        // Show the tariff for whichever line is picked so accounts can see the
+        // rate the reading will be priced at before saving.
+        (function () {
+            var select = document.getElementById('call-line');
+            var note = document.getElementById('call-tariff-note');
+            if (!select || !note) return;
+
+            var tariffs = {
+                @foreach (var line in Model.Lines)
+                {
+                    @:$("@line.Id": "@Html.Raw(line.TariffLabel)"),
+                }
+            };
+
+            function sync() {
+                note.value = tariffs[select.value] || '';
+            }
+
+            select.addEventListener('change', sync);
+            sync();
+        })();
+    </script>
+}

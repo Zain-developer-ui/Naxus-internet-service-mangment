@@ -10,11 +10,9 @@
        scroll-reveal styles can stay unarmed when scripting is unavailable. *@
     <script>document.documentElement.classList.add('js');</script>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/inter/inter.css" />
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="~/lib/fontawesome/css/all.min.css" />
 
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/buttons.css" />
@@ -37,10 +35,12 @@
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body class="@ViewData["BodyClass"]">
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
     @await Html.PartialAsync("_Navbar")
     @await Html.PartialAsync("_Alerts")
 
-    <main class="page-wrapper">
+    <main class="page-wrapper" id="main-content" tabindex="-1">
         @RenderBody() </main>
 
     @await Html.PartialAsync("_Footer")

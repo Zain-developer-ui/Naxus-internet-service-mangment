@@ -1,0 +1,43 @@
+@model NEXUS.Models.ViewModels.ErrorPage
+@{
+    ViewData["Title"] = $"{Model.Code} — NEXUS";
+}
+
+<section class="page-hero error-hero">
+    <div class="container">
+        <p class="error-code">@Model.Code</p>
+        <h1>@Model.Title</h1>
+        <p>@Model.Message</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="card error-card">
+            <p class="muted">
+                @if (Model.Code == 404)
+                {
+                    <text>The page you asked for either moved or never existed. Check the address, or head back and pick a route from the menu.</text>
+                }
+                else if (Model.Code == 403)
+                {
+                    <text>Your account is signed in but does not hold the role this page needs. If that looks wrong, ask an administrator to review your access.</text>
+                }
+                else
+                {
+                    <text>The request could not be completed. The failure has been logged - try again in a moment, and contact support if it keeps happening.</text>
+                }
+            </p>
+
+            @if (!string.IsNullOrWhiteSpace(Model.Reference))
+            {
+                <p class="error-reference">Reference <span class="mono">@Model.Reference</span></p>
+            }
+
+            <div class="inline-actions error-actions">
+                <a href="/" class="btn btn-primary"><i class="fa-solid fa-house"></i> Back to Home</a>
+                <a href="/Home/Contact" class="btn btn-outline"><i class="fa-solid fa-headset"></i> Contact Support</a>
+            </div>
+        </div>
+    </div>
+</section>
