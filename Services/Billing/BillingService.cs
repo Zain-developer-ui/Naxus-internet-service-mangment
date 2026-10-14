@@ -362,11 +362,14 @@ public sealed class BillingService : IBillingService
             _db.Bills.Add(bill);
             await _db.SaveChangesAsync(ct);
 
-            if (bill.Lines.Any(l => l.ChargeType == ChargeTypes.AdvancePayment))
+            var advanceLine = bill.Lines
+                .FirstOrDefault(l => l.ChargeType == ChargeTypes.AdvancePayment);
+
+            if (advanceLine is not null)
             {
                 var order = await _db.ConnectionOrders
                     .FirstOrDefaultAsync(o => o.Id == connection.OrderId, ct);
-                MarkAdvanceAdjusted(order);
+                MarkAdvanceAdjusted(order, Math.Abs(advanceLine.LineAmount));
             }
 
             await StampChargesAsync(bill.Id, connection.Id, ct);
@@ -470,7 +473,7 @@ public sealed class BillingService : IBillingService
 
                 if (advanceOrder is not null)
                 {
-                    advanceOrder.AdvanceAdjustedOn = DateTime.UtcNow;
+                    MarkAdvanceAdjusted(advanceOrder.Order, advanceOrder.Applied);
                     await _db.SaveChangesAsync(ct);
                 }
 
@@ -832,38 +835,52 @@ public sealed class BillingService : IBillingService
     }
 
     /**
-     * The SRS takes an advance at connection time and expects it to come off the
-     * first bill rather than sit as an unexplained credit. The amount recorded
-     * on the order is that advance; once a bill has carried it, the order is
-     * marked settled so a later period cannot claim it a second time.
+     * The advance taken at connection time, credited against the bill. It is
+     * only ever absorbed as far as the period's own charges allow: a bill that
+     * came out negative would read as a refund the customer never asked for, and
+     * the surplus would be stranded. Whatever is left over stays on the order and
+     * comes off the next bill, which is what a credit balance is meant to do.
      */
-    private async Task<ConnectionOrder?> ApplyAdvanceAsync(Connection connection,
-                                                           List<ChargeLine> lines,
-                                                           CancellationToken ct)
+    private async Task<AdvanceApplication?> ApplyAdvanceAsync(Connection connection,
+                                                              List<ChargeLine> lines,
+                                                              CancellationToken ct)
     {
         var order = await _db.ConnectionOrders
             .FirstOrDefaultAsync(o => o.Id == connection.OrderId, ct);
 
-        if (order is null || order.QuotedAmount <= 0m || order.AdvanceAdjustedOn is not null)
+        if (order is null || order.AdvanceRemaining <= 0m)
+            return null;
+
+        var charges = Math.Max(0m, lines.Sum(l => l.LineAmount));
+        var applied = Math.Min(order.AdvanceRemaining, charges);
+
+        if (applied <= 0m)
             return null;
 
         lines.Add(BillCalculator.OneOffLine(
             "Advance paid at connection",
-            -order.QuotedAmount,
+            -applied,
             ChargeTypes.AdvancePayment));
 
-        return order;
+        return new AdvanceApplication(order, applied);
     }
 
     /**
-     * Stamps the order once the advance is on a saved bill. A preview never
-     * calls this, so opening the draft screen twice still charges the advance
-     * exactly once - only a committed bill consumes it.
+     * Consumes the applied part once the bill is saved. A preview never calls
+     * this, so opening the draft screen twice does not spend the advance twice -
+     * only a committed bill draws it down.
      */
-    private static void MarkAdvanceAdjusted(ConnectionOrder? order)
+    private static void MarkAdvanceAdjusted(ConnectionOrder? order, decimal applied)
     {
-        if (order is not null) order.AdvanceAdjustedOn = DateTime.UtcNow;
+        if (order is null || applied <= 0m) return;
+
+        order.AdvanceApplied += applied;
+
+        if (order.AdvanceRemaining <= 0m)
+            order.AdvanceAdjustedOn = DateTime.UtcNow;
     }
+
+    private sealed record AdvanceApplication(ConnectionOrder Order, decimal Applied);
 
     private Task<bool> HasBillForPeriodAsync(int connectionId, DateTime periodStart,
                                              DateTime periodEnd, CancellationToken ct) =>

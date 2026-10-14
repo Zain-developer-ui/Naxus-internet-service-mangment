@@ -1,0 +1,120 @@
+@model NEXUS.Models.ViewModels.StaffLoginListPage
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Staff Logins — NEXUS";
+}
+
+@section DashboardStyles {
+    <link rel="stylesheet" href="~/css/dashboards-luxury.css" />
+    <link rel="stylesheet" href="~/css/admin.css" />
+}
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/Admin/Dashboard">Admin</a>
+    <span class="sep">/</span>
+    <a href="@Url.Action("Index")">Outlets &amp; Staff</a>
+    <span class="sep">/</span>
+    <span class="current">Staff Logins</span>
+</nav>
+
+<div class="page-header reveal">
+    <div>
+        <h1><i class="fa-solid fa-id-badge" style="color:var(--nexus-blue);"></i> Staff Logins</h1>
+        <p class="muted">The portal accounts the back office signs in with. Every employee record is attached to one of these.</p>
+    </div>
+    <div class="page-header-actions">
+        <a href="@Url.Action("Index")" class="btn btn-outline">
+            <i class="fa-solid fa-sitemap"></i> Outlets &amp; Staff </a>
+        <a href="@Url.Action("CreateStaffLogin")" class="btn btn-primary">
+            <i class="fa-solid fa-plus"></i> New Login </a>
+    </div>
+</div>
+
+@if (TempData["Success"] is string ok)
+{
+    <div class="alert alert-success reveal" role="status">
+        <i class="fa-solid fa-circle-check"></i> @ok </div>
+}
+@if (TempData["Error"] is string bad)
+{
+    <div class="alert alert-danger reveal" role="alert">
+        <i class="fa-solid fa-circle-exclamation"></i> @bad </div>
+}
+
+<div class="chart-card reveal">
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col">Login</th>
+                    <th scope="col" class="hide-sm">Email</th>
+                    <th scope="col">Portal</th>
+                    <th scope="col" class="hide-sm">Employee</th>
+                    <th scope="col">State</th>
+                    <th scope="col"><span class="sr-only">Actions</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.IsEmpty)
+                {
+                    <tr><td colspan="6" class="table-empty">
+                        No staff logins yet. Add one before creating an employee record.
+                    </td></tr>
+                }
+                else
+                {
+                    foreach (var l in Model.Logins)
+                    {
+                        <tr>
+                            <td>
+                                <div class="cell-title">@l.FullName</div>
+                                <div class="cell-sub mono">@l.AccountId</div>
+                            </td>
+                            <td class="hide-sm">
+                                <div class="cell-sub">@l.Email</div>
+                                @if (!string.IsNullOrWhiteSpace(l.Phone))
+                                {
+                                    <div class="cell-sub">@l.Phone</div>
+                                }
+                            </td>
+                            <td>@l.RoleLabel</td>
+                            <td class="hide-sm">
+                                @if (string.IsNullOrWhiteSpace(l.EmployeeCode))
+                                {
+                                    <span class="badge badge-muted">Not linked</span>
+                                }
+                                else
+                                {
+                                    <span class="mono">@l.EmployeeCode</span>
+                                }
+                            </td>
+                            <td>
+                                <span class="badge badge-@(l.IsActive ? "success" : "muted")">
+                                    @(l.IsActive ? "Active" : "Inactive")
+                                </span>
+                            </td>
+                            <td class="actions">
+                                <a href="@Url.Action("EditStaffLogin", new { id = l.Id })" class="btn btn-ghost btn-sm">
+                                    <i class="fa-solid fa-pen"></i> Edit </a>
+
+                                <form method="post" asp-action="ToggleStaffLogin" asp-route-id="@l.Id">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="active" value="@(!l.IsActive)" />
+                                    <button type="submit" class="btn btn-ghost btn-sm">
+                                        <i class="fa-solid @(l.IsActive ? "fa-toggle-off" : "fa-toggle-on")"></i>
+                                        @(l.IsActive ? "Switch off" : "Switch on")
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <p class="form-hint" style="margin-top:14px;">
+        <i class="fa-solid fa-circle-info"></i>
+        Customer accounts are not listed here. Switching a login off ends its sessions but keeps the employee history.
+    </p>
+</div>

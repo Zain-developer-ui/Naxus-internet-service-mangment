@@ -32,21 +32,23 @@ Aur CLI ka behaviour:
 > addresses** (`localhost`, `127.x`, `::1`, `0.0.0.0`, link-local, and
 > RFC 1918 ranges)
 
-### Teen surfaces — sirf ek localhost par chalta hai
+### Teen surfaces
 
 | Surface | Kya hai | Localhost? | CI? |
 |---|---|---|---|
 | **Web Portal** | browser dashboard, PRD upload, schedules | ❌ | — |
-| **CLI** | `npm i -g @testsprite/testsprite-cli` | ❌ (reject) | ✅ |
+| **CLI** | `npm i -g @testsprite/testsprite-cli` | ✅ **`testsprite tunnel` ke saath** | ✅ |
 | **MCP Server** | IDE plugin, khud tunnel kholta hai | ✅ | ❌ |
 
-**NEXUS ke liye: MCP Server.** Kyunke app local chalti hai aur SQL Server bhi
-local hai. Tunnel sirf HTTP endpoint expose karta hai — DB wahi rehta hai.
+**NEXUS ke liye: CLI + tunnel.** App local chalti hai aur SQL Server bhi local hai.
+`testsprite tunnel` ek public URL banata hai jo TestSprite ke cloud runner tak
+pohnchta hai. Tunnel sirf HTTP endpoint expose karta hai — DB wahi rehta hai.
 
-MCP ki limitation: session-scoped. IDE khula ho tab hi chalta hai.
+CLI khud `--target-url` par localhost **reject** karta hai, magar **tunnel ka URL
+localhost nahi hota** — is liye tunnel ke baad CLI normal kaam karta hai. Ye
+MCP se behtar hai kyunke scriptable hai aur CI mein bhi chalega.
 
-**Agar scheduled/nightly tests chahiye** to app ko publicly deploy karna padega,
-phir CLI ya Portal use ho sakta hai.
+**Tunnel ko alag terminal mein chalta rehna hota hai** jab tak tests chal rahe hain.
 
 ---
 
@@ -101,16 +103,19 @@ testsprite doctor
 Ye CLI version, Node runtime, active profile, credentials, live connectivity aur
 skill installation — sab check karta hai. **Kuch bhi ajeeb lage to pehle ye chalao.**
 
-### Step 4 — MCP server add karo
+### Step 4 — Tunnel kholo (localhost ke liye)
 
-`~/.workbuddy-ai/mcp.json` mein TestSprite ka MCP server entry daalo. Yehi file
-baqi MCP servers ke liye bhi use hoti hai.
+Alag cmd window kholo (ye chalta rehna hai):
 
-Likhe hue config ko **as-is** use karo jo un ki docs mein hai — guess mat karo.
-Config likhne ke baad wo **khud activate nahi hoga**: connector management page
-ke top-right wale custom connectors entry se us par **"Trust"** click karna hoga.
+```
+testsprite tunnel
+```
+
+Ye ek public URL deta hai. **Us URL ko copy kar lo** — agli step mein wahi use hoga.
 
 ### Step 5 — App chalao
+
+Doosri cmd window mein:
 
 ```
 dotnet run --urls http://0.0.0.0:5199
@@ -119,23 +124,95 @@ dotnet run --urls http://0.0.0.0:5199
 `0.0.0.0` par bind karna zaroori hai, `localhost` par nahi — warna tunnel
 app tak nahi pohnch payega.
 
-### Step 6 — Project banao aur PRD upload karo
+### Step 6 — Project banao
 
-MCP se ya Portal se naya project banao:
-- **URL:** tunnel wala URL
-- **PRD:** `NEXUS SERVICE MARKETING SYSTEM.doc` — **ye sabse bara lever hai**,
-  un ki docs kehti hain "strongly recommended"
-- **Login:** test account ki credentials (neeche dekho)
+`--local <port>` use karo. Runs khud tunnel khol lete hain, is liye alag tunnel
+window ki zaroorat nahi:
 
-### Step 7 — Plan review karo, phir run
+```
+testsprite project create --type frontend --name "NEXUS" --local 5199 --username admin@nexus.example --password Nexus@2027
+```
 
-TestSprite ek feature map aur test plan banata hai. Usay **review karo** —
-jo test nahi chahiye wo hata do, phir `Run all`.
+**Ho gaya.** Project ID:
 
-### Step 8 — Failure bundle padho
+```
+c0ab2de3-d588-4213-ba76-6a119dae1909
+```
+
+CLI ne kya kaha:
+
+> Local project: TestSprite will reach `http://localhost:5199` only through a
+> tunnel from this machine.
+> Portal runs of this project stay blocked (free) until you set a public URL.
+
+Yani **tunnel runs chalti hain, Portal runs nahi** (Free plan). Humen tunnel hi
+chahiye, to ye theek hai.
+
+### Step 7 — Plan likho
+
+```
+testsprite test scaffold
+```
+
+Ye ek schema-correct starter plan deta hai. Usme `projectId` set karo, phir
+test cases likho. Validate offline karo (free, no network, no credits):
+
+```
+testsprite test lint --plan-from plan.json
+```
+
+### Step 8 — Test banao aur chalao
+
+```
+testsprite test create --project c0ab2de3-d588-4213-ba76-6a119dae1909 --plan-from plan.json
+```
+
+```
+testsprite test run <test-id>
+```
+
+Ya poora project ek saath (loopback environments ek hi tunnel share karte hain):
+
+```
+testsprite test run --all --project c0ab2de3-d588-4213-ba76-6a119dae1909
+```
+
+### Step 9 — Failure bundle padho
+
+```
+testsprite test artifact get <run-id>
+```
 
 Har failure ek bundle deta hai: failing step, screenshots, DOM snapshot, test
 source, root cause hypothesis, aur suggested fix. Fix karo, rerun karo.
+
+### Kaam ke commands jo help se mile
+
+| Command | Kaam |
+|---|---|
+| `test lint --plan-from x.json` | Plan offline validate — **free, no credits** |
+| `test scaffold` | Schema-correct starter plan |
+| `test plan` | AI se plan generate karo (V3) |
+| `test create-batch` | JSONL se ek saath kai FE tests |
+| `test result <id>` | Natija dekho |
+| `test result <id> --history` | Purane runs |
+| `test steps <id>` | Latest run ke steps |
+| `test diff <run-a> <run-b>` | Do runs compare — **regression pata chalta hai** |
+| `test flaky <id>` | Bar bar chala kar stability check (auto-heal OFF) |
+| `test open <id>` | Dashboard mein kholo |
+| `test cancel <run-id>` | Run rok do (Ctrl-C sirf detach karta hai) |
+| `usage` | Credits dekho |
+
+**Exit codes:** `0` pass, `1` fail/blocked, `7` timeout (resume: `test wait <run-id>`),
+`11` rate limited, `12` credits khatam.
+
+### Billing
+
+FE rerun = **0.5 credits**. Fresh FE run bhi credits leta hai. Free plan mein
+**150** hain — is liye pehle 2–3 tests par try karo, phir barhao.
+
+**Aur ek baat:** CLI kehta hai "Local environments: dev servers can take a minute
+per page through the tunnel." Yani tests **dheeme** chalenge — normal hai.
 
 ---
 

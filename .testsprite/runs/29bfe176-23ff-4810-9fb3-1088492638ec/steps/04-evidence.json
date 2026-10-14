@@ -1,0 +1,8 @@
+[
+  {
+    "kind": "snapshot",
+    "stepIndex": 4,
+    "summary": "Step 4 'Expected the page to show the signed-in customer's name, but the login page returned a server error (ERR_EMPTY_RESPONSE) so the login form did not load.' failed. Error: TEST BLOCKED\n\nThe login page could not be reached — the webserver returned no response for /Account/Login, so the login form and authentication step could not be executed.\n\nObservations:\n- Navigating to /Account/Login displayed a browser error page with text \"This page isn’t working\" and code \"ERR_EMPTY_RESPONSE\".\n- The page shows a visible 'Reload' button but did not return the login form, so signing in could not be attempted.",
+    "path": "steps/04-snapshot.html"
+  }
+]

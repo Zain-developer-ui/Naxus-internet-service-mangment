@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using NEXUS.Common.Constants;
 
 namespace NEXUS.Models.ViewModels;
 
@@ -101,7 +102,8 @@ public sealed record ProductRow(
     int LowStockThreshold,
     bool IsActive,
     int UnitsOnHand,
-    int Locations);
+    int Locations,
+    string? PreferredVendorName);
 
 public sealed class ProductEditViewModel
 {
@@ -341,6 +343,67 @@ public sealed class EmployeeEditViewModel
 
     public bool IsNew => Id == 0;
     public string PageTitle => IsNew ? "New Employee" : $"Edit {FullName}";
+}
+
+/**
+ * A staff portal login. Creating the login is a separate job from creating the
+ * employee record, because one login can exist before the person it belongs to
+ * is entered and the employee form has to pick from what is already there.
+ */
+public sealed record StaffLoginRow(
+    int Id,
+    string AccountId,
+    string FullName,
+    string Email,
+    string RoleLabel,
+    string Phone,
+    bool IsActive,
+    string? EmployeeCode);
+
+public sealed class StaffLoginListPage
+{
+    public IReadOnlyList<StaffLoginRow> Logins { get; set; } = Array.Empty<StaffLoginRow>();
+
+    public bool IsEmpty => Logins.Count == 0;
+}
+
+public sealed class StaffLoginEditViewModel
+{
+    public int Id { get; set; }
+
+    [Required, MaxLength(120)]
+    [Display(Name = "Full Name")]
+    public string FullName { get; set; } = string.Empty;
+
+    [Required, EmailAddress, MaxLength(120)]
+    [Display(Name = "Email")]
+    public string Email { get; set; } = string.Empty;
+
+    [Required]
+    [Display(Name = "Portal Role")]
+    public string Role { get; set; } = NexusRoles.Retail;
+
+    [MaxLength(20)]
+    [Display(Name = "Phone")]
+    public string Phone { get; set; } = string.Empty;
+
+    // Not [Required]: on an edit an empty pair means "keep the current
+    // password", so the length and match rules live in the service instead.
+    [DataType(DataType.Password)]
+    [Display(Name = "Password")]
+    public string Password { get; set; } = string.Empty;
+
+    [DataType(DataType.Password)]
+    [Display(Name = "Confirm Password")]
+    public string ConfirmPassword { get; set; } = string.Empty;
+
+    [Display(Name = "Active")]
+    public bool IsActive { get; set; } = true;
+
+    public IReadOnlyList<string> Roles { get; set; } = NexusRoles.Staff;
+
+    public bool IsNew => Id == 0;
+    public string PageTitle => IsNew ? "New Staff Login" : $"Edit {FullName}";
 }
 
 // ------------------------------------------------------------ purchase orders

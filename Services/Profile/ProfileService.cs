@@ -10,6 +10,10 @@ namespace NEXUS.Services.Profile;
 public interface IProfileService
 {
     Task<Result<ProfileViewModel>> GetAsync(int userId, CancellationToken ct = default);
+
+    Task<Result<ProfileEditViewModel>> GetForEditAsync(int userId, CancellationToken ct = default);
+
+    Task<Result<bool>> UpdateAsync(int userId, ProfileEditViewModel input, CancellationToken ct = default);
 }
 
 /**
@@ -74,5 +78,53 @@ public sealed class ProfileService : IProfileService
         }
 
         return Result<ProfileViewModel>.Ok(vm);
+    }
+
+    public async Task<Result<ProfileEditViewModel>> GetForEditAsync(int userId, CancellationToken ct = default)
+    {
+        var user = await _db.Users
+            .AsNoTracking()
+            .Include(u => u.Customer)
+            .FirstOrDefaultAsync(u => u.Id == userId && !u.IsDeleted, ct);
+
+        if (user is null)
+            return Result<ProfileEditViewModel>.NotFound("Your account could not be loaded.");
+
+        return Result<ProfileEditViewModel>.Ok(new ProfileEditViewModel
+        {
+            FullName = user.FullName,
+            Phone = user.Phone ?? string.Empty,
+            Address = user.Customer?.Address,
+            AccountId = user.AccountId,
+            Email = user.Email ?? string.Empty,
+            RoleLabel = NexusRoles.DisplayName(user.Role),
+            IsStaff = user.Role != NexusRoles.Customer
+        });
+    }
+
+    public async Task<Result<bool>> UpdateAsync(int userId, ProfileEditViewModel input,
+        CancellationToken ct = default)
+    {
+        var user = await _db.Users
+            .Include(u => u.Customer)
+            .FirstOrDefaultAsync(u => u.Id == userId && !u.IsDeleted, ct);
+
+        if (user is null)
+            return Result<bool>.NotFound("Your account could not be loaded.");
+
+        user.FullName = input.FullName.Trim();
+        user.Phone = input.Phone.Trim();
+
+        // Only a customer row has an address column; a staff account has nothing
+        // to write to, so the posted value is ignored rather than rejected.
+        if (user.Role == NexusRoles.Customer && user.Customer is not null)
+        {
+            user.Customer.Address = string.IsNullOrWhiteSpace(input.Address)
+                ? string.Empty
+                : input.Address.Trim();
+        }
+
+        await _db.SaveChangesAsync(ct);
+        return Result<bool>.Ok(true);
     }
 }

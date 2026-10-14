@@ -1,0 +1,20 @@
+{
+  "planSteps": [
+    {
+      "type": "action",
+      "description": "Navigate to /Account/Login and sign in as accounts@nexus.example with the password Nexus@2027"
+    },
+    {
+      "type": "action",
+      "description": "Navigate to /Accounts/Calls"
+    },
+    {
+      "type": "assertion",
+      "description": "Assert the call metering screen loads without a server error and shows its heading"
+    },
+    {
+      "type": "assertion",
+      "description": "Assert that either a list of billable landline connections is shown, or a clear empty state explains that no landline connections are available. A blank page or an error page must fail this test."
+    }
+  ]
+}

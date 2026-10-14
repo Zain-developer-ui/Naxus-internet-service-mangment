@@ -20,6 +20,12 @@ public static class NexusRoles
         Admin, Accounts, Technical, Retail, Customer
     };
 
+    /** The roles that have a back-office portal behind them. */
+    public static readonly IReadOnlyList<string> Staff = new[]
+    {
+        Admin, Accounts, Technical, Retail
+    };
+
     public static string DisplayName(string role) => role switch
     {
         Admin => "Administrator",

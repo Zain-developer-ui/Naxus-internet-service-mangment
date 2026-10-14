@@ -1,0 +1,8 @@
+[
+  {
+    "kind": "snapshot",
+    "stepIndex": 8,
+    "summary": "Step 8 'A separate 'Discount' field is not present on the invoice, so taxable = subtotal - discount cannot be verified.' failed. Error: TEST BLOCKED\n\nA required field needed for the test (a separate 'Discount' value) is not present on the invoice page, so the test cannot complete the requested assertions.\n\nObservations:\n- The invoice page shows Subtotal: ($110.00), Taxable amount: ($110.00), Service Tax (12.24%): ($13.46), and Total: ($123.46).\n- No separate 'Discount' label or Discount value is visible on the invoice totals area; only a negative line-item (Advance paid at connection) appears in the line-items table, but there is no explicit Discount field to use for the assertion \"Taxable Amount == Subtotal - Discount\".",
+    "path": "steps/08-snapshot.html"
+  }
+]

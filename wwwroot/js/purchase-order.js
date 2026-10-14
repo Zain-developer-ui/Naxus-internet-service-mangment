@@ -14,11 +14,17 @@
     var totalCell = document.getElementById('po-total');
     var currency = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
 
+    /**
+     * Renumbers the rows so the binder sees a contiguous Lines[0..n]. The
+     * template carries Lines[__i__], so the bracket contents are matched
+     * loosely: a digits-only pattern left that placeholder in place and the
+     * server then bound no lines at all, rejecting the order.
+     */
     function reindex() {
         var rows = body.querySelectorAll('.po-line');
         rows.forEach(function (row, index) {
             row.querySelectorAll('[name]').forEach(function (field) {
-                field.name = field.name.replace(/Lines\[\d+\]/, 'Lines[' + index + ']');
+                field.name = field.name.replace(/Lines\[[^\]]*\]/, 'Lines[' + index + ']');
             });
         });
     }

@@ -1,0 +1,36 @@
+{
+  "planSteps": [
+    {
+      "type": "action",
+      "description": "Navigate to /Account/Login and sign in as retail@nexus.example with the password Nexus@2026"
+    },
+    {
+      "type": "action",
+      "description": "Navigate to /Retail/NewOrder. This is a four step wizard: Service, Customer, Installation, Account. The Customer step carries the required Full Name, Mobile Number and CNIC fields"
+    },
+    {
+      "type": "action",
+      "description": "On step 1, select a connection type, a plan and a billing cycle, then click Next to reach the Customer step"
+    },
+    {
+      "type": "assertion",
+      "description": "Assert the Customer step is now shown and its Full Name field is empty"
+    },
+    {
+      "type": "action",
+      "description": "With the Customer step fields left empty, click Next"
+    },
+    {
+      "type": "assertion",
+      "description": "Assert the wizard does not advance past the Customer step. Evidence of the block is either an inline message next to the empty fields or a visible warning notice. If the Installation step appears instead, this test must fail."
+    },
+    {
+      "type": "action",
+      "description": "Navigate away to /Retail/Dashboard, then back to /Retail/NewOrder and click Next on step 1 without selecting anything"
+    },
+    {
+      "type": "assertion",
+      "description": "Assert the wizard either blocks on step 1 or advances to step 2, but in neither case creates an order"
+    }
+  ]
+}

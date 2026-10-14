@@ -38,7 +38,18 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog();
 
-builder.Services.AddControllersWithViews();
+/**
+ * A non-nullable reference type would otherwise be treated as required by the
+ * model validator. That contradicted the forms: fields the view labels
+ * "optional" were rejected when left blank, so a vendor could not be saved
+ * without a tax number and an order could not be placed without notes.
+ * Requiredness is declared with [Required] on the view models, and that is now
+ * the only thing that applies.
+ */
+builder.Services.AddControllersWithViews(options =>
+{
+    options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
+});
 
 var connectionString = builder.Configuration.GetConnectionString("NexusDb")
     ?? throw new InvalidOperationException("Connection string 'NexusDb' is not configured.");
@@ -124,7 +135,15 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
  * minute is well above a human typo rate and low enough that a script hammering
  * the form is throttled within seconds. The queue is empty on purpose: once a
  * caller is over the limit they get a 429 rather than a spot in line.
+ *
+ * Both numbers come from configuration because an automated end-to-end run
+ * (TestSprite and friends) drives many browser sessions through one address and
+ * would otherwise trip the limiter on its own traffic. The defaults stay tight;
+ * only a local override raises them.
  */
+var loginPermitLimit = builder.Configuration.GetValue("Security:LoginRateLimit:PermitLimit", 10);
+var loginWindowMinutes = builder.Configuration.GetValue("Security:LoginRateLimit:WindowMinutes", 1);
+
 builder.Services.AddRateLimiter(options =>
 {
     options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
@@ -134,8 +153,8 @@ builder.Services.AddRateLimiter(options =>
             partitionKey: http.Connection.RemoteIpAddress?.ToString() ?? "unknown",
             factory: _ => new FixedWindowRateLimiterOptions
             {
-                PermitLimit = 10,
-                Window = TimeSpan.FromMinutes(1),
+                PermitLimit = loginPermitLimit,
+                Window = TimeSpan.FromMinutes(loginWindowMinutes),
                 QueueLimit = 0,
                 AutoReplenishment = true
             }));

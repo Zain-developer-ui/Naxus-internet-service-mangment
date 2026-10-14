@@ -1,0 +1,24 @@
+{
+  "testId": "a4eec0ba-86a6-4be9-98ad-b7b8ee39f421",
+  "status": "failed",
+  "startedAt": "2026-10-13T09:33:01.030Z",
+  "finishedAt": "2026-10-13T09:38:00.417Z",
+  "videoUrl": "https://testsprite-videos.s3.us-east-1.amazonaws.com/20261013-093756-60a62c2c.webm?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZQ3DRZAIEBU7F7NP%2F20261013%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20261013T100153Z&X-Amz-Expires=604800&X-Amz-Security-Token=IQoJb3JpZ2luX2VjENL%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJHMEUCIQDM3sG5vRHavHjJ7YlWbe0O1gEiDEqnqciD0TzZV%2BcXKwIgLkQCReM9yUFKBMSeo8DHeLzdUYTZ3yHDqDH%2FPs2uBkUqhAQIm%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARAAGgw2NTQ2NTQ0MjUxMDQiDCoNyFUDMj4E%2BzczUirYA58wBeCDW0PU4cfaG5Ezs2za7IegSTKPSUza3ZdhPlGOrQwtRHh4FZkLvkhHtebCJrgofeV%2FRuX9W%2BrJU4%2BraGoyhTOKDOMkSaUX4cgjkguBk5mENqIZKhHuU%2FSknOKMwDFxT7Z9PV%2BKMBq%2FAH%2BnPoRzd4nHmk23AW91YEqJ7j9yu554bzgXixt082%2BDf%2FKueg5RJ2630UZG8feGAO%2BL7bKOlrSFIEU%2FQqVdx4NVolBaC%2FUCjgiEQuDpE%2B7UuyT0gRMpEs4A38fQWJ8re97MduUkF5Iiz8%2BGltc590UkCBYosxe9Va8s%2B7WyQEsHukQ2bAz8j%2BxolNHJXSL4ll3g%2FuBLuWkjiPQAi1yble4Refz8%2FDQA%2B%2FJ4xpJpDL8KqKX%2BM%2FV%2BGroRA%2Fmiy%2FUBzhYAwGbtUkF76Sscip1kDIKuddSdYfm29yH0g6mn3LbqLAsKwqJPsTKwsYXoZ%2FFH0mvOpUWzHJ%2Fb2Ujw0dqh%2BJgOMd6XxhmrCelqNal4WSvKi024Gqtq3V96AABOOXjpcawOT79r4j%2F2j%2BqseqIK8w0jub6vwShwFVYfsnWskskqI%2BSz3YtPES%2FtX2SIWfhgoRAX3B93z4uVs2qc5Td1hFeFMPVm%2FA%2BCDU1WvGMw9f231gY6pQHX8xG1dQyOUiiVRoMGZhJL3K5W%2FeSi5eAoW8jkPBtMVk%2B8mCrHiP5j5ePbhTjV0Pa%2FJygVKR%2FdapdVJ5k0Oh3Ca6qWkA9dZ4Qc4A4x0gK9d43RB8lebMPPm5GT8CGT0aoqM8Sl0t6GUwklxm%2BJKvC30b5iHNVAcu6LylnmVuhtoJTvDc54VrXi760KC3HfRxb8fuUlSTkuUUvrES36TaocUcW4saQ%3D&X-Amz-Signature=db551e0047f9d968d79e4e2530321747ab37516518de6496f28180311594449b&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+  "failureAnalysisUrl": null,
+  "snapshotId": "snap_c132dd77e85cc1d5",
+  "runIdIfAvailable": "bb54b2d9-fa69-4406-8405-836c9fb25a9d",
+  "codeVersion": null,
+  "targetUrl": "http://localhost:5199",
+  "targetUrlSource": null,
+  "environment": {
+    "id": "129f3d2e-f03d-4c92-8e56-12091a3c7c77",
+    "name": "default"
+  },
+  "failedStepIndex": 21,
+  "failureKind": "assertion",
+  "verdict": "failed",
+  "executionStatus": "completed",
+  "summary": "Failed (assertion) on step 21: The most likely hosting-side cause is that the final New Order submit is not completing successfully on the server, so the page remains on the Service step instead of advancing to a confirmation page. This can happen if the submit endpoint is hitting a validation error, a backend exception, a database write failure, a missing required configuration/connection string, or a redirect/navigation bug after order creation. As a result, no order id in the expected B#####…",
+  "apiOutput": null,
+  "trace": null
+}

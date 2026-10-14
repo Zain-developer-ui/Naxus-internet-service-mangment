@@ -41,7 +41,17 @@ public class ConnectionOrder : AuditableEntity
     public decimal QuotedAmount { get; set; }
 
     /**
-     * Set the first time the quoted amount is credited against a bill.
+     * How much of QuotedAmount has already been credited against bills. A bill
+     * is only ever reduced as far as zero, so when the advance is larger than
+     * the period's charges the surplus waits here and rolls into the next bill
+     * instead of turning this one into a credit note.
+     */
+    public decimal AdvanceApplied { get; set; }
+
+    public decimal AdvanceRemaining => Math.Max(0m, QuotedAmount - AdvanceApplied);
+
+    /**
+     * Set once the quoted amount has been credited in full.
      * Guards FR-100: the advance is adjusted once, not every period.
      */
     public DateTime? AdvanceAdjustedOn { get; set; }

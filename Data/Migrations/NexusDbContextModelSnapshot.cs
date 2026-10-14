@@ -446,6 +446,9 @@ namespace NEXUS.Data.Migrations
                         .HasMaxLength(120)
                         .HasColumnType("nvarchar(120)");
 
+                    b.Property<int?>("PreferredVendorId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Sku")
                         .IsRequired()
                         .HasMaxLength(30)
@@ -461,6 +464,8 @@ namespace NEXUS.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PreferredVendorId");
 
                     b.HasIndex("Sku")
                         .IsUnique()
@@ -906,6 +911,9 @@ namespace NEXUS.Data.Migrations
 
                     b.Property<DateTime?>("AdvanceAdjustedOn")
                         .HasColumnType("datetime2(0)");
+
+                    b.Property<decimal>("AdvanceApplied")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int?>("AssignedTechnicianId")
                         .HasColumnType("int");
@@ -1785,6 +1793,16 @@ namespace NEXUS.Data.Migrations
                     b.Navigation("ReceivedBy");
 
                     b.Navigation("ReceivedByShop");
+                });
+
+            modelBuilder.Entity("NEXUS.Domain.Catalog.EquipmentProduct", b =>
+                {
+                    b.HasOne("NEXUS.Domain.Procurement.Vendor", "PreferredVendor")
+                        .WithMany()
+                        .HasForeignKey("PreferredVendorId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("PreferredVendor");
                 });
 
             modelBuilder.Entity("NEXUS.Domain.Catalog.PlanPrice", b =>

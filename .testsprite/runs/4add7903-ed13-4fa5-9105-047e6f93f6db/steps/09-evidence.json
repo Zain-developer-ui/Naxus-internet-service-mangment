@@ -1,0 +1,8 @@
+[
+  {
+    "kind": "snapshot",
+    "stepIndex": 9,
+    "summary": "Step 9 'The discount line description is missing, so it cannot be verified that it names the advance and security deposit as its base.' failed. Error: TEST BLOCKED\n\nThe test could not be run — the invoice does not show a discount line or discount amount needed to verify the discount base.\n\nObservations:\n- The invoice INV-2026-00001 lists line items: Rental $315.00, Advance ($500.00), Replacement $75.00 and shows Subtotal ($110.00); no discount line or discount amount is visible.\n- A page search for the word 'discount' returned no matches and the totals area (visible in the page and screenshot) does not include a discount entry, so the asserted comparisons cannot be performed.",
+    "path": "steps/09-snapshot.html"
+  }
+]

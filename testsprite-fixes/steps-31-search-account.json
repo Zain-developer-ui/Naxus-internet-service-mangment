@@ -1,0 +1,36 @@
+{
+  "planSteps": [
+    {
+      "type": "action",
+      "description": "Navigate to /Account/Login and sign in as admin@nexus.example with the password Nexus@2027"
+    },
+    {
+      "type": "action",
+      "description": "Navigate to /Retail/Search"
+    },
+    {
+      "type": "action",
+      "description": "Search for the account id B042000000000001 and submit the search"
+    },
+    {
+      "type": "assertion",
+      "description": "Assert at least one result row is returned and that the result set contains the name Ayesha Siddiqui. If no rows are returned, this test must fail."
+    },
+    {
+      "type": "action",
+      "description": "Search instead for the account id B042000000000002"
+    },
+    {
+      "type": "assertion",
+      "description": "Assert the result set contains the name Bilal Ahmed Khan"
+    },
+    {
+      "type": "action",
+      "description": "Search for the account id Z999999999999999"
+    },
+    {
+      "type": "assertion",
+      "description": "Assert no customer rows are returned and the page shows an empty result state rather than an error"
+    }
+  ]
+}

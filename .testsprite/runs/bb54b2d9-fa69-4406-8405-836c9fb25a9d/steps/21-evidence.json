@@ -1,0 +1,8 @@
+[
+  {
+    "kind": "snapshot",
+    "stepIndex": 21,
+    "summary": "Step 21 'The browser did not leave /Retail/NewOrder after submitting the New Order form.' failed. Error: TEST FAILURE\n\nOrder creation did not succeed — no confirmation page or order id was shown after submitting the New Order wizard.\n\nObservations:\n- Current URL remains /Retail/NewOrder\n- No order id matching ^B\\d{10}$ was found on the page\n- The New Customer Order wizard (Service step) is still displayed, indicating the app did not navigate to a confirmation page",
+    "path": "steps/21-snapshot.html"
+  }
+]

@@ -9,69 +9,12 @@
     const NEXUS = window.NEXUS;
 
     /* ---------------------------------------------------------
-       Multi-step form
-       Markup: <form data-step-form> with .step-panel and
-       .step-progress containing .step elements + .step-bar-fill.
+       Multi-step forms live in new-connection.js. It owns the
+       order wizard on its own, including the plan filtering and
+       the landline and organisation rules. A second copy of the
+       step machine here drove the same form from a second set of
+       indices, so the two disagreed about which step was open.
        --------------------------------------------------------- */
-    function initStepForms() {
-        NEXUS.$$('form[data-step-form]').forEach(form => {
-            const panels = Array.from(form.querySelectorAll('.step-panel'));
-            const steps = Array.from(form.querySelectorAll('.step-progress .step'));
-            const fill = form.querySelector('.step-bar-fill');
-            if (!panels.length) return;
-
-            let index = 0;
-            const total = panels.length;
-
-            function update() {
-                panels.forEach((p, i) => p.classList.toggle('active', i === index));
-                steps.forEach((s, i) => {
-                    s.classList.toggle('active', i === index);
-                    s.classList.toggle('done', i < index);
-                });
-                if (fill) {
-                    // 5% margin on each side matches .step-progress::before
-                    const pct = total === 1 ? 0 : (index / (total - 1)) * 90;
-                    fill.style.width = pct + '%';
-                }
-                form.setAttribute('data-step', String(index + 1));
-                window.scrollTo({ top: form.offsetTop - 90, behavior: 'smooth' });
-            }
-
-            function currentPanelValid() {
-                const panel = panels[index];
-                const fields = Array.from(panel.querySelectorAll('input, select, textarea'))
-                    .filter(f => f.type !== 'button' && f.type !== 'submit');
-                let ok = true;
-                fields.forEach(f => {
-                    const v = NEXUS.validation.validateField(f);
-                    if (!v) ok = false;
-                });
-                return ok;
-            }
-
-            // Buttons
-            form.addEventListener('click', (e) => {
-                const next = e.target.closest('[data-step-next]');
-                const prev = e.target.closest('[data-step-prev]');
-
-                if (next) {
-                    e.preventDefault();
-                    if (!currentPanelValid()) {
-                        NEXUS.toast('Please complete the current step.', 'warning');
-                        return;
-                    }
-                    if (index < total - 1) { index++; update(); }
-                }
-                if (prev) {
-                    e.preventDefault();
-                    if (index > 0) { index--; update(); }
-                }
-            });
-
-            update();
-        });
-    }
 
     /* ---------------------------------------------------------
        Password visibility toggle
@@ -233,7 +176,6 @@
     }
 
     NEXUS.ready(() => {
-        initStepForms();
         initPasswordToggle();
         initFileDrop();
         initSubmitLoading();

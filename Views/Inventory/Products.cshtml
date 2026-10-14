@@ -70,6 +70,7 @@
                 <tr>
                     <th scope="col">SKU</th>
                     <th scope="col">Equipment</th>
+                    <th scope="col" class="hide-sm">Vendor</th>
                     <th scope="col" class="num hide-sm">Unit Price</th>
                     <th scope="col" class="num hide-sm">Threshold</th>
                     <th scope="col" class="num">On Hand</th>
@@ -79,7 +80,7 @@
             <tbody>
                 @if (Model.IsEmpty)
                 {
-                    <tr><td colspan="8" class="table-empty">
+                    <tr><td colspan="9" class="table-empty">
                         @(Model.ShowInactive || !string.IsNullOrWhiteSpace(Model.Search)
                             ? "No equipment matches this filter."
                             : "The equipment catalogue is empty. Add the first item.")
@@ -96,6 +97,15 @@
                                 @if (!string.IsNullOrWhiteSpace(p.Description))
                                 {
                                     <div class="cell-sub">@p.Description</div>
+                                } </td>
+                            <td class="hide-sm">
+                                @if (!string.IsNullOrWhiteSpace(p.PreferredVendorName))
+                                {
+                                    <span>@p.PreferredVendorName</span>
+                                }
+                                else
+                                {
+                                    <span class="muted">Not set</span>
                                 } </td>
                             <td class="num hide-sm">
                                 @if (p.UnitPrice is decimal price)

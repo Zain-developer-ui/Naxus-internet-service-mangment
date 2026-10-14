@@ -1,0 +1,8 @@
+[
+  {
+    "kind": "snapshot",
+    "stepIndex": 22,
+    "summary": "Step 22 'No order id matching B followed by ten digits was displayed and the New Customer Order wizard is still shown.' failed. Error: TEST FAILURE\n\nOrder creation did not succeed — no confirmation page or order id was shown after submitting the New Order wizard.\n\nObservations:\n- Current URL remains /Retail/NewOrder\n- No order id matching ^B\\d{10}$ was found on the page\n- The New Customer Order wizard (Service step) is still displayed, indicating the app did not navigate to a confirmation page",
+    "path": "steps/22-snapshot.html"
+  }
+]

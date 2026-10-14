@@ -1,0 +1,53 @@
+{
+  "projectId": "c0ab2de3-d588-4213-ba76-6a119dae1909",
+  "type": "frontend",
+  "name": "Retail user is refused the admin-only screens",
+  "description": "Signs in as a Retail account and confirms the Admin-only plan, vendor, purchase order and staff screens show the access denied page instead of real data.",
+  "priority": "p0",
+  "planSteps": [
+    {
+      "type": "action",
+      "description": "Navigate to /Account/Login"
+    },
+    {
+      "type": "action",
+      "description": "Type retail@nexus.example into the AccountIdOrEmail field and Nexus@2026 into the Password field, then submit the sign-in form"
+    },
+    {
+      "type": "assertion",
+      "description": "Assert the browser has left /Account/Login and landed on /Retail/Dashboard"
+    },
+    {
+      "type": "action",
+      "description": "Navigate directly to /Admin/Plans"
+    },
+    {
+      "type": "assertion",
+      "description": "Assert the plan list is not served. The page must show the access denied screen headed 'Access denied', and must not contain any control for adding or editing a plan."
+    },
+    {
+      "type": "action",
+      "description": "Navigate directly to /Admin/Vendors"
+    },
+    {
+      "type": "assertion",
+      "description": "Assert the vendor list is not served and the access denied screen is shown instead."
+    },
+    {
+      "type": "action",
+      "description": "Navigate directly to /Admin/PurchaseOrders"
+    },
+    {
+      "type": "assertion",
+      "description": "Assert the purchase order list is not served and the access denied screen is shown instead."
+    },
+    {
+      "type": "action",
+      "description": "Navigate directly to /Admin/Organisation"
+    },
+    {
+      "type": "assertion",
+      "description": "Assert the outlet and staff screen is not served and the access denied screen is shown instead."
+    }
+  ]
+}

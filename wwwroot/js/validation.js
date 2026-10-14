@@ -9,12 +9,8 @@
     'use strict';
     const NEXUS = window.NEXUS;
 
-    // Regular expressions
     const RE = {
-        email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-        phonePK: /^03\d{9}$/,
-        cnic: /^\d{5}-\d{7}-\d$/,
-        postal: /^\d{5}$/
+        email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     };
 
     // ---------------------------------------------------------
@@ -72,27 +68,35 @@
             if (!input.value) return null;
             return RE.email.test(input.value) ? null : 'Enter a valid email address';
         },
-        phone(input) {
-            if (!input.value) return null;
-            return RE.phonePK.test(input.value) ? null : 'Format: 03001234567';
+
+        // The server renders its own pattern and its own wording into data-val-*
+        // attributes. Enforcing those keeps the two from drifting apart, which
+        // is exactly how the mobile format used to disagree with the server.
+        regex(input) {
+            const pattern = input.getAttribute('data-val-regex-pattern');
+            if (!pattern || !input.value) return null;
+
+            let matches;
+            try {
+                matches = new RegExp(pattern).test(input.value);
+            } catch (e) {
+                return null; // a pattern we cannot parse is not ours to enforce
+            }
+            return matches ? null : (input.getAttribute('data-val-regex') || 'Invalid format');
         },
-        cnic(input) {
-            if (!input.value) return null;
-            return RE.cnic.test(input.value) ? null : 'Format: 35202-1234567-1';
+
+        length(input) {
+            const min = Number(input.getAttribute('data-val-length-min')) || 0;
+            if (!min || !input.value) return null;
+            return input.value.length >= min
+                ? null
+                : (input.getAttribute('data-val-length') || `Must be at least ${min} characters`);
         },
-        postal(input) {
-            if (!input.value) return null;
-            return RE.postal.test(input.value) ? null : 'Enter a 5-digit postal code';
-        },
+
         minlength(input) {
             const min = Number(input.getAttribute('minlength')) || 0;
             if (!input.value) return null;
             return input.value.length >= min ? null : `Must be at least ${min} characters`;
-        },
-        password(input) {
-            if (!input.value) return null;
-            if (input.value.length < 6) return 'Password must be at least 6 characters';
-            return null;
         },
         confirm(input) {
             const targetId = input.getAttribute('data-confirm-target');
@@ -119,11 +123,9 @@
         if (input.hasAttribute('required') || input.hasAttribute('data-required')) checks.push('required');
 
         if (type === 'email' || name.includes('email')) checks.push('email');
-        if (name.includes('phone') || name.includes('mobile') || name.includes('contact')) checks.push('phone');
-        if (name.includes('cnic')) checks.push('cnic');
-        if (name.includes('postal') || name.includes('zip')) checks.push('postal');
+        if (input.hasAttribute('data-val-regex-pattern')) checks.push('regex');
+        if (input.hasAttribute('data-val-length-min')) checks.push('length');
         if (input.hasAttribute('minlength')) checks.push('minlength');
-        if (type === 'password' && name !== 'confirmpassword') checks.push('password');
         if (input.hasAttribute('data-confirm-target')) checks.push('confirm');
 
         // Explicit override: space-separated list in data-validate

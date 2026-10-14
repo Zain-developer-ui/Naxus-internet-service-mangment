@@ -41,7 +41,7 @@ namespace NEXUS.Models.ViewModels
         [MaxLength(250)]
         public string Address { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Select a city")]
+        [Range(1, int.MaxValue, ErrorMessage = "Select a city")]
         [Display(Name = "City")]
         public int CityId { get; set; }
 
@@ -50,7 +50,10 @@ namespace NEXUS.Models.ViewModels
         [Display(Name = "Connection type")]
         public ConnectionType ConnectionType { get; set; } = ConnectionType.Broadband;
 
-        [Required(ErrorMessage = "Select a plan")]
+        // Range, not Required: a Required attribute never fails on an int, so
+        // "Select a plan" could not fire and a blank selection reached the
+        // service instead of being caught here.
+        [Range(1, int.MaxValue, ErrorMessage = "Select a plan")]
         [Display(Name = "Plan")]
         public int PlanId { get; set; }
 

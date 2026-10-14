@@ -1136,3 +1136,57 @@ await Promise.all([
 Aur `playwright-cli` ka browser `user-data-dir: <in-memory>` hai — **cookies
 invocations ke darmiyan nahi rehti.** Login aur audit **ek hi `run-code` call**
 mein karo, warna agla call naya browser kholega aur session gayab.
+
+---
+
+## 14 Oct 2026 — Staff logins UI + advance carry-forward
+
+### Staff login management (TC-026 gap)
+
+| Kya | Kahan |
+|---|---|
+| List + toggle | `Views/Organisation/StaffLogins.cshtml` |
+| Create / edit form | `Views/Organisation/StaffLoginEdit.cshtml` |
+| Controller | `OrganisationController` — 5 naye actions |
+| Service | `OrganisationService` — 5 naye methods |
+| Roles list | `NexusRoles.Staff` |
+| Sidebar | "Staff Logins" link (`/Admin/Organisation/Logins`) |
+
+**Kyun zaroori tha:** employee form ka "Staff Login" dropdown sirf **unlinked**
+logins dikhata hai. Chaaron seed logins pehle se linked the, to dropdown khaali
+tha aur naya employee add karna namumkin tha. Ab pehle login banao, phir employee.
+
+**Account id:** role letter + 13 digits (`A`/`F`/`T`/`R`), table se max+1.
+
+**Verified:** `T0000000000002` bana → sign-in → `/Technical/Dashboard` → employee
+dropdown mein aa gaya.
+
+### Advance carry-forward (negative bill fix)
+
+| Kya | Kahan |
+|---|---|
+| `AdvanceApplied` + `AdvanceRemaining` | `Domain/Orders/ConnectionOrder.cs` |
+| Capping | `BillingService.ApplyAdvanceAsync` / `MarkAdvanceAdjusted` |
+| Migrations | `20261014101417_AdvanceApplied`, `20261014101913_AdvanceAppliedBackfill` |
+
+**Faisla:** advance sirf period ke kharchay tak lagta hai; baqi order par bacha
+rehta hai. Bill **kabhi negative nahi**. Backfill zaroori tha — purane rows jinka
+`AdvanceAdjustedOn` set tha unka `AdvanceApplied = QuotedAmount`.
+
+**Verified (asli flow):** Technical RecordCheck → Confirm → StartInstallation →
+CompleteInstallation → `CON-B-000002` → ChangeStatus `Active` → Accounts RunBilling.
+
+```
+INV-2026-00002   Rental 175.00 · Advance -175.00   →   Total 0.00
+Order 28         QuotedAmount 500 · AdvanceApplied 175 · Remaining 325
+```
+
+### ⚠️ Jo ab bhi baqi hai
+
+- `INV-2026-00001` (-123.46) DB mein hai — purani logic ka nishan. Delete karna
+  hai to register mein command mojood hai.
+- TC-035 (stock adjust) — koi stock movement nahi, decrement ke liye kuch mojood nahi.
+- TC-049 (mobile sidebar) — TestSprite harness viewport resize nahi kar pata.
+- TC-032 (survey queue) — ab pending order mojood hai (`B0000000004`), dobara
+  chalane par pass hona chahiye.
+- Aptech deliverables 6.1–6.7 — jaan-boojh kar alag rakhe hue.

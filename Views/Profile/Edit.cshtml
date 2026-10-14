@@ -1,0 +1,108 @@
+@model NEXUS.Models.ViewModels.ProfileEditViewModel
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Edit Profile — NEXUS";
+}
+
+@section DashboardStyles {
+    <link rel="stylesheet" href="~/css/dashboards-luxury.css" />
+    <link rel="stylesheet" href="~/css/admin.css" />
+}
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/Profile">Profile</a>
+    <span class="sep">/</span>
+    <span class="current">Edit</span>
+</nav>
+
+<div class="page-header reveal">
+    <div>
+        <h1><i class="fa-solid fa-pen" style="color:var(--nexus-blue);"></i> Edit Profile</h1>
+        <p class="muted">
+            Your name and contact number are used on bills and on the account record.
+            Your email and account ID identify the account and cannot be changed here.
+        </p>
+    </div>
+    <div class="page-header-actions">
+        <a href="/Profile" class="btn btn-ghost">
+            <i class="fa-solid fa-arrow-left"></i> Back to profile </a>
+    </div>
+</div>
+
+<form method="post" asp-action="Edit" novalidate>
+    @Html.AntiForgeryToken()
+
+    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+    <div class="edit-layout">
+        <div class="edit-main">
+            <div class="chart-card reveal">
+                <div class="chart-head">
+                    <div>
+                        <h4><i class="fa-solid fa-id-card"></i> Contact Details</h4>
+                        <p class="chart-sub">How we reach you about this account.</p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="FullName">Full Name <span class="req">*</span></label>
+                    <input asp-for="FullName" autocomplete="name" />
+                    <span asp-validation-for="FullName" class="field-error"></span>
+                </div>
+
+                <div class="form-group" style="max-width:320px;">
+                    <label asp-for="Phone">Contact Number <span class="req">*</span></label>
+                    <input asp-for="Phone" autocomplete="tel" placeholder="03001234567" />
+                    <span asp-validation-for="Phone" class="field-error"></span>
+                </div>
+
+                @if (!Model.IsStaff)
+                {
+                    <div class="form-group">
+                        <label asp-for="Address">Installation Address <span class="opt">optional</span></label>
+                        <input asp-for="Address" autocomplete="street-address" />
+                        <span asp-validation-for="Address" class="field-error"></span>
+                        <span class="form-hint">Where the line is installed. Used when a technician is dispatched.</span>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <aside class="edit-side">
+            <div class="chart-card">
+                <div class="chart-head">
+                    <h4><i class="fa-solid fa-lock"></i> Fixed Details</h4>
+                </div>
+
+                <div class="form-group">
+                    <label>Account ID</label>
+                    <div><span class="count-pill mono">@Model.AccountId</span></div>
+                    <span class="form-hint">Printed on every bill. Contact support if it needs correcting.</span>
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <div class="muted">@Model.Email</div>
+                    <span class="form-hint">Used to sign in. Change it from Change Password, not here.</span>
+                </div>
+
+                <div class="form-group">
+                    <label>Role</label>
+                    <div><span class="count-pill">@Model.RoleLabel</span></div>
+                </div>
+            </div>
+
+            <div class="chart-card" style="margin-top:18px;">
+                <div class="chart-head">
+                    <h4><i class="fa-solid fa-floppy-disk"></i> Save</h4>
+                </div>
+                <div class="side-actions">
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <i class="fa-solid fa-circle-check"></i> Save Changes
+                    </button>
+                    <a href="/Profile" class="btn btn-ghost btn-block">Cancel</a>
+                </div>
+            </div>
+        </aside>
+    </div>
+</form>

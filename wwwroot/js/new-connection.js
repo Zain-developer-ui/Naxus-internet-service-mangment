@@ -52,6 +52,11 @@
 
             var isLastStep = (index === total - 1);
 
+            // orders.css drives the Next and Submit buttons from this attribute
+            // with !important, which beats the hidden property below. Without it
+            // the submit button can never appear.
+            form.setAttribute('data-step', String(index + 1));
+
             if (nextBtn) {
                 nextBtn.hidden = isLastStep;
             }
@@ -67,6 +72,31 @@
                 if (firstInput) firstInput.focus({ preventScroll: true });
                 panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
+        }
+
+        /* A rejected post re-renders the form from step one, so a message raised
+           against a field on a later step lands in a panel nobody is looking at -
+           the user sees the wizard unchanged and no reason for it. Open the
+           earliest step that carries a server message instead. */
+        function revealFirstError() {
+            var firstBad = -1;
+
+            panels.forEach(function (panel, i) {
+                if (firstBad !== -1) return;
+
+                var marked = panel.querySelector('.input-validation-error');
+                var message = Array.prototype.some.call(
+                    panel.querySelectorAll('.field-error'),
+                    function (span) { return span.textContent.trim().length > 0; });
+
+                if (marked || message) firstBad = i;
+            });
+
+            if (firstBad <= 0) return false;
+
+            index = firstBad;
+            update();
+            return true;
         }
 
         /* The steps are gated on the fields inside them, using the same
@@ -334,7 +364,7 @@
         syncCycle();
         syncStrength();
         syncSubmit();
-        update();
+        if (!revealFirstError()) update();
     });
 
 })();

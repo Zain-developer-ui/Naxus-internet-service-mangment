@@ -53,7 +53,9 @@ public class ConnectionOrderConfiguration : IEntityTypeConfiguration<ConnectionO
         b.HasIndex(o => new { o.CustomerId, o.Status }).HasDatabaseName("IX_ConnectionOrders_Customer_Status");
 
         b.Property(o => o.QuotedAmount).HasColumnType("decimal(18,2)");
+        b.Property(o => o.AdvanceApplied).HasColumnType("decimal(18,2)");
         b.Property(o => o.AdvanceAdjustedOn).HasColumnType("datetime2(0)");
+        b.Ignore(o => o.AdvanceRemaining);
         b.Property(o => o.ConnectionType).HasConversion<string>().HasMaxLength(20);        b.Property(o => o.BillingCycle).HasConversion<string>().HasMaxLength(20);
         b.Property(o => o.Status).HasConversion<string>().HasMaxLength(30);
 

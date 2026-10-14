@@ -209,7 +209,8 @@ public sealed class InventoryService : IInventoryService
                 p.LowStockThreshold,
                 p.IsActive,
                 p.Stock.Sum(s => (int?)s.Quantity) ?? 0,
-                p.Stock.Count))
+                p.Stock.Count,
+                p.PreferredVendor != null ? p.PreferredVendor.Name : null))
             .ToListAsync(ct);
 
         return Result<ProductListPage>.Ok(new ProductListPage

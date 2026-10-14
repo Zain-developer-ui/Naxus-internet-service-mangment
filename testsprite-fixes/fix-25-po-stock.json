@@ -1,0 +1,53 @@
+{
+  "projectId": "c0ab2de3-d588-4213-ba76-6a119dae1909",
+  "type": "frontend",
+  "name": "Purchase order receiving increases stock",
+  "description": "Raises a purchase order for five units, receives it, and confirms the product quantity in inventory rose by five.",
+  "priority": "p1",
+  "planSteps": [
+    {
+      "type": "action",
+      "description": "Navigate to /Account/Login and sign in as admin@nexus.example with the password Nexus@2027"
+    },
+    {
+      "type": "action",
+      "description": "Navigate to /Admin/Inventory and read the stock quantity shown for the first product in the list. Remember this number."
+    },
+    {
+      "type": "action",
+      "description": "Navigate to /Admin/PurchaseOrders and click the control to raise a new purchase order"
+    },
+    {
+      "type": "action",
+      "description": "Choose the first vendor in the vendor dropdown"
+    },
+    {
+      "type": "action",
+      "description": "Add one order line: pick the same product whose quantity was noted, and set the quantity to 5"
+    },
+    {
+      "type": "action",
+      "description": "Submit the form to create the purchase order"
+    },
+    {
+      "type": "assertion",
+      "description": "Assert the purchase order was created and a purchase order number is shown. If the form is still displayed with validation errors, this test must fail."
+    },
+    {
+      "type": "action",
+      "description": "Open the newly created purchase order and click the control to mark it as received"
+    },
+    {
+      "type": "assertion",
+      "description": "Assert the purchase order status now reads as received"
+    },
+    {
+      "type": "action",
+      "description": "Navigate back to /Admin/Inventory"
+    },
+    {
+      "type": "assertion",
+      "description": "Assert the stock quantity for that product is now exactly five more than the number noted at the start. If it is unchanged, this test must fail."
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "planSteps": [
+    {
+      "type": "action",
+      "description": "Navigate to /Orders/New as a visitor who is not signed in. This is a four step wizard: Service, Customer, Installation, Account"
+    },
+    {
+      "type": "action",
+      "description": "On step 1 choose the Broadband connection type. Then choose a plan from the Broadband group: the server rejects a plan whose type does not match the chosen connection type. Then choose the Monthly billing cycle. Click Next"
+    },
+    {
+      "type": "action",
+      "description": "On step 2 fill Full Name with E2E New Visitor. Fill Mobile Number exactly as 0300-1112223 including the dash: the field only accepts the format 0XXX-XXXXXXX. Fill CNIC as 42101-1112223-1. CNIC and mobile must both be values no other customer already holds. Click Next"
+    },
+    {
+      "type": "action",
+      "description": "On step 3 fill Installation Address with 9 Newcomer Road Lahore. In the City dropdown do NOT pick the first entry, which is the placeholder 'Select the city' with value 0: choose the first real city below it. Leave the Existing Landline field alone, it is hidden for Broadband. Click Next"
+    },
+    {
+      "type": "action",
+      "description": "On step 4 fill Password and Confirm Password both with Visitor@1234 and tick the terms checkbox"
+    },
+    {
+      "type": "action",
+      "description": "Click the Create Order button, which is the submit button that becomes visible on step 4"
+    },
+    {
+      "type": "assertion",
+      "description": "Assert registration succeeded, the wizard is no longer displayed, and an order id matching B followed by ten digits together with a sixteen character account id is shown. If the wizard is still displayed, this test must fail."
+    }
+  ]
+}

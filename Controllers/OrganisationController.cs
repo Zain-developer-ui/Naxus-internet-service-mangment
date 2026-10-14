@@ -204,6 +204,94 @@ namespace NEXUS.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // ------------------------------------------------------------ staff logins
+
+        [HttpGet("Logins")]
+        public async Task<IActionResult> StaffLogins(CancellationToken ct)
+        {
+            ViewData.SetActiveItem("staff-logins");
+
+            var result = await _org.StaffLoginsAsync(ct);
+            if (!result.IsSuccess) return NotFound();
+
+            return View("StaffLogins", result.Value);
+        }
+
+        [HttpGet("Logins/New")]
+        public async Task<IActionResult> CreateStaffLogin(CancellationToken ct)
+        {
+            ViewData.SetActiveItem("staff-logins");
+
+            var result = await _org.NewStaffLoginAsync(ct);
+            if (!result.IsSuccess) return NotFound();
+
+            return View("StaffLoginEdit", result.Value);
+        }
+
+        [HttpPost("Logins/New")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateStaffLogin(StaffLoginEditViewModel model,
+                                                          CancellationToken ct)
+        {
+            ViewData.SetActiveItem("staff-logins");
+            if (!ModelState.IsValid) return View("StaffLoginEdit", model);
+
+            var result = await _org.SaveStaffLoginAsync(model, ct);
+            if (!result.IsSuccess)
+            {
+                ApplyErrors(result);
+                return View("StaffLoginEdit", model);
+            }
+
+            TempData["Success"] =
+                $"'{model.FullName}' can now sign in to the {NexusRoles.DisplayName(model.Role)} portal.";
+
+            return RedirectToAction(nameof(StaffLogins));
+        }
+
+        [HttpGet("Logins/{id:int}/Edit")]
+        public async Task<IActionResult> EditStaffLogin(int id, CancellationToken ct)
+        {
+            ViewData.SetActiveItem("staff-logins");
+
+            var result = await _org.GetStaffLoginAsync(id, ct);
+            if (!result.IsSuccess) return NotFound();
+
+            return View("StaffLoginEdit", result.Value);
+        }
+
+        [HttpPost("Logins/{id:int}/Edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditStaffLogin(StaffLoginEditViewModel model,
+                                                        CancellationToken ct)
+        {
+            ViewData.SetActiveItem("staff-logins");
+            if (!ModelState.IsValid) return View("StaffLoginEdit", model);
+
+            var result = await _org.SaveStaffLoginAsync(model, ct);
+            if (!result.IsSuccess)
+            {
+                ApplyErrors(result);
+                return View("StaffLoginEdit", model);
+            }
+
+            TempData["Success"] = $"'{model.FullName}' saved.";
+            return RedirectToAction(nameof(StaffLogins));
+        }
+
+        [HttpPost("Logins/{id:int}/ToggleActive")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ToggleStaffLogin(int id, bool active, CancellationToken ct)
+        {
+            var result = await _org.SetStaffLoginActiveAsync(id, active, ct);
+
+            TempData[result.IsSuccess ? "Success" : "Error"] = result.IsSuccess
+                ? (active ? "Login is active." : "Login marked inactive.")
+                : result.Message;
+
+            return RedirectToAction(nameof(StaffLogins));
+        }
+
         private async Task<ShopEditViewModel> RefillAsync(ShopEditViewModel model, CancellationToken ct)
         {
             model.Cities = await _org.CityOptionsAsync(ct);

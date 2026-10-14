@@ -84,6 +84,61 @@ Planning docs (root): `PLAN-4-DAYS.md`, `TASK-LEDGER.md`, `TESTING-GUIDE.md`,
   `site.js` → `initDecorativeIcons()`. 841 `<i>` tags hain, haath se mat likho.
 - **`aria-current="page"` sidebar par JS se lagta hai** — `navigation.js` → `initAriaCurrent()`.
   Server-side sirf `class="active"` aata hai.
+- **`validation.js` server ke `data-val-*` attributes parh kar chalti hai**, apne
+  hardcoded regex se nahi. `regex` rule `data-val-regex-pattern` + `data-val-regex`
+  use karta hai; `length` rule `data-val-length-min` + `data-val-length`.
+  **Naya hardcoded rule mat add karo** — warna client aur server drift kar jate hain
+  (13 Oct ko phone `^03\d{9}$` vs server `^0\d{3}-\d{7}$` — poora order wizard dead tha).
+- **Dash-required fields par `inputmode="numeric"` mat lagao** — mobile par dash key
+  hi nahi hoti. Phone/CNIC/Landline se hata diya.
+- **Razor runtime compilation OFF hai** — `.cshtml` badalne par `dotnet build` lazmi.
+  Sirf `wwwroot/` (JS/CSS) badalne par rebuild ki zaroorat nahi.
+
+## Testing — TestSprite (is machine par setup hai)
+
+- `testsprite test steps <test-id>` **passed runs ke liye bhi** chalta hai. **Sirf
+  status par bharosa mat karo** — 13 Oct ko signup test "passed" tha magar wizard
+  phone field par phansa raha tha aur DB mein kuch bana hi nahi. Steps parh kar pakda.
+- **Pass hone ka asli saboot DB hai.** Har "passed" test ke baad relevant table ka
+  count baseline se compare karo.
+- `test artifact get <run-id>` **sirf failed/blocked** runs ke liye hai; passed run par
+  "Resource not found" deta hai.
+- **Har run se pehle `testsprite-cleanup.sql` chalao** — tests fixed naam use karte hain,
+  aur duplicate guard unhe reject kar deta hai.
+
+## Billing rules (14 Oct ko tay hue)
+
+- **Advance cap hota hai, poora nahi lagta.** `applied = min(AdvanceRemaining,
+  max(0, charges))`. Bill **kabhi negative nahi** banta; baqi advance order par
+  `AdvanceRemaining` mein bacha rehta hai aur agli bill par lagta hai.
+  `ConnectionOrder.AdvanceApplied` / `AdvanceRemaining` dekho.
+- **Purana `AdvanceAdjustedOn` akela kaafi nahi** — nayi logic `AdvanceRemaining`
+  dekhti hai. Jo rows purani logic se consume ho chuki thin unka
+  `AdvanceApplied = QuotedAmount` backfill karna lazmi tha (migration
+  `AdvanceAppliedBackfill`).
+- **Discount base sirf advance + security deposit** (FR-99), poora subtotal nahi.
+- **Discount row invoice par sirf tab dikhta hai jab `DiscountAmount > 0`** —
+  single-connection customer par 0 hota hai, is liye row nahi aata. Ye sahi hai.
+- **Tier `customer.LiveConnectionCount` se aata hai**, aur pehla slab **10** se
+  shuru hota hai — UI se 10+ connections banana practical nahi.
+
+## Staff accounts
+
+- **Account id = role letter + 13 digits.** `A`=Admin, `F`=Accounts,
+  `T`=Technical, `R`=Retail (customers `B` + 15 digits, 16 chars).
+  `OrganisationService.NextStaffAccountIdAsync` table se max+1 leta hai.
+- **Staff logins `/Admin/Organisation/Logins` se bante hain** (14 Oct ko add hua).
+  Employee form ka dropdown sirf **unlinked** logins dikhata hai — pehle chaaron
+  linked the, is liye dropdown khaali tha (TC-026).
+
+## Connection banane ka flow (test/demo ke liye)
+
+`AwaitingFeasibility` order se: `POST /Operations/RecordCheck` (DistanceFromExchangeKm,
+ExchangeHasCapacity, LandlineVerified, Remarks) → `Confirm` (ScheduledFor) →
+`StartInstallation` → `CompleteInstallation`. **Connection `Pending` banta hai** —
+`POST /Operations/ChangeStatus` se `Active` karo, warna billing run usay skip kar deti
+hai (`BillingService` line ~402 sirf `ConnectionStatus.Active` uthata hai).
+Feasibility: 5 km se zyada door → fail.
 
 ## Gotchas — playwright-cli (is machine par setup hai)
 
@@ -117,18 +172,45 @@ Plugin cache folder mein: `.../playwright-cli/0.1.0/playwright-cli.js`.
   `ConnectionOrders` mein `FeasibilityStatus`/`TotalAmount` columns **nahi**;
   `FeasibilityChecks` mein column `Result` hai (`FeasibilityResult` nahi).
 - **Baseline counts:** Users 6, Plans 10, Customers 2, Orders 2, Connections 1.
-- **⚠️ `Connection Timeout Expired ... [Post-Login] complete=13079` = transient network
-  timeout, GHALAT PASSWORD NAHI.** 12 Oct ko yehi hua. Pehle SQL Server check karo
-  (`SELECT COUNT(*) FROM Users`), phir `sys.dm_exec_sessions` se dekho ke connection
-  leak hai ya nahi. **Password mat badlo, baar baar login try mat karo** — account lock
-  ho jayega. Seedha HTTP client (Python) se test karo, wo saaf jawab deta hai.
-- **Seed passwords:** sab staff accounts (`admin@nexus.example`,
-  `retail@nexus.example`, `technical@nexus.example`, `accounts@nexus.example`) ka
-  password **`Nexus@2027`** hai. Seeder mein `Nexus@2026` likha hai — wo **purani**
-  value hai, DB mein nahi chalti.
+- **⚠️ `Connection Timeout Expired ... [Post-Login] complete=NNNNN` = transient network
+  timeout, GHALAT PASSWORD NAHI.** 12 Oct (`13079`) aur 13 Oct (`21744`) dono dafa yehi
+  hua. Pehle SQL Server check karo (`SELECT COUNT(*) FROM Users`), phir
+  `sys.dm_exec_sessions` se dekho ke connection leak hai ya nahi (app ka
+  `program_name` `.NET SqlClient` hai; **0 rows = leak nahi**). **Password mat badlo,
+  baar baar login try mat karo** — account lock ho jayega. Seedha HTTP client (Python)
+  se test karo, wo saaf jawab deta hai.
+- **`Connect Timeout` connection string mein set karo.** Default **15s** hai — SQL Server
+  kabhi kabhi post-login mein 20s+ leta hai aur 500 de deta hai. `appsettings.json`:
+  `...;Connect Timeout=60;Min Pool Size=5`. `Min Pool Size` is liye ke app ke pooled
+  connections idle par 0 ho jate hain, phir har burst ka pehla request **naya login**
+  karta hai — wahi slow hota hai.
+- **`EnableRetryOnFailure` query *iterate* karte waqt aane wale error ko retry NAHI karta.**
+  Is liye connection timeout phir bhi 500 deta hai.
+- **Seed passwords — HAR ACCOUNT KA ALAG HAI. Ye 12 Oct ko offline verify kiya gaya:**
+  | Account | Password |
+  |---|---|
+  | `admin@nexus.example` | `Nexus@2027` |
+  | `retail@nexus.example` | **`Nexus@2026`** |
+  | `technical@nexus.example` | **`Nexus@2026`** |
+  | `accounts@nexus.example` | `Nexus@2027` |
+  | `ayesha.siddiqui@example.com` | `Nexus@2026` (12 Oct ko reset) |
+  | `bilal.khan@example.com` | `Nexus@2026` (12 Oct ko reset) |
+
+  Seeder (`Data/Seed/NexusSeeder.cs:201,258`) `Nexus@2026` likhta hai, aur
+  line 275 par **existing users ko skip** karta hai — password reset nahi karta.
+  Is liye jinka password baad mein badla gaya (admin, accounts) un par naya
+  chalta hai, baqi par seeder wala. **"Sab ka ek hi password hai" mat maano.**
+  **Customer accounts seeder banata hi nahi** — wo registration (`/Orders/New`)
+  se bante hain, is liye unka password kisi ko pata nahi hota. 12 Oct ko dono
+  ko `Nexus@2026` par reset kiya gaya (purane hashes `2026-10-12.md` mein hain).
   Lockout unlock: `UPDATE Users SET AccessFailedCount=0, LockoutEnd=NULL WHERE Email='...'`.
-- **Password hashing:** .NET 8 `PasswordHasher` **210,000** iterations.
-  Hash ka doosra byte-group: `AQAAAAEAAYag` = 100k, `AQAAAAIAAYag` = 210k.
+- **Password hash offline verify karne ka tareeqa (lockout se bachne ke liye).**
+  Hash `PasswordHash` column mein base64 hai, format:
+  `0x01 | prf(4 BE) | iterations(4 BE) | saltLen(4 BE) | salt | subkey`.
+  prf: `0`=SHA1, `1`=SHA256, `2`=SHA512. Phir `pbkdf2_hmac(algo, pw, salt, iters, len(subkey))`
+  aur `compare_digest`. **Login try karne se behtar hai** — account lock nahi hota.
+  App ka `PasswordHasher` **SHA512 / 100,000** likhta hai (prf=2). Nayi hash banane
+  ke liye bhi yahi parameters use karo, phir **read-back kar ke dobara verify karo**.
 
 ## Security
 

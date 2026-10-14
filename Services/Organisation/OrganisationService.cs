@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using NEXUS.Common;
+using NEXUS.Common.Abstractions;
 using NEXUS.Common.Constants;
 using NEXUS.Data;
 using NEXUS.Domain.Organisation;
@@ -26,14 +27,25 @@ public interface IOrganisationService
     Task<Result<int>> SaveEmployeeAsync(EmployeeEditViewModel model, CancellationToken ct = default);
     Task<Result<bool>> SetEmployeeActiveAsync(int id, bool active, CancellationToken ct = default);
 
+    Task<Result<StaffLoginListPage>> StaffLoginsAsync(CancellationToken ct = default);
+    Task<Result<StaffLoginEditViewModel>> GetStaffLoginAsync(int id, CancellationToken ct = default);
+    Task<Result<StaffLoginEditViewModel>> NewStaffLoginAsync(CancellationToken ct = default);
+    Task<Result<int>> SaveStaffLoginAsync(StaffLoginEditViewModel model, CancellationToken ct = default);
+    Task<Result<bool>> SetStaffLoginActiveAsync(int id, bool active, CancellationToken ct = default);
+
     Task<IReadOnlyList<CityOption>> CityOptionsAsync(CancellationToken ct = default);
 }
 
 public sealed class OrganisationService : IOrganisationService
 {
     private readonly NexusDbContext _db;
+    private readonly IPasswordService _passwords;
 
-    public OrganisationService(NexusDbContext db) => _db = db;
+    public OrganisationService(NexusDbContext db, IPasswordService passwords)
+    {
+        _db = db;
+        _passwords = passwords;
+    }
 
     public async Task<Result<OrgListPage>> ListAsync(CancellationToken ct = default)
     {
@@ -294,6 +306,178 @@ public sealed class OrganisationService : IOrganisationService
             e.Id, e.EmployeeCode, e.FullName, e.Designation, e.Phone, e.Email ?? string.Empty,
             e.Shop?.Name, e.User.Role, e.JoinedOn.ToString("dd MMM yyyy"), e.IsActive,
             e.ShopId, e.UserId, e.JoinedOn));
+    }
+
+    // ------------------------------------------------------------ staff logins
+
+    public async Task<Result<StaffLoginListPage>> StaffLoginsAsync(CancellationToken ct = default)
+    {
+        var logins = await _db.Users
+            .AsNoTracking()
+            .Where(u => !u.IsDeleted && u.Role != NexusRoles.Customer)
+            .OrderBy(u => u.Role)
+            .ThenBy(u => u.FullName)
+            .Select(u => new
+            {
+                u.Id,
+                u.AccountId,
+                u.FullName,
+                u.Email,
+                u.Role,
+                u.Phone,
+                u.IsActive,
+                EmployeeCode = u.Employee != null ? u.Employee.EmployeeCode : null
+            })
+            .ToListAsync(ct);
+
+        var rows = logins
+            .Select(u => new StaffLoginRow(
+                u.Id,
+                u.AccountId,
+                u.FullName,
+                u.Email ?? string.Empty,
+                NexusRoles.DisplayName(u.Role),
+                u.Phone ?? string.Empty,
+                u.IsActive,
+                u.EmployeeCode))
+            .ToList();
+
+        return Result<StaffLoginListPage>.Ok(new StaffLoginListPage { Logins = rows });
+    }
+
+    public async Task<Result<StaffLoginEditViewModel>> GetStaffLoginAsync(int id,
+                                                                          CancellationToken ct = default)
+    {
+        var user = await _db.Users
+            .AsNoTracking()
+            .FirstOrDefaultAsync(u => u.Id == id && !u.IsDeleted && u.Role != NexusRoles.Customer, ct);
+
+        if (user is null) return Result<StaffLoginEditViewModel>.NotFound("Staff login");
+
+        return Result<StaffLoginEditViewModel>.Ok(new StaffLoginEditViewModel
+        {
+            Id = user.Id,
+            FullName = user.FullName,
+            Email = user.Email ?? string.Empty,
+            Role = user.Role,
+            Phone = user.Phone ?? string.Empty,
+            IsActive = user.IsActive
+        });
+    }
+
+    public Task<Result<StaffLoginEditViewModel>> NewStaffLoginAsync(CancellationToken ct = default) =>
+        Task.FromResult(Result<StaffLoginEditViewModel>.Ok(new StaffLoginEditViewModel()));
+
+    public async Task<Result<int>> SaveStaffLoginAsync(StaffLoginEditViewModel model,
+                                                       CancellationToken ct = default)
+    {
+        var email = model.Email.Trim();
+        var role = model.Role;
+
+        if (!NexusRoles.Staff.Contains(role))
+            return Result<int>.Fail(nameof(model.Role), "Pick one of the back-office roles.");
+
+        if (await _db.Users.AnyAsync(u => !u.IsDeleted && u.Email == email && u.Id != model.Id, ct))
+            return Result<int>.Fail(nameof(model.Email), $"{email} already has a login.");
+
+        var wantsPassword = model.Id == 0 || !string.IsNullOrWhiteSpace(model.Password);
+
+        if (wantsPassword)
+        {
+            if (model.Password.Length < 8)
+                return Result<int>.Fail(nameof(model.Password), "Password must be at least 8 characters.");
+
+            if (model.Password != model.ConfirmPassword)
+                return Result<int>.Fail(nameof(model.ConfirmPassword), "Passwords do not match.");
+        }
+
+        var phone = string.IsNullOrWhiteSpace(model.Phone) ? null : model.Phone.Trim();
+
+        if (model.Id == 0)
+        {
+            var created = new AppUser
+            {
+                AccountId = await NextStaffAccountIdAsync(role, ct),
+                Email = email,
+                FullName = model.FullName.Trim(),
+                Role = role,
+                Phone = phone,
+                PasswordHash = _passwords.Hash(model.Password),
+                IsActive = model.IsActive,
+                MustChangePassword = false
+            };
+
+            _db.Users.Add(created);
+            await _db.SaveChangesAsync(ct);
+            return Result<int>.Ok(created.Id);
+        }
+
+        var user = await _db.Users.FirstOrDefaultAsync(u => u.Id == model.Id && !u.IsDeleted, ct);
+        if (user is null) return Result<int>.NotFound("Staff login");
+
+        user.Email = email;
+        user.FullName = model.FullName.Trim();
+        user.Role = role;
+        user.Phone = phone;
+        user.IsActive = model.IsActive;
+
+        if (wantsPassword)
+            user.PasswordHash = _passwords.Hash(model.Password);
+
+        await _db.SaveChangesAsync(ct);
+        return Result<int>.Ok(user.Id);
+    }
+
+    public async Task<Result<bool>> SetStaffLoginActiveAsync(int id, bool active,
+                                                             CancellationToken ct = default)
+    {
+        var user = await _db.Users.FirstOrDefaultAsync(u => u.Id == id && !u.IsDeleted, ct);
+        if (user is null) return Result<bool>.NotFound("Staff login");
+
+        // Locking the last administrator out would leave the back office with no
+        // one able to unlock it, so that one switch stays put.
+        if (!active && user.Role == NexusRoles.Admin &&
+            !await _db.Users.AnyAsync(u => u.Id != id && !u.IsDeleted && u.IsActive &&
+                                           u.Role == NexusRoles.Admin, ct))
+            return Result<bool>.Conflict("This is the only active administrator.");
+
+        user.IsActive = active;
+        await _db.SaveChangesAsync(ct);
+
+        return Result<bool>.Ok(active);
+    }
+
+    /**
+     * Staff account ids follow the seeded convention: a role letter then a
+     * zero-padded sequence. The next number is read back off the table rather
+     * than kept in a counter, so a restored database cannot hand out a duplicate.
+     */
+    private async Task<string> NextStaffAccountIdAsync(string role, CancellationToken ct)
+    {
+        var prefix = role switch
+        {
+            NexusRoles.Admin => "A",
+            NexusRoles.Accounts => "F",
+            NexusRoles.Technical => "T",
+            _ => "R"
+        };
+
+        var taken = await _db.Users
+            .IgnoreQueryFilters()
+            .Where(u => u.AccountId.StartsWith(prefix))
+            .Select(u => u.AccountId)
+            .ToListAsync(ct);
+
+        var next = 1L;
+
+        foreach (var id in taken)
+        {
+            if (id.Length == prefix.Length + 13 &&
+                long.TryParse(id.AsSpan(prefix.Length), out var n) && n >= next)
+                next = n + 1;
+        }
+
+        return prefix + next.ToString("D13");
     }
 
     public async Task<IReadOnlyList<CityOption>> CityOptionsAsync(CancellationToken ct = default) =>

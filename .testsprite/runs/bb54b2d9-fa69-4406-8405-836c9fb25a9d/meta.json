@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "cli-v1",
+  "snapshotId": "snap_c132dd77e85cc1d5",
+  "testId": "a4eec0ba-86a6-4be9-98ad-b7b8ee39f421",
+  "projectId": "c0ab2de3-d588-4213-ba76-6a119dae1909",
+  "codeVersion": null,
+  "runIdIfAvailable": "bb54b2d9-fa69-4406-8405-836c9fb25a9d",
+  "targetUrl": "http://localhost:5199",
+  "failedStepIndex": 21,
+  "failureKind": "assertion",
+  "capturedAt": "2026-10-13T09:38:00.417Z",
+  "fetchedAt": "2026-10-13T10:01:45.304Z"
+}

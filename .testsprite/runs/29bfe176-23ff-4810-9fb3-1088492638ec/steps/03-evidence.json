@@ -1,0 +1,8 @@
+[
+  {
+    "kind": "snapshot",
+    "stepIndex": 3,
+    "summary": "Step 3 'Expected the browser to land on /Customer/Dashboard, but it stayed on /Account/Login.' failed. Error: TEST BLOCKED\n\nThe login page could not be reached — the webserver returned no response for /Account/Login, so the login form and authentication step could not be executed.\n\nObservations:\n- Navigating to /Account/Login displayed a browser error page with text \"This page isn’t working\" and code \"ERR_EMPTY_RESPONSE\".\n- The page shows a visible 'Reload' button but did not return the login form, so signing in could not be attempted.",
+    "path": "steps/03-snapshot.html"
+  }
+]

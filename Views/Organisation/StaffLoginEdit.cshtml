@@ -1,0 +1,127 @@
+@model NEXUS.Models.ViewModels.StaffLoginEditViewModel
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = Model.PageTitle + " — NEXUS";
+}
+
+@section DashboardStyles {
+    <link rel="stylesheet" href="~/css/dashboards-luxury.css" />
+    <link rel="stylesheet" href="~/css/admin.css" />
+}
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/Admin/Dashboard">Admin</a>
+    <span class="sep">/</span>
+    <a href="@Url.Action("StaffLogins")">Staff Logins</a>
+    <span class="sep">/</span>
+    <span class="current">@(Model.IsNew ? "New Login" : Model.FullName)</span>
+</nav>
+
+<div class="page-header reveal">
+    <div>
+        <h1>
+            <i class="fa-solid @(Model.IsNew ? "fa-user-plus" : "fa-user-pen")" style="color:var(--nexus-blue);"></i>
+            @(Model.IsNew ? "New Staff Login" : Model.FullName) </h1>
+        <p class="muted">The portal this person signs in to. The employee record is attached to it afterwards.</p> </div>
+    <div class="page-header-actions">
+        <a href="@Url.Action("StaffLogins")" class="btn btn-ghost">
+            <i class="fa-solid fa-arrow-left"></i> Back to logins </a> </div>
+</div>
+
+<form method="post" asp-action="@(Model.IsNew ? "CreateStaffLogin" : "EditStaffLogin")" asp-route-id="@Model.Id" novalidate>
+    @Html.AntiForgeryToken()
+
+    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+    <div class="edit-layout">
+        <div class="edit-main">
+            <div class="chart-card reveal">
+                <div class="chart-head">
+                    <div>
+                        <h4><i class="fa-solid fa-id-badge"></i> Login Details</h4>
+                        <p class="chart-sub">Who this login belongs to and which portal it opens.</p> </div> </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label asp-for="FullName">Full Name <span class="req">*</span></label>
+                        <input asp-for="FullName" placeholder="Ayesha Malik" autocomplete="off" required />
+                        <span asp-validation-for="FullName" class="field-error"></span> </div>
+
+                    <div class="form-group">
+                        <label asp-for="Role">Portal Role <span class="req">*</span></label>
+                        <select asp-for="Role">
+                            @foreach (var r in Model.Roles)
+                            {
+                                <option value="@r" selected="@(Model.Role == r)">
+                                    @NEXUS.Common.Constants.NexusRoles.DisplayName(r)
+                                </option>
+                            }
+                        </select>
+                        <span class="form-hint">The role decides which dashboard and sidebar the login lands on.</span>
+                        <span asp-validation-for="Role" class="field-error"></span> </div> </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label asp-for="Email">Email <span class="req">*</span></label>
+                        <input asp-for="Email" type="email" placeholder="name@nexus.example" autocomplete="off" required />
+                        <span class="form-hint">This is the address typed on the sign-in screen.</span>
+                        <span asp-validation-for="Email" class="field-error"></span> </div>
+
+                    <div class="form-group">
+                        <label asp-for="Phone">Phone <span class="opt">optional</span></label>
+                        <input asp-for="Phone" placeholder="03001234567" autocomplete="off" />
+                        <span asp-validation-for="Phone" class="field-error"></span> </div> </div>
+            </div>
+        </div>
+
+        <aside class="edit-side">
+            <div class="chart-card">
+                <div class="chart-head">
+                    <h4><i class="fa-solid fa-key"></i> Password</h4> </div>
+
+                <div class="form-group">
+                    <label asp-for="Password">
+                        Password @if (Model.IsNew)
+                        {
+                            <span class="req">*</span>
+                        }
+                        else
+                        {
+                            <span class="opt">optional</span>
+                        }
+                    </label>
+                    <input asp-for="Password" type="password" autocomplete="new-password" />
+                    <span class="form-hint">
+                        @(Model.IsNew
+                            ? "At least 8 characters."
+                            : "Leave both fields blank to keep the current password.")
+                    </span>
+                    <span asp-validation-for="Password" class="field-error"></span> </div>
+
+                <div class="form-group">
+                    <label asp-for="ConfirmPassword">
+                        Confirm Password @if (Model.IsNew)
+                        {
+                            <span class="req">*</span>
+                        }
+                    </label>
+                    <input asp-for="ConfirmPassword" type="password" autocomplete="new-password" />
+                    <span asp-validation-for="ConfirmPassword" class="field-error"></span> </div>
+
+                <div class="form-group">
+                    <label class="checkbox-line">
+                        <input asp-for="IsActive" />
+                        <span>Active login</span> </label>
+                    <span class="form-hint">An inactive login cannot sign in.</span> </div> </div>
+
+            <div class="chart-card" style="margin-top:18px;">
+                <div class="chart-head">
+                    <h4><i class="fa-solid fa-floppy-disk"></i> Save</h4> </div>
+                <div class="side-actions">
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <i class="fa-solid fa-circle-check"></i>
+                        @(Model.IsNew ? "Create Login" : "Save Changes") </button>
+                    <a href="@Url.Action("StaffLogins")" class="btn btn-ghost btn-block">Cancel</a> </div> </div>
+        </aside>
+    </div>
+</form>
