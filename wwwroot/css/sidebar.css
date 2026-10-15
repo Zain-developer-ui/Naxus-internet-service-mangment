@@ -199,3 +199,18 @@
         display: block;
         animation: fadeIn .2s ease;
     }
+
+/* Flash alerts are rendered at document level by the shared layout. The
+   sidebar is fixed, so on a dashboard it would cover the alert's left
+   edge - hold the alert beside it instead. */
+body.dashboard-body > .container:has(> .alert) {
+    margin-left: var(--sidebar-width);
+    max-width: none;
+    padding-right: 24px;
+}
+
+@media (max-width: 960px) {
+    body.dashboard-body > .container:has(> .alert) {
+        margin-left: 0;
+    }
+}

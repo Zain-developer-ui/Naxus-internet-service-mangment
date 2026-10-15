@@ -11,7 +11,12 @@ using NEXUS.Services.Search;
 
 namespace NEXUS.Controllers
 {
-    [Authorize(Roles = NexusRoles.Retail + "," + NexusRoles.Admin)]
+    /**
+     * Order taking is a retail job, but the customer lookup is not: technical
+     * and accounts staff both need to check an order or a connection, so the
+     * search is open to every back-office role and the rest is pinned below.
+     */
+    [Authorize(Roles = NexusRoles.StaffRoles)]
     public class RetailController : Controller
     {
         private readonly IRetailDashboardService _dash;
@@ -35,6 +40,7 @@ namespace NEXUS.Controllers
          * The till-date registers: orders placed, lines activated, bills raised
          * and payments taken, all behind one period filter.
          */
+        [Authorize(Roles = NexusRoles.Retail + "," + NexusRoles.Admin)]
         public async Task<IActionResult> Register(RetailRegisterQuery query, CancellationToken ct)
         {
             ViewData.SetActiveItem("register");
@@ -50,6 +56,7 @@ namespace NEXUS.Controllers
             return View(result.Value!);
         }
 
+        [Authorize(Roles = NexusRoles.Retail + "," + NexusRoles.Admin)]
         public async Task<IActionResult> Dashboard(CancellationToken ct)
         {
             ViewData.SetActiveItem("retail-dashboard");
@@ -69,6 +76,7 @@ namespace NEXUS.Controllers
          * clerk is signed in already and the shop is attached to the record.
          */
         [HttpGet]
+        [Authorize(Roles = NexusRoles.Retail + "," + NexusRoles.Admin)]
         public async Task<IActionResult> NewOrder(CancellationToken ct)
         {
             ViewData.SetActiveItem("neworder");
@@ -85,6 +93,7 @@ namespace NEXUS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = NexusRoles.Retail + "," + NexusRoles.Admin)]
         public async Task<IActionResult> NewOrder(OrderViewModel model, CancellationToken ct)
         {
             ViewData.SetActiveItem("neworder");

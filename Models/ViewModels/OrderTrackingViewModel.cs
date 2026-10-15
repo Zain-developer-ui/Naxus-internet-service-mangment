@@ -19,6 +19,11 @@ namespace NEXUS.Models.ViewModels
         public string Status { get; set; } = string.Empty;
         public string StatusBadge { get; set; } = "badge-neutral";
 
+        /** Set once installation completes; a customer can see their line. */
+        public string? ConnectionNumber { get; set; }
+        public string? ConnectionStatus { get; set; }
+        public string? ConnectionStatusBadge { get; set; }
+
         public DateTime? ScheduledFor { get; set; }
         public DateTime PlacedAt { get; set; }
 

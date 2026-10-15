@@ -8,7 +8,8 @@
     var role = User.SidebarRole().ToLowerInvariant();
     var active = (ViewData["ActiveSidebar"] as string ?? "").ToLowerInvariant();
 
-    string IsActive(string key) => active == key ? "active" : "";
+    // A page may mark more than one entry, so the keys are matched as a list.
+    string IsActive(string key) => $",{active},".Contains($",{key},") ? "active" : "";
 }
 
 <aside class="dashboard-sidebar" data-sidebar>
@@ -27,11 +28,14 @@
             <a href="/Customer/MyConnection" class="@IsActive("myconnection")"><i class="fa-solid fa-wifi"></i> My Connection</a>
             <a href="/Bills" class="@IsActive("bills")"><i class="fa-solid fa-file-invoice-dollar"></i> Bills & Payments</a>
             <a href="/Profile" class="@IsActive("profile")"><i class="fa-regular fa-user"></i> Profile</a>
-            <a href="/Feedback" class="@IsActive("feedback")"><i class="fa-regular fa-comment-dots"></i> Feedback</a>
+            @if (ViewData["FeedbackOpen"] as bool? != false)
+            {
+                <a href="/Feedback" class="@IsActive("feedback")"><i class="fa-regular fa-comment-dots"></i> Feedback</a>
+            }
 
             <span class="nav-section">Support</span>
-            <a href="/Orders/Tracking"><i class="fa-solid fa-truck-fast"></i> Track Order</a>
-            <a href="/Account/Status"><i class="fa-solid fa-circle-info"></i> Account Status</a>
+            <a href="/Orders/Tracking" class="@IsActive("tracking")"><i class="fa-solid fa-truck-fast"></i> Track Order</a>
+            <a href="/Account/Status" class="@IsActive("status")"><i class="fa-solid fa-circle-info"></i> Account Status</a>
             <form asp-controller="Account" asp-action="Logout" method="post" class="sidebar-logout">
                 @Html.AntiForgeryToken()
                 <button type="submit" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</button> </form> </nav>
@@ -52,6 +56,7 @@
             <a href="/Retail/Dashboard" class="@IsActive("retail-dashboard")"><i class="fa-solid fa-store"></i> Retail Sales</a>
             <a href="/Retail/Register" class="@IsActive("register")"><i class="fa-solid fa-book"></i> Till Date Register</a>
             <a href="/Admin/Plans" class="@IsActive("plans")"><i class="fa-solid fa-layer-group"></i> Plans</a>
+            <a href="/Admin/PlanChanges" class="@IsActive("plan-changes")"><i class="fa-solid fa-arrow-up"></i> Plan Changes</a>
             <a href="/Admin/Orders" class="@IsActive("orders")"><i class="fa-solid fa-box"></i> Orders</a>
             <a href="/Technical/Dashboard" class="@IsActive("technical")"><i class="fa-solid fa-screwdriver-wrench"></i> Installations</a>
             <a href="/Accounts/Dashboard" class="@IsActive("billing")"><i class="fa-solid fa-file-invoice"></i> Billing</a>
@@ -83,7 +88,6 @@
             <a href="/Search/Advanced" class="@IsActive("advanced-search")"><i class="fa-solid fa-magnifying-glass-chart"></i> Advanced Search</a>
 
             <span class="nav-section">Support</span>
-            <a href="/Feedback"><i class="fa-solid fa-comment-dots"></i> Feedback</a>
             <a href="/Reports" class="@IsActive("reports")"><i class="fa-solid fa-chart-line"></i> Reports</a>
             <form asp-controller="Account" asp-action="Logout" method="post" class="sidebar-logout">
                 @Html.AntiForgeryToken()
@@ -115,6 +119,7 @@
             <a href="/Retail/NewOrder" class="@IsActive("neworder")"><i class="fa-solid fa-plus"></i> New Order</a>
             <a href="/Retail/Register" class="@IsActive("register")"><i class="fa-solid fa-book"></i> Till Date Register</a>
             <a href="/Retail/Search" class="@IsActive("search")"><i class="fa-solid fa-magnifying-glass"></i> Customer Search</a>
+            <a href="/Bills" class="@IsActive("bills")"><i class="fa-solid fa-file-invoice-dollar"></i> Bills &amp; Payments</a>
             <a href="/Admin/Inventory" class="@IsActive("inventory")"><i class="fa-solid fa-boxes-stacked"></i> Stock</a>
 
             <span class="nav-section">Reports</span>

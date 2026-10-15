@@ -52,9 +52,21 @@ public sealed record BillBreakdown(
 
     public decimal TaxableAmount => SubTotal - DiscountAmount;
 
-    public decimal ServiceTaxAmount => TaxConstants.Compute(TaxableAmount);
+    /**
+     * Tax is never negative. A period whose credits outrun its charges is a
+     * zero bill, not a refund of tax the customer never paid.
+     */
+    public decimal ServiceTaxAmount => TaxConstants.Compute(Math.Max(0m, TaxableAmount));
 
-    public decimal TotalAmount => TaxableAmount + ServiceTaxAmount;
+    /**
+     * A bill is never a credit note. The advance is applied as far as the
+     * period's own charges allow (`ApplyAdvanceAsync`), but a fresh charge
+     * added after the advance was worked out - the replacement router on
+     * INV-2026-00001 - can still push the arithmetic below zero. Clamping here
+     * keeps the money owed at zero and leaves the surplus on the order, where
+     * the next bill picks it up.
+     */
+    public decimal TotalAmount => Math.Max(0m, TaxableAmount + ServiceTaxAmount);
 
     public bool HasDiscount => DiscountAmount > 0m;
 }

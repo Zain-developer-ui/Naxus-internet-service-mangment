@@ -216,3 +216,34 @@ table.table, table {
     color: var(--nexus-text-muted);
     font-size: 0.9rem;
 }
+
+/* Icon-only row action, so wide tables keep each row on a single line. */
+.icon-act {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--nexus-border, #E2E8F0);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--nexus-navy, #0A1F44);
+    cursor: pointer;
+    font-size: 0.85rem;
+    text-decoration: none;
+    padding: 0;
+}
+
+    .icon-act:hover {
+        border-color: var(--nexus-blue, #1E6FE5);
+        color: var(--nexus-blue, #1E6FE5);
+    }
+
+    .icon-act.danger {
+        color: var(--nexus-danger, #DC2626);
+    }
+
+        .icon-act.danger:hover {
+            background: var(--nexus-danger-bg, #FEE2E2);
+            border-color: var(--nexus-danger, #DC2626);
+        }

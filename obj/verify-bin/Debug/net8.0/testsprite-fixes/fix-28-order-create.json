@@ -1,0 +1,41 @@
+{
+  "projectId": "c0ab2de3-d588-4213-ba76-6a119dae1909",
+  "type": "frontend",
+  "name": "Retail can place a new order",
+  "description": "Walks the four-step new order wizard to completion and confirms an order id in the B-format is issued.",
+  "priority": "p1",
+  "planSteps": [
+    {
+      "type": "action",
+      "description": "Navigate to /Account/Login and sign in as retail@nexus.example with the password Nexus@2026"
+    },
+    {
+      "type": "action",
+      "description": "Navigate to /Retail/NewOrder. The form is a four step wizard: Service, Customer, Installation, Account"
+    },
+    {
+      "type": "action",
+      "description": "On step 1, select a connection type radio, then select a plan radio, then select a billing cycle radio. Click the button labelled Next"
+    },
+    {
+      "type": "action",
+      "description": "On step 2, fill Full Name with E2E Test Customer, Mobile Number with 03001234567 and CNIC with 42101-1234567-1. Click Next"
+    },
+    {
+      "type": "action",
+      "description": "On step 3, fill Installation Address with 12 Test Street Lahore, choose the first option in the City dropdown, and fill Existing Landline with 021-1234567. Click Next"
+    },
+    {
+      "type": "action",
+      "description": "On step 4, fill Password and Confirm Password both with Test@1234, and tick the terms checkbox"
+    },
+    {
+      "type": "action",
+      "description": "Click the submit button at the end of step 4 and wait for the page to navigate"
+    },
+    {
+      "type": "assertion",
+      "description": "Assert the browser has left /Retail/NewOrder and an order id matching the format B followed by ten digits is displayed on the resulting page. If the page is still the wizard with validation errors, this test must fail."
+    }
+  ]
+}

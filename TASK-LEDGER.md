@@ -2,7 +2,24 @@
 
 Yahan sab kaam track hoti hai. Jo **nahi** hua wo bhi likhna hai — sirf done wali list nahi.
 
-Last updated: 12 Oct 2026 (SRS 100% + N5 accessibility + N6 CDN-local; N4 → TestSprite)
+Last updated: 14 Oct 2026 (raat) — Final sweep: admin crash fix + dead settings wired + 60+ URL panel sweep clean
+
+> **Aaj ki raat ka kaam (final sweep):**
+> - **P0 FIXED** — Admin dashboard 500 crash: `NotificationService` mein computed
+>   property `IsPending` EF translate nahi kar sakta tha → `BilledOnBillId == null`.
+> - **B5 DONE** — dead settings wired: `site.company` (footer), `brand.logo`
+>   (file-exists check ke saath navbar/footer), `feature.feedback` (gate + nav hide),
+>   `feature.autoInvoice` (RunBilling gate). Sab live tested.
+> - **Services/Details dead action removed** (500 deta tha, koi link nahi tha).
+> - **60+ URLs, paanchon panel sweep clean** — Admin/Retail/Technical/Accounts/
+>   Customer sab 200, koi exception nahi.
+> - Accounts login password seed default (`Nexus@2026`) par restore.
+> - DB state restore: Users 9, Customers 5, Orders 5, Bills 2, Connections 2,
+>   Settings 0 (defaults).
+>
+> **Baqi:** rebuild (kuch trailing edits baad mein) + `/Admin/Plans` design review (B4).
+
+---
 
 > **SRS scorecard (12 Oct, code padh kar):** 53 requirements mein se  
 > **53 DONE (100%)**, **0 PARTIAL**, **0 MISSING**.  

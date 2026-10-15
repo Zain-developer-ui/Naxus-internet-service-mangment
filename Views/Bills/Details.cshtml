@@ -31,7 +31,18 @@
                 </p>
             </div>
         </div>
-        <span class="badge @bill.StatusBadge">@bill.StatusLabel</span>
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+            <span class="badge @bill.StatusBadge">@bill.StatusLabel</span>
+            @if (bill.Status == BillStatus.Draft &&
+                 (User.IsInRole(NexusRoles.Accounts) || User.IsInRole(NexusRoles.Admin)))
+            {
+                <form method="post" asp-action="Issue" asp-route-id="@bill.Id">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-primary btn-sm">
+                        <i class="fa-solid fa-paper-plane"></i> Issue bill </button>
+                </form>
+            }
+        </div>
     </header>
 
     <div class="invoice-parties">
@@ -163,6 +174,36 @@
     }
 </section>
 
+@if (Model.CanRecordPayment && bill.Status == BillStatus.Draft)
+{
+    <section class="panel reveal" id="record-payment">
+        <div class="panel-head">
+            <h2>Payment</h2>
+            <span class="badge badge-neutral">Draft</span>
+        </div>
+        <p class="muted" style="padding:4px;">
+            This bill has not been issued yet, so no money can be taken against
+            it. Issue it first - the customer cannot see or pay a draft bill.
+        </p>
+    </section>
+}
+
+@if (Model.CanRecordPayment && bill.Status != BillStatus.Draft && Model.Outstanding <= 0)
+{
+    <section class="panel reveal" id="record-payment">
+        <div class="panel-head">
+            <h2>Nothing to pay</h2>
+            <span class="badge badge-success">Settled</span>
+        </div>
+        <p class="muted" style="padding:4px;">
+            This bill is fully covered, so there is no balance to collect. The
+            amount already held on the connection - an advance paid at order
+            time, or a payment recorded earlier - was applied when the bill was
+            raised.
+        </p>
+    </section>
+}
+
 @if (Model.CanRecordPayment && Model.Outstanding > 0 && bill.Status != BillStatus.Draft)
 {
     <section class="panel reveal" id="record-payment">
@@ -207,5 +248,20 @@
                 </button>
             </div>
         </form>
+    </section>
+}
+
+@if (User.IsInRole(NexusRoles.Customer))
+{
+    <section class="panel reveal">
+        <div class="panel-head">
+            <h2>How to pay</h2>
+        </div>
+        <p class="muted" style="padding:4px;">
+            Payments are taken at any NEXUS retail outlet. Quote the invoice
+            number above, or show this page, and the counter staff will record
+            the payment against your account. The receipt appears in the Payment
+            History section as soon as it is entered.
+        </p>
     </section>
 }

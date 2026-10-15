@@ -63,7 +63,7 @@
         <div class="stat-icon @(currentBill?.Status == "Paid" ? "success" : "warning")">
             <i class="fa-solid fa-money-bill-wave"></i> </div>
         <div class="stat-meta">
-            <div class="stat-value">$@((currentBill?.Amount ?? 2450).ToString("N0"))</div>
+            <div class="stat-value">@((currentBill?.Amount ?? 0m).ToString("C"))</div>
             <div class="stat-label">@(currentBill != null && currentBill.Status != "Paid" ? "Amount Due" : "Monthly Bill")</div> </div> </div>
     <div class="stat-card">
         <div class="stat-icon blue"><i class="fa-regular fa-calendar"></i></div>
@@ -89,7 +89,7 @@
             <div><span>Speed</span><strong>@acc.Speed</strong></div>
             <div><span>Account ID</span><strong style="font-family:monospace;">@acc.AccountId</strong></div>
             <div><span>Connection Since</span><strong>@(acc.ActivationDate?.ToString("dd MMM yyyy") ?? "—")</strong></div>
-            <div><span>Service Area</span><strong>@(acc.ServiceArea ?? "Gulberg III, Lahore")</strong></div> </div>
+            <div><span>Service Area</span><strong>@(acc.ServiceArea ?? "Not recorded")</strong></div> </div>
 
         <div style="margin-top:20px;">
             <a href="/Customer/MyConnection" class="btn btn-outline btn-sm">
@@ -104,17 +104,23 @@
                 @(currentBill?.Status ?? "Paid") </span> </div>
 
         <div class="summary-rows">
-            <div><span>Bill Number</span><strong style="font-family:monospace;">@(currentBill?.BillNo ?? "INV-1003")</strong></div>
+            <div><span>Bill Number</span><strong style="font-family:monospace;">@(currentBill?.BillNo ?? "None yet")</strong></div>
             <div><span>Billing Period</span><strong>@(currentBill?.Period ?? "—")</strong></div>
             <div><span>Due Date</span><strong>@(currentBill?.DueDate.ToString("dd MMM yyyy") ?? "—")</strong></div> </div>
 
-        <div class="summary-rows total" style="margin-top:16px;">
-            <div><span>Amount</span><strong>$@((currentBill?.Amount ?? 2450).ToString("N0"))</strong></div> </div>
+        @if (currentBill is not null)
+        {
+            <div class="summary-rows total" style="margin-top:16px;">
+                <div><span>Amount</span><strong>@currentBill.Amount.ToString("C")</strong></div> </div>
+        }
 
         <div style="margin-top:20px;display:flex;gap:8px;flex-wrap:wrap;">
             <a href="/Bills" class="btn btn-outline btn-sm">View Bills</a>
-            <a href="/Bills/Details/@(currentBill?.BillNo ?? "INV-1003")" class="btn btn-primary btn-sm">
-                Bill Details <i class="fa-solid fa-arrow-right"></i> </a> </div> </div>
+            @if (currentBill is not null)
+            {
+                <a href="/Bills/Details/@currentBill.BillId" class="btn btn-primary btn-sm">
+                    Bill Details <i class="fa-solid fa-arrow-right"></i> </a>
+            } </div> </div>
 </div>
 
 @* =========================================================

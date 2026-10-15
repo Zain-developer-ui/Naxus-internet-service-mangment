@@ -7,6 +7,7 @@ using NEXUS.Models.ViewModels;
 using NEXUS.Services.Accounts;
 using NEXUS.Services.Billing;
 using NEXUS.Services.Dashboards;
+using NEXUS.Services.Settings;
 
 namespace NEXUS.Controllers
 {
@@ -18,18 +19,20 @@ namespace NEXUS.Controllers
         private readonly IAccountsDashboardService _dash;
         private readonly ICallMeteringService _calls;
         private readonly IBillingService _billing;
+        private readonly ISiteSettingsService _settings;
 
         public AccountsController(IAccountsDashboardService dash, ICallMeteringService calls,
-                                  IBillingService billing)
+                                  IBillingService billing, ISiteSettingsService settings)
         {
             _dash = dash;
             _calls = calls;
             _billing = billing;
+            _settings = settings;
         }
 
         public async Task<IActionResult> Dashboard(CancellationToken ct)
         {
-            ViewData.SetActiveItem("dashboard");
+            ViewData.SetActiveItem("dashboard", "billing");
             var result = await _dash.GetAsync(ct);
 
             if (!result.IsSuccess)
@@ -146,6 +149,13 @@ namespace NEXUS.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> RunBilling(string? period, CancellationToken ct)
         {
+            if (!await _settings.GetFlagAsync("feature.autoInvoice", ct))
+            {
+                TempData["Error"] = "Automatic billing is switched off in Settings - " +
+                                    "raise each bill by hand from the Bills screen.";
+                return RedirectToAction(nameof(Dashboard));
+            }
+
             var start = ParseMonth(period);
             var end = start.AddMonths(1);
 

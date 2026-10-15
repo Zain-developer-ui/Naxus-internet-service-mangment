@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>NEXUS Service Marketing System — Installation &amp; Deployment Guide</title>
+<style>
+:root { --accent: #7a3b1e; }
+
+@page {
+    size: A4;
+    margin: 20mm 18mm 22mm 18mm;
+
+    @bottom-center {
+        content: counter(page);
+        font-family: Georgia, serif;
+        font-size: 9pt;
+        color: #8a8a8a;
+    }
+}
+
+* { box-sizing: border-box; }
+
+html { font-size: 10.5pt; }
+
+body {
+    font-family: Georgia, "Times New Roman", serif;
+    color: #1c1c1c;
+    line-height: 1.55;
+    margin: 0;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+h1, h2, h3, h4 {
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.25;
+    page-break-after: avoid;
+    break-after: avoid;
+}
+
+h1 {
+    font-size: 20pt;
+    margin: 0 0 6pt;
+    letter-spacing: -0.2pt;
+}
+
+h2 {
+    font-size: 14pt;
+    margin: 22pt 0 8pt;
+    padding-bottom: 4pt;
+    border-bottom: 1.5pt solid var(--accent);
+    color: var(--accent);
+}
+
+h3 { font-size: 11.5pt; margin: 16pt 0 6pt; }
+h4 { font-size: 10.5pt; margin: 13pt 0 4pt; color: #444; }
+
+p { margin: 0 0 8pt; }
+
+a { color: var(--accent); text-decoration: none; }
+
+hr {
+    border: none;
+    border-top: 0.5pt solid #d5d5d5;
+    margin: 16pt 0;
+}
+
+/* ---- cover ---- */
+
+.cover {
+    page-break-after: always;
+    break-after: page;
+    height: 240mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-left: 6pt solid var(--accent);
+    padding-left: 16pt;
+}
+
+.cover .mark {
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 44pt;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: -2pt;
+    line-height: 1;
+    margin-bottom: 4pt;
+}
+
+.cover .rule {
+    width: 60pt;
+    height: 3pt;
+    background: var(--accent);
+    margin: 14pt 0 20pt;
+}
+
+.cover h1 {
+    font-size: 26pt;
+    margin: 0 0 8pt;
+    max-width: 150mm;
+}
+
+.cover .sub {
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 15pt;
+    color: #555;
+    margin: 0 0 26pt;
+}
+
+.cover .meta {
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 9.5pt;
+    color: #666;
+    line-height: 1.9;
+}
+
+.cover .meta strong { color: #1c1c1c; }
+
+/* ---- tables ---- */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 8pt 0 14pt;
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 8.6pt;
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+thead { display: table-header-group; }
+
+th {
+    background: var(--accent);
+    color: #fff;
+    text-align: left;
+    padding: 5pt 6pt;
+    font-weight: 600;
+    font-size: 8.4pt;
+    letter-spacing: 0.2pt;
+}
+
+td {
+    padding: 4.5pt 6pt;
+    border-bottom: 0.5pt solid #e2e2e2;
+    vertical-align: top;
+}
+
+tbody tr:nth-child(even) { background: #f7f7f5; }
+
+/* ---- code ---- */
+
+pre {
+    background: #f5f5f2;
+    border: 0.5pt solid #ddd;
+    border-left: 2.5pt solid var(--accent);
+    padding: 7pt 9pt;
+    margin: 8pt 0 12pt;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 8pt;
+    line-height: 1.45;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+pre code { background: none; padding: 0; border: none; }
+
+code {
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 8.6pt;
+    background: #f0f0ed;
+    padding: 0.5pt 2.5pt;
+    border-radius: 2pt;
+    color: #9c2a2a;
+}
+
+/* ---- blockquote as callout ---- */
+
+blockquote {
+    margin: 9pt 0 12pt;
+    padding: 7pt 10pt;
+    background: #f8f8f4;
+    border-left: 2.5pt solid #c9a227;
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+blockquote p { margin: 0 0 5pt; font-size: 9.6pt; }
+blockquote p:last-child { margin-bottom: 0; }
+blockquote strong { color: #7a5c00; }
+
+/* ---- lists ---- */
+
+ul, ol { margin: 0 0 9pt; padding-left: 16pt; }
+li { margin-bottom: 3pt; }
+
+/* ---- contents ---- */
+
+.toc {
+    page-break-after: always;
+    break-after: page;
+}
+
+.toc h2 { margin-top: 0; }
+
+.toc ol { padding-left: 18pt; }
+.toc li { margin-bottom: 4pt; font-family: "Segoe UI", Arial, sans-serif; font-size: 10pt; }
+.toc a { color: #1c1c1c; }
+
+</style>
+</head>
+<body>
+
+<section class="cover">
+    <div class="mark">N</div>
+    <div class="rule"></div>
+    <h1>NEXUS Service Marketing System</h1>
+    <p class="sub">Installation &amp; Deployment Guide</p>
+    <div class="meta">
+        <div><strong>Version</strong> &nbsp; 1.0</div>
+        <div><strong>Date</strong> &nbsp; October 2026</div>
+        <div><strong>Project</strong> &nbsp; Aptech eProject</div>
+        <div><strong>Platform</strong> &nbsp; ASP.NET Core 8 MVC &middot; SQL Server</div>
+    </div>
+</section>
+
+<section class="toc">
+<h2>Contents</h2>
+<ol>
+<li><a href="#installation-deployment-guide">Installation & Deployment Guide</a></li>
+<li><a href="#table-of-contents">Table of Contents</a></li>
+<li><a href="#1-what-you-need">1. What You Need</a></li>
+<li><a href="#2-installing-the-prerequisites">2. Installing the Prerequisites</a></li>
+<li><a href="#3-getting-the-source">3. Getting the Source</a></li>
+<li><a href="#4-database-setup">4. Database Setup</a></li>
+<li><a href="#5-configuration">5. Configuration</a></li>
+<li><a href="#6-building-and-running">6. Building and Running</a></li>
+<li><a href="#7-first-run-checklist">7. First-Run Checklist</a></li>
+<li><a href="#8-publishing-for-deployment">8. Publishing for Deployment</a></li>
+<li><a href="#9-deploying-to-iis">9. Deploying to IIS</a></li>
+<li><a href="#10-backup-and-restore">10. Backup and Restore</a></li>
+<li><a href="#11-upgrading-the-application">11. Upgrading the Application</a></li>
+<li><a href="#12-troubleshooting">12. Troubleshooting</a></li>
+<li><a href="#appendix-a-quick-reference">Appendix A — Quick reference</a></li>
+<li><a href="#appendix-b-file-locations">Appendix B — File locations</a></li>
+</ol>
+</section>
+
+<h2 id="installation-deployment-guide">Installation & Deployment Guide</h2>
+<p><strong>Version 1.0 · October 2026</strong></p>
+<p>Aptech eProject — how to install, configure, run and deploy the system.</p>
+<hr />
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#1-what-you-need">What You Need</a></li>
+<li><a href="#2-installing-the-prerequisites">Installing the Prerequisites</a></li>
+<li><a href="#3-getting-the-source">Getting the Source</a></li>
+<li><a href="#4-database-setup">Database Setup</a></li>
+<li><a href="#5-configuration">Configuration</a></li>
+<li><a href="#6-building-and-running">Building and Running</a></li>
+<li><a href="#7-first-run-checklist">First-Run Checklist</a></li>
+<li><a href="#8-publishing-for-deployment">Publishing for Deployment</a></li>
+<li><a href="#9-deploying-to-iis">Deploying to IIS</a></li>
+<li><a href="#10-backup-and-restore">Backup and Restore</a></li>
+<li><a href="#11-upgrading-the-application">Upgrading the Application</a></li>
+<li><a href="#12-troubleshooting">Troubleshooting</a></li>
+</ol>
+<hr />
+<h2 id="1-what-you-need">1. What You Need</h2>
+<h3 id="11-minimum-requirements">1.1 Minimum requirements</h3>
+<table>
+<thead><tr>
+<th>Component</th>
+<th>Minimum</th>
+<th>Recommended</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Operating system</td>
+<td>Windows 10 / Windows Server 2016</td>
+<td>Windows 11 / Server 2019+</td>
+</tr>
+<tr>
+<td>Processor</td>
+<td>2 cores</td>
+<td>4 cores</td>
+</tr>
+<tr>
+<td>Memory</td>
+<td>4 GB</td>
+<td>8 GB</td>
+</tr>
+<tr>
+<td>Disk</td>
+<td>2 GB free</td>
+<td>10 GB free</td>
+</tr>
+<tr>
+<td>.NET SDK</td>
+<td>8.0</td>
+<td>8.0 (latest patch)</td>
+</tr>
+<tr>
+<td>SQL Server</td>
+<td>2019 Express</td>
+<td>2019+ Standard/Developer</td>
+</tr>
+</tbody>
+</table>
+<blockquote><p><strong>SQL Server Express is sufficient.</strong> The schema, the data and the query load all sit comfortably inside the Express limits, and the system is verified against Express.</p></blockquote>
+<h3 id="12-what-the-application-uses">1.2 What the application uses</h3>
+<ul>
+<li><strong>.NET 8.0</strong> — the runtime</li>
+<li><strong>SQL Server</strong> — database</li>
+<li><strong>Port 5096 (HTTP)</strong> and the paired HTTPS port — web</li>
+<li>No external service, no cloud account, no internet connection at runtime</li>
+</ul>
+<p>Font Awesome and Chart.js are <strong>self-hosted</strong> in <code>wwwroot/lib/</code>. The application makes no outbound network calls during normal operation.</p>
+<hr />
+<h2 id="2-installing-the-prerequisites">2. Installing the Prerequisites</h2>
+<h3 id="21-net-8-sdk">2.1 .NET 8 SDK</h3>
+<p>Download from <https://dotnet.microsoft.com/download/dotnet/8.0>.</p>
+<p>Verify:</p>
+<pre data-lang="cmd"><code>dotnet --version</code></pre>
+<p>Expected output is a version starting with <code>8.</code>.</p>
+<p>If you only need to <em>run</em> a published build rather than build from source, the <strong>ASP.NET Core 8 Runtime</strong> is enough — but for a development or evaluation machine, install the full SDK.</p>
+<h3 id="22-sql-server">2.2 SQL Server</h3>
+<p>Either edition works:</p>
+<ul>
+<li><strong>SQL Server Express</strong> — free, adequate, and what this project was developed</li>
+</ul>
+<p>and tested against. Download: <https://www.microsoft.com/sql-server/sql-server-downloads></p>
+<ul>
+<li><strong>SQL Server Developer</strong> — free for non-production use, full feature set.</li>
+</ul>
+<p>During installation, note the <strong>instance name</strong>. A default Express install creates <code>SQLEXPRESS</code>, which means the server is addressed as <code>&lt;machine-name&gt;\SQLEXPRESS</code>.</p>
+<h3 id="23-sql-server-management-studio-optional-but-recommended">2.3 SQL Server Management Studio (optional but recommended)</h3>
+<p>SSMS makes database inspection, backup and troubleshooting far easier than command-line tools alone: <https://learn.microsoft.com/sql-server/ssms/download-sql-server-management-studio-ssms></p>
+<h3 id="24-ef-core-tools-for-building-from-source">2.4 EF Core tools (for building from source)</h3>
+<pre data-lang="cmd"><code>dotnet tool install --global dotnet-ef</code></pre>
+<p>Verify:</p>
+<pre data-lang="cmd"><code>dotnet ef --version</code></pre>
+<p>If the command is not found, add the .NET global tools directory to your <code>PATH</code>:</p>
+<pre data-lang="cmd"><code>set PATH=%PATH%;%USERPROFILE%\.dotnet\tools</code></pre>
+<hr />
+<h2 id="3-getting-the-source">3. Getting the Source</h2>
+<p>Copy or clone the project folder to a location of your choosing:</p>
+<pre><code>C:\Projects\Naxus-internet-service-mangment\</code></pre>
+<p>Confirm the folder contains <code>NEXUS.Services.csproj</code> and <code>NEXUS.Services.sln</code> at its root:</p>
+<pre data-lang="cmd"><code>cd /d C:\Projects\Naxus-internet-service-mangment
+dir *.csproj</code></pre>
+<hr />
+<h2 id="4-database-setup">4. Database Setup</h2>
+<p>You have two routes. <strong>Route A (migrations) is recommended</strong> — it is the one that stays correct as the schema evolves.</p>
+<h3 id="41-route-a-apply-the-migrations-recommended">4.1 Route A — Apply the migrations (recommended)</h3>
+<p>The migrations in <code>Data/Migrations/</code> build the entire schema from nothing.</p>
+<p><strong>Step 1 — Make sure the connection string points at your SQL Server.</strong> See section 5.</p>
+<p><strong>Step 2 — Apply.</strong></p>
+<pre data-lang="cmd"><code>cd /d C:\Projects\Naxus-internet-service-mangment
+dotnet ef database update</code></pre>
+<p>This creates the <code>NexusDb</code> database if it does not exist, then applies every migration in order. The <code>__EFMigrationsHistory</code> table records what was applied.</p>
+<p><strong>Step 3 — Verify.</strong></p>
+<p>In SSMS, connect to your instance and confirm <code>NexusDb</code> exists with tables including <code>Customers</code>, <code>ConnectionOrders</code>, <code>Connections</code>, <code>Bills</code>, <code>BillLines</code>, <code>Payments</code>, <code>Plans</code>, <code>Users</code>.</p>
+<p><strong>Step 4 — Reference data seeds itself.</strong> The first time the application runs, the seeder inserts cities, plans, prices, discount tiers, equipment and the administrator account. See section 7.</p>
+<h3 id="42-route-b-restore-a-database-backup">4.2 Route B — Restore a database backup</h3>
+<p>If you were given a <code>.bak</code> file alongside the source:</p>
+<pre data-lang="sql"><code>RESTORE DATABASE NexusDb
+FROM DISK = 'C:\Path\To\NexusDb_Full.bak'
+WITH MOVE 'NexusDb'     TO 'C:\Program Files\Microsoft SQL Server\MSSQL16.SQLEXPRESS\MSSQL\DATA\NexusDb.mdf',
+     MOVE 'NexusDb_log' TO 'C:\Program Files\Microsoft SQL Server\MSSQL16.SQLEXPRESS\MSSQL\DATA\NexusDb_log.ldf',
+     REPLACE;</code></pre>
+<blockquote><p><strong>Adjust the <code>MOVE</code> paths</strong> to your own instance's data directory. Using the wrong path is the most common cause of a failed restore.</p></blockquote>
+<p>A <code>.bak</code> carries a specific SQL Server edition and version. If your server refuses it, use Route A instead — the migrations always produce a schema your own server can run.</p>
+<h3 id="43-granting-the-application-database-access">4.3 Granting the application database access</h3>
+<p>If you are connecting with a SQL login, confirm it can reach the database:</p>
+<pre data-lang="sql"><code>USE NexusDb;
+GO
+CREATE USER [nexus_app] FOR LOGIN [nexus_app];
+ALTER ROLE db_datareader ADD MEMBER [nexus_app];
+ALTER ROLE db_datawriter ADD MEMBER [nexus_app];
+GO</code></pre>
+<p>For the evaluation setup the connection uses the <code>sa</code> account, which already has everything it needs. <strong>Do not ship <code>sa</code> credentials.</strong> Create a dedicated, least-privilege login before any real deployment (section 8.3).</p>
+<hr />
+<h2 id="5-configuration">5. Configuration</h2>
+<p>All configuration lives in <code>appsettings.json</code> at the project root.</p>
+<h3 id="51-connection-string">5.1 Connection string</h3>
+<pre data-lang="json"><code>&quot;ConnectionStrings&quot;: {
+  &quot;NexusDb&quot;: &quot;Server=&lt;SERVER&gt;;Database=NexusDb;User Id=&lt;USER&gt;;Password=&lt;PASSWORD&gt;;TrustServerCertificate=True;MultipleActiveResultSets=True;Connect Timeout=60;Min Pool Size=5&quot;
+}</code></pre>
+<table>
+<thead><tr>
+<th>Part</th>
+<th>Notes</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>Server</code></td>
+<td><code>.\SQLEXPRESS</code> for a local default instance, or <code>&lt;machine&gt;\SQLEXPRESS</code></td>
+</tr>
+<tr>
+<td><code>Database</code></td>
+<td><code>NexusDb</code> — created by the migrations if absent</td>
+</tr>
+<tr>
+<td><code>User Id</code> / <code>Password</code></td>
+<td>SQL login credentials</td>
+</tr>
+<tr>
+<td><code>TrustServerCertificate=True</code></td>
+<td>Required with a self-signed development certificate</td>
+</tr>
+<tr>
+<td><code>MultipleActiveResultSets=True</code></td>
+<td>Used by some query paths</td>
+</tr>
+<tr>
+<td><code>Connect Timeout=60</code></td>
+<td>Seconds; raised for slower machines</td>
+</tr>
+<tr>
+<td><code>Min Pool Size=5</code></td>
+<td>Keeps a warm connection pool</td>
+</tr>
+</tbody>
+</table>
+<p>For <strong>Windows authentication</strong> instead of a SQL login:</p>
+<pre><code>Server=.\SQLEXPRESS;Database=NexusDb;Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=True;</code></pre>
+<h3 id="52-currency">5.2 Currency</h3>
+<pre data-lang="json"><code>&quot;NexusFinance&quot;: {
+  &quot;CurrencyCode&quot;: &quot;USD&quot;,
+  &quot;CurrencySymbol&quot;: &quot;$&quot;
+}</code></pre>
+<p>The symbol is applied to the default culture at startup. Change it here to re-brand the whole application's money display in one place.</p>
+<blockquote><p><strong>Do not</strong> rely on the host machine's regional settings for the symbol. Views format with <code>ToString(&quot;C&quot;)</code>, which reads the symbol from the culture — that is exactly why the symbol is pinned here.</p></blockquote>
+<h3 id="53-security-limits">5.3 Security limits</h3>
+<pre data-lang="json"><code>&quot;Security&quot;: {
+  &quot;LoginRateLimit&quot;: {
+    &quot;PermitLimit&quot;: 10,
+    &quot;WindowMinutes&quot;: 1
+  }
+}</code></pre>
+<p>Sign-in attempts per IP address per window. Ten per minute is far above a human typing rate and well below what a script needs to be effective.</p>
+<blockquote><p><strong>If you run automated end-to-end tests</strong>, raise these. A test harness drives many browser sessions from one address and will otherwise trip the limiter on its own traffic. Keep the defaults in production.</p></blockquote>
+<h3 id="54-logging">5.4 Logging</h3>
+<pre data-lang="json"><code>&quot;Serilog&quot;: {
+  &quot;MinimumLevel&quot;: {
+    &quot;Default&quot;: &quot;Information&quot;,
+    &quot;Override&quot;: {
+      &quot;Microsoft.AspNetCore&quot;: &quot;Warning&quot;,
+      &quot;Microsoft.EntityFrameworkCore.Database.Command&quot;: &quot;Warning&quot;
+    }
+  }
+}</code></pre>
+<p>Logs are written to the console and to <code>Logs/nexus-&lt;date&gt;.log</code>, rolling daily, with fourteen days retained. To capture SQL statements, change the EF Core override to <code>Information</code> — useful for diagnosis, noisy for production.</p>
+<hr />
+<h2 id="6-building-and-running">6. Building and Running</h2>
+<h3 id="61-restore-and-build">6.1 Restore and build</h3>
+<pre data-lang="cmd"><code>cd /d C:\Projects\Naxus-internet-service-mangment
+dotnet restore
+dotnet build</code></pre>
+<p>A clean build reports <strong>0 errors</strong>. Warnings, if any, are listed with their file and line.</p>
+<h3 id="62-run">6.2 Run</h3>
+<pre data-lang="cmd"><code>dotnet run</code></pre>
+<p>The console shows:</p>
+<pre><code>[HH:mm:ss INF] NEXUS starting up
+[HH:mm:ss INF] Reference data seeded
+Now listening on: http://localhost:5096</code></pre>
+<p>Open <http://localhost:5096> in a browser.</p>
+<p>To stop, press <strong>Ctrl+C</strong>.</p>
+<h3 id="63-running-from-visual-studio">6.3 Running from Visual Studio</h3>
+<ol>
+<li>Open <code>NEXUS.Services.sln</code>.</li>
+<li>Set <code>NEXUS.Services</code> as the startup project.</li>
+<li>Press <strong>F5</strong>, or <strong>Ctrl+F5</strong> to run without the debugger.</li>
+</ol>
+<p>The first build restores NuGet packages automatically and takes a few minutes. Subsequent builds take seconds.</p>
+<h3 id="64-changing-the-port">6.4 Changing the port</h3>
+<p>Edit <code>Properties/launchSettings.json</code>:</p>
+<pre data-lang="json"><code>&quot;applicationUrl&quot;: &quot;http://localhost:5096;https://localhost:7096&quot;</code></pre>
+<h3 id="65-a-note-on-locked-files">6.5 A note on locked files</h3>
+<p>If the application is running, <code>dotnet build</code> fails with:</p>
+<pre><code>error MSB3021: Unable to copy file &quot;...\NEXUS.Services.exe&quot;
+error MSB3027: The file is locked by: &quot;NEXUS.Services (1234)&quot;</code></pre>
+<p>The running process holds its own executable. <strong>Stop the application, then build.</strong> The <code>MSB</code> errors are copy errors, not compile errors — the code itself is usually fine.</p>
+<hr />
+<h2 id="7-first-run-checklist">7. First-Run Checklist</h2>
+<p>Work through this after the application starts for the first time.</p>
+<h3 id="71-confirm-the-seed-data">7.1 Confirm the seed data</h3>
+<table>
+<thead><tr>
+<th>Check</th>
+<th>Expected</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Home page loads</td>
+<td>Plans are listed, navbar shows the site name</td>
+</tr>
+<tr>
+<td><code>/Plans</code></td>
+<td>Dial-Up, Broadband and Telephone plans with prices</td>
+</tr>
+<tr>
+<td>Sign-in with <code>A0000000000001</code> / <code>Nexus@2027</code></td>
+<td>Admin dashboard loads</td>
+</tr>
+<tr>
+<td><code>/Admin/Settings/Cities</code></td>
+<td>Cities present, each with a code</td>
+</tr>
+<tr>
+<td><code>/Admin/Settings/Discounts</code></td>
+<td>Bulk discount tiers present</td>
+</tr>
+<tr>
+<td><code>/Admin/Inventory</code></td>
+<td>Equipment catalogue populated</td>
+</tr>
+<tr>
+<td>Notification bell</td>
+<td>Live counts, or empty states that explain themselves</td>
+</tr>
+</tbody>
+</table>
+<h3 id="72-verify-the-database">7.2 Verify the database</h3>
+<p>Run in SSMS against <code>NexusDb</code>:</p>
+<pre data-lang="sql"><code>SELECT COUNT(*) AS Users        FROM Users;
+SELECT COUNT(*) AS Plans        FROM Plans;
+SELECT COUNT(*) AS Cities       FROM Cities;
+SELECT COUNT(*) AS Settings     FROM SiteSettings;
+SELECT COUNT(*) AS Migrations   FROM __EFMigrationsHistory;</code></pre>
+<p><code>Users</code> should be at least 1 (the administrator), <code>Plans</code> at least 10, <code>Cities</code> several, and <code>Migrations</code> should equal the number of migration files in <code>Data/Migrations/</code> (the <code>.Designer.cs</code> files do not count).</p>
+<h3 id="73-sign-in-to-all-four-staff-panels">7.3 Sign in to all four staff panels</h3>
+<table>
+<thead><tr>
+<th>Role</th>
+<th>Account ID</th>
+<th>Password</th>
+<th>Should land on</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Admin</td>
+<td><code>A0000000000001</code></td>
+<td><code>Nexus@2027</code></td>
+<td><code>/Admin/Dashboard</code></td>
+</tr>
+<tr>
+<td>Retail</td>
+<td><code>R0000000000001</code></td>
+<td><code>Nexus@2026</code></td>
+<td><code>/Retail/Dashboard</code></td>
+</tr>
+<tr>
+<td>Technical</td>
+<td><code>T0000000000001</code></td>
+<td><code>Nexus@2026</code></td>
+<td><code>/Technical/Dashboard</code></td>
+</tr>
+<tr>
+<td>Accounts</td>
+<td><code>F0000000000001</code></td>
+<td><code>Nexus@2026</code></td>
+<td><code>/Accounts/Dashboard</code></td>
+</tr>
+</tbody>
+</table>
+<p>If any account is missing, check that the seeder ran (it logs <em>"Reference data seeded"</em>), and that <code>Users</code> is not empty.</p>
+<h3 id="74-run-the-end-to-end-flow-once">7.4 Run the end-to-end flow once</h3>
+<p>Before signing the installation off, place one test order and carry it all the way through:</p>
+<ol>
+<li><strong>Retail</strong> → New Order → note the order ID and account ID</li>
+<li><strong>Technical</strong> → Installations → Record Check → Confirm → Start → Complete</li>
+<li><strong>Technical</strong> → Connections → <strong>Activate</strong></li>
+<li><strong>Accounts</strong> → Run Billing</li>
+<li><strong>Accounts</strong> → Bills → open the draft → <strong>Issue bill</strong></li>
+<li><strong>Retail</strong> → Bills & Payments → open the bill → <strong>Record a Payment</strong></li>
+<li><strong>Customer</strong> → sign in with the account ID → the paid bill is on the dashboard</li>
+</ol>
+<p>If step 6 shows no payment form, check the bill's status (it must not be Draft) and its outstanding balance (it must be greater than zero). The invoice page states which of the two is blocking it.</p>
+<blockquote><p><strong>Step 3 is the one people miss.</strong> A connection left <code>Pending</code> is never picked up by the billing run.</p></blockquote>
+<h3 id="75-change-the-seed-passwords">7.5 Change the seed passwords</h3>
+<p>Before handing the system to anyone else:</p>
+<ol>
+<li>Sign in as each staff user.</li>
+<li>Open <strong>Profile</strong> and change the password.</li>
+<li>For the administrator in particular, do this first.</li>
+</ol>
+<h3 id="76-delete-the-test-data">7.6 Delete the test data</h3>
+<p>Remove the order and customer created in 7.4, or restore the database from a clean backup, so the system starts its real life empty.</p>
+<hr />
+<h2 id="8-publishing-for-deployment">8. Publishing for Deployment</h2>
+<h3 id="81-create-a-publish-output">8.1 Create a publish output</h3>
+<pre data-lang="cmd"><code>dotnet publish -c Release -o C:\publish\nexus</code></pre>
+<p>The output in <code>C:\publish\nexus</code> is self-contained as a set of files and is ready to be copied to a server. It requires the ASP.NET Core 8 Runtime to be installed on the target machine.</p>
+<p>For a machine with <strong>no .NET runtime</strong>, publish self-contained:</p>
+<pre data-lang="cmd"><code>dotnet publish -c Release -r win-x64 --self-contained true -o C:\publish\nexus</code></pre>
+<p>The output is larger but needs nothing pre-installed.</p>
+<h3 id="82-prepare-the-target-server">8.2 Prepare the target server</h3>
+<ol>
+<li>Install the <strong>ASP.NET Core 8 Runtime</strong> (Hosting Bundle if using IIS) —</li>
+</ol>
+<p><https://dotnet.microsoft.com/download/dotnet/8.0></p>
+<ol>
+<li>Ensure SQL Server is reachable from the server.</li>
+<li>Create the database with <code>dotnet ef database update</code>, or restore a backup.</li>
+</ol>
+<h3 id="83-production-configuration">8.3 Production configuration</h3>
+<p><strong>Do not deploy <code>appsettings.json</code> with the development connection string.</strong> Use <code>appsettings.Production.json</code>, which overrides the base file and must not be committed to source control:</p>
+<pre data-lang="json"><code>{
+  &quot;ConnectionStrings&quot;: {
+    &quot;NexusDb&quot;: &quot;Server=SQL01;Database=NexusDb;User Id=nexus_app;Password=&lt;strong-password&gt;;TrustServerCertificate=True;MultipleActiveResultSets=True;Connect Timeout=60&quot;
+  },
+  &quot;Serilog&quot;: {
+    &quot;MinimumLevel&quot;: {
+      &quot;Default&quot;: &quot;Warning&quot;
+    }
+  }
+}</code></pre>
+<p>Also before going live:</p>
+<ul>
+<li><strong>Create a least-privilege SQL login.</strong> <code>db_datareader</code> and <code>db_datawriter</code></li>
+</ul>
+<p>only. Never <code>sa</code>.</p>
+<ul>
+<li><strong>Keep the login rate limits tight.</strong> The defaults are already tight.</li>
+<li><strong>Set <code>security.sessionMinutes</code></strong> to a value appropriate to the environment.</li>
+<li><strong>Change every seed password</strong> (section 7.5).</li>
+<li><strong>Serve over HTTPS only.</strong> HSTS is sent automatically when the request is</li>
+</ul>
+<p>already on TLS.</p>
+<h3 id="84-deployment-checklist">8.4 Deployment checklist</h3>
+<table>
+<thead><tr>
+<th>#</th>
+<th>Task</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>ASP.NET Core 8 Runtime installed on the server</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Database created and migrated</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>appsettings.Production.json</code> written with production credentials</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Publish output copied to the server</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Application pool identity granted access to the publish folder and to <code>Logs/</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>Site bound in IIS with an HTTPS certificate</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Seed passwords changed</td>
+</tr>
+<tr>
+<td>8</td>
+<td>One end-to-end order placed and completed as a smoke test</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Test data removed</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Backup schedule configured (section 10)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="9-deploying-to-iis">9. Deploying to IIS</h2>
+<h3 id="91-install-the-hosting-bundle">9.1 Install the hosting bundle</h3>
+<p>Download and install the <strong>ASP.NET Core 8 Hosting Bundle</strong> (<https://dotnet.microsoft.com/download/dotnet/8.0>). This installs the runtime and the ASP.NET Core Module for IIS. <strong>Restart IIS afterwards:</strong></p>
+<pre data-lang="cmd"><code>iisreset</code></pre>
+<h3 id="92-create-the-site">9.2 Create the site</h3>
+<ol>
+<li>Open <strong>IIS Manager</strong> (<code>inetmgr</code>).</li>
+<li>Right-click <strong>Sites</strong> → <strong>Add Website</strong>.</li>
+<li>Set:</li>
+<li><strong>Site name:</strong> <code>Nexus</code></li>
+<li><strong>Physical path:</strong> <code>C:\inetpub\nexus</code> (the publish output)</li>
+<li><strong>Binding:</strong> <code>https</code>, port <code>443</code>, with your certificate and host name</li>
+<li>Recommended: put the site in its own <strong>application pool</strong> with</li>
+</ol>
+<p><strong>.NET CLR Version: No Managed Code</strong> — the ASP.NET Core Module handles the runtime itself.</p>
+<h3 id="93-grant-folder-permissions">9.3 Grant folder permissions</h3>
+<p>The application pool identity needs:</p>
+<table>
+<thead><tr>
+<th>Folder</th>
+<th>Permission</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>The publish folder</td>
+<td>Read & Execute</td>
+</tr>
+<tr>
+<td><code>Logs\</code></td>
+<td>Modify (Serilog writes here)</td>
+</tr>
+</tbody>
+</table>
+<pre data-lang="cmd"><code>icacls C:\inetpub\nexus /grant &quot;IIS AppPool\Nexus:(OI)(CI)(RX)&quot;
+icacls C:\inetpub\nexus\Logs /grant &quot;IIS AppPool\Nexus:(OI)(CI)(M)&quot;</code></pre>
+<h3 id="94-verify">9.4 Verify</h3>
+<p>Browse to the site. If you see a 500 with no detail, that is usually a configuration or permission problem — check the log file under <code>Logs\</code>, which will name the actual cause.</p>
+<h3 id="95-common-iis-issues">9.5 Common IIS issues</h3>
+<table>
+<thead><tr>
+<th>Symptom</th>
+<th>Cause</th>
+<th>Fix</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>500.30 — app failed to start</td>
+<td>Bad connection string, or database unreachable</td>
+<td>Check <code>Logs\</code>; test the connection string from the server</td>
+</tr>
+<tr>
+<td>500.31 — framework not found</td>
+<td>Runtime not installed</td>
+<td>Install the Hosting Bundle, then <code>iisreset</code></td>
+</tr>
+<tr>
+<td>502.5 — process failure</td>
+<td>Application pool identity lacks folder access</td>
+<td>Grant the permissions in 9.3</td>
+</tr>
+<tr>
+<td>403 on static files</td>
+<td><code>wwwroot</code> not readable</td>
+<td><code>icacls</code> on the publish folder</td>
+</tr>
+<tr>
+<td>Page loads but unstyled</td>
+<td>Static file middleware or path mismatch</td>
+<td>Confirm <code>wwwroot</code> was published</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="10-backup-and-restore">10. Backup and Restore</h2>
+<h3 id="101-what-to-back-up">10.1 What to back up</h3>
+<table>
+<thead><tr>
+<th>Item</th>
+<th>Why</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>The <code>NexusDb</code> database</td>
+<td>All business data</td>
+</tr>
+<tr>
+<td><code>appsettings.Production.json</code></td>
+<td>Production configuration</td>
+</tr>
+<tr>
+<td>Uploaded files, if any</td>
+<td>Attachments</td>
+</tr>
+<tr>
+<td>The publish folder</td>
+<td>Only if you cannot rebuild from source</td>
+</tr>
+</tbody>
+</table>
+<h3 id="102-database-backup">10.2 Database backup</h3>
+<p><strong>Via SSMS:</strong> right-click <code>NexusDb</code> → <strong>Tasks</strong> → <strong>Back Up…</strong>, choose a destination and run.</p>
+<p><strong>Via T-SQL:</strong></p>
+<pre data-lang="sql"><code>BACKUP DATABASE NexusDb
+TO DISK = 'C:\Backups\NexusDb_Full.bak'
+WITH INIT, STATS = 10;</code></pre>
+<blockquote><p><strong>SQL Server Express does not support <code>WITH COMPRESSION</code>.</strong> Adding it fails with <em>"BACKUP DATABASE WITH COMPRESSION is not supported on Express Edition."</em> Leave it off on Express.</p></blockquote>
+<p>Schedule this as a SQL Server Agent job — or, on Express, as a Windows Task Scheduler job invoking <code>sqlcmd</code> with the statement above, since Express has no Agent.</p>
+<h3 id="103-restore">10.3 Restore</h3>
+<pre data-lang="sql"><code>RESTORE DATABASE NexusDb
+FROM DISK = 'C:\Backups\NexusDb_Full.bak'
+WITH REPLACE;</code></pre>
+<p>If you are restoring onto a server with different file paths:</p>
+<pre data-lang="sql"><code>RESTORE DATABASE NexusDb
+FROM DISK = 'C:\Backups\NexusDb_Full.bak'
+WITH MOVE 'NexusDb'     TO '&lt;new data path&gt;\NexusDb.mdf',
+     MOVE 'NexusDb_log' TO '&lt;new data path&gt;\NexusDb_log.ldf',
+     REPLACE;</code></pre>
+<h3 id="104-taking-a-backup-before-an-upgrade">10.4 Taking a backup before an upgrade</h3>
+<p><strong>Always</strong> back up immediately before applying migrations:</p>
+<pre data-lang="sql"><code>BACKUP DATABASE NexusDb TO DISK = 'C:\Backups\NexusDb_pre-upgrade.bak' WITH INIT;</code></pre>
+<hr />
+<h2 id="11-upgrading-the-application">11. Upgrading the Application</h2>
+<p>When the source has moved on and the schema has changed:</p>
+<p><strong>1. Back up the database.</strong></p>
+<pre data-lang="sql"><code>BACKUP DATABASE NexusDb TO DISK = 'C:\Backups\NexusDb_pre-upgrade.bak' WITH INIT;</code></pre>
+<p><strong>2. Stop the running application.</strong> A running process locks its own executable, so the build will fail otherwise.</p>
+<p><strong>3. Apply new migrations.</strong></p>
+<pre data-lang="cmd"><code>cd /d C:\Projects\Naxus-internet-service-mangment
+dotnet ef database update</code></pre>
+<p>Review the migration files first. A migration that drops or renames a column is worth reading before it runs.</p>
+<p><strong>4. Rebuild and republish.</strong></p>
+<pre data-lang="cmd"><code>dotnet publish -c Release -o C:\publish\nexus</code></pre>
+<p><strong>5. Start the application and walk the first-run checklist</strong> (section 7), at least as far as the end-to-end order.</p>
+<h3 id="111-rolling-back-a-migration">11.1 Rolling back a migration</h3>
+<pre data-lang="cmd"><code>dotnet ef database update &lt;PreviousMigrationName&gt;</code></pre>
+<p>Get the names with:</p>
+<pre data-lang="cmd"><code>dotnet ef migrations list</code></pre>
+<blockquote><p><strong>A down-migration is not always lossless.</strong> A migration that dropped a column cannot restore the data it held. This is why step 1 is not optional.</p></blockquote>
+<hr />
+<h2 id="12-troubleshooting">12. Troubleshooting</h2>
+<h3 id="build-and-run">Build and run</h3>
+<p><strong><code>dotnet : command not found</code></strong> The .NET SDK is not installed, or not on <code>PATH</code>. Reinstall, then open a fresh terminal.</p>
+<p><strong><code>MSB3021</code> / <code>MSB3027</code> — file locked</strong> The application is running. Stop it, then build.</p>
+<p><strong><code>CS</code> prefixed errors</strong> Genuine compile errors, reported with file and line. Read the first one — later errors are frequently knock-on effects of the first.</p>
+<p><strong>Port already in use</strong> Another process holds 5096. Change the port in <code>Properties/launchSettings.json</code>, or find and stop the other process:</p>
+<pre data-lang="cmd"><code>netstat -ano | findstr :5096
+taskkill /PID &lt;pid&gt; /F</code></pre>
+<h3 id="database">Database</h3>
+<p><strong><code>A network-related or instance-specific error occurred</code></strong> SQL Server is unreachable. Confirm the instance name and that the service is running:</p>
+<pre data-lang="cmd"><code>sqlcmd -S .\SQLEXPRESS -E -Q &quot;SELECT @@VERSION&quot;</code></pre>
+<p><strong><code>Login failed for user</code></strong> Wrong credentials, or the login lacks a database user. Check the connection string, then confirm the login exists and is mapped (section 4.3).</p>
+<p><strong><code>Cannot open database &quot;NexusDb&quot; requested by the login</code></strong> The database does not exist, or the login is not mapped to it. Run <code>dotnet ef database update</code>.</p>
+<p><strong><code>There is already an object named 'X' in the database</code></strong> Migrations are out of step with the schema — often because a <code>.bak</code> was restored <em>and</em> migrations were then applied. Check <code>__EFMigrationsHistory</code> and reconcile:</p>
+<pre data-lang="sql"><code>SELECT MigrationId FROM __EFMigrationsHistory ORDER BY MigrationId;</code></pre>
+<p><strong>Seeding does not appear to run</strong> Seeding failures are logged and swallowed so the application still starts. Search the log for <em>"Seeding failed"</em> — the exception names the cause. A missing unique index or a mismatched column type is the usual reason.</p>
+<h3 id="application">Application</h3>
+<p><strong>Sign-in succeeds but immediately returns to the login page</strong> Usually a stale or misconfigured cookie. Clear cookies for the site, and confirm <code>Cookie.SecurePolicy = SameAsRequest</code> matches whether you are on HTTP or HTTPS.</p>
+<p><strong><code>Too many attempts. Please wait a minute and try again.</code></strong> The sign-in rate limiter has been triggered. Wait for the window to pass, or raise <code>Security:LoginRateLimit:PermitLimit</code> for a test environment.</p>
+<p><strong>403 Access Denied on a page that should work</strong> The signed-in role does not own that screen. Check the <code>[Authorize]</code> attribute on the controller and confirm you are using the intended account.</p>
+<p><strong>Inline scripts blocked, page partially broken</strong> The CSP is rejecting them. Confirm <code>ScriptNonceTagHelper</code> is registered — the project's <code>Views/_ViewImports.cshtml</code> needs <code>@addTagHelper *, NEXUS.Services</code> — and that the tag does not carry <code>src</code> (a nonce on an external script tag is ignored by the browser).</p>
+<p><strong><code>InvalidOperationException: The configured execution strategy 'SqlServerRetryingExecutionStrategy' does not support user-initiated transactions</code></strong> A manual transaction was opened outside the execution strategy. Wrap it (see the developer guide, section 9.5).</p>
+<p><strong>A page returns 500 with no visible detail</strong> In production, exception detail is hidden from the browser and the branded error page is shown instead. The real cause is in <code>Logs/nexus-&lt;date&gt;.log</code>.</p>
+<h3 id="data">Data</h3>
+<p><strong>A customer cannot see their bill</strong> The bill is still a <strong>Draft</strong>. Issue it from <strong>Bills</strong>.</p>
+<p><strong>A new connection is not billed</strong> The connection is still <strong>Pending</strong>. Change it to <strong>Active</strong>.</p>
+<p><strong>An invoice shows a zero total</strong> Either the advance covered it, or the period produced no charges. Both are legitimate, and the invoice states which.</p>
+<hr />
+<h2 id="appendix-a-quick-reference">Appendix A — Quick reference</h2>
+<pre data-lang="cmd"><code>:: Build and run
+dotnet build
+dotnet run
+
+:: Database
+dotnet ef database update
+dotnet ef migrations add &lt;Name&gt;
+dotnet ef migrations list
+
+:: Publish
+dotnet publish -c Release -o C:\publish\nexus
+
+:: SQL Server connectivity test
+sqlcmd -S .\SQLEXPRESS -E -Q &quot;SELECT @@VERSION&quot;
+
+:: Find what holds a port
+netstat -ano | findstr :5096</code></pre>
+<h2 id="appendix-b-file-locations">Appendix B — File locations</h2>
+<table>
+<thead><tr>
+<th>Item</th>
+<th>Path</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Configuration</td>
+<td><code>appsettings.json</code>, <code>appsettings.Production.json</code></td>
+</tr>
+<tr>
+<td>Logs</td>
+<td><code>Logs/nexus-&lt;date&gt;.log</code></td>
+</tr>
+<tr>
+<td>Migrations</td>
+<td><code>Data/Migrations/</code></td>
+</tr>
+<tr>
+<td>Seed data</td>
+<td><code>Data/Seed/NexusSeeder.cs</code></td>
+</tr>
+<tr>
+<td>Static assets</td>
+<td><code>wwwroot/</code></td>
+</tr>
+<tr>
+<td>Launch settings</td>
+<td><code>Properties/launchSettings.json</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>End of Installation & Deployment Guide</em></p>
+
+</body>
+</html>

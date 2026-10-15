@@ -1,0 +1,24 @@
+{
+  "planSteps": [
+    {
+      "type": "action",
+      "description": "Navigate to /Account/Login and sign in as accounts@nexus.example with the password Nexus@2027"
+    },
+    {
+      "type": "action",
+      "description": "Navigate to /Bills and open the invoice numbered INV-2026-00001"
+    },
+    {
+      "type": "assertion",
+      "description": "The billed customer holds fewer than ten connections, which is below the first bulk discount slab, so this invoice must show NO bulk discount row. Assert that the word 'discount' does not appear anywhere in the invoice totals area. If a discount row is shown, this test must fail."
+    },
+    {
+      "type": "assertion",
+      "description": "Assert the Taxable amount equals the Subtotal exactly, allowing at most 0.01 of rounding difference. With no discount in force those two figures must match. If they differ, this test must fail."
+    },
+    {
+      "type": "assertion",
+      "description": "Assert the line items still carry the advance paid at connection as its own negative line. That advance is part of the discount base, so it must be visible on the invoice."
+    }
+  ]
+}

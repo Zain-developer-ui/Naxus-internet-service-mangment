@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>NEXUS Service Marketing System — Developer Guide</title>
+<style>
+:root { --accent: #2c3e70; }
+
+@page {
+    size: A4;
+    margin: 20mm 18mm 22mm 18mm;
+
+    @bottom-center {
+        content: counter(page);
+        font-family: Georgia, serif;
+        font-size: 9pt;
+        color: #8a8a8a;
+    }
+}
+
+* { box-sizing: border-box; }
+
+html { font-size: 10.5pt; }
+
+body {
+    font-family: Georgia, "Times New Roman", serif;
+    color: #1c1c1c;
+    line-height: 1.55;
+    margin: 0;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+h1, h2, h3, h4 {
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.25;
+    page-break-after: avoid;
+    break-after: avoid;
+}
+
+h1 {
+    font-size: 20pt;
+    margin: 0 0 6pt;
+    letter-spacing: -0.2pt;
+}
+
+h2 {
+    font-size: 14pt;
+    margin: 22pt 0 8pt;
+    padding-bottom: 4pt;
+    border-bottom: 1.5pt solid var(--accent);
+    color: var(--accent);
+}
+
+h3 { font-size: 11.5pt; margin: 16pt 0 6pt; }
+h4 { font-size: 10.5pt; margin: 13pt 0 4pt; color: #444; }
+
+p { margin: 0 0 8pt; }
+
+a { color: var(--accent); text-decoration: none; }
+
+hr {
+    border: none;
+    border-top: 0.5pt solid #d5d5d5;
+    margin: 16pt 0;
+}
+
+/* ---- cover ---- */
+
+.cover {
+    page-break-after: always;
+    break-after: page;
+    height: 240mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-left: 6pt solid var(--accent);
+    padding-left: 16pt;
+}
+
+.cover .mark {
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 44pt;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: -2pt;
+    line-height: 1;
+    margin-bottom: 4pt;
+}
+
+.cover .rule {
+    width: 60pt;
+    height: 3pt;
+    background: var(--accent);
+    margin: 14pt 0 20pt;
+}
+
+.cover h1 {
+    font-size: 26pt;
+    margin: 0 0 8pt;
+    max-width: 150mm;
+}
+
+.cover .sub {
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 15pt;
+    color: #555;
+    margin: 0 0 26pt;
+}
+
+.cover .meta {
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 9.5pt;
+    color: #666;
+    line-height: 1.9;
+}
+
+.cover .meta strong { color: #1c1c1c; }
+
+/* ---- tables ---- */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 8pt 0 14pt;
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 8.6pt;
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+thead { display: table-header-group; }
+
+th {
+    background: var(--accent);
+    color: #fff;
+    text-align: left;
+    padding: 5pt 6pt;
+    font-weight: 600;
+    font-size: 8.4pt;
+    letter-spacing: 0.2pt;
+}
+
+td {
+    padding: 4.5pt 6pt;
+    border-bottom: 0.5pt solid #e2e2e2;
+    vertical-align: top;
+}
+
+tbody tr:nth-child(even) { background: #f7f7f5; }
+
+/* ---- code ---- */
+
+pre {
+    background: #f5f5f2;
+    border: 0.5pt solid #ddd;
+    border-left: 2.5pt solid var(--accent);
+    padding: 7pt 9pt;
+    margin: 8pt 0 12pt;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 8pt;
+    line-height: 1.45;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+pre code { background: none; padding: 0; border: none; }
+
+code {
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 8.6pt;
+    background: #f0f0ed;
+    padding: 0.5pt 2.5pt;
+    border-radius: 2pt;
+    color: #9c2a2a;
+}
+
+/* ---- blockquote as callout ---- */
+
+blockquote {
+    margin: 9pt 0 12pt;
+    padding: 7pt 10pt;
+    background: #f8f8f4;
+    border-left: 2.5pt solid #c9a227;
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+blockquote p { margin: 0 0 5pt; font-size: 9.6pt; }
+blockquote p:last-child { margin-bottom: 0; }
+blockquote strong { color: #7a5c00; }
+
+/* ---- lists ---- */
+
+ul, ol { margin: 0 0 9pt; padding-left: 16pt; }
+li { margin-bottom: 3pt; }
+
+/* ---- contents ---- */
+
+.toc {
+    page-break-after: always;
+    break-after: page;
+}
+
+.toc h2 { margin-top: 0; }
+
+.toc ol { padding-left: 18pt; }
+.toc li { margin-bottom: 4pt; font-family: "Segoe UI", Arial, sans-serif; font-size: 10pt; }
+.toc a { color: #1c1c1c; }
+
+</style>
+</head>
+<body>
+
+<section class="cover">
+    <div class="mark">N</div>
+    <div class="rule"></div>
+    <h1>NEXUS Service Marketing System</h1>
+    <p class="sub">Developer Guide</p>
+    <div class="meta">
+        <div><strong>Version</strong> &nbsp; 1.0</div>
+        <div><strong>Date</strong> &nbsp; October 2026</div>
+        <div><strong>Project</strong> &nbsp; Aptech eProject</div>
+        <div><strong>Platform</strong> &nbsp; ASP.NET Core 8 MVC &middot; SQL Server</div>
+    </div>
+</section>
+
+<section class="toc">
+<h2>Contents</h2>
+<ol>
+<li><a href="#developer-guide">Developer Guide</a></li>
+<li><a href="#table-of-contents">Table of Contents</a></li>
+<li><a href="#1-overview">1. Overview</a></li>
+<li><a href="#2-technology-stack">2. Technology Stack</a></li>
+<li><a href="#3-solution-layout">3. Solution Layout</a></li>
+<li><a href="#4-getting-the-project-running">4. Getting the Project Running</a></li>
+<li><a href="#5-configuration">5. Configuration</a></li>
+<li><a href="#6-architecture">6. Architecture</a></li>
+<li><a href="#7-domain-model">7. Domain Model</a></li>
+<li><a href="#8-data-access">8. Data Access</a></li>
+<li><a href="#9-the-billing-engine">9. The Billing Engine</a></li>
+<li><a href="#10-authentication-and-authorisation">10. Authentication and Authorisation</a></li>
+<li><a href="#11-security">11. Security</a></li>
+<li><a href="#12-front-end">12. Front-End</a></li>
+<li><a href="#13-identifier-formats">13. Identifier Formats</a></li>
+<li><a href="#14-conventions">14. Conventions</a></li>
+<li><a href="#15-development-gotchas">15. Development Gotchas</a></li>
+<li><a href="#16-known-gaps">16. Known Gaps</a></li>
+<li><a href="#appendix-file-map-for-common-tasks">Appendix — File map for common tasks</a></li>
+</ol>
+</section>
+
+<h2 id="developer-guide">Developer Guide</h2>
+<p><strong>Version 1.0 · October 2026</strong></p>
+<p>Aptech eProject — ASP.NET Core 8 MVC service marketing and billing system.</p>
+<hr />
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#1-overview">Overview</a></li>
+<li><a href="#2-technology-stack">Technology Stack</a></li>
+<li><a href="#3-solution-layout">Solution Layout</a></li>
+<li><a href="#4-getting-the-project-running">Getting the Project Running</a></li>
+<li><a href="#5-configuration">Configuration</a></li>
+<li><a href="#6-architecture">Architecture</a></li>
+<li><a href="#7-domain-model">Domain Model</a></li>
+<li><a href="#8-data-access">Data Access</a></li>
+<li><a href="#9-the-billing-engine">The Billing Engine</a></li>
+<li><a href="#10-authentication-and-authorisation">Authentication and Authorisation</a></li>
+<li><a href="#11-security">Security</a></li>
+<li><a href="#12-front-end">Front-End</a></li>
+<li><a href="#13-identifier-formats">Identifier Formats</a></li>
+<li><a href="#14-conventions">Conventions</a></li>
+<li><a href="#15-development-gotchas">Development Gotchas</a></li>
+<li><a href="#16-known-gaps">Known Gaps</a></li>
+</ol>
+<hr />
+<h2 id="1-overview">1. Overview</h2>
+<p>NEXUS is a server-rendered MVC application that manages the life cycle of an internet service subscriber: order, feasibility survey, installation, activation, monthly billing and payment, with supporting back-office modules for inventory, procurement, staff and site configuration.</p>
+<p>The design brief was <strong>"portfolio-grade, not a student project."</strong> That shaped several decisions:</p>
+<ul>
+<li>No Bootstrap. The layout, components and design tokens are hand-written CSS.</li>
+<li>No emojis, no filler comments, no boilerplate docblocks. Comments explain</li>
+</ul>
+<p><em>why</em>, briefly, and only where the reason is not obvious from the code.</p>
+<ul>
+<li>No fabricated statistics, testimonials or placeholder numbers anywhere in the</li>
+</ul>
+<p>UI. Every figure on every screen is read from the database.</p>
+<p>The system is one ASP.NET Core project. There is no separate class library, no separate API layer, and no SPA framework — views are Razor, behaviour is progressive-enhancement JavaScript, and the server owns all the state.</p>
+<hr />
+<h2 id="2-technology-stack">2. Technology Stack</h2>
+<table>
+<thead><tr>
+<th>Layer</th>
+<th>Choice</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Runtime</td>
+<td>.NET 8.0</td>
+</tr>
+<tr>
+<td>Web framework</td>
+<td>ASP.NET Core MVC (controllers + Razor views)</td>
+</tr>
+<tr>
+<td>Data access</td>
+<td>Entity Framework Core 8.0.11</td>
+</tr>
+<tr>
+<td>Database</td>
+<td>Microsoft SQL Server (Express is sufficient)</td>
+</tr>
+<tr>
+<td>Authentication</td>
+<td>Cookie authentication, custom user store</td>
+</tr>
+<tr>
+<td>Password hashing</td>
+<td>PBKDF2 via ASP.NET Core Identity's <code>PasswordHasher&lt;T&gt;</code></td>
+</tr>
+<tr>
+<td>Validation</td>
+<td>Data annotations on view models; FluentValidation available</td>
+</tr>
+<tr>
+<td>Logging</td>
+<td>Serilog, console + rolling daily file</td>
+</tr>
+<tr>
+<td>Front end</td>
+<td>Hand-written CSS with custom properties; vanilla JavaScript</td>
+</tr>
+<tr>
+<td>Icons</td>
+<td>Font Awesome (self-hosted)</td>
+</tr>
+<tr>
+<td>Charts</td>
+<td>Chart.js (self-hosted)</td>
+</tr>
+<tr>
+<td>Fonts</td>
+<td>System font stack with a self-hosted fallback</td>
+</tr>
+</tbody>
+</table>
+<p>No CSS framework, no UI kit, no build step for the front end. What is in <code>wwwroot/</code> is what ships.</p>
+<hr />
+<h2 id="3-solution-layout">3. Solution Layout</h2>
+<pre><code>NEXUS.Services/
+├── Program.cs                      Composition root
+├── Common/
+│   ├── Result.cs                   Result&lt;T&gt; and ErrorKind
+│   ├── PagedResult.cs              Paged list wrapper
+│   ├── Abstractions/               Cross-cutting interfaces
+│   ├── Billing/BillCalculator.cs   Pure billing arithmetic
+│   ├── Constants/                  Enums, roles, tax rate, ID formats
+│   ├── Extensions/                 ClaimsPrincipal, enum and nav helpers
+│   └── TagHelpers/                 CSP nonce tag helper
+├── Domain/                         Entity classes, grouped by area
+│   ├── Billing/                    Bill, BillLine, Payment, CallUsage, ConnectionCharge
+│   ├── Catalog/                    Plan, PlanPrice, EquipmentProduct, BulkDiscountTier
+│   ├── Common/                     Entity base classes
+│   ├── Customers/                  Customer
+│   ├── Orders/                     ConnectionOrder, Connection, FeasibilityCheck, PlanChangeRequest
+│   ├── Organisation/               AppUser, City, RetailShop, Employee, SiteSetting
+│   └── Procurement/                Vendor, PurchaseOrder, PurchaseOrderLine
+├── Data/
+│   ├── NexusDbContext.cs
+│   ├── Configurations/             IEntityTypeConfiguration per aggregate
+│   ├── Migrations/                 EF Core migrations
+│   └── Seed/NexusSeeder.cs         Reference data
+├── Services/                       Business logic, one folder per area
+│   ├── Accounts/ Authentication/ Billing/ Catalog/ CustomerPortal/
+│   ├── Dashboards/ Email/ Feasibility/ Feedback/ Generation/ Inventory/
+│   ├── Lifecycle/ Notifications/ Orders/ Organisation/ Procurement/
+│   ├── Profile/ Registration/ Reporting/ Retail/ Search/ Security/ Settings/
+├── Controllers/                    One per area, thin
+├── Models/ViewModels/              Screen-shaped types
+├── Views/                          Razor, one folder per controller
+│   └── Shared/                     _Layout, _DashboardLayout, _Sidebar, _Alerts
+└── wwwroot/                        css/ js/ images/ lib/</code></pre>
+<h3 id="31-the-layering-rule">3.1 The layering rule</h3>
+<pre><code>Controller  →  Service  →  DbContext  →  SQL Server
+     ↑             ↓
+  ViewModel     Result&lt;T&gt;</code></pre>
+<ul>
+<li><strong>Controllers are thin.</strong> They bind input, call one service method, map the</li>
+</ul>
+<p><code>Result&lt;T&gt;</code> to a response, and return a view. Business rules do not live in controllers.</p>
+<ul>
+<li><strong>Services own the rules.</strong> Everything decision-shaped — can this connection</li>
+</ul>
+<p>be billed, how much of the advance applies, is this CNIC already taken — is in a service.</p>
+<ul>
+<li><strong><code>BillCalculator</code> is pure.</strong> No <code>DbContext</code>, no <code>ILogger</code>, no async. The</li>
+</ul>
+<p>arithmetic can be reasoned about and tested on its own.</p>
+<hr />
+<h2 id="4-getting-the-project-running">4. Getting the Project Running</h2>
+<h3 id="41-prerequisites">4.1 Prerequisites</h3>
+<table>
+<thead><tr>
+<th>Requirement</th>
+<th>Version</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>.NET SDK</td>
+<td>8.0 or later</td>
+</tr>
+<tr>
+<td>SQL Server</td>
+<td>2019 or later (Express is fine)</td>
+</tr>
+<tr>
+<td>Node.js</td>
+<td>Not required — there is no front-end build</td>
+</tr>
+</tbody>
+</table>
+<h3 id="42-first-run">4.2 First run</h3>
+<p><strong>1. Restore and build.</strong></p>
+<pre data-lang="cmd"><code>dotnet restore
+dotnet build</code></pre>
+<p><strong>2. Point the connection string at your SQL Server.</strong></p>
+<p>Edit <code>appsettings.json</code>:</p>
+<pre data-lang="json"><code>&quot;ConnectionStrings&quot;: {
+  &quot;NexusDb&quot;: &quot;Server=&lt;your-server&gt;;Database=NexusDb;User Id=&lt;user&gt;;Password=&lt;password&gt;;TrustServerCertificate=True;MultipleActiveResultSets=True;Connect Timeout=60&quot;
+}</code></pre>
+<p><strong>3. Apply the database migrations.</strong></p>
+<pre data-lang="cmd"><code>dotnet ef database update</code></pre>
+<p>This creates the schema from the migration history. The <code>__EFMigrationsHistory</code> table records which migrations have been applied.</p>
+<p>If <code>dotnet ef</code> is not installed:</p>
+<pre data-lang="cmd"><code>dotnet tool install --global dotnet-ef</code></pre>
+<p><strong>4. Run.</strong></p>
+<pre data-lang="cmd"><code>dotnet run</code></pre>
+<p>The application listens on <code>http://localhost:5096</code> (and HTTPS on the adjacent port). Reference data — cities, plans, prices, discount tiers, equipment and the seed administrator — is inserted on startup. Every seeding block checks before inserting, so restarting the application is harmless.</p>
+<p><strong>5. Sign in.</strong></p>
+<table>
+<thead><tr>
+<th>Role</th>
+<th>Account ID</th>
+<th>Password</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Admin</td>
+<td><code>A0000000000001</code></td>
+<td><code>Nexus@2027</code></td>
+</tr>
+<tr>
+<td>Retail</td>
+<td><code>R0000000000001</code></td>
+<td><code>Nexus@2026</code></td>
+</tr>
+<tr>
+<td>Technical</td>
+<td><code>T0000000000001</code></td>
+<td><code>Nexus@2026</code></td>
+</tr>
+<tr>
+<td>Accounts</td>
+<td><code>F0000000000001</code></td>
+<td><code>Nexus@2026</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="43-useful-commands">4.3 Useful commands</h3>
+<pre data-lang="cmd"><code>dotnet build
+dotnet run
+dotnet ef migrations add &lt;Name&gt;
+dotnet ef database update
+dotnet ef migrations list</code></pre>
+<blockquote><p><strong>Razor runtime compilation is off.</strong> A change to any <code>.cshtml</code> file requires <code>dotnet build</code>. Changes confined to <code>wwwroot/</code> (CSS, JavaScript, images) take effect on a browser refresh with no rebuild.</p></blockquote>
+<hr />
+<h2 id="5-configuration">5. Configuration</h2>
+<h3 id="51-appsettingsjson">5.1 appsettings.json</h3>
+<table>
+<thead><tr>
+<th>Key</th>
+<th>Purpose</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>ConnectionStrings:NexusDb</code></td>
+<td>SQL Server connection</td>
+</tr>
+<tr>
+<td><code>NexusFinance:CurrencyCode</code></td>
+<td>Currency for display</td>
+</tr>
+<tr>
+<td><code>NexusFinance:CurrencySymbol</code></td>
+<td>Currency symbol, pinned at startup</td>
+</tr>
+<tr>
+<td><code>Security:LoginRateLimit:PermitLimit</code></td>
+<td>Sign-in attempts per IP per window</td>
+</tr>
+<tr>
+<td><code>Security:LoginRateLimit:WindowMinutes</code></td>
+<td>Length of the sign-in window</td>
+</tr>
+<tr>
+<td><code>Serilog</code></td>
+<td>Log levels and sinks</td>
+</tr>
+</tbody>
+</table>
+<h3 id="52-why-the-currency-symbol-is-pinned">5.2 Why the currency symbol is pinned</h3>
+<p>Views format money with <code>ToString(&quot;C&quot;)</code>, which takes the symbol from the host culture. The same figure would then render as <code>$</code> on one machine and <code>Rs</code> on another, making invoice screenshots inconsistent. <code>Program.cs</code> reads <code>NexusFinance:CurrencySymbol</code> and sets it on the default culture at startup.</p>
+<h3 id="53-runtime-settings-database-backed">5.3 Runtime settings (database-backed)</h3>
+<p>Settings that the administrator can change are stored in the <code>SiteSettings</code> table and read through <code>ISiteSettingsService</code>. These are <strong>not</strong> in <code>appsettings.json</code> because they must be editable from the running application:</p>
+<table>
+<thead><tr>
+<th>Key</th>
+<th>Effect</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>site.name</code>, <code>site.company</code>, <code>site.email</code>, <code>site.phone</code>, <code>site.address</code></td>
+<td>Public site identity</td>
+</tr>
+<tr>
+<td><code>brand.logo</code></td>
+<td>Header logo</td>
+</tr>
+<tr>
+<td><code>feature.registration</code></td>
+<td>Public self-service ordering</td>
+</tr>
+<tr>
+<td><code>feature.feedback</code></td>
+<td>Customer feedback form</td>
+</tr>
+<tr>
+<td><code>feature.autoInvoice</code></td>
+<td>Automatic invoice generation</td>
+</tr>
+<tr>
+<td><code>security.sessionMinutes</code></td>
+<td>Session lifetime</td>
+</tr>
+</tbody>
+</table>
+<p><code>SiteSettingsService</code> caches values and invalidates on write, so a settings change is visible on the next request without a restart.</p>
+<hr />
+<h2 id="6-architecture">6. Architecture</h2>
+<h3 id="61-the-result-pattern">6.1 The Result pattern</h3>
+<p>No service method throws for an expected failure. Everything returns <code>Result&lt;T&gt;</code>:</p>
+<pre data-lang="csharp"><code>public sealed class Result&lt;T&gt;
+{
+    public bool IsSuccess { get; }
+    public T? Value { get; }
+    public ErrorKind Kind { get; }              // None, NotFound, Validation,
+                                                // Conflict, Unauthorized,
+                                                // Forbidden, Failure
+    public string? Message { get; }
+    public IReadOnlyDictionary&lt;string, string[]&gt;? Errors { get; }
+}</code></pre>
+<p>Constructors are private; use the factories:</p>
+<pre data-lang="csharp"><code>Result&lt;T&gt;.Ok(value)
+Result&lt;T&gt;.Fail(ErrorKind.Validation, &quot;message&quot;)
+Result&lt;T&gt;.Fail(&quot;FieldName&quot;, &quot;message&quot;)          // field-scoped validation
+Result&lt;T&gt;.NotFound(&quot;Connection&quot;)
+Result&lt;T&gt;.Conflict(&quot;already billed for this period&quot;)
+Result&lt;T&gt;.Forbidden(&quot;this resource&quot;)</code></pre>
+<p>Controllers translate <code>Kind</code> into a response:</p>
+<table>
+<thead><tr>
+<th><code>Kind</code></th>
+<th>Controller response</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>None</code> (success)</td>
+<td>Render the view, or redirect</td>
+</tr>
+<tr>
+<td><code>NotFound</code></td>
+<td>404</td>
+</tr>
+<tr>
+<td><code>Validation</code></td>
+<td>Re-render with the message in <code>TempData[&quot;Error&quot;]</code></td>
+</tr>
+<tr>
+<td><code>Conflict</code></td>
+<td>Re-render with the conflict message</td>
+</tr>
+<tr>
+<td><code>Forbidden</code></td>
+<td>403</td>
+</tr>
+<tr>
+<td><code>Unauthorized</code></td>
+<td>Redirect to sign-in</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why:</strong> a <code>Result&lt;T&gt;</code> chain makes every failure path visible in the signature. An exception-based design hides them, and the controller ends up guessing which exceptions to catch.</p>
+<h3 id="62-dependency-injection">6.2 Dependency injection</h3>
+<p>Everything is registered in <code>Program.cs</code> with an explicit interface:</p>
+<pre data-lang="csharp"><code>builder.Services.AddScoped&lt;IBillingService, BillingService&gt;();
+builder.Services.AddScoped&lt;IPlanChangeService, PlanChangeService&gt;();</code></pre>
+<p>Services are <code>Scoped</code> (one per request) because they hold a <code>DbContext</code>. <code>IPasswordService</code> is a <code>Singleton</code> — it is stateless and hashing is CPU-bound.</p>
+<h3 id="63-middleware-order">6.3 Middleware order</h3>
+<p>Order matters, and <code>Program.cs</code> is deliberately explicit:</p>
+<pre><code>nonce middleware        →  a nonce per request, before anything renders
+exception handler       →  production only
+status code pages       →  branded 404 / 403 / 500 pages
+UseHttpsRedirection
+UseNexusSecurityHeaders →  CSP and the other response headers
+UseStaticFiles
+UseRouting
+UseRateLimiter
+UseAuthentication
+UseAuthorization
+MapControllerRoute</code></pre>
+<p><code>UseRateLimiter</code> sits before authentication because throttling must apply to unauthenticated traffic — the sign-in endpoint being the whole point.</p>
+<hr />
+<h2 id="7-domain-model">7. Domain Model</h2>
+<h3 id="71-core-entities">7.1 Core entities</h3>
+<pre><code>Customer ─────┬─── ConnectionOrder ───┬─── Connection ───┬─── Bill ─── BillLine
+              │                      │                  ├─── Payment
+              │                      └─── FeasibilityCheck
+              │                                         └─── ConnectionCharge
+              ├─── AppUser (login)
+              └─── Feedback
+
+Plan ─── PlanPrice (per billing cycle)   City ─── RetailShop ─── Employee</code></pre>
+<h3 id="72-selected-entities">7.2 Selected entities</h3>
+<p><strong><code>Customer</code></strong> — the subscriber. Holds the account ID, CNIC, contact details, address, city, an optional organisation name for corporate accounts, and the outlet it was sold from. <code>LiveConnectionCount</code> drives the bulk-discount tier.</p>
+<p><strong><code>AppUser</code></strong> — the login record. References a <code>Customer</code> for customer accounts, or an <code>Employee</code> for staff. <code>Role</code> is a string matching <code>NexusRoles</code>.</p>
+<p><strong><code>ConnectionOrder</code></strong> — the order, before a physical line exists. Carries the plan, connection type, billing cycle, installation address, the quoted amount, and the advance accounting fields:</p>
+<pre data-lang="csharp"><code>public decimal QuotedAmount { get; set; }
+public decimal AdvanceApplied { get; set; }
+public decimal AdvanceRemaining =&gt; Math.Max(0m, QuotedAmount - AdvanceApplied);
+public DateTime? AdvanceAdjustedOn { get; set; }</code></pre>
+<p><code>AdvanceApplied</code> is the money already credited against bills. <code>AdvanceRemaining</code> is computed — it is never stored, so it cannot drift.</p>
+<p><strong><code>Connection</code></strong> — the physical line, with a number like <code>CON-B-000004</code> and a status. <code>CanBeBilled()</code> is true only for <code>Active</code>.</p>
+<p><strong><code>Bill</code></strong> — one invoice for one period. <code>Status</code> walks <code>Draft → Issued → PartiallyPaid → Paid</code>, or <code>Overdue</code> after the due date, or <code>Cancelled</code>. The stored amounts are <code>SubTotal</code>, <code>DiscountAmount</code>, <code>TaxableAmount</code>, <code>ServiceTaxAmount</code>, <code>TotalAmount</code> and <code>AmountPaid</code>.</p>
+<p><strong><code>PlanChangeRequest</code></strong> — a customer's request to move plan, waiting for admin approval. One open request per connection.</p>
+<h3 id="73-enums-are-stored-as-strings">7.3 Enums are stored as strings</h3>
+<p>Every enum is persisted as its <strong>name</strong>, not its ordinal:</p>
+<pre data-lang="csharp"><code>b.Property(o =&gt; o.Status).HasConversion&lt;string&gt;().HasMaxLength(30);</code></pre>
+<p><strong>Why:</strong> a database someone can read. <code>Status = 'Active'</code> is self-describing; <code>Status = 1</code> is not, and it breaks the moment someone reorders the enum members.</p>
+<p><strong>Consequence:</strong> raw SQL seeds and manual fixes must use the string name.</p>
+<pre data-lang="sql"><code>UPDATE Bills SET Status = 'Issued' WHERE Id = 6;   -- correct
+UPDATE Bills SET Status = 1        WHERE Id = 6;   -- EF will never match this</code></pre>
+<hr />
+<h2 id="8-data-access">8. Data Access</h2>
+<h3 id="81-dbcontext">8.1 DbContext</h3>
+<p><code>NexusDbContext</code> exposes a <code>DbSet</code> per aggregate and applies the entity configurations from <code>Data/Configurations/</code> in <code>OnModelCreating</code>.</p>
+<pre data-lang="csharp"><code>public DbSet&lt;PlanChangeRequest&gt; PlanChangeRequests =&gt; Set&lt;PlanChangeRequest&gt;();</code></pre>
+<h3 id="82-entity-configurations">8.2 Entity configurations</h3>
+<p>Each aggregate has an <code>IEntityTypeConfiguration&lt;T&gt;</code> class rather than a wall of fluent code in <code>OnModelCreating</code>. This keeps <code>NexusDbContext</code> readable and lets a configuration be found by aggregate name.</p>
+<p>Configurations set the table name, indexes, column types, enum conversions and foreign key behaviour.</p>
+<h3 id="83-migrations">8.3 Migrations</h3>
+<p>Migrations live in <code>Data/Migrations/</code>. Notable ones:</p>
+<table>
+<thead><tr>
+<th>Migration</th>
+<th>What it did</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>Initial_Foundation</code></td>
+<td>Full schema</td>
+</tr>
+<tr>
+<td><code>CallMetering</code></td>
+<td>Metered usage tables</td>
+</tr>
+<tr>
+<td><code>ConnectionCharges</code></td>
+<td>One-off charges</td>
+</tr>
+<tr>
+<td><code>AdvanceAdjustment</code></td>
+<td>Advance tracking on orders</td>
+</tr>
+<tr>
+<td><code>AdvanceApplied</code></td>
+<td>Split the advance into applied / remaining</td>
+</tr>
+<tr>
+<td><code>AdvanceAppliedBackfill</code></td>
+<td>Backfilled <code>AdvanceApplied</code> for rows under the older logic</td>
+</tr>
+<tr>
+<td><code>PlanChangeRequests</code></td>
+<td>Plan change workflow</td>
+</tr>
+</tbody>
+</table>
+<p>Adding a migration:</p>
+<pre data-lang="cmd"><code>dotnet ef migrations add &lt;Descriptive_Name&gt;
+dotnet ef database update</code></pre>
+<h3 id="84-query-patterns">8.4 Query patterns</h3>
+<p><strong>Include only what the screen needs.</strong></p>
+<pre data-lang="csharp"><code>var bill = await _db.Bills
+    .AsNoTracking()
+    .Include(b =&gt; b.Customer).ThenInclude(c =&gt; c.City)
+    .Include(b =&gt; b.Connection)
+    .Include(b =&gt; b.Lines)
+    .FirstOrDefaultAsync(b =&gt; b.Id == billId, ct);</code></pre>
+<p><strong>Always pass a <code>CancellationToken</code></strong> so an abandoned request stops the query.</p>
+<p><strong>Date ranges must cover the whole end day.</strong></p>
+<pre data-lang="csharp"><code>q.Where(b =&gt; b.IssuedOn &lt; to.Date.AddDays(1))   // correct
+q.Where(b =&gt; b.IssuedOn &lt;= to)                  // loses the last day's rows</code></pre>
+<p><strong>Do not call a computed property inside a LINQ-to-Entities predicate.</strong> EF cannot translate it and the query fails at runtime. <code>NotificationService</code> once used <code>IsPending</code>, a computed property, which crashed the admin dashboard. It now filters on the stored column:</p>
+<pre data-lang="csharp"><code>c.BilledOnBillId == null       // translatable
+c.IsPending                    // not translatable — runtime failure</code></pre>
+<hr />
+<h2 id="9-the-billing-engine">9. The Billing Engine</h2>
+<p>This is the most intricate part of the system and deserves its own section.</p>
+<h3 id="91-two-entry-points-one-code-path">9.1 Two entry points, one code path</h3>
+<table>
+<thead><tr>
+<th>Method</th>
+<th>Purpose</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>PrepareDraftAsync(customerId, connectionId, start, end)</code></td>
+<td>Preview — builds the lines, writes nothing</td>
+</tr>
+<tr>
+<td><code>GenerateForPeriodAsync(start, end)</code></td>
+<td>The monthly run — builds and saves a bill per active connection</td>
+</tr>
+</tbody>
+</table>
+<p>Both call <code>BuildLinesAsync</code> and <code>BillCalculator</code>, so a preview can never disagree with what the run produces.</p>
+<h3 id="92-building-the-lines">9.2 Building the lines</h3>
+<p><code>BuildLinesAsync</code> adds, in order:</p>
+<ol>
+<li><strong>Rental</strong> — <code>BillCalculator.RentalLine</code>, priced at the plan's rate for the</li>
+</ol>
+<p>cycle, multiplied by the number of months in the period.</p>
+<ol>
+<li><strong>Usage / calls</strong> — metered usage above the plan's allowance, and local / STD</li>
+</ol>
+<p>/ mobile call minutes from <code>CallUsages</code>.</p>
+<ol>
+<li><strong>Advance</strong> — <code>ApplyAdvanceAsync</code>, a credit (see 9.3).</li>
+<li><strong>One-off charges</strong> — pending <code>ConnectionCharges</code> for the connection.</li>
+</ol>
+<h3 id="93-the-advance-rule">9.3 The advance rule</h3>
+<pre data-lang="csharp"><code>var charges = Math.Max(0m, lines.Sum(l =&gt; l.LineAmount));
+var applied = Math.Min(order.AdvanceRemaining, charges);</code></pre>
+<p>The advance is credited <strong>only as far as the period's own charges allow</strong>. Three guards enforce it:</p>
+<p><strong>Guard 1 — never more than the remaining balance.</strong></p>
+<pre data-lang="csharp"><code>if (order is null || order.AdvanceRemaining &lt;= 0m) return null;</code></pre>
+<p><strong>Guard 2 — never applied twice.</strong></p>
+<pre data-lang="csharp"><code>if (order.AdvanceApplied &gt; 0m) return null;</code></pre>
+<p><strong>Guard 3 — no connection may carry two advance lines.</strong></p>
+<pre data-lang="csharp"><code>private Task&lt;bool&gt; HasAdvanceLineAsync(int connectionId, CancellationToken ct) =&gt;
+    _db.Bills.AnyAsync(b =&gt; b.ConnectionId == connectionId &amp;&amp;
+                            b.Status != BillStatus.Cancelled &amp;&amp;
+                            b.Lines.Any(l =&gt; l.ChargeType == ChargeTypes.AdvancePayment), ct);</code></pre>
+<blockquote><p><strong>Why guard 2 and 3 both exist.</strong> <code>ApplyAdvanceAsync</code> runs during <em>preview</em> as well as during the run. Preview writes nothing, so <code>AdvanceApplied</code> is not decremented there — and because the guard could only see the column, a later period would credit the same money again. The connection this was found on had its advance applied three times across three bills. <code>HasAdvanceLineAsync</code> checks what actually reached the database, which is the durable record; <code>AdvanceApplied</code> catches the order that was drawn down under the older code.</p></blockquote>
+<p><code>MarkAdvanceAdjusted</code> consumes the applied part <strong>only when the bill is saved</strong>, inside the same transaction. A preview therefore never spends the advance.</p>
+<h3 id="94-the-arithmetic">9.4 The arithmetic</h3>
+<p><code>BillCalculator</code> is a pure static class over <code>ChargeLine</code> records:</p>
+<pre><code>subtotal  = sum of all lines
+discount  = sum of DISCOUNTABLE lines × tier rate
+taxable   = subtotal − discount
+tax       = max(0, taxable) × 12.24%
+total     = max(0, taxable + tax)</code></pre>
+<p>Two of those lines encode a business rule that is easy to get wrong:</p>
+<p><strong>The discount base is not the subtotal.</strong> Per the requirements, the bulk rate applies to the advance and the security deposit — the one-off money a customer puts down — and to installation. It does <strong>not</strong> apply to the recurring rental. Discounting the rental would quietly under-bill every month.</p>
+<pre data-lang="csharp"><code>private static readonly HashSet&lt;string&gt; Discountable =
+    new(StringComparer.OrdinalIgnoreCase)
+    {
+        AdvancePayment, SecurityDeposit, Installation
+    };</code></pre>
+<p><strong>A bill is never negative.</strong></p>
+<pre data-lang="csharp"><code>public decimal ServiceTaxAmount =&gt; TaxConstants.Compute(Math.Max(0m, TaxableAmount));
+public decimal TotalAmount =&gt; Math.Max(0m, TaxableAmount + ServiceTaxAmount);</code></pre>
+<p>Without the clamps, a credit line larger than the charges produces a negative tax — a refund of tax the customer never paid, which is not a thing. A fresh charge added <em>after</em> the advance was computed can still push the total below zero, so the clamp exists for more than just consistency.</p>
+<h3 id="95-transactions-and-the-retry-strategy">9.5 Transactions and the retry strategy</h3>
+<p>EF's <code>EnableRetryOnFailure</code> is configured, and a retry strategy cannot replay a transaction it did not open. A hand-rolled transaction therefore has to be wrapped:</p>
+<pre data-lang="csharp"><code>var strategy = _db.Database.CreateExecutionStrategy();
+
+await strategy.ExecuteAsync(async () =&gt;
+{
+    await using var tx = await _db.Database.BeginTransactionAsync(ct);
+
+    // ... work ...
+
+    await tx.CommitAsync(ct);
+});</code></pre>
+<p>Opening a transaction outside the strategy throws at runtime.</p>
+<h3 id="96-bill-numbering">9.6 Bill numbering</h3>
+<p><code>IAccountIdGenerator.NextBillNumberAsync(period, ct)</code> produces <code>INV-&lt;year&gt;-&lt;5-digit serial&gt;</code>, scoped per year. It reads the highest existing number for the period inside the same transaction, so concurrent runs cannot collide.</p>
+<p>Receipt numbers follow the same idea: <code>RCP-&lt;yyyymm&gt;-&lt;5-digit serial&gt;</code>.</p>
+<hr />
+<h2 id="10-authentication-and-authorisation">10. Authentication and Authorisation</h2>
+<h3 id="101-sign-in">10.1 Sign-in</h3>
+<p>Cookie authentication with a custom scheme name (<code>SignInService.Scheme</code>).</p>
+<pre><code>POST /Account/Login
+  → ISignInService.ValidateAsync(accountIdOrEmail, password)
+  → IPasswordService.Verify(hash, password)
+  → claims principal built from the user row
+  → cookie issued</code></pre>
+<p>The identity cookie carries:</p>
+<table>
+<thead><tr>
+<th>Claim</th>
+<th>Helper</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>NameIdentifier</code></td>
+<td><code>User.UserId()</code></td>
+</tr>
+<tr>
+<td><code>Name</code></td>
+<td><code>User.AccountId()</code></td>
+</tr>
+<tr>
+<td><code>Role</code></td>
+<td><code>User.IsInRole(...)</code></td>
+</tr>
+<tr>
+<td><code>customer_id</code></td>
+<td><code>User.CustomerId()</code> — <code>int?</code></td>
+</tr>
+<tr>
+<td><code>shop_id</code></td>
+<td><code>User.ShopId()</code> — <code>int?</code></td>
+</tr>
+<tr>
+<td><code>employee_id</code></td>
+<td><code>User.EmployeeId()</code> — <code>int?</code></td>
+</tr>
+</tbody>
+</table>
+<p>All of these are extension methods on <code>ClaimsPrincipal</code> in <code>Common/Extensions/ClaimsPrincipalExtensions.cs</code>.</p>
+<h3 id="102-passwords">10.2 Passwords</h3>
+<p>Hashing uses ASP.NET Core Identity's <code>PasswordHasher&lt;T&gt;</code> — <strong>PBKDF2 with HMAC-SHA256, 100,000+ iterations, per-user salt</strong>. Nothing in this project stores or logs a plaintext password.</p>
+<p>Additional controls:</p>
+<ul>
+<li><strong>Lockout</strong> after repeated failed attempts.</li>
+<li><strong>Rate limiting</strong> per IP on the sign-in endpoint, 10 attempts per minute by</li>
+</ul>
+<p>default, returning HTTP 429. The limit is configurable so automated end-to-end tests, which drive many sessions from one address, do not trip it on their own traffic.</p>
+<ul>
+<li><strong>Cookie hardening:</strong> <code>HttpOnly</code>, <code>SameSite=Lax</code>, <code>SecurePolicy=SameAsRequest</code>.</li>
+<li><strong>No sliding expiration</strong> — an idle session expires rather than renewing itself.</li>
+</ul>
+<h3 id="103-authorisation">10.3 Authorisation</h3>
+<p>Role checks use <code>[Authorize(Roles = ...)]</code> with the <code>NexusRoles</code> constants:</p>
+<pre data-lang="csharp"><code>[Authorize(Roles = NexusRoles.Accounts + &quot;,&quot; + NexusRoles.Admin)]</code></pre>
+<table>
+<thead><tr>
+<th>Controller</th>
+<th>Roles</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>AdminController</code> and the admin-only controllers</td>
+<td>Admin</td>
+</tr>
+<tr>
+<td><code>OperationsController</code></td>
+<td>Technical, Accounts, Admin</td>
+</tr>
+<tr>
+<td><code>AccountsController</code></td>
+<td>Accounts, Admin</td>
+</tr>
+<tr>
+<td><code>BillsController</code></td>
+<td>Customer, Accounts, Admin, Retail</td>
+</tr>
+<tr>
+<td><code>RetailController</code></td>
+<td>Retail, Admin</td>
+</tr>
+<tr>
+<td><code>SearchController</code></td>
+<td>All staff</td>
+</tr>
+<tr>
+<td><code>CustomerController</code></td>
+<td>Customer, plus staff with an explicit <code>?id=</code></td>
+</tr>
+<tr>
+<td><code>OrdersController.New</code></td>
+<td>Public, gated by <code>feature.registration</code></td>
+</tr>
+<tr>
+<td><code>FeedbackController</code></td>
+<td>Customer, Admin, gated by <code>feature.feedback</code></td>
+</tr>
+</tbody>
+</table>
+<p>Per-action overrides tighten the class-level rule where needed:</p>
+<pre data-lang="csharp"><code>[Authorize(Roles = NexusRoles.Accounts + &quot;,&quot; + NexusRoles.Admin)]
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task&lt;IActionResult&gt; Issue(int id, CancellationToken ct)</code></pre>
+<h3 id="104-ownership-not-just-role">10.4 Ownership, not just role</h3>
+<p>A role check answers "may this kind of user call this action?" It does not answer "may <em>this</em> user touch <em>this</em> row?" — that is a separate check, and skipping it is how IDOR bugs happen.</p>
+<p><code>BillsController.Details</code>:</p>
+<pre data-lang="csharp"><code>if (User.IsInRole(NexusRoles.Customer))
+{
+    var own = User.CustomerId();
+    var owner = await _billing.ForCustomerAsync(own ?? 0, ct);
+    var belongs = owner.IsSuccess &amp;&amp; owner.Value!.Any(b =&gt; b.Id == id);
+    if (!belongs) return Forbid();
+}</code></pre>
+<p>A customer can only open a bill they own. <code>CustomerController</code> does the same through <code>ResolveCustomerId</code>, which reads the id from the claim for a customer and accepts <code>?id=</code> only from staff.</p>
+<hr />
+<h2 id="11-security">11. Security</h2>
+<h3 id="111-response-headers">11.1 Response headers</h3>
+<p><code>SecurityHeadersMiddleware</code> sets, on every response:</p>
+<table>
+<thead><tr>
+<th>Header</th>
+<th>Value</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>X-Content-Type-Options</code></td>
+<td><code>nosniff</code></td>
+</tr>
+<tr>
+<td><code>X-Frame-Options</code></td>
+<td><code>DENY</code></td>
+</tr>
+<tr>
+<td><code>Referrer-Policy</code></td>
+<td><code>strict-origin-when-cross-origin</code></td>
+</tr>
+<tr>
+<td><code>Permissions-Policy</code></td>
+<td><code>camera=(), microphone=(), geolocation=(), payment=()</code></td>
+</tr>
+<tr>
+<td><code>Cross-Origin-Opener-Policy</code></td>
+<td><code>same-origin</code></td>
+</tr>
+<tr>
+<td><code>Strict-Transport-Security</code></td>
+<td><code>max-age=31536000; includeSubDomains</code> (HTTPS only)</td>
+</tr>
+<tr>
+<td><code>Content-Security-Policy</code></td>
+<td>see below</td>
+</tr>
+</tbody>
+</table>
+<h3 id="112-content-security-policy">11.2 Content Security Policy</h3>
+<pre><code>default-src 'self';
+script-src 'self' 'nonce-&lt;per-request-nonce&gt;';
+style-src 'self' 'unsafe-inline';
+img-src 'self' data:;
+font-src 'self' data:;
+connect-src 'self';
+form-action 'self';
+frame-ancestors 'none';
+base-uri 'self';
+object-src 'none'</code></pre>
+<p>Notice <code>script-src</code> has <strong>no</strong> <code>'unsafe-inline'</code>. Inline scripts are permitted only with a nonce, generated per request and exposed to the views.</p>
+<p>Two pieces make this work:</p>
+<ol>
+<li>Middleware generates the nonce and stores it in <code>HttpContext.Items[&quot;csp-nonce&quot;]</code>.</li>
+<li><code>ScriptNonceTagHelper</code> reads it and attaches it to inline <code>&lt;script&gt;</code> tags.</li>
+</ol>
+<pre data-lang="csharp"><code>[HtmlTargetElement(&quot;script&quot;)]
+public class ScriptNonceTagHelper : TagHelper</code></pre>
+<blockquote><p><strong>Only inline scripts get the nonce.</strong> A <code>&lt;script src=&quot;...&quot;&gt;</code> tag must not carry one — the browser ignores the attribute on externally loaded scripts, and adding it by accident hides a real inline script from the policy.</p></blockquote>
+<p><code>style-src</code> still allows <code>'unsafe-inline'</code>. That is a <strong>known, deliberate gap</strong>: a handful of older views use inline <code>style</code> attributes. <code>script-src</code> is the important half, and it is locked down.</p>
+<h3 id="113-cross-site-request-forgery">11.3 Cross-site request forgery</h3>
+<p>Every state-changing action is a POST with <code>[ValidateAntiForgeryToken]</code>, and every form emits <code>@Html.AntiForgeryToken()</code>.</p>
+<p>Two consequences worth knowing:</p>
+<ul>
+<li><strong>Logout is POST, not a link.</strong> A GET logout is CSRF-able and causes redirect</li>
+</ul>
+<p>loops when combined with cookie expiry.</p>
+<ul>
+<li>**<code>[ValidateAntiForgeryToken]</code> plus an <code>IFormCollection</code> parameter returns</li>
+</ul>
+<p>400.** Read <code>Request.Form</code> directly instead when you need raw form access.</p>
+<h3 id="114-input-handling">11.4 Input handling</h3>
+<ul>
+<li>Data annotations on every view model.</li>
+<li><code>SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true</code>, so a</li>
+</ul>
+<p>nullable-reference-type annotation does not silently make an optional field required. Requiredness comes from <code>[Required]</code> only.</p>
+<ul>
+<li>Optional text fields are tested with <code>string.IsNullOrWhiteSpace</code>, not <code>is null</code></li>
+</ul>
+<p>— a browser submits an empty string, not a null.</p>
+<ul>
+<li>Client-side validation mirrors the server rules and is **driven by the</li>
+</ul>
+<p>server's <code>data-val-*</code> attributes**, so the two cannot drift.</p>
+<h3 id="115-what-is-not-done">11.5 What is not done</h3>
+<p>See section 16.</p>
+<hr />
+<h2 id="12-front-end">12. Front-End</h2>
+<h3 id="121-no-framework">12.1 No framework</h3>
+<p>The CSS is hand-written with custom properties for the design tokens. There is no Bootstrap, no Tailwind, no compiled stylesheet step.</p>
+<pre><code>wwwroot/css/
+  base.css          reset and tokens
+  layout.css        page shell, navbar, footer
+  sidebar.css       dashboard sidebar
+  components.css    cards, badges, buttons, forms
+  tables.css        data tables
+  billing.css       invoice layout
+  dashboards-luxury.css   dashboard-specific treatments
+  auth.css          sign-in screens
+  ...</code></pre>
+<p>Design principles, in the order they constrain decisions:</p>
+<ul>
+<li>Restrained. No gradients used as decoration, no glassmorphism, no neon.</li>
+<li>Real numbers only. A screen with no data shows an empty state that explains</li>
+</ul>
+<p>what would make records appear — never a plausible-looking placeholder.</p>
+<ul>
+<li>Typography and spacing do the work that colour would otherwise be asked to do.</li>
+<li>No search bar in the navbar.</li>
+</ul>
+<h3 id="122-layouts">12.2 Layouts</h3>
+<p>There are exactly <strong>two</strong> layouts:</p>
+<table>
+<thead><tr>
+<th>Layout</th>
+<th>Used by</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>_Layout</code></td>
+<td>Public pages</td>
+</tr>
+<tr>
+<td><code>_DashboardLayout</code></td>
+<td>Every signed-in panel</td>
+</tr>
+</tbody>
+</table>
+<p><code>_DashboardLayout</code> renders <code>_Sidebar</code> on the left and the content beside it, and exposes two sections:</p>
+<pre data-lang="razor"><code>@section DashboardStyles { ... }
+@section DashboardScripts { ... }</code></pre>
+<blockquote><p><strong>The section names are <code>DashboardStyles</code> and <code>DashboardScripts</code>.</strong> Writing <code>@section Scripts</code> in a dashboard view throws a 500 at render time. Public views use <code>Scripts</code>.</p></blockquote>
+<h3 id="123-sidebar">12.3 Sidebar</h3>
+<p><code>_Sidebar.cshtml</code> picks its menu from the signed-in identity:</p>
+<pre data-lang="csharp"><code>var role = User.SidebarRole().ToLowerInvariant();</code></pre>
+<p>It does <strong>not</strong> read <code>ViewData[&quot;UserRole&quot;]</code>. The identity is the only source, so a page cannot accidentally render another role's menu.</p>
+<p>Active-item highlighting: the page sets <code>ViewData.SetActiveItem(&quot;bills&quot;)</code>, which the partial matches against. A page may claim more than one key, which is how the overdue filter lights both its own entry and the bills entry.</p>
+<h3 id="124-javascript">12.4 JavaScript</h3>
+<p>Plain ES modules and IIFEs, no bundler. Each file has one job:</p>
+<table>
+<thead><tr>
+<th>File</th>
+<th>Responsibility</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>site.js</code></td>
+<td>Shared behaviour: decorative icon pass, reveals, dropdowns</td>
+</tr>
+<tr>
+<td><code>navigation.js</code></td>
+<td>Sidebar toggle and <code>aria-current</code> marking</td>
+</tr>
+<tr>
+<td><code>validation.js</code></td>
+<td>Client validation driven by server <code>data-val-*</code> attributes</td>
+</tr>
+<tr>
+<td><code>dashboard.js</code></td>
+<td>Dashboard charts and counters</td>
+</tr>
+<tr>
+<td><code>forms.js</code></td>
+<td>Form helpers, conditional fields</td>
+</tr>
+<tr>
+<td><code>search.js</code></td>
+<td>Search and filter behaviour</td>
+</tr>
+<tr>
+<td><code>settings.js</code></td>
+<td>Settings screen</td>
+</tr>
+<tr>
+<td><code>plan-edit.js</code></td>
+<td>Plan editor, tariff field visibility</td>
+</tr>
+<tr>
+<td><code>charts.js</code></td>
+<td>Chart.js wiring</td>
+</tr>
+<tr>
+<td><code>modal.js</code></td>
+<td>Dialogs</td>
+</tr>
+<tr>
+<td><code>tier-edit.js</code></td>
+<td>Bulk discount tier editor</td>
+</tr>
+<tr>
+<td><code>new-connection.js</code>, <code>purchase-order.js</code></td>
+<td>Multi-step / repeatable-row forms</td>
+</tr>
+</tbody>
+</table>
+<p>Two patterns worth knowing:</p>
+<ul>
+<li><strong>Validation is attribute-driven.</strong> <code>validation.js</code> reads <code>data-val-*</code> off the</li>
+</ul>
+<p>input rather than holding its own regexes. A regex rule uses <code>data-val-regex-pattern</code> and <code>data-val-regex</code>; a length rule uses <code>data-val-length-min</code> and <code>data-val-length</code>. Adding a hard-coded client rule reintroduces exactly the drift this design removed.</p>
+<ul>
+<li><strong>Two accessibility passes are centralised.</strong> Decorative Font Awesome icons get</li>
+</ul>
+<p><code>aria-hidden</code> in <code>site.js</code> (<code>initDecorativeIcons</code>), and <code>aria-current=&quot;page&quot;</code> is applied to the active sidebar entry in <code>navigation.js</code> (<code>initAriaCurrent</code>). Neither is written by hand in markup.</p>
+<hr />
+<h2 id="13-identifier-formats">13. Identifier Formats</h2>
+<table>
+<thead><tr>
+<th>Identifier</th>
+<th>Format</th>
+<th>Example</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Customer account</td>
+<td><code>B</code> + 3-digit city code + 12-digit serial</td>
+<td><code>B042000000000001</code></td>
+</tr>
+<tr>
+<td>Admin account</td>
+<td><code>A</code> + 13 digits</td>
+<td><code>A0000000000001</code></td>
+</tr>
+<tr>
+<td>Accounts account</td>
+<td><code>F</code> + 13 digits</td>
+<td><code>F0000000000001</code></td>
+</tr>
+<tr>
+<td>Technical account</td>
+<td><code>T</code> + 13 digits</td>
+<td><code>T0000000000001</code></td>
+</tr>
+<tr>
+<td>Retail account</td>
+<td><code>R</code> + 13 digits</td>
+<td><code>R0000000000001</code></td>
+</tr>
+<tr>
+<td>Order</td>
+<td>letter + 10-digit serial</td>
+<td><code>B0000000001</code></td>
+</tr>
+<tr>
+<td>Connection</td>
+<td><code>CON-</code> + order prefix + serial</td>
+<td><code>CON-B-000004</code></td>
+</tr>
+<tr>
+<td>Bill</td>
+<td><code>INV-&lt;year&gt;-&lt;5-digit serial&gt;</code></td>
+<td><code>INV-2026-00007</code></td>
+</tr>
+<tr>
+<td>Payment receipt</td>
+<td><code>RCP-&lt;yyyymm&gt;-&lt;5-digit serial&gt;</code></td>
+<td><code>RCP-202610-00001</code></td>
+</tr>
+</tbody>
+</table>
+<p>Account and order IDs are allocated inside the same transaction that writes the row, by <code>IAccountIdGenerator</code>, which reads <code>MAX</code> from the table rather than keeping a sequence. Validation helpers live in <code>IdFormats</code>:</p>
+<pre data-lang="csharp"><code>IdFormats.IsWellFormedAccountId(id)
+IdFormats.IsWellFormedOrderId(id)</code></pre>
+<hr />
+<h2 id="14-conventions">14. Conventions</h2>
+<h3 id="141-code-style">14.1 Code style</h3>
+<p>The code must read as though a person wrote it.</p>
+<ul>
+<li><strong>No emojis</strong>, anywhere, in any file.</li>
+<li><strong>No filler comments.</strong> No comment that restates the line below it.</li>
+<li><strong>No boilerplate docblocks.</strong> No <code>/// &lt;summary&gt;</code> on every member "for</li>
+</ul>
+<p>completeness".</p>
+<ul>
+<li>**Comments explain <em>why</em>.** If the reason for a piece of code is not obvious</li>
+</ul>
+<p>from the code, a short comment earns its place. If it is obvious, a comment is noise.</p>
+<pre data-lang="csharp"><code>/**
+ * The advance taken at connection time, credited against the bill. It is only
+ * ever absorbed as far as the period's own charges allow: a bill that came out
+ * negative would read as a refund the customer never asked for, and the surplus
+ * would be stranded.
+ */</code></pre>
+<p>That is the register. An explanation of a real decision, and nothing else.</p>
+<h3 id="142-async">14.2 Async</h3>
+<ul>
+<li>All I/O is async.</li>
+<li>Every async service and controller method takes a <code>CancellationToken</code> and</li>
+</ul>
+<p>passes it down.</p>
+<ul>
+<li>No <code>.Result</code> or <code>.Wait()</code> — both deadlock under a synchronisation context.</li>
+</ul>
+<h3 id="143-naming">14.3 Naming</h3>
+<table>
+<thead><tr>
+<th>Kind</th>
+<th>Convention</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Interface</td>
+<td><code>IFooService</code></td>
+</tr>
+<tr>
+<td>Service</td>
+<td><code>FooService</code></td>
+</tr>
+<tr>
+<td>View model</td>
+<td><code>FooPage</code>, <code>FooRow</code>, <code>FooInput</code></td>
+</tr>
+<tr>
+<td>Razor view</td>
+<td><code>Views/&lt;Controller&gt;/&lt;Action&gt;.cshtml</code></td>
+</tr>
+<tr>
+<td>Migration</td>
+<td><code>Descriptive_Name</code> in PascalCase</td>
+</tr>
+</tbody>
+</table>
+<h3 id="144-nullability">14.4 Nullability</h3>
+<p>Nullable reference types are enabled. <code>Result&lt;T&gt;.Value</code> is nullable by design — an unsuccessful result has no value — and the compiler is right to warn. Do not suppress with <code>!</code>; handle it:</p>
+<pre data-lang="csharp"><code>result.Value ?? Array.Empty&lt;BillSummary&gt;()</code></pre>
+<hr />
+<h2 id="15-development-gotchas">15. Development Gotchas</h2>
+<p>These have all cost time at least once. They are recorded here so they cost it only once.</p>
+<h3 id="ef-core-and-c">EF Core and C#</h3>
+<p><strong>Date ranges must cover the whole end day.</strong></p>
+<pre data-lang="csharp"><code>x &lt; to.Date.AddDays(1)     // correct
+x &lt;= to                    // silently drops the final day</code></pre>
+<p><strong>Computed properties are not translatable.</strong> A get-only property cannot appear inside a LINQ-to-Entities predicate. Filter on the stored column instead.</p>
+<p><strong>Enums are stored as strings.</strong> Raw SQL must use the name: <code>'Active'</code>, not <code>1</code>.</p>
+<p><strong>Byte arrays and <code>HasMaxLength</code>.</strong> <code>MaxLength</code> on <code>nvarchar</code> counts characters; <code>char</code> and <code>varchar</code> count bytes. <code>IdFormats</code> and the configurations already account for the difference.</p>
+<p><strong><code>Fail</code> needs an <code>ErrorKind</code> for a general message.</strong> The single-argument overload takes a <em>field name</em>:</p>
+<pre data-lang="csharp"><code>Result&lt;T&gt;.Fail(&quot;Amount&quot;, &quot;Enter an amount&quot;)                  // field-scoped
+Result&lt;T&gt;.Fail(ErrorKind.Validation, &quot;Something went wrong&quot;) // general</code></pre>
+<p><strong>A <code>GET</code> and a <code>POST</code> action cannot share a name.</strong> Attributes are not part of the method signature, so C# raises <code>CS0111</code>. Give the POST a different method name and alias it:</p>
+<pre data-lang="csharp"><code>[HttpPost]
+[ActionName(&quot;Confirm&quot;)]
+public async Task&lt;IActionResult&gt; ConfirmPost(...) { }</code></pre>
+<p><strong><code>User.EmployeeId()</code> returns <code>int?</code>.</strong> A service taking an <code>int</code> raises <code>CS1503</code>. Match the nullable type.</p>
+<h3 id="razor">Razor</h3>
+<p><strong>Dashboard section names are <code>DashboardStyles</code> and <code>DashboardScripts</code>.</strong> <code>@section Scripts</code> in a dashboard view is a 500.</p>
+<p><strong>Static members are not reachable through an instance in Razor</strong> (<code>CS0176</code>). Write the full type name.</p>
+<p><strong><code>decimal / decimal</code> is not implicitly a <code>double</code>.</strong> Cast explicitly:</p>
+<pre data-lang="razor"><code>(double)(amount / total)</code></pre>
+<p><strong>A new <code>_ViewImports.cshtml</code> must re-register the tag helpers.</strong> The project's has:</p>
+<pre data-lang="razor"><code>@addTagHelper *, NEXUS.Services</code></pre>
+<p>Without it, <code>ScriptNonceTagHelper</code> never runs and every inline script is blocked by the CSP.</p>
+<h3 id="css-and-javascript">CSS and JavaScript</h3>
+<p><strong>Scope a DOM query to the right root.</strong> Not every input lives inside the form. The order summary on <code>/Orders/New</code> is an <code>&lt;aside&gt;</code> <em>beside</em> the form, so a form-scoped query does not find it — query from <code>document</code>.</p>
+<p><strong>Every input must be inside its form, or carry <code>form=&quot;&lt;id&gt;&quot;</code>.</strong> An input outside the form element is simply not submitted, and the failure is silent.</p>
+<p><strong>Do not add <code>inputmode=&quot;numeric&quot;</code> to dash-required fields.</strong> A mobile numeric keypad has no dash key, so the phone field becomes impossible to fill.</p>
+<p><strong>Align the client rule with the server rule, or do not add one.</strong> The phone validation once disagreed between client and server — <code>^03\d{9}$</code> against <code>^0\d{3}-\d{7}$</code> — which silently blocked the entire order wizard.</p>
+<p><strong><code>document.querySelector</code> runs before the DOM is ready</strong> unless the script is deferred or wrapped. All scripts here are deferred or placed at the end.</p>
+<h3 id="database">Database</h3>
+<p><strong><code>EnableRetryOnFailure</code> and a manual transaction do not mix.</strong> Wrap in <code>CreateExecutionStrategy().ExecuteAsync(...)</code> (section 9.5).</p>
+<p><strong>A unique index on <code>Connections.OrderId</code></strong> means one order produces one connection. Do not try to create a second.</p>
+<p><strong><code>EnableRetryOnFailure</code> masks nothing</strong> — a genuine constraint violation still surfaces, after the retries.</p>
+<h3 id="process">Process</h3>
+<p><strong>A running application locks its executable.</strong> <code>dotnet build</code> fails with <code>MSB3021</code>/<code>MSB3027</code> while the app is running. Stop the app first. The compile itself is usually clean — check whether the errors are all copy errors before hunting a code fault.</p>
+<p><strong>Razor runtime compilation is off</strong> (section 4.3).</p>
+<hr />
+<h2 id="16-known-gaps">16. Known Gaps</h2>
+<p>Recorded honestly, because a guide that only lists strengths is not useful.</p>
+<table>
+<thead><tr>
+<th>Gap</th>
+<th>Detail</th>
+<th>Impact</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>style-src 'unsafe-inline'</code></td>
+<td>A few older views use inline <code>style</code> attributes</td>
+<td>Lower than a script gap, but real</td>
+</tr>
+<tr>
+<td>No automated unit tests</td>
+<td><code>BillCalculator</code> is pure and ready to test; no suite is committed</td>
+<td>Regressions in billing arithmetic rely on manual checks</td>
+</tr>
+<tr>
+<td>Single-currency</td>
+<td>The symbol is configurable, but there is no rate table or multi-currency support</td>
+<td>Fine for one market only</td>
+</tr>
+<tr>
+<td>Report exports</td>
+<td>Reports render as pages; no PDF or Excel export</td>
+<td>Manual copy-out</td>
+</tr>
+<tr>
+<td>No online payment gateway</td>
+<td>Out of scope — the requirements place payments at the counter</td>
+<td>Not a defect, but often asked about</td>
+</tr>
+<tr>
+<td>Advance is capped by the period's charges</td>
+<td>Deliberate; the balance rolls forward</td>
+<td>A very large advance takes several periods to consume</td>
+</tr>
+<tr>
+<td>Seed accounts in source</td>
+<td>Convenient for evaluation, wrong for production</td>
+<td>Must be changed before any real deployment</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="appendix-file-map-for-common-tasks">Appendix — File map for common tasks</h2>
+<table>
+<thead><tr>
+<th>To change…</th>
+<th>Start here</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>The billing arithmetic</td>
+<td><code>Common/Billing/BillCalculator.cs</code></td>
+</tr>
+<tr>
+<td>What goes on a bill</td>
+<td><code>Services/Billing/BillingService.cs</code> → <code>BuildLinesAsync</code></td>
+</tr>
+<tr>
+<td>The monthly run</td>
+<td><code>BillingService.GenerateForPeriodAsync</code></td>
+</tr>
+<tr>
+<td>A schema change</td>
+<td><code>Domain/</code>, then <code>Data/Configurations/</code>, then <code>dotnet ef migrations add</code></td>
+</tr>
+<tr>
+<td>Reference data</td>
+<td><code>Data/Seed/NexusSeeder.cs</code></td>
+</tr>
+<tr>
+<td>Who can open what</td>
+<td><code>NexusRoles</code> + the <code>[Authorize]</code> attribute on the controller</td>
+</tr>
+<tr>
+<td>An identity claim</td>
+<td><code>Common/Extensions/ClaimsPrincipalExtensions.cs</code></td>
+</tr>
+<tr>
+<td>The sidebar menu</td>
+<td><code>Views/Shared/_Sidebar.cshtml</code></td>
+</tr>
+<tr>
+<td>A response header or the CSP</td>
+<td><code>Services/Security/SecurityHeadersMiddleware.cs</code></td>
+</tr>
+<tr>
+<td>A new screen</td>
+<td>Add a service method, a view model in <code>Models/ViewModels/</code>, an action, and a view under <code>Views/</code></td>
+</tr>
+<tr>
+<td>Design tokens</td>
+<td><code>wwwroot/css/base.css</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>End of Developer Guide</em></p>
+
+</body>
+</html>

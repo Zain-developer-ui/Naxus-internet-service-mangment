@@ -16,7 +16,7 @@ namespace NEXUS.Controllers
 
         public async Task<IActionResult> Dashboard(CancellationToken ct)
         {
-            ViewData.SetActiveItem("dashboard");
+            ViewData.SetActiveItem("dashboard", "technical");
             var result = await _dash.GetAsync(ct);
 
             if (!result.IsSuccess)

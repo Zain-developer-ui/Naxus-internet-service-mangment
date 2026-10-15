@@ -1,10 +1,62 @@
-﻿<!DOCTYPE html>
+﻿@using NEXUS.Services.Settings
+@inject ISiteSettingsService SiteSettings
+@inject IWebHostEnvironment Web
+@{
+    // The settings screen writes these keys, so the layout has to read them or
+    // the admin's edits go nowhere. Read once per render, and never let a bad
+    // settings row take the whole site down with it.
+    IReadOnlyDictionary<string, string> site;
+
+    try
+    {
+        site = await SiteSettings.GetManyAsync(new[]
+        {
+            "site.name", "site.tagline", "site.footer", "site.company",
+            "brand.primary", "brand.accent", "brand.logo",
+            "contact.phone", "contact.email", "contact.address",
+            "feature.maintenance", "feature.feedback"
+        }, Context.RequestAborted);
+    }
+    catch
+    {
+        site = new Dictionary<string, string>();
+    }
+
+    string Setting(string key, string fallback) =>
+        site.TryGetValue(key, out var value) && !string.IsNullOrWhiteSpace(value)
+            ? value
+            : fallback;
+
+    var siteName = Setting("site.name", "NEXUS");
+    var brandPrimary = Setting("brand.primary", "#0A1F44");
+    var brandAccent = Setting("brand.accent", "#1E6FE5");
+    var inMaintenance = Setting("feature.maintenance", "false") == "true";
+
+    // A logo path typed by an admin can point anywhere, so only render it when
+    // the file actually exists - otherwise the navbar falls back to the mark.
+    var logoPath = Setting("brand.logo", string.Empty).Trim();
+    var brandLogo = logoPath.Length > 0 && logoPath.StartsWith('/')
+        && Web.WebRootFileProvider.GetFileInfo(logoPath[1..]).Exists
+            ? logoPath
+            : null;
+
+    ViewData["SiteName"] = siteName;
+    ViewData["SiteTagline"] = Setting("site.tagline", "Connecting You to a Better Tomorrow");
+    ViewData["SiteFooterNote"] = Setting("site.footer", "All rights reserved.");
+    ViewData["SiteCompany"] = Setting("site.company", "NEXUS Service Marketing System");
+    ViewData["BrandLogo"] = brandLogo;
+    ViewData["FeedbackOpen"] = Setting("feature.feedback", "true") == "true";
+    ViewData["ContactPhone"] = Setting("contact.phone", "111-NEXUS-1");
+    ViewData["ContactEmail"] = Setting("contact.email", "support@nexus.example");
+    ViewData["ContactAddress"] = Setting("contact.address", "Lahore, Pakistan");
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="NEXUS — Reliable Telecommunication & Internet Services." />
-    <title>@(ViewData["Title"] ?? "NEXUS — Connecting You to a Better Tomorrow")</title>
+    <meta name="description" content="@siteName — Reliable Telecommunication & Internet Services." />
+    <title>@(ViewData["Title"] ?? $"{siteName} — Connecting You to a Better Tomorrow")</title>
 
     @* Marks the document as script-capable before the first paint, so the
        scroll-reveal styles can stay unarmed when scripting is unavailable. *@
@@ -33,12 +85,33 @@
     <link rel="stylesheet" href="~/css/home.css" />
     <link rel="stylesheet" href="~/css/responsive.css" />
     @await RenderSectionAsync("Styles", required: false)
+
+    @* Brand colours come from the settings screen, so they land after every
+       stylesheet and win without needing !important. *@
+    <style>
+        :root {
+            --nexus-navy: @brandPrimary;
+            --nexus-blue: @brandAccent;
+        }
+    </style>
 </head>
 <body class="@ViewData["BodyClass"]">
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
     @await Html.PartialAsync("_Navbar")
     @await Html.PartialAsync("_Alerts")
+
+    @* Maintenance mode is a public notice: staff keep their dashboards, so the
+       banner would only be noise on a back-office screen. *@
+    @if (inMaintenance && User.Identity?.IsAuthenticated != true)
+    {
+        <div class="maintenance-banner" role="status">
+            <i class="fa-solid fa-screwdriver-wrench" aria-hidden="true"></i>
+            <span>
+                @siteName is under maintenance. New orders are paused — staff can still sign in.
+            </span>
+        </div>
+    }
 
     <main class="page-wrapper" id="main-content" tabindex="-1">
         @RenderBody() </main>

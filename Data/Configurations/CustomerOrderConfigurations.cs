@@ -177,3 +177,35 @@ public class ConnectionStatusHistoryConfiguration : IEntityTypeConfiguration<Con
             .OnDelete(DeleteBehavior.SetNull);
     }
 }
+
+public class PlanChangeRequestConfiguration : IEntityTypeConfiguration<PlanChangeRequest>
+{
+    public void Configure(EntityTypeBuilder<PlanChangeRequest> b)
+    {
+        b.ToTable("PlanChangeRequests");
+        b.HasIndex(r => r.Status).HasDatabaseName("IX_PlanChangeRequests_Status");
+
+        b.Property(r => r.Status).HasConversion<string>().HasMaxLength(20);
+        b.Property(r => r.Remarks).HasMaxLength(250);
+
+        b.HasOne(r => r.Connection)
+            .WithMany()
+            .HasForeignKey(r => r.ConnectionId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        b.HasOne(r => r.Customer)
+            .WithMany()
+            .HasForeignKey(r => r.CustomerId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        b.HasOne(r => r.CurrentPlan)
+            .WithMany()
+            .HasForeignKey(r => r.CurrentPlanId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        b.HasOne(r => r.RequestedPlan)
+            .WithMany()
+            .HasForeignKey(r => r.RequestedPlanId)
+            .OnDelete(DeleteBehavior.Restrict);
+    }
+}

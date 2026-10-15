@@ -41,7 +41,7 @@
         <i class="fa-solid fa-circle-exclamation"></i> @bad </div>
 }
 
-<div asp-validation-summary="ModelOnly" class="alert alert-danger reveal"></div>
+<div asp-validation-summary="ModelOnly" class="validation-summary"></div>
 
 <div class="edit-layout reveal">
 
@@ -54,10 +54,12 @@
                 <h4>@group.Name</h4>
                 <p class="chart-sub">@GroupBlurb(group.Name)</p>
 
-                @if (group.Name == "Features")
-                {
-                    <div class="field-grid">
-                        @foreach (var field in group.Fields)
+                @* Rendered per field rather than per group: the Email group mixes
+                   switches, numbers and a secret, so one shape cannot cover it. *@
+                <div class="field-grid">
+                    @foreach (var field in group.Fields)
+                    {
+                        @if (field.Kind == "bool")
                         {
                             <label class="switch-field">
                                 <input type="checkbox" name="@field.Key" value="true"
@@ -71,12 +73,7 @@
                                 </span>
                             </label>
                         }
-                    </div>
-                }
-                else
-                {
-                    <div class="field-grid">
-                        @foreach (var field in group.Fields)
+                        else
                         {
                             <div class="field">
                                 <label for="@field.Key">@field.Label</label>
@@ -85,6 +82,12 @@
                                 {
                                     <input id="@field.Key" name="@field.Key" type="number" min="0"
                                            value="@field.Value" class="input" />
+                                }
+                                else if (field.Kind == "secret")
+                                {
+                                    <input id="@field.Key" name="@field.Key" type="password"
+                                           value="@field.Value" class="input"
+                                           autocomplete="new-password" />
                                 }
                                 else if (group.Name == "Branding" && field.Key.EndsWith("colour"))
                                 {
@@ -106,8 +109,8 @@
                                 }
                             </div>
                         }
-                    </div>
-                }
+                    }
+                </div>
             </div>
         }
 
@@ -169,6 +172,7 @@
         "Features" => "Switches that turn parts of the site on or off for visitors.",
         "Contact" => "How customers reach support. Shown in the footer and on the contact page.",
         "Security" => "Session and sign-in policy for every account.",
+        "Email" => "Outgoing mail. With this on, password reset links are emailed instead of verified by mobile.",
         _ => string.Empty
     };
 }

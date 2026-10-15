@@ -28,6 +28,11 @@ public class BillsController : Controller
     public async Task<IActionResult> Index(BillStatus? status, string? search,
                                            CancellationToken ct)
     {
+        // The overdue filter has its own sidebar entry, so both keys light up.
+        ViewData.SetActiveItem(status == BillStatus.Overdue
+            ? new[] { "bills", "invoices" }
+            : new[] { "bills" });
+
         var isCustomer = User.IsInRole(NexusRoles.Customer);
 
         var query = new BillQuery(
@@ -81,10 +86,31 @@ public class BillsController : Controller
     }
 
     /** Accounts-side preview before a bill is committed. */
-    [Authorize(Roles = NexusRoles.Accounts + "," + NexusRoles.Admin)]
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> RecordPayment(PaymentEntry form, CancellationToken ct)
+    // Retail takes payment at the counter too, per the SRS: "the details of
+    // the payments will be maintained by the employees of the retail outlets
+    // and by the accounts department".
+        /**
+         * Draft bills stay internal until accounts issues them - a customer
+         * can neither see nor pay one before that.
+         */
+        [Authorize(Roles = NexusRoles.Accounts + "," + NexusRoles.Admin)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Issue(int id, CancellationToken ct)
+        {
+            var result = await _billing.IssueAsync(id, ct);
+
+            TempData[result.IsSuccess ? "Success" : "Error"] = result.IsSuccess
+                ? "Bill issued - the customer can now see and pay it."
+                : result.Message;
+
+            return RedirectToAction(nameof(Details), new { id });
+        }
+
+        [Authorize(Roles = NexusRoles.Accounts + "," + NexusRoles.Admin + "," + NexusRoles.Retail)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RecordPayment(PaymentEntry form, CancellationToken ct)
     {
         if (!ModelState.IsValid)
         {

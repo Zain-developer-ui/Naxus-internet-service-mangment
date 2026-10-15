@@ -374,6 +374,12 @@ public sealed class OrganisationService : IOrganisationService
         var email = model.Email.Trim();
         var role = model.Role;
 
+        // Administrators are never minted from this screen - only the seed and
+        // an existing admin session may hold that role.
+        if (role == NexusRoles.Admin)
+            return Result<int>.Fail(nameof(model.Role),
+                "Administrator logins are not created here.");
+
         if (!NexusRoles.Staff.Contains(role))
             return Result<int>.Fail(nameof(model.Role), "Pick one of the back-office roles.");
 

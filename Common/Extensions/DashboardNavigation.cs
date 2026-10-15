@@ -46,9 +46,14 @@ public static class DashboardNavigation
         _ => "/Customer/Dashboard"
     };
 
-    /** Marks the active sidebar entry, leaving the role choice to SidebarRole(). */
-    public static void SetActiveItem(this ViewDataDictionary viewData, string item)
+    /**
+     * Marks the active sidebar entry, leaving the role choice to SidebarRole().
+     * One page can sit under more than one menu entry - the technical dashboard
+     * is "Dashboard" for its own staff and "Installations" for an administrator -
+     * so every key that should light up is named here.
+     */
+    public static void SetActiveItem(this ViewDataDictionary viewData, params string[] items)
     {
-        viewData[ActiveKey] = item;
+        viewData[ActiveKey] = string.Join(',', items);
     }
 }

@@ -130,7 +130,9 @@ else
                         </td>
                         <td>@line.ActivatedOn.ToLocalTime().ToString("dd MMM yyyy")</td>
                         <td>
-                            <a href="/Operations/Connection/@line.Id" class="btn btn-outline btn-sm">Manage</a>
+                            <a href="/Operations/Connection/@line.Id" class="icon-act" title="Manage"
+                               aria-label="Manage @line.ConnectionNumber">
+                                <i class="fa-solid fa-sliders" aria-hidden="true"></i> </a>
                         </td>
                     </tr>
                 }

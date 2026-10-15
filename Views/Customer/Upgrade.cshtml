@@ -1,0 +1,78 @@
+@model NEXUS.Models.ViewModels.PlanChangePage
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Upgrade Plan — NEXUS";
+}
+
+@section DashboardStyles {
+    <link rel="stylesheet" href="~/css/dashboards-luxury.css" />
+}
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/Customer/MyConnection">My Connection</a>
+    <span class="sep">/</span>
+    <span class="current">Upgrade Plan</span>
+</nav>
+
+<div class="welcome-banner reveal">
+    <div class="banner-flex">
+        <div class="banner-identity">
+            <h1>Change your plan</h1>
+            <p>
+                Connection <strong class="mono">@Model.ConnectionNumber</strong> ·
+                Current plan <strong>@Model.CurrentPlanName</strong>
+                (@Model.CurrentMonthlyRate.ToString("C") per month)
+            </p>
+        </div>
+    </div>
+</div>
+
+@if (Model.HasPendingRequest)
+{
+    <div class="alert alert-info reveal" role="status">
+        A plan change for this connection is already waiting for approval.
+        You can submit another once it has been decided.
+    </div>
+}
+else if (!Model.Plans.Any())
+{
+    <div class="alert alert-info reveal" role="status">
+        There is no other @Model.ConnectionType plan available right now.
+    </div>
+}
+else
+{
+    <form asp-action="Upgrade" method="post" class="card reveal" style="max-width:640px;">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="ConnectionId" />
+
+        <div class="form-group">
+            <label asp-for="Input.PlanId">Choose a plan</label>
+            <select asp-for="Input.PlanId" class="input">
+                @foreach (var p in Model.Plans)
+                {
+                    <option value="@p.PlanId">
+                        @p.PlanName — @p.MonthlyRate.ToString("C")/month
+                    </option>
+                }
+            </select>
+            <span class="form-hint">
+                Same connection type as your current line. The new rate applies from
+                the next billing period.
+            </span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Input.Remarks">Anything we should know (optional)</label>
+            <textarea asp-for="Input.Remarks" class="input" rows="3"
+                      placeholder="For example: need more speed for online classes"></textarea>
+        </div>
+
+        <div style="display:flex;gap:10px;margin-top:18px;">
+            <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-paper-plane"></i> Send request
+            </button>
+            <a href="/Customer/MyConnection" class="btn btn-ghost">Cancel</a>
+        </div>
+    </form>
+}

@@ -161,22 +161,27 @@ select {
     flex-wrap: wrap;
 }
 
+/* MVC renders one of these under every field, empty until it fails. Drawing the
+   glyph unconditionally used to leave a warning triangle under every input. */
 .field-error {
-    display: block;
+    display: none;
     color: var(--nexus-danger);
     font-size: 0.8rem;
     margin-top: 6px;
-    min-height: 16px;
     font-weight: 500;
 }
 
-    .field-error::before {
-        content: '\f071';
-        font-family: 'Font Awesome 6 Free';
-        font-weight: 900;
-        margin-right: 5px;
-        font-size: 0.75rem;
+    .field-error:not(:empty) {
+        display: block;
     }
+
+        .field-error:not(:empty)::before {
+            content: '\f071';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            margin-right: 5px;
+            font-size: 0.75rem;
+        }
 
 .input-error, input.input-error, select.input-error, textarea.input-error {
     border-color: var(--nexus-danger) !important;
@@ -185,6 +190,82 @@ select {
 
 .input-success {
     border-color: var(--nexus-success) !important;
+}
+
+/* A field with a reveal button beside it, plus the strength meter underneath.
+   The login page keeps its own scoped copy; the order wizard reuses the same
+   markup, so the shapes have to exist outside that page too. */
+.input-wrap {
+    display: flex;
+    border: 1.5px solid var(--nexus-border);
+    border-radius: var(--radius-md);
+    background: var(--nexus-surface);
+    overflow: hidden;
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+    .input-wrap:focus-within {
+        border-color: var(--nexus-blue);
+        box-shadow: 0 0 0 4px rgba(30, 111, 229, .12);
+    }
+
+    .input-wrap input {
+        flex: 1;
+        border: none;
+        outline: none;
+        padding: 12px 14px;
+        font-family: inherit;
+        font-size: .94rem;
+        color: var(--nexus-text);
+        background: transparent;
+    }
+
+    .input-wrap .toggle {
+        border: none;
+        background: transparent;
+        padding: 0 14px;
+        cursor: pointer;
+        color: var(--nexus-muted);
+    }
+
+        .input-wrap .toggle:hover {
+            color: var(--nexus-blue);
+        }
+
+.strength {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+    .strength[hidden] {
+        display: none;
+    }
+
+.strength-bar {
+    flex: 1;
+    height: 5px;
+    border-radius: 999px;
+    background: var(--nexus-border);
+    overflow: hidden;
+}
+
+    .strength-bar span {
+        display: block;
+        height: 100%;
+        width: 0;
+        border-radius: 999px;
+        background: var(--nexus-danger);
+        transition: width .25s ease, background .25s ease;
+    }
+
+.strength-label {
+    font-size: .74rem;
+    font-weight: 600;
+    color: var(--nexus-muted);
+    min-width: 68px;
+    text-align: right;
 }
 
 .validation-summary {
@@ -200,6 +281,13 @@ select {
     .validation-summary ul {
         margin: 0;
         padding-left: 20px;
+    }
+
+    /* MVC keeps the container in the DOM on a clean post and marks it valid, so
+       :empty alone is not enough - the red panel used to show on every form. */
+    .validation-summary:empty,
+    .validation-summary.validation-summary-valid {
+        display: none;
     }
 
 .file-drop {

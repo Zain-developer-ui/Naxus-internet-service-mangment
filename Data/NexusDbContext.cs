@@ -42,6 +42,7 @@ public class NexusDbContext : DbContext
     public DbSet<PurchaseOrder> PurchaseOrders => Set<PurchaseOrder>();
     public DbSet<PurchaseOrderLine> PurchaseOrderLines => Set<PurchaseOrderLine>();
     public DbSet<Feedback> Feedback => Set<Feedback>();
+    public DbSet<PlanChangeRequest> PlanChangeRequests => Set<PlanChangeRequest>();
 
     protected override void OnModelCreating(ModelBuilder b)
     {

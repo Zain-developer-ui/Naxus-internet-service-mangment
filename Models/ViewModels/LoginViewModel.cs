@@ -22,6 +22,48 @@ namespace NEXUS.Models.ViewModels
         public bool RememberMe { get; set; }
     }
 
+    /**
+     * Self-service reset. The second factor depends on what the site can do: a
+     * working mail server means the link goes to the address on the account,
+     * otherwise the mobile number already held on the record stands in - the
+     * same pair the public status lookup asks for.
+     */
+    public class ForgotPasswordViewModel
+    {
+        [Required(ErrorMessage = "Account ID or email is required")]
+        [Display(Name = "Account ID / Email")]
+        [MaxLength(120)]
+        public string AccountIdOrEmail { get; set; } = string.Empty;
+
+        // Checked in the service, because whether it is needed at all depends on
+        // the mail switch, which the form cannot know about on its own.
+        [Display(Name = "Registered mobile number")]
+        [MaxLength(20)]
+        public string Phone { get; set; } = string.Empty;
+
+        /** Drives which second factor the form asks for. */
+        public bool EmailEnabled { get; set; }
+    }
+
+    public class ResetPasswordViewModel
+    {
+        [Required]
+        public string Token { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "New password is required")]
+        [DataType(DataType.Password)]
+        [Display(Name = "New password")]
+        [StringLength(200, MinimumLength = 8,
+            ErrorMessage = "Password must be at least 8 characters")]
+        public string NewPassword { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Please confirm the new password")]
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm new password")]
+        [Compare(nameof(NewPassword), ErrorMessage = "Passwords do not match")]
+        public string ConfirmPassword { get; set; } = string.Empty;
+    }
+
     public class ChangePasswordViewModel
     {
         [Required(ErrorMessage = "Current password is required")]

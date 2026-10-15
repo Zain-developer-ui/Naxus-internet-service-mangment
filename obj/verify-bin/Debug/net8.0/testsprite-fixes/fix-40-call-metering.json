@@ -1,0 +1,25 @@
+{
+  "projectId": "c0ab2de3-d588-4213-ba76-6a119dae1909",
+  "type": "frontend",
+  "name": "Call metering screen loads and handles an empty connection list",
+  "description": "Opens the call metering screen and confirms it renders correctly whether or not any landline connections are on file.",
+  "priority": "p2",
+  "planSteps": [
+    {
+      "type": "action",
+      "description": "Navigate to /Account/Login and sign in as accounts@nexus.example with the password Nexus@2027"
+    },
+    {
+      "type": "action",
+      "description": "Navigate to /Accounts/Calls"
+    },
+    {
+      "type": "assertion",
+      "description": "Assert the call metering screen loads without a server error and shows its heading"
+    },
+    {
+      "type": "assertion",
+      "description": "Assert that either a list of billable landline connections is shown, or a clear empty state explains that no landline connections are available. A blank page or an error page must fail this test."
+    }
+  ]
+}

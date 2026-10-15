@@ -400,7 +400,13 @@ public sealed class StaffLoginEditViewModel
     [Display(Name = "Active")]
     public bool IsActive { get; set; } = true;
 
-    public IReadOnlyList<string> Roles { get; set; } = NexusRoles.Staff;
+    // Administrators are created only through the seed / first login, never
+    // from this screen: a clerk creating logins for their own shop must not be
+    // able to mint a super-user.
+    public IReadOnlyList<string> Roles { get; set; } = new[]
+    {
+        NexusRoles.Accounts, NexusRoles.Technical, NexusRoles.Retail
+    };
 
     public bool IsNew => Id == 0;
     public string PageTitle => IsNew ? "New Staff Login" : $"Edit {FullName}";

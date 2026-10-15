@@ -39,6 +39,7 @@ public sealed class OrderTrackingService : IOrderTrackingService
             .Include(o => o.Plan)
             .Include(o => o.City)
             .Include(o => o.Feasibility)
+            .Include(o => o.Connection)
             .FirstOrDefaultAsync(o => o.OrderId.ToUpper() == key, ct);
 
         if (order is null)
@@ -70,6 +71,13 @@ public sealed class OrderTrackingService : IOrderTrackingService
             ScheduledFor = order.ScheduledFor,
             MonthlyRate = monthly ?? order.QuotedAmount,
             SecurityDeposit = order.Plan.SecurityDeposit,
+            ConnectionNumber = order.Connection?.ConnectionNumber,
+            ConnectionStatus = order.Connection is null
+                ? null
+                : order.Connection.Status.DisplayName(),
+            ConnectionStatusBadge = order.Connection is null
+                ? null
+                : order.Connection.Status.BadgeClass(),
             Timeline = BuildTimeline(order)
         });
     }

@@ -1,0 +1,33 @@
+{
+  "projectId": "c0ab2de3-d588-4213-ba76-6a119dae1909",
+  "type": "frontend",
+  "name": "Admin can create a vendor",
+  "description": "Creates a vendor from the admin screen, filling the one required field, and confirms it appears in the vendor list.",
+  "priority": "p2",
+  "planSteps": [
+    {
+      "type": "action",
+      "description": "Navigate to /Account/Login and sign in as admin@nexus.example with the password Nexus@2027"
+    },
+    {
+      "type": "action",
+      "description": "Navigate to /Admin/Vendors and click the control to add a new vendor"
+    },
+    {
+      "type": "action",
+      "description": "In the Vendor Name field, which is the only required field on this form, type E2E Probe Vendor"
+    },
+    {
+      "type": "action",
+      "description": "Also fill the optional Contact Person field with Probe Contact and the Phone field with 03001234567"
+    },
+    {
+      "type": "action",
+      "description": "Click the save button at the bottom of the form"
+    },
+    {
+      "type": "assertion",
+      "description": "Assert the vendor list is shown and contains a row named E2E Probe Vendor. If the form is still displayed with a validation message, this test must fail."
+    }
+  ]
+}

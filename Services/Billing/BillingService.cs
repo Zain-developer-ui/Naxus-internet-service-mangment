@@ -851,6 +851,20 @@ public sealed class BillingService : IBillingService
         if (order is null || order.AdvanceRemaining <= 0m)
             return null;
 
+        /**
+         * The advance is credited once, on the first bill the connection ever
+         * raises. Applying it again on a later period would spend the same
+         * money twice, and because the line carries a negative amount it would
+         * also drive that bill's total below zero. A connection whose order was
+         * already drawn down therefore gets no further credit line, whatever
+         * the period.
+         */
+        if (order.AdvanceApplied > 0m)
+            return null;
+
+        if (await HasAdvanceLineAsync(connection.Id, ct))
+            return null;
+
         var charges = Math.Max(0m, lines.Sum(l => l.LineAmount));
         var applied = Math.Min(order.AdvanceRemaining, charges);
 
@@ -864,6 +878,12 @@ public sealed class BillingService : IBillingService
 
         return new AdvanceApplication(order, applied);
     }
+
+    /** Whether any earlier bill already carried the advance credit. */
+    private Task<bool> HasAdvanceLineAsync(int connectionId, CancellationToken ct) =>
+        _db.Bills.AnyAsync(b => b.ConnectionId == connectionId &&
+                                b.Status != BillStatus.Cancelled &&
+                                b.Lines.Any(l => l.ChargeType == ChargeTypes.AdvancePayment), ct);
 
     /**
      * Consumes the applied part once the bill is saved. A preview never calls

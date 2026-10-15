@@ -1,9 +1,14 @@
 ﻿@using NEXUS.Common.Constants
 @using NEXUS.Common.Extensions
+@using NEXUS.Services.Notifications
+@inject INotificationService Notifications
 @{
     var userName = User.DisplayName();
     var role = User.RoleName();
     var initials = User.Initials();
+
+    var alerts = await Notifications.ForAsync(User.SidebarRole(), User.CustomerId(),
+                                              Context.RequestAborted);
 }
 @* Dashboard topbar — user chip with account menu, notifications, sidebar toggle *@
 <div class="dashboard-topbar">
@@ -13,11 +18,48 @@
     <div class="topbar-actions">
         <span class="role-pill">@NexusRoles.DisplayName(role)</span>
 
-        <button class="icon-btn" aria-label="Notifications">
-            <i class="fa-regular fa-bell" aria-hidden="true"></i>
-            <span class="badge-dot"></span> </button>
-        <button class="icon-btn" aria-label="Messages">
-            <i class="fa-regular fa-envelope" aria-hidden="true"></i> </button>
+        <div class="notif-wrap" data-notifications>
+            <button type="button" class="icon-btn" data-notifications-toggle
+                    aria-haspopup="true" aria-expanded="false"
+                    aria-label="@(alerts.Count == 0
+                                      ? "Notifications"
+                                      : $"Notifications, {alerts.Count} waiting")">
+                <i class="fa-regular fa-bell" aria-hidden="true"></i>
+                @if (alerts.Count > 0)
+                {
+                    <span class="badge-dot">@alerts.Count</span>
+                }
+            </button>
+
+            <div class="notif-panel" data-notifications-panel hidden>
+                <div class="notif-head">
+                    <span>Notifications</span>
+                    @if (alerts.Count > 0)
+                    {
+                        <span class="notif-count">@alerts.Count</span>
+                    }
+                </div>
+
+                @if (alerts.Count == 0)
+                {
+                    <p class="notif-empty">Nothing needs your attention right now.</p>
+                }
+                else
+                {
+                    <ul class="notif-list">
+                        @foreach (var alert in alerts)
+                        {
+                            <li>
+                                <a href="@alert.Url" class="notif-item @alert.Tone">
+                                    <span class="notif-title">@alert.Title</span>
+                                    <span class="notif-detail">@alert.Detail</span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                }
+            </div>
+        </div>
 
         <div class="user-chip" data-user-menu>
             <button type="button" class="user-chip-trigger" aria-haspopup="true" aria-expanded="false">

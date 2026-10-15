@@ -248,7 +248,18 @@ else if (Model is not null)
                     <i class="fa-solid fa-location-dot"></i> </div>
                 <div>
                     <div style="font-size:1rem;font-weight:700;color:#0A1F44;">@Model.City</div>
-                    <div style="font-size:0.72rem;color:#64748B;text-transform:uppercase;letter-spacing:0.06em;font-weight:600;margin-top:3px;">Installation City</div> </div> </div> </div>
+                    <div style="font-size:0.72rem;color:#64748B;text-transform:uppercase;letter-spacing:0.06em;font-weight:600;margin-top:3px;">Installation City</div> </div> </div>
+
+            @if (Model.ConnectionNumber is not null)
+            {
+                <div class="stat-card reveal" style="background:#fff;border:1px solid #E2E8F0;border-radius:16px;padding:20px;display:flex;align-items:center;gap:14px;">
+                    <div class="stat-icon success" style="width:48px;height:48px;border-radius:12px;background:#D1FAE5;color:#065F46;display:inline-flex;align-items:center;justify-content:center;font-size:1.15rem;flex-shrink:0;">
+                        <i class="fa-solid fa-wifi"></i> </div>
+                    <div>
+                        <div style="font-size:1rem;font-weight:700;color:#0A1F44;font-family:monospace;">@Model.ConnectionNumber</div>
+                        <div style="font-size:0.72rem;color:#64748B;text-transform:uppercase;letter-spacing:0.06em;font-weight:600;margin-top:3px;">
+                            Connection <span class="badge @Model.ConnectionStatusBadge" style="margin-left:4px;">@Model.ConnectionStatus</span> </div> </div> </div>
+            } </div>
 
         @* ---------- MAIN GRID ---------- *@
         <div style="display:grid;grid-template-columns:2fr 1fr;gap:22px;margin-top:26px;" class="dash-grid-2">

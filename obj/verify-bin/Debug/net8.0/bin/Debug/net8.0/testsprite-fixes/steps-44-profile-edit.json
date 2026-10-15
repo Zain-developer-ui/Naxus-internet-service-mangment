@@ -1,0 +1,40 @@
+{
+  "planSteps": [
+    {
+      "type": "action",
+      "description": "Navigate to /Account/Login and sign in as bilal.khan@example.com with the password Nexus@2026"
+    },
+    {
+      "type": "action",
+      "description": "Navigate to /Profile and click the Edit profile button"
+    },
+    {
+      "type": "assertion",
+      "description": "Assert the profile edit form is displayed at /Profile/Edit with Full Name and Contact Number fields"
+    },
+    {
+      "type": "action",
+      "description": "Change the Contact Number field to 03009998877 and click Save Changes"
+    },
+    {
+      "type": "assertion",
+      "description": "Assert the browser returns to the profile page and a confirmation message is shown"
+    },
+    {
+      "type": "action",
+      "description": "Reload the profile page"
+    },
+    {
+      "type": "assertion",
+      "description": "Assert the contact number shown is 03009998877. If the old number is still displayed, this test must fail."
+    },
+    {
+      "type": "action",
+      "description": "Navigate back to /Profile/Edit and submit the form with the Full Name field emptied"
+    },
+    {
+      "type": "assertion",
+      "description": "Assert a validation message is shown against the Full Name field and the change is not saved"
+    }
+  ]
+}

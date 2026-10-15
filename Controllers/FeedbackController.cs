@@ -4,6 +4,7 @@ using NEXUS.Common.Constants;
 using NEXUS.Common.Extensions;
 using NEXUS.Models.ViewModels;
 using NEXUS.Services.Feedback;
+using NEXUS.Services.Settings;
 
 namespace NEXUS.Controllers
 {
@@ -11,12 +12,20 @@ namespace NEXUS.Controllers
     public class FeedbackController : Controller
     {
         private readonly IFeedbackService _feedback;
+        private readonly ISiteSettingsService _settings;
 
-        public FeedbackController(IFeedbackService feedback) => _feedback = feedback;
+        public FeedbackController(IFeedbackService feedback, ISiteSettingsService settings)
+        {
+            _feedback = feedback;
+            _settings = settings;
+        }
 
         [HttpGet]
         public async Task<IActionResult> Index(CancellationToken ct)
         {
+            if (!await _settings.GetFlagAsync("feature.feedback", ct))
+                return FeedbackClosed();
+
             ViewData.SetActiveItem("feedback");
 
             var customerId = User.CustomerId();
@@ -39,6 +48,9 @@ namespace NEXUS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(FeedbackViewModel model, CancellationToken ct)
         {
+            if (!await _settings.GetFlagAsync("feature.feedback", ct))
+                return FeedbackClosed();
+
             ViewData.SetActiveItem("feedback");
 
             var customerId = User.CustomerId();
@@ -69,6 +81,15 @@ namespace NEXUS.Controllers
 
             TempData["Success"] = "Thank you. Your feedback has been received.";
             return RedirectToAction(nameof(Index));
+        }
+
+        /** Feedback collection is an admin switch; off means the page is closed. */
+        private IActionResult FeedbackClosed()
+        {
+            TempData["Error"] = "Customer feedback is currently switched off.";
+
+            var home = User.IsInRole(NexusRoles.Admin) ? "/Admin/Dashboard" : "/Customer/Dashboard";
+            return Redirect(home);
         }
     }
 }

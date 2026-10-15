@@ -329,6 +329,45 @@
     }
 
     /* ---------------------------------------------------------
+       TOPBAR NOTIFICATIONS
+       ---------------------------------------------------------
+       The bell panel. Same open/close contract as the account
+       menu: closes on outside click and on Escape, and focus
+       returns to the trigger.
+       --------------------------------------------------------- */
+    function initNotifications() {
+        document.querySelectorAll('[data-notifications]').forEach(function (wrapper) {
+            const trigger = wrapper.querySelector('[data-notifications-toggle]');
+            const panel = wrapper.querySelector('[data-notifications-panel]');
+            if (!trigger || !panel) return;
+
+            function close() {
+                panel.hidden = true;
+                trigger.setAttribute('aria-expanded', 'false');
+            }
+
+            trigger.addEventListener('click', function (event) {
+                event.stopPropagation();
+                const opening = panel.hidden;
+                panel.hidden = !opening;
+                trigger.setAttribute('aria-expanded', String(opening));
+            });
+
+            panel.addEventListener('click', function (event) {
+                event.stopPropagation();
+            });
+
+            document.addEventListener('click', close);
+            document.addEventListener('keydown', function (event) {
+                if (event.key !== 'Escape') return;
+                if (panel.hidden) return;
+                close();
+                trigger.focus();
+            });
+        });
+    }
+
+    /* ---------------------------------------------------------
        DECORATIVE ICON PASS
        ---------------------------------------------------------
        Font Awesome icons are drawn with ::before content, so they
@@ -356,6 +395,7 @@
         initNavbarScroll();
         initAlerts();
         initUserMenu();
+        initNotifications();
         initConfirmSubmit();
         initToastSubmit();
     });

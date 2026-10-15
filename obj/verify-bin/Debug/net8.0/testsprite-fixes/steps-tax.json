@@ -1,0 +1,24 @@
+{
+  "planSteps": [
+    {
+      "type": "action",
+      "description": "Navigate to /Account/Login and sign in as accounts@nexus.example with the password Nexus@2027"
+    },
+    {
+      "type": "action",
+      "description": "Navigate to /Bills and open the invoice numbered INV-2026-00001"
+    },
+    {
+      "type": "assertion",
+      "description": "Assert the invoice totals area shows Subtotal, Taxable amount, a service tax row, and Total. The service tax row label must name the rate 12.24 percent. If the label shows any other rate, this test must fail."
+    },
+    {
+      "type": "assertion",
+      "description": "Read Subtotal, Taxable amount, Service Tax and Total as numbers. Assert Service Tax equals Taxable amount multiplied by 0.1224, allowing at most 0.01 of rounding difference. If it does not, this test must fail."
+    },
+    {
+      "type": "assertion",
+      "description": "Assert Total equals Taxable amount plus Service Tax, allowing at most 0.01 of rounding difference. If it does not, this test must fail."
+    }
+  ]
+}

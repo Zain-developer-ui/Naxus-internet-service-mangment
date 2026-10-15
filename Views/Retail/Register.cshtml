@@ -103,7 +103,7 @@
                         @foreach (var order in Model.Orders)
                         {
                             <tr>
-                                <td><a href="/Operations/Review/@order.OrderId" class="mono">@order.OrderId</a></td>
+                                <td><a href="/Orders/Tracking?id=@order.OrderId" class="mono">@order.OrderId</a></td>
                                 <td>@order.CustomerName</td>
                                 <td class="hide-sm">@order.ServiceTypeName</td>
                                 <td class="hide-sm">@order.PlanName</td>
@@ -147,7 +147,7 @@
                         @foreach (var line in Model.Connections)
                         {
                             <tr>
-                                <td><a href="/Operations/Connection/@line.ConnectionId" class="mono">@line.ConnectionNumber</a></td>
+                                <td class="mono">@line.ConnectionNumber</td>
                                 <td class="mono">@line.AccountId</td>
                                 <td>@line.CustomerName</td>
                                 <td class="hide-sm">@line.Plan</td>

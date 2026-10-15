@@ -23,19 +23,56 @@ namespace NEXUS.Controllers
         private readonly IOrderRegisterService _orders;
         private readonly ISiteSettingsService _site;
         private readonly IReportService _reports;
+        private readonly IPlanChangeService _planChanges;
         private readonly NexusDbContext _db;
         private readonly IWebHostEnvironment _env;
 
         public AdminController(IAdminDashboardService dashboard, IOrderRegisterService orders,
                                ISiteSettingsService site, IReportService reports,
+                               IPlanChangeService planChanges,
                                NexusDbContext db, IWebHostEnvironment env)
         {
             _dashboard = dashboard;
             _orders = orders;
             _site = site;
             _reports = reports;
+            _planChanges = planChanges;
             _db = db;
             _env = env;
+        }
+
+        /** Customer plan-change requests waiting for a decision. */
+        [HttpGet]
+        public async Task<IActionResult> PlanChanges(CancellationToken ct)
+        {
+            ViewData.SetActiveItem("plan-changes");
+
+            var result = await _planChanges.PendingAsync(ct);
+            if (!result.IsSuccess)
+            {
+                TempData["Error"] = result.Message;
+                return View(Array.Empty<PlanChangeRow>());
+            }
+
+            return View(result.Value!);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DecidePlanChange(int requestId, bool approve,
+                                                          string? remarks, CancellationToken ct)
+        {
+            var employeeId = User.EmployeeId();
+
+            var result = await _planChanges.DecideAsync(requestId, approve, employeeId,
+                                                        remarks, ct);
+
+            TempData[result.IsSuccess ? "Success" : "Error"] = result.IsSuccess
+                ? (approve ? "Plan change approved - the connection now bills on the new plan."
+                           : "Plan change rejected.")
+                : result.Message;
+
+            return RedirectToAction(nameof(PlanChanges));
         }
 
         /** Every order ever taken, including the closed ones. */

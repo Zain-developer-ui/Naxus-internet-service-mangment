@@ -21,6 +21,14 @@ public interface ISiteSettingsService
     Task<string> GetValueAsync(string key, CancellationToken ct = default);
 
     Task<bool> GetFlagAsync(string key, CancellationToken ct = default);
+
+    /**
+     * The layout needs half a dozen keys at once, so they are read in one round
+     * trip rather than one query per key. Unknown keys come back with their
+     * catalogue default, and a key the catalogue does not know is left out.
+     */
+    Task<IReadOnlyDictionary<string, string>> GetManyAsync(IEnumerable<string> keys,
+                                                           CancellationToken ct = default);
 }
 
 public sealed class SiteSettingsService : ISiteSettingsService
@@ -143,6 +151,32 @@ public sealed class SiteSettingsService : ISiteSettingsService
 
     public async Task<bool> GetFlagAsync(string key, CancellationToken ct = default)
         => NormalizeFlag(await GetValueAsync(key, ct)) == "true";
+
+    public async Task<IReadOnlyDictionary<string, string>> GetManyAsync(
+        IEnumerable<string> keys, CancellationToken ct = default)
+    {
+        var wanted = keys.Distinct().ToList();
+
+        var stored = await _db.SiteSettings.AsNoTracking()
+            .Where(s => wanted.Contains(s.Key))
+            .ToDictionaryAsync(s => s.Key, s => s.Value, ct);
+
+        var resolved = new Dictionary<string, string>(StringComparer.Ordinal);
+
+        foreach (var key in wanted)
+        {
+            if (stored.TryGetValue(key, out var value) && !string.IsNullOrEmpty(value))
+            {
+                resolved[key] = value;
+                continue;
+            }
+
+            var definition = SiteSettingsCatalog.All.FirstOrDefault(d => d.Key == key);
+            if (definition is not null) resolved[key] = definition.Default;
+        }
+
+        return resolved;
+    }
 
     /** A checkbox only posts when ticked, so absence has to mean "false". */
     private static string? NormalizeFlag(string? raw)

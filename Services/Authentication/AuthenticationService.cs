@@ -4,6 +4,7 @@ using NEXUS.Common.Abstractions;
 using NEXUS.Common.Constants;
 using NEXUS.Data;
 using NEXUS.Domain.Organisation;
+using NEXUS.Services.Settings;
 
 namespace NEXUS.Services.Authentication;
 
@@ -28,16 +29,29 @@ public interface IUserAuthenticator
 
 public sealed class AuthenticationService : IUserAuthenticator
 {
-    private const int MaxFailedAttempts = 5;
+    private const int FallbackMaxFailedAttempts = 5;
     private static readonly TimeSpan LockoutDuration = TimeSpan.FromMinutes(15);
 
     private readonly NexusDbContext _db;
     private readonly IPasswordService _passwords;
+    private readonly ISiteSettingsService _settings;
 
-    public AuthenticationService(NexusDbContext db, IPasswordService passwords)
+    public AuthenticationService(NexusDbContext db, IPasswordService passwords,
+                                 ISiteSettingsService settings)
     {
         _db = db;
         _passwords = passwords;
+        _settings = settings;
+    }
+
+    /** The lockout threshold is an editable setting, so it is read, not constant. */
+    private async Task<int> MaxFailedAttemptsAsync(CancellationToken ct)
+    {
+        var raw = await _settings.GetValueAsync("security.maxAttempts", ct);
+
+        return int.TryParse(raw, out var value) && value > 0
+            ? value
+            : FallbackMaxFailedAttempts;
     }
 
     /**
@@ -143,7 +157,7 @@ public sealed class AuthenticationService : IUserAuthenticator
 
         user.AccessFailedCount++;
 
-        if (user.AccessFailedCount >= MaxFailedAttempts)
+        if (user.AccessFailedCount >= await MaxFailedAttemptsAsync(ct))
         {
             user.LockoutEnd = DateTime.UtcNow.Add(LockoutDuration);
             user.AccessFailedCount = 0;

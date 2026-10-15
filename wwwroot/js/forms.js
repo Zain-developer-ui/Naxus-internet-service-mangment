@@ -41,6 +41,70 @@
        Markup: <label class="file-drop" data-file-drop>
                  <input type="file" hidden> </label>
        --------------------------------------------------------- */
+    /* ---------------------------------------------------------
+       Input masks
+       Phone, CNIC and the landline all have to carry their dashes
+       and the shape is fixed, so the separators are inserted as the
+       digits are typed. The group sizes are read out of the field's
+       own data-val-regex-pattern, which is the same pattern the
+       server validates against, so the two cannot disagree.
+       --------------------------------------------------------- */
+    function digitGroups(pattern) {
+        const groups = [];
+        let run = 0;
+        let i = 0;
+
+        while (i < pattern.length) {
+            const ch = pattern[i];
+
+            if (ch === '\\' && pattern[i + 1] === 'd') {
+                const counted = /^\\d\{(\d+)\}/.exec(pattern.slice(i));
+                if (counted) {
+                    run += Number(counted[1]);
+                    i += counted[0].length;
+                    continue;
+                }
+                run += 1;
+                i += 2;
+                continue;
+            }
+
+            if (ch >= '0' && ch <= '9') { run += 1; i += 1; continue; }
+            if (ch === '-') { groups.push(run); run = 0; i += 1; continue; }
+
+            i += 1;
+        }
+
+        groups.push(run);
+        return groups.filter(n => n > 0);
+    }
+
+    function applyMask(input, groups) {
+        const max = groups.reduce((a, b) => a + b, 0);
+
+        input.addEventListener('input', () => {
+            const digits = input.value.replace(/\D/g, '').slice(0, max);
+            let out = '';
+            let at = 0;
+
+            groups.forEach((size, index) => {
+                if (at >= digits.length) return;
+                if (index > 0) out += '-';
+                out += digits.slice(at, at + size);
+                at += size;
+            });
+
+            if (out !== input.value) input.value = out;
+        });
+    }
+
+    function initInputMasks() {
+        NEXUS.$$('input[data-val-regex-pattern]').forEach(input => {
+            const groups = digitGroups(input.getAttribute('data-val-regex-pattern'));
+            if (groups.length > 1) applyMask(input, groups);
+        });
+    }
+
     function initFileDrop() {
         NEXUS.$$('[data-file-drop]').forEach(drop => {
             const input = drop.querySelector('input[type=file]');
@@ -176,6 +240,7 @@
     }
 
     NEXUS.ready(() => {
+        initInputMasks();
         initPasswordToggle();
         initFileDrop();
         initSubmitLoading();

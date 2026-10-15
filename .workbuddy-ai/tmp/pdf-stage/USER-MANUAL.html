@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>NEXUS Service Marketing System — User Manual</title>
+<style>
+:root { --accent: #1e4d3f; }
+
+@page {
+    size: A4;
+    margin: 20mm 18mm 22mm 18mm;
+
+    @bottom-center {
+        content: counter(page);
+        font-family: Georgia, serif;
+        font-size: 9pt;
+        color: #8a8a8a;
+    }
+}
+
+* { box-sizing: border-box; }
+
+html { font-size: 10.5pt; }
+
+body {
+    font-family: Georgia, "Times New Roman", serif;
+    color: #1c1c1c;
+    line-height: 1.55;
+    margin: 0;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+h1, h2, h3, h4 {
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.25;
+    page-break-after: avoid;
+    break-after: avoid;
+}
+
+h1 {
+    font-size: 20pt;
+    margin: 0 0 6pt;
+    letter-spacing: -0.2pt;
+}
+
+h2 {
+    font-size: 14pt;
+    margin: 22pt 0 8pt;
+    padding-bottom: 4pt;
+    border-bottom: 1.5pt solid var(--accent);
+    color: var(--accent);
+}
+
+h3 { font-size: 11.5pt; margin: 16pt 0 6pt; }
+h4 { font-size: 10.5pt; margin: 13pt 0 4pt; color: #444; }
+
+p { margin: 0 0 8pt; }
+
+a { color: var(--accent); text-decoration: none; }
+
+hr {
+    border: none;
+    border-top: 0.5pt solid #d5d5d5;
+    margin: 16pt 0;
+}
+
+/* ---- cover ---- */
+
+.cover {
+    page-break-after: always;
+    break-after: page;
+    height: 240mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-left: 6pt solid var(--accent);
+    padding-left: 16pt;
+}
+
+.cover .mark {
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 44pt;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: -2pt;
+    line-height: 1;
+    margin-bottom: 4pt;
+}
+
+.cover .rule {
+    width: 60pt;
+    height: 3pt;
+    background: var(--accent);
+    margin: 14pt 0 20pt;
+}
+
+.cover h1 {
+    font-size: 26pt;
+    margin: 0 0 8pt;
+    max-width: 150mm;
+}
+
+.cover .sub {
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 15pt;
+    color: #555;
+    margin: 0 0 26pt;
+}
+
+.cover .meta {
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 9.5pt;
+    color: #666;
+    line-height: 1.9;
+}
+
+.cover .meta strong { color: #1c1c1c; }
+
+/* ---- tables ---- */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 8pt 0 14pt;
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 8.6pt;
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+thead { display: table-header-group; }
+
+th {
+    background: var(--accent);
+    color: #fff;
+    text-align: left;
+    padding: 5pt 6pt;
+    font-weight: 600;
+    font-size: 8.4pt;
+    letter-spacing: 0.2pt;
+}
+
+td {
+    padding: 4.5pt 6pt;
+    border-bottom: 0.5pt solid #e2e2e2;
+    vertical-align: top;
+}
+
+tbody tr:nth-child(even) { background: #f7f7f5; }
+
+/* ---- code ---- */
+
+pre {
+    background: #f5f5f2;
+    border: 0.5pt solid #ddd;
+    border-left: 2.5pt solid var(--accent);
+    padding: 7pt 9pt;
+    margin: 8pt 0 12pt;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 8pt;
+    line-height: 1.45;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+pre code { background: none; padding: 0; border: none; }
+
+code {
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 8.6pt;
+    background: #f0f0ed;
+    padding: 0.5pt 2.5pt;
+    border-radius: 2pt;
+    color: #9c2a2a;
+}
+
+/* ---- blockquote as callout ---- */
+
+blockquote {
+    margin: 9pt 0 12pt;
+    padding: 7pt 10pt;
+    background: #f8f8f4;
+    border-left: 2.5pt solid #c9a227;
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+blockquote p { margin: 0 0 5pt; font-size: 9.6pt; }
+blockquote p:last-child { margin-bottom: 0; }
+blockquote strong { color: #7a5c00; }
+
+/* ---- lists ---- */
+
+ul, ol { margin: 0 0 9pt; padding-left: 16pt; }
+li { margin-bottom: 3pt; }
+
+/* ---- contents ---- */
+
+.toc {
+    page-break-after: always;
+    break-after: page;
+}
+
+.toc h2 { margin-top: 0; }
+
+.toc ol { padding-left: 18pt; }
+.toc li { margin-bottom: 4pt; font-family: "Segoe UI", Arial, sans-serif; font-size: 10pt; }
+.toc a { color: #1c1c1c; }
+
+</style>
+</head>
+<body>
+
+<section class="cover">
+    <div class="mark">N</div>
+    <div class="rule"></div>
+    <h1>NEXUS Service Marketing System</h1>
+    <p class="sub">User Manual</p>
+    <div class="meta">
+        <div><strong>Version</strong> &nbsp; 1.0</div>
+        <div><strong>Date</strong> &nbsp; October 2026</div>
+        <div><strong>Project</strong> &nbsp; Aptech eProject</div>
+        <div><strong>Platform</strong> &nbsp; ASP.NET Core 8 MVC &middot; SQL Server</div>
+    </div>
+</section>
+
+<section class="toc">
+<h2>Contents</h2>
+<ol>
+<li><a href="#user-manual">User Manual</a></li>
+<li><a href="#table-of-contents">Table of Contents</a></li>
+<li><a href="#1-introduction">1. Introduction</a></li>
+<li><a href="#2-getting-started">2. Getting Started</a></li>
+<li><a href="#3-the-five-panels">3. The Five Panels</a></li>
+<li><a href="#4-retail-panel">4. Retail Panel</a></li>
+<li><a href="#5-technical-panel">5. Technical Panel</a></li>
+<li><a href="#6-accounts-panel">6. Accounts Panel</a></li>
+<li><a href="#7-admin-panel">7. Admin Panel</a></li>
+<li><a href="#8-customer-portal">8. Customer Portal</a></li>
+<li><a href="#9-common-tasks">9. Common Tasks</a></li>
+<li><a href="#10-understanding-your-bills">10. Understanding Your Bills</a></li>
+<li><a href="#11-troubleshooting">11. Troubleshooting</a></li>
+<li><a href="#appendix-a-screen-reference">Appendix A — Screen reference</a></li>
+<li><a href="#appendix-b-glossary">Appendix B — Glossary</a></li>
+</ol>
+</section>
+
+<h2 id="user-manual">User Manual</h2>
+<p><strong>Version 1.0 · October 2026</strong></p>
+<p>Aptech eProject — Service Marketing System for an internet and telecom service provider.</p>
+<hr />
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#1-introduction">Introduction</a></li>
+<li><a href="#2-getting-started">Getting Started</a></li>
+<li><a href="#3-the-five-panels">The Five Panels</a></li>
+<li><a href="#4-retail-panel">Retail Panel</a></li>
+<li><a href="#5-technical-panel">Technical Panel</a></li>
+<li><a href="#6-accounts-panel">Accounts Panel</a></li>
+<li><a href="#7-admin-panel">Admin Panel</a></li>
+<li><a href="#8-customer-portal">Customer Portal</a></li>
+<li><a href="#9-common-tasks">Common Tasks</a></li>
+<li><a href="#10-understanding-your-bills">Understanding Your Bills</a></li>
+<li><a href="#11-troubleshooting">Troubleshooting</a></li>
+</ol>
+<hr />
+<h2 id="1-introduction">1. Introduction</h2>
+<p>NEXUS is a <strong>service marketing and billing system</strong> for an internet service provider. It manages the complete life of a customer:</p>
+<pre><code>Enquiry  →  Order  →  Site survey  →  Installation  →  Active connection
+                                                              ↓
+              Payment  ←  Bill issued  ←  Monthly billing run</code></pre>
+<p>The system is used by five different groups of people, and each group sees only what its role allows. A retail counter clerk cannot see the accounts ledger; a customer cannot see another customer's bill.</p>
+<h3 id="11-what-nexus-does">1.1 What NEXUS does</h3>
+<table>
+<thead><tr>
+<th>Area</th>
+<th>What it handles</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Customer registration</td>
+<td>Walk-in orders at a retail outlet, or self-service on the public site</td>
+</tr>
+<tr>
+<td>Service feasibility</td>
+<td>Distance and capacity checks before an installation is committed</td>
+</tr>
+<tr>
+<td>Installation</td>
+<td>Scheduling, technician assignment, commissioning a line</td>
+</tr>
+<tr>
+<td>Catalog</td>
+<td>Dial-up, broadband and telephone plans, with hourly, monthly, half-yearly and yearly rates</td>
+</tr>
+<tr>
+<td>Billing</td>
+<td>Monthly bill runs, advance and security deposit accounting, 12.24% service tax, bulk discounts</td>
+</tr>
+<tr>
+<td>Payments</td>
+<td>Cash, cheque, bank transfer and card payments recorded at the counter, with auto-numbered receipts</td>
+</tr>
+<tr>
+<td>Inventory</td>
+<td>Equipment stock, vendors, purchase orders</td>
+</tr>
+<tr>
+<td>Reporting</td>
+<td>Revenue by city and year, connection growth, customer lists</td>
+</tr>
+<tr>
+<td>Customer self-service</td>
+<td>Bill history, plan upgrades, feedback, order tracking</td>
+</tr>
+</tbody>
+</table>
+<h3 id="12-important-how-payment-works">1.2 Important: how payment works</h3>
+<p>NEXUS is a <strong>billing management system</strong>, not a payment gateway. Customers do not pay online.</p>
+<p>Payment is taken <strong>at the counter</strong> — either at a retail outlet or at the accounts office. The customer hands over cash or a cheque, and a member of staff records it in the system. The system then:</p>
+<ul>
+<li>generates a unique receipt number (for example <code>RCP-202610-00001</code>),</li>
+<li>marks the bill <code>Partially Paid</code> or <code>Paid</code>,</li>
+<li>makes the payment visible on the customer's own dashboard immediately.</li>
+</ul>
+<p>This matches the requirements: <em>"the details of the payments will be maintained by the employees of the retail outlets and by the accounts department."</em></p>
+<hr />
+<h2 id="2-getting-started">2. Getting Started</h2>
+<h3 id="21-opening-the-system">2.1 Opening the system</h3>
+<p>Start the application, then open a browser and go to:</p>
+<pre><code>http://localhost:5096</code></pre>
+<p>The public home page appears. From here you can browse plans, submit an enquiry, or use the <strong>Sign in</strong> button in the top-right corner.</p>
+<h3 id="22-signing-in">2.2 Signing in</h3>
+<ol>
+<li>Click <strong>Sign in</strong>.</li>
+<li>Enter your <strong>Account ID</strong> (or the email address on your account).</li>
+<li>Enter your <strong>password</strong>.</li>
+<li>Click <strong>Sign in</strong>.</li>
+</ol>
+<p>After signing in you are taken straight to the dashboard for your role:</p>
+<table>
+<thead><tr>
+<th>Role</th>
+<th>Lands on</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Admin</td>
+<td><code>/Admin/Dashboard</code></td>
+</tr>
+<tr>
+<td>Retail</td>
+<td><code>/Retail/Dashboard</code></td>
+</tr>
+<tr>
+<td>Technical</td>
+<td><code>/Technical/Dashboard</code></td>
+</tr>
+<tr>
+<td>Accounts</td>
+<td><code>/Accounts/Dashboard</code></td>
+</tr>
+<tr>
+<td>Customer</td>
+<td><code>/Customer/Dashboard</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="23-account-id-format">2.3 Account ID format</h3>
+<p>Every account has an ID that identifies what kind of user it is. The first letter is the role:</p>
+<table>
+<thead><tr>
+<th>First character</th>
+<th>Role</th>
+<th>Length</th>
+<th>Example</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>A</code></td>
+<td>Administrator</td>
+<td>14</td>
+<td><code>A0000000000001</code></td>
+</tr>
+<tr>
+<td><code>F</code></td>
+<td>Accounts (Finance)</td>
+<td>14</td>
+<td><code>F0000000000001</code></td>
+</tr>
+<tr>
+<td><code>T</code></td>
+<td>Technical</td>
+<td>14</td>
+<td><code>T0000000000001</code></td>
+</tr>
+<tr>
+<td><code>R</code></td>
+<td>Retail</td>
+<td>14</td>
+<td><code>R0000000000001</code></td>
+</tr>
+<tr>
+<td><code>B</code></td>
+<td>Customer</td>
+<td>16</td>
+<td><code>B042000000000001</code></td>
+</tr>
+</tbody>
+</table>
+<p>The customer ID embeds the city code — <code>B042…</code> is a customer in the city whose code is <code>042</code>.</p>
+<h3 id="24-demonstration-accounts">2.4 Demonstration accounts</h3>
+<p>These accounts ship with the system for evaluation and training:</p>
+<table>
+<thead><tr>
+<th>Role</th>
+<th>Account ID</th>
+<th>Password</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Administrator</td>
+<td><code>A0000000000001</code></td>
+<td><code>Nexus@2027</code></td>
+</tr>
+<tr>
+<td>Retail</td>
+<td><code>R0000000000001</code></td>
+<td><code>Nexus@2026</code></td>
+</tr>
+<tr>
+<td>Technical</td>
+<td><code>T0000000000001</code></td>
+<td><code>Nexus@2026</code></td>
+</tr>
+<tr>
+<td>Accounts</td>
+<td><code>F0000000000001</code></td>
+<td><code>Nexus@2026</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote><p><strong>Security note:</strong> These credentials exist so the system can be demonstrated. Before any real deployment they must be changed, and the admin account in particular should be reissued.</p></blockquote>
+<h3 id="25-navigating-the-dashboard">2.5 Navigating the dashboard</h3>
+<p>Once signed in, every screen has the same three zones:</p>
+<pre><code>┌──────────────┬────────────────────────────────────────────────┐
+│              │  Top bar: role badge · notifications · profile │
+│   Sidebar    ├────────────────────────────────────────────────┤
+│   (role      │                                                │
+│   specific   │   Main content area                            │
+│   menu)      │                                                │
+│              │                                                │
+│   Logout     │                                                │
+└──────────────┴────────────────────────────────────────────────┘</code></pre>
+<ul>
+<li><strong>Sidebar</strong> — the menu for your role. Only the pages you are allowed to open</li>
+</ul>
+<p>appear here.</p>
+<ul>
+<li><strong>Top bar</strong> — shows your role, a notification bell with live counts, and your</li>
+</ul>
+<p>profile menu.</p>
+<ul>
+<li><strong>Main area</strong> — the page you are on.</li>
+</ul>
+<p>On a phone or a narrow window the sidebar collapses; the button in the top-left opens it.</p>
+<h3 id="26-signing-out">2.6 Signing out</h3>
+<p>Open the sidebar and click <strong>Logout</strong> at the bottom. Signing out is a secure POST — using your browser's back button afterwards will not return you to a signed-in page.</p>
+<hr />
+<h2 id="3-the-five-panels">3. The Five Panels</h2>
+<table>
+<thead><tr>
+<th>Panel</th>
+<th>Who uses it</th>
+<th>Main job</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><strong>Retail</strong></td>
+<td>Outlet counter staff</td>
+<td>Take new orders, look up customers, collect payments</td>
+</tr>
+<tr>
+<td><strong>Technical</strong></td>
+<td>Field engineers and surveyors</td>
+<td>Survey sites, install and activate lines</td>
+</tr>
+<tr>
+<td><strong>Accounts</strong></td>
+<td>Finance office</td>
+<td>Run monthly billing, issue bills, take payments, record one-off charges</td>
+</tr>
+<tr>
+<td><strong>Admin</strong></td>
+<td>System owner</td>
+<td>Configure everything: plans, outlets, staff, inventory, settings</td>
+</tr>
+<tr>
+<td><strong>Customer</strong></td>
+<td>The subscriber</td>
+<td>View connection, bills, pay history, request plan changes</td>
+</tr>
+</tbody>
+</table>
+<p>Each panel is protected by role. If you try to open a page belonging to another panel you receive a <strong>403 — Access Denied</strong> page. This is deliberate.</p>
+<hr />
+<h2 id="4-retail-panel">4. Retail Panel</h2>
+<p>The retail outlet is where most customers first meet the business.</p>
+<p><strong>Sign in:</strong> <code>R0000000000001</code> / <code>Nexus@2026</code></p>
+<h3 id="41-sidebar">4.1 Sidebar</h3>
+<table>
+<thead><tr>
+<th>Menu item</th>
+<th>Opens</th>
+<th>Purpose</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Dashboard</td>
+<td><code>/Retail/Dashboard</code></td>
+<td>Today's figures, recent orders</td>
+</tr>
+<tr>
+<td>New Order</td>
+<td><code>/Retail/NewOrder</code></td>
+<td>Register a walk-in customer</td>
+</tr>
+<tr>
+<td>Till Date Register</td>
+<td><code>/Retail/Register</code></td>
+<td>Everything taken at this outlet</td>
+</tr>
+<tr>
+<td>Customer Search</td>
+<td><code>/Retail/Search</code></td>
+<td>Find a customer, order, connection or bill</td>
+</tr>
+<tr>
+<td>Bills & Payments</td>
+<td><code>/Bills</code></td>
+<td>Collect a bill payment</td>
+</tr>
+<tr>
+<td>Stock</td>
+<td><code>/Admin/Inventory</code></td>
+<td>Equipment available at the outlet</td>
+</tr>
+<tr>
+<td>Sales Reports</td>
+<td><code>/Reports</code></td>
+<td>Sales figures</td>
+</tr>
+</tbody>
+</table>
+<h3 id="42-registering-a-walk-in-customer">4.2 Registering a walk-in customer</h3>
+<p>This is the retail desk's most important job. Everything is captured in one four-step wizard, and a customer account, a login and an order are all created in a single action.</p>
+<ol>
+<li>Open <strong>New Order</strong>.</li>
+<li><strong>Step 1 — Service.</strong> Choose the service type (Dial-Up, Broadband or</li>
+</ol>
+<p>Telephone), the plan and the billing cycle (hourly, monthly, half-yearly or yearly). Greyed-out plans are not offered for that service type.</p>
+<ol>
+<li><strong>Step 2 — Customer.</strong> Name, CNIC, mobile number, email, address and city.</li>
+<li>CNIC must be unique.</li>
+<li>Mobile must be unique and written with dashes, e.g. <code>0300-1234567</code>.</li>
+<li>If the customer is a company, tick <strong>Corporate</strong> and give the organisation</li>
+</ol>
+<p>name — this is what qualifies the account for bulk rates.</p>
+<ol>
+<li><strong>Step 3 — Installation.</strong> Address, preferred date and preferred time slot.</li>
+</ol>
+<p>For a telephone or dial-up plan the system asks for the landline number.</p>
+<ol>
+<li><strong>Step 4 — Account.</strong> Choose the password for the customer's new login and</li>
+</ol>
+<p>accept the terms.</p>
+<p>On submit the system shows:</p>
+<ul>
+<li>the <strong>order ID</strong> (for example <code>B0000000005</code>),</li>
+<li>the <strong>account ID</strong> (for example <code>B042000000000007</code>),</li>
+<li>the <strong>quoted amount</strong> (advance plus the first period's rental).</li>
+</ul>
+<blockquote><p><strong>Write these down for the customer.</strong> The account ID is what they use to sign in or to quote when calling support.</p></blockquote>
+<h3 id="43-record-at-the-counter-advance">4.3 Record at the counter (advance)</h3>
+<p>The amount shown at the end of the order is what the customer pays at the counter — typically the security deposit or the advance. The system does not record this automatically; the accounts department applies it against the first bill, which is why it appears on the invoice as an advance credit.</p>
+<h3 id="44-collecting-a-bill-payment">4.4 Collecting a bill payment</h3>
+<p>This is the counter payment flow.</p>
+<ol>
+<li>Open <strong>Bills & Payments</strong> in the sidebar.</li>
+<li>Find the customer's bill. Use the <strong>Search</strong> box with the invoice number,</li>
+</ol>
+<p>account ID or customer name, or filter by status.</p>
+<ol>
+<li>Click <strong>View</strong> on the bill row.</li>
+<li>Scroll to the <strong>Record a Payment</strong> section at the bottom of the invoice.</li>
+</ol>
+<p>It shows the outstanding balance above it.</p>
+<ol>
+<li>Fill in:</li>
+<li><strong>Amount (USD)</strong> — pre-filled with the full outstanding balance. Change it</li>
+</ol>
+<p>if the customer is paying part of the bill.</p>
+<ul>
+<li><strong>Method</strong> — Cash, Cheque, Bank Transfer or Card.</li>
+<li><strong>Reference</strong> — the cheque number or transfer reference. **Mandatory for</li>
+</ul>
+<p>cheque payments.**</p>
+<ul>
+<li><strong>Remarks</strong> — any note you want on the ledger.</li>
+<li>Click <strong>Record Payment</strong>.</li>
+</ul>
+<p>The page reloads with a green confirmation showing the receipt number. The payment now appears in the <strong>Payment History</strong> table of that invoice, and the bill's status changes to <code>Paid</code> or <code>Partially Paid</code>.</p>
+<blockquote><p><strong>If you cannot see the payment form:</strong> the bill is either still a <strong>Draft</strong> (accounts has not issued it yet) or it has <strong>nothing left to pay</strong>. Either way the page tells you which of the two it is — look for the panel at the bottom of the invoice.</p></blockquote>
+<h3 id="45-till-date-register">4.5 Till Date Register</h3>
+<p><code>/Retail/Register</code> lists everything taken at your outlet — orders placed, cash collected, connections sold. Order numbers are links; click one to open its tracking page.</p>
+<hr />
+<h2 id="5-technical-panel">5. Technical Panel</h2>
+<p>The technical panel covers the physical work — surveying a site, installing a line and handing it over to billing.</p>
+<p><strong>Sign in:</strong> <code>T0000000000001</code> / <code>Nexus@2026</code></p>
+<h3 id="51-the-installation-workflow">5.1 The installation workflow</h3>
+<p>Every new order passes through this sequence. The order cannot skip a step.</p>
+<pre><code>Awaiting Feasibility
+        ↓  RecordCheck
+Feasibility passed
+        ↓  Confirm
+Scheduled
+        ↓  StartInstallation
+Installation in progress
+        ↓  CompleteInstallation
+Connection created (Pending)
+        ↓  ChangeStatus → Active
+Active — now billable</code></pre>
+<h3 id="52-step-by-step">5.2 Step by step</h3>
+<ol>
+<li>Open <strong>Installations</strong> (<code>/Operations</code>). This is the survey queue — orders</li>
+</ol>
+<p>waiting for a site visit.</p>
+<ol>
+<li><strong>Record Check.</strong> Open the order and fill in:</li>
+<li><strong>Distance from exchange (km)</strong> — the SRS rule is that a site more than</li>
+</ol>
+<p>5 km from the exchange cannot be served.</p>
+<ul>
+<li><strong>Exchange has capacity</strong> — yes or no.</li>
+<li><strong>Landline verified</strong> — required for dial-up and telephone orders.</li>
+<li><strong>Remarks</strong>.</li>
+</ul>
+<p>If the distance exceeds 5 km, or capacity is unavailable, the check fails and the order is rejected. This is a hard business rule.</p>
+<ol>
+<li><strong>Confirm.</strong> Set the installation date and slot. The order moves to</li>
+</ol>
+<p><em>Scheduled</em>.</p>
+<ol>
+<li><strong>Start Installation.</strong> Press when the engineer arrives on site.</li>
+</ol>
+<ol>
+<li><strong>Complete Installation.</strong> Press when the work is finished. The system now</li>
+</ol>
+<p>creates the <strong>connection</strong> and assigns it a number such as <code>CON-B-000004</code>.</p>
+<ol>
+<li><strong>Activate.</strong> The connection is created in a <strong>Pending</strong> state. Open</li>
+</ol>
+<p><strong>Connections</strong> (<code>/Operations/Connections</code>) and change the status to <strong>Active</strong>.</p>
+<blockquote><p><strong>This last step is not optional.</strong> The billing run only picks up connections that are <code>Active</code>. A connection left <code>Pending</code> will never be billed.</p></blockquote>
+<h3 id="53-connection-statuses">5.3 Connection statuses</h3>
+<table>
+<thead><tr>
+<th>Status</th>
+<th>Meaning</th>
+<th>Billable</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>Pending</code></td>
+<td>Created but not commissioned</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>Active</code></td>
+<td>Live and in service</td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td><code>Temporarily Inactive</code></td>
+<td>Suspended, usually for non-payment</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>Permanently Inactive</code></td>
+<td>Closed or decommissioned</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<p>Every status change is written to a history trail with a reason, so the connection's full life can be reconstructed.</p>
+<h3 id="54-overdue-policy">5.4 Overdue policy</h3>
+<p><strong>Overdue Policy</strong> (<code>/Operations/Overdue</code>) lists connections with unpaid bills past their due date, and lets you suspend or disconnect them.</p>
+<p>Restoring a suspended line is done the same way — change the status back to <code>Active</code>. Billing resumes from the next cycle.</p>
+<hr />
+<h2 id="6-accounts-panel">6. Accounts Panel</h2>
+<p>Accounts runs the money side: the monthly billing cycle, bill issuance, payments and one-off charges.</p>
+<p><strong>Sign in:</strong> <code>F0000000000001</code> / <code>Nexus@2026</code></p>
+<h3 id="61-the-monthly-billing-cycle">6.1 The monthly billing cycle</h3>
+<p>This is the core routine. It runs once a month.</p>
+<pre><code> Run Billing  →  Draft bills created  →  Review  →  Issue  →  Customer can pay</code></pre>
+<p><strong>Step 1 — Run Billing.</strong> Open the dashboard (<code>/Accounts/Dashboard</code>) and press <strong>Run Billing</strong>, choosing the period (for example November 2026).</p>
+<p>The system goes through every active connection and produces one bill per connection for that period. A connection that already has a bill for the window is skipped, so running it twice is safe.</p>
+<p><strong>Step 2 — Review the drafts.</strong> Open <strong>Bills</strong> in the sidebar. New bills appear with the status <code>Draft</code>. Nothing is visible to the customer yet.</p>
+<p><strong>Step 3 — Issue.</strong> Open a draft bill and press <strong>Issue bill</strong> next to the status badge. The status becomes <code>Issued</code> and the bill appears on the customer's dashboard.</p>
+<blockquote><p><strong>A customer can neither see nor pay a Draft bill.</strong> This is intentional — draft is an internal document while the figures are being checked.</p></blockquote>
+<h3 id="62-what-goes-on-a-bill">6.2 What goes on a bill</h3>
+<table>
+<thead><tr>
+<th>Line</th>
+<th>Where it comes from</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><strong>Rental</strong></td>
+<td>The plan's rate for the billing cycle</td>
+</tr>
+<tr>
+<td><strong>Advance paid at connection</strong></td>
+<td>A credit, applied only as far as this period's charges allow</td>
+</tr>
+<tr>
+<td><strong>Usage / call charges</strong></td>
+<td>Metered usage above the plan's included allowance</td>
+</tr>
+<tr>
+<td><strong>One-off charges</strong></td>
+<td>Installation, equipment, replacement — recorded earlier from One-off Charges</td>
+</tr>
+<tr>
+<td><strong>Bulk discount</strong></td>
+<td>Only for corporate accounts, and only on the advance and security deposit</td>
+</tr>
+<tr>
+<td><strong>Service tax</strong></td>
+<td>12.24% of the taxable amount</td>
+</tr>
+</tbody>
+</table>
+<h3 id="63-the-advance-explained">6.3 The advance, explained</h3>
+<p>When a customer orders a connection they pay an amount up front. That money is <strong>not</strong> handed back; it is credited against bills, a piece at a time.</p>
+<p>The rule is simple: <strong>the advance is applied only as far as the current period's own charges allow.</strong></p>
+<p>Example — an advance of $500 and a monthly rental of $315:</p>
+<table>
+<thead><tr>
+<th>Month</th>
+<th>Charges</th>
+<th>Advance applied</th>
+<th>Customer pays</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Month 1</td>
+<td>$315 rental</td>
+<td>$315</td>
+<td>$0</td>
+</tr>
+<tr>
+<td>Month 2</td>
+<td>$315 rental</td>
+<td>$185 (remainder)</td>
+<td>$130 + tax</td>
+</tr>
+</tbody>
+</table>
+<p>Two consequences follow, and both are correct:</p>
+<ul>
+<li><strong>A bill is never negative.</strong> The system will not turn a bill into a credit</li>
+</ul>
+<p>note. Whatever is left of the advance waits on the order and comes off the next bill.</p>
+<ul>
+<li><strong>The advance is credited once.</strong> It is applied on the first bill the</li>
+</ul>
+<p>connection ever raises. Later bills never carry it again.</p>
+<h3 id="64-payments">6.4 Payments</h3>
+<p>Payments are recorded from the bill itself: open a bill, scroll to <strong>Record a Payment</strong>, enter the amount and method, and submit. The receipt number is generated automatically.</p>
+<p>You can take a <strong>partial payment</strong>; the bill becomes <code>Partially Paid</code> and remains open for the balance.</p>
+<h3 id="65-one-off-charges">6.5 One-off Charges</h3>
+<p><code>/Accounts/Charges</code> records ad-hoc charges — a replacement router, an installation fee, a repair. Each charge waits as <em>pending</em> until the next billing run, when it is pulled onto that period's bill.</p>
+<p>This keeps the bill the single source of truth: the customer pays once, for everything, on the invoice.</p>
+<h3 id="66-call-metering">6.6 Call Metering</h3>
+<p><code>/Accounts/Calls</code> records metered usage for dial-up and telephone lines — local, STD and mobile messaging minutes. These become charge lines on the next bill.</p>
+<h3 id="67-overdue-and-reports">6.7 Overdue and reports</h3>
+<ul>
+<li><strong>Overdue</strong> (<code>/Bills?status=Overdue</code>) — bills past their due date.</li>
+<li><strong>Reports</strong> (<code>/Reports</code>) — revenue by city and by year, connection growth,</li>
+</ul>
+<p>customer lists.</p>
+<h3 id="68-suppressing-a-bill">6.8 Suppressing a bill</h3>
+<p>If a bill was raised in error, open it and use the <strong>Cancel</strong> action. A cancelled bill is excluded from all totals and no payment can be recorded against it.</p>
+<hr />
+<h2 id="7-admin-panel">7. Admin Panel</h2>
+<p>The admin panel is the control room. Everything configurable lives here.</p>
+<p><strong>Sign in:</strong> <code>A0000000000001</code> / <code>Nexus@2027</code></p>
+<h3 id="71-sidebar-map">7.1 Sidebar map</h3>
+<table>
+<thead><tr>
+<th>Section</th>
+<th>Items</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><strong>Overview</strong></td>
+<td>Dashboard, Reports</td>
+</tr>
+<tr>
+<td><strong>Operations</strong></td>
+<td>Survey Queue, Connections, Overdue Policy, Customers, Advanced Search, Retail Sales, Till Date Register, Plans, Plan Changes, Orders, Installations, Billing</td>
+</tr>
+<tr>
+<td><strong>Back Office</strong></td>
+<td>Inventory, Equipment, Vendors, Purchase Orders, Outlets & Staff, Staff Logins</td>
+</tr>
+<tr>
+<td><strong>System</strong></td>
+<td>My Profile, Settings, Cities, Discount Slabs</td>
+</tr>
+</tbody>
+</table>
+<p>The admin sees the other panels' screens too, which makes it convenient for training and for troubleshooting.</p>
+<h3 id="72-plans">7.2 Plans</h3>
+<p><code>/Admin/Plans</code> manages the product catalogue.</p>
+<p>Each plan has:</p>
+<ul>
+<li>a <strong>name</strong> and <strong>description</strong>,</li>
+<li>a <strong>connection type</strong> — Dial-Up, Broadband or Telephone,</li>
+<li>an <strong>included allowance</strong> — hours for dial-up, bandwidth for broadband,</li>
+<li>a <strong>security deposit</strong>,</li>
+<li><strong>prices</strong> per billing cycle (hourly, monthly, half-yearly, yearly),</li>
+<li>for telephone plans, a <strong>call tariff</strong> for local, STD and mobile rates.</li>
+</ul>
+<p>The row actions are icons: <strong>Edit</strong>, <strong>Retire</strong>, <strong>Delete</strong>. A retired plan disappears from new orders but existing connections on it keep working.</p>
+<blockquote><p><strong>Tip for evaluating the system:</strong> change a plan's monthly price, then run billing again for a new period. The new price appears on the bill. This shows the rate is read live from the catalogue, not hard-coded.</p></blockquote>
+<h3 id="73-plan-changes">7.3 Plan Changes</h3>
+<p><code>/Admin/PlanChanges</code> lists customer requests to move to a different plan.</p>
+<p>A customer cannot switch plans on their own — the change may affect the security deposit or the line's capacity, so it needs approval. Approve or reject each request from this screen.</p>
+<p>On approval:</p>
+<ul>
+<li>the connection's plan is changed,</li>
+<li>a note is written to the connection's status history,</li>
+<li>the next bill is raised on the new plan.</li>
+</ul>
+<h3 id="74-outlets-staff">7.4 Outlets & Staff</h3>
+<p><code>/Admin/Organisation</code> manages physical locations and the people who work at them.</p>
+<ul>
+<li><strong>Outlets</strong> are created with a name and city. Orders placed at the counter are</li>
+</ul>
+<p>tagged with the outlet, which is what makes the Till Date Register work.</p>
+<ul>
+<li><strong>Employees</strong> can be linked to a login, so the system knows who did what.</li>
+</ul>
+<h3 id="75-staff-logins">7.5 Staff Logins</h3>
+<p><code>/Admin/Organisation/Logins</code> creates sign-ins for staff.</p>
+<p>You can create <strong>Accounts</strong>, <strong>Technical</strong> and <strong>Retail</strong> logins here. You <strong>cannot</strong> create an Administrator login from this screen — that would let any admin create further admins, which is a privilege-escalation risk. The seed admin is the only administrator.</p>
+<p>The account ID is generated automatically, following the role-letter pattern in section 2.3.</p>
+<h3 id="76-inventory-equipment-vendors-and-purchase-orders">7.6 Inventory, Equipment, Vendors and Purchase Orders</h3>
+<table>
+<thead><tr>
+<th>Screen</th>
+<th>Purpose</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>/Admin/Inventory</code></td>
+<td>Stock on hand, per outlet, with low-stock warnings</td>
+</tr>
+<tr>
+<td><code>/Admin/Inventory/Products</code></td>
+<td>The equipment catalogue — routers, modems, cables</td>
+</tr>
+<tr>
+<td><code>/Admin/Vendors</code></td>
+<td>Suppliers you buy equipment from</td>
+</tr>
+<tr>
+<td><code>/Admin/PurchaseOrders</code></td>
+<td>Orders raised against vendors, with line items</td>
+</tr>
+</tbody>
+</table>
+<h3 id="77-settings">7.7 Settings</h3>
+<p><code>/Admin/Settings</code> controls the public-facing site and a few security options.</p>
+<table>
+<thead><tr>
+<th>Setting</th>
+<th>Effect</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>site.name</code></td>
+<td>The company name in the navbar, page titles and footer</td>
+</tr>
+<tr>
+<td><code>site.company</code></td>
+<td>The legal entity name</td>
+</tr>
+<tr>
+<td><code>site.email</code>, <code>site.phone</code></td>
+<td>Contact details shown in the footer</td>
+</tr>
+<tr>
+<td><code>brand.logo</code></td>
+<td>Logo file shown in the header</td>
+</tr>
+<tr>
+<td><code>feature.registration</code></td>
+<td>Turns public self-service ordering on or off</td>
+</tr>
+<tr>
+<td><code>feature.feedback</code></td>
+<td>Turns the customer feedback form on or off</td>
+</tr>
+<tr>
+<td><code>feature.autoInvoice</code></td>
+<td>Turns automatic invoice generation on or off</td>
+</tr>
+<tr>
+<td><code>security.sessionMinutes</code></td>
+<td>How long a session lasts before it expires</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Change a setting, save, then refresh the public home page.</strong> The change is applied immediately — the name in the navbar updates in front of you. This is a good demonstration that the settings screen is wired to the live site.</p>
+<h3 id="78-cities-and-discount-slabs">7.8 Cities and Discount Slabs</h3>
+<ul>
+<li><strong>Cities</strong> (<code>/Admin/Settings/Cities</code>) — the cities you serve, each with a code</li>
+</ul>
+<p>that becomes part of customer account IDs. An order can only be placed for a serviced city.</p>
+<ul>
+<li><strong>Discount Slabs</strong> (<code>/Admin/Settings/Discounts</code>) — the bulk rates for</li>
+</ul>
+<p>corporate customers.</p>
+<h3 id="79-advanced-search">7.9 Advanced Search</h3>
+<p><code>/Search/Advanced</code> searches across customers, orders and connections in one go. You can filter by name, account ID, order ID, city, connection type or status.</p>
+<h3 id="710-notifications">7.10 Notifications</h3>
+<p>The bell in the top bar shows live counts of work waiting for attention — surveys to be done, bills past due, one-off charges not yet billed, stock running low. Click it to see the list.</p>
+<hr />
+<h2 id="8-customer-portal">8. Customer Portal</h2>
+<p>The customer's own view of their account.</p>
+<p><strong>Sign in:</strong> using the account ID the counter gave you, e.g. <code>B042000000000006</code>.</p>
+<h3 id="81-what-the-customer-sees">8.1 What the customer sees</h3>
+<table>
+<thead><tr>
+<th>Screen</th>
+<th>Contents</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><strong>Dashboard</strong></td>
+<td>Connection summary, current bill, quick actions</td>
+</tr>
+<tr>
+<td><strong>My Connection</strong></td>
+<td>Plan, speed, connection number, status, installation details</td>
+</tr>
+<tr>
+<td><strong>Bills & Payments</strong></td>
+<td>Every invoice raised, what is paid, what is outstanding</td>
+</tr>
+<tr>
+<td><strong>Track Order</strong></td>
+<td>The progress of an order, from survey to installation</td>
+</tr>
+<tr>
+<td><strong>Account Status</strong></td>
+<td>The account's own status without needing to type an ID</td>
+</tr>
+<tr>
+<td><strong>Profile</strong></td>
+<td>Contact details and password</td>
+</tr>
+<tr>
+<td><strong>Feedback</strong></td>
+<td>Send a message to the company</td>
+</tr>
+<tr>
+<td><strong>Upgrade</strong></td>
+<td>Request a different plan</td>
+</tr>
+</tbody>
+</table>
+<h3 id="82-reading-a-bill">8.2 Reading a bill</h3>
+<p>Open <strong>Bills & Payments</strong> and click an invoice. The invoice shows:</p>
+<ul>
+<li>the billing period,</li>
+<li>each charge line with description, quantity, rate and amount,</li>
+<li>the subtotal, any bulk discount, the taxable amount and the service tax,</li>
+<li>the total, what has been paid and what is still outstanding.</li>
+</ul>
+<p>Below the invoice is the <strong>Payment History</strong> table — every payment with its receipt number, date, method and amount.</p>
+<blockquote><p><strong>Draft bills are not shown to customers.</strong> An invoice appears only once the accounts department has issued it. If a customer says their bill is missing, it is usually still a draft.</p></blockquote>
+<h3 id="83-how-a-customer-pays">8.3 How a customer pays</h3>
+<p>Payments are taken at any retail outlet or at the accounts office. The customer quotes the invoice number (or shows the invoice on their phone) and the counter staff records the payment. The receipt appears in <strong>Payment History</strong> immediately.</p>
+<p>The invoice page also explains this, so a customer is never left wondering where the payment button is.</p>
+<h3 id="84-requesting-a-plan-change">8.4 Requesting a plan change</h3>
+<ol>
+<li>Open <strong>My Connection</strong> and click <strong>Upgrade plan</strong>, or go to <code>/Customer/Upgrade</code>.</li>
+<li>Choose from the plans available for the same connection type.</li>
+<li>The current rate and the new rate are shown side by side, so the difference</li>
+</ol>
+<p>is clear before submitting.</p>
+<ol>
+<li>Submit the request.</li>
+</ol>
+<p>The request waits for admin approval (see section 7.3). The customer can only have one open request per connection at a time.</p>
+<h3 id="85-tracking-an-order">8.5 Tracking an order</h3>
+<p><strong>Track Order</strong> shows the order's progress. If the customer has only one order, the page opens directly on it — no need to search.</p>
+<p>Once the order has produced a connection, the tracking page also shows the connection number and its status.</p>
+<hr />
+<h2 id="9-common-tasks">9. Common Tasks</h2>
+<h3 id="91-a-complete-new-connection-end-to-end">9.1 A complete new connection, end to end</h3>
+<table>
+<thead><tr>
+<th>#</th>
+<th>Panel</th>
+<th>Action</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Retail</td>
+<td><strong>New Order</strong> → complete the four-step wizard. Note the order and account IDs</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Technical</td>
+<td><strong>Installations</strong> → open the order → <strong>Record Check</strong> (distance under 5 km, capacity yes)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Technical</td>
+<td><strong>Confirm</strong> with an installation date</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Technical</td>
+<td><strong>Start Installation</strong>, then <strong>Complete Installation</strong></td>
+</tr>
+<tr>
+<td>5</td>
+<td>Technical</td>
+<td><strong>Connections</strong> → <strong>Activate</strong> the new connection</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Accounts</td>
+<td><strong>Run Billing</strong> for the current period</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Accounts</td>
+<td><strong>Bills</strong> → open the new draft → <strong>Issue bill</strong></td>
+</tr>
+<tr>
+<td>8</td>
+<td>Retail</td>
+<td><strong>Bills & Payments</strong> → open the bill → <strong>Record a Payment</strong></td>
+</tr>
+<tr>
+<td>9</td>
+<td>Customer</td>
+<td>Sign in and see the paid bill on the dashboard</td>
+</tr>
+</tbody>
+</table>
+<h3 id="92-taking-a-part-payment">9.2 Taking a part payment</h3>
+<p>Open the bill, enter an amount <strong>smaller</strong> than the outstanding balance, and submit. The bill becomes <code>Partially Paid</code>. Record a second payment later for the remainder.</p>
+<h3 id="93-suspending-a-customer-for-non-payment">9.3 Suspending a customer for non-payment</h3>
+<ol>
+<li>Accounts: check <strong>Overdue</strong> to confirm the bill is past its due date.</li>
+<li>Technical: <strong>Overdue Policy</strong> → suspend the connection.</li>
+<li>When the customer pays, change the status back to <strong>Active</strong>. Billing resumes</li>
+</ol>
+<p>from the next cycle.</p>
+<h3 id="94-looking-up-a-customer">9.4 Looking up a customer</h3>
+<ul>
+<li><strong>Retail / Accounts / Technical:</strong> the search box in <strong>Customer Search</strong></li>
+</ul>
+<p>accepts a name, account ID, CNIC or mobile number.</p>
+<ul>
+<li><strong>Admin:</strong> <strong>Advanced Search</strong> searches customers, orders and connections</li>
+</ul>
+<p>together, with filters.</p>
+<blockquote><p><strong>Note:</strong> the customer search covers customers, orders and connections. Staff records are deliberately not searchable here.</p></blockquote>
+<h3 id="95-recording-a-one-off-charge">9.5 Recording a one-off charge</h3>
+<p>Accounts → <strong>One-off Charges</strong> → add the charge against the connection. It waits as pending until the next billing run, when it lands on that period's bill.</p>
+<hr />
+<h2 id="10-understanding-your-bills">10. Understanding Your Bills</h2>
+<h3 id="101-billing-cycles">10.1 Billing cycles</h3>
+<p>A plan can be priced hourly, monthly, half-yearly or yearly. A monthly plan is billed once a month; a yearly plan is billed once a year at the yearly rate (which is its own figure, not twelve times the monthly price).</p>
+<h3 id="102-proration">10.2 Proration</h3>
+<p>If a connection starts or ends part-way through a month, the rental is prorated for the days actually served.</p>
+<h3 id="103-service-tax">10.3 Service tax</h3>
+<p>A <strong>12.24% service tax</strong> is added to the taxable amount on every bill.</p>
+<p>Tax is never negative. A period whose credits outweigh its charges produces a zero bill, not a tax refund.</p>
+<h3 id="104-bulk-discount">10.4 Bulk discount</h3>
+<p>Corporate customers with many connections get a bulk rate. The tiers start at ten connections. The discount applies <strong>only to the advance and the security deposit</strong> — the recurring rental is never discounted.</p>
+<p>Because the first tier starts at ten connections, a single-connection customer never sees a discount line on their invoice. This is correct.</p>
+<h3 id="105-when-a-bill-shows-zero">10.5 When a bill shows zero</h3>
+<p>A bill can total $0 for two entirely legitimate reasons:</p>
+<ol>
+<li><strong>The advance covered it.</strong> The rental was absorbed by money already paid.</li>
+<li><strong>The period produced no charges.</strong> For example, a connection that was not</li>
+</ol>
+<p>active during that window.</p>
+<p>In both cases the invoice explains itself rather than showing an empty page.</p>
+<hr />
+<h2 id="11-troubleshooting">11. Troubleshooting</h2>
+<h3 id="i-signed-in-but-i-cannot-see-the-payment-form">"I signed in but I cannot see the payment form"</h3>
+<p>The payment form appears only when <strong>all</strong> of the following are true:</p>
+<table>
+<thead><tr>
+<th>Condition</th>
+<th>How to check</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>The bill is <strong>not</strong> a draft</td>
+<td>The status badge says <code>Issued</code>, <code>Partially Paid</code> or <code>Overdue</code></td>
+</tr>
+<tr>
+<td>There is something left to pay</td>
+<td>The outstanding balance is greater than zero</td>
+</tr>
+<tr>
+<td>You are not signed in as the customer</td>
+<td>Customers can view bills but never record payments</td>
+</tr>
+</tbody>
+</table>
+<p>If any of these is not met, the invoice shows a panel explaining why — look at the bottom of the invoice page.</p>
+<h3 id="a-customer-says-their-bill-is-missing">"A customer says their bill is missing"</h3>
+<p>The bill is probably still a <strong>draft</strong>. Issue it from <strong>Bills</strong> and it appears on the customer's dashboard immediately.</p>
+<h3 id="a-new-connection-is-not-being-billed">"A new connection is not being billed"</h3>
+<p>The connection is still <strong>Pending</strong>. Open <strong>Connections</strong> and change its status to <strong>Active</strong>. Only active connections are picked up by the billing run.</p>
+<h3 id="i-pressed-run-billing-twice-did-it-duplicate">"I pressed Run Billing twice — did it duplicate?"</h3>
+<p>No. The system checks for an existing bill covering the period before creating one, and skips connections that already have one. The run reports which connections were skipped and why.</p>
+<h3 id="sign-in-failed-with-an-error">"Sign in failed with an error"</h3>
+<ul>
+<li>Check the Account ID letter matches your role (section 2.3).</li>
+<li>After five failed attempts the account is temporarily locked.</li>
+<li>If you see "Too many attempts", the sign-in limiter has been triggered.</li>
+</ul>
+<p>Wait a minute and try again.</p>
+<h3 id="i-see-a-403-access-denied-page">"I see a 403 Access Denied page"</h3>
+<p>You are signed in with a role that does not own that screen. Sign out and use the correct account — for example, the accounts ledger is not open to retail staff.</p>
+<h3 id="a-page-shows-nothing-where-i-expected-data">"A page shows nothing where I expected data"</h3>
+<p>Empty screens mean no records match, not an error. For example, a new customer's bill list is empty until their first bill is issued. Every empty screen in NEXUS explains what will make records appear.</p>
+<hr />
+<h2 id="appendix-a-screen-reference">Appendix A — Screen reference</h2>
+<table>
+<thead><tr>
+<th>Screen</th>
+<th>URL</th>
+<th>Panel</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Home</td>
+<td><code>/</code></td>
+<td>Public</td>
+</tr>
+<tr>
+<td>Plans</td>
+<td><code>/Plans</code></td>
+<td>Public</td>
+</tr>
+<tr>
+<td>Track an order (public)</td>
+<td><code>/Orders/Tracking</code></td>
+<td>Public</td>
+</tr>
+<tr>
+<td>Sign in</td>
+<td><code>/Account/Login</code></td>
+<td>Public</td>
+</tr>
+<tr>
+<td>Retail dashboard</td>
+<td><code>/Retail/Dashboard</code></td>
+<td>Retail</td>
+</tr>
+<tr>
+<td>New order</td>
+<td><code>/Retail/NewOrder</code></td>
+<td>Retail</td>
+</tr>
+<tr>
+<td>Till date register</td>
+<td><code>/Retail/Register</code></td>
+<td>Retail</td>
+</tr>
+<tr>
+<td>Customer search</td>
+<td><code>/Retail/Search</code></td>
+<td>All staff</td>
+</tr>
+<tr>
+<td>Bills & payments</td>
+<td><code>/Bills</code></td>
+<td>Retail · Accounts · Admin · Customer</td>
+</tr>
+<tr>
+<td>Technical dashboard</td>
+<td><code>/Technical/Dashboard</code></td>
+<td>Technical</td>
+</tr>
+<tr>
+<td>Survey queue</td>
+<td><code>/Operations</code></td>
+<td>Technical · Accounts · Admin</td>
+</tr>
+<tr>
+<td>Connections</td>
+<td><code>/Operations/Connections</code></td>
+<td>Technical · Accounts · Admin</td>
+</tr>
+<tr>
+<td>Overdue policy</td>
+<td><code>/Operations/Overdue</code></td>
+<td>Technical · Accounts · Admin</td>
+</tr>
+<tr>
+<td>Accounts dashboard</td>
+<td><code>/Accounts/Dashboard</code></td>
+<td>Accounts · Admin</td>
+</tr>
+<tr>
+<td>One-off charges</td>
+<td><code>/Accounts/Charges</code></td>
+<td>Accounts · Admin</td>
+</tr>
+<tr>
+<td>Call metering</td>
+<td><code>/Accounts/Calls</code></td>
+<td>Accounts · Admin</td>
+</tr>
+<tr>
+<td>Admin dashboard</td>
+<td><code>/Admin/Dashboard</code></td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>Plans</td>
+<td><code>/Admin/Plans</code></td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>Plan changes</td>
+<td><code>/Admin/PlanChanges</code></td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>Orders</td>
+<td><code>/Admin/Orders</code></td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>Inventory</td>
+<td><code>/Admin/Inventory</code></td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>Vendors</td>
+<td><code>/Admin/Vendors</code></td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>Purchase orders</td>
+<td><code>/Admin/PurchaseOrders</code></td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>Outlets & staff</td>
+<td><code>/Admin/Organisation</code></td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>Staff logins</td>
+<td><code>/Admin/Organisation/Logins</code></td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>Settings</td>
+<td><code>/Admin/Settings</code></td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>Cities</td>
+<td><code>/Admin/Settings/Cities</code></td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>Discount slabs</td>
+<td><code>/Admin/Settings/Discounts</code></td>
+<td>Admin</td>
+</tr>
+<tr>
+<td>Advanced search</td>
+<td><code>/Search/Advanced</code></td>
+<td>All staff</td>
+</tr>
+<tr>
+<td>Reports</td>
+<td><code>/Reports</code></td>
+<td>All staff</td>
+</tr>
+<tr>
+<td>Customer dashboard</td>
+<td><code>/Customer/Dashboard</code></td>
+<td>Customer</td>
+</tr>
+<tr>
+<td>My connection</td>
+<td><code>/Customer/MyConnection</code></td>
+<td>Customer</td>
+</tr>
+<tr>
+<td>Upgrade plan</td>
+<td><code>/Customer/Upgrade</code></td>
+<td>Customer</td>
+</tr>
+<tr>
+<td>Profile</td>
+<td><code>/Profile</code></td>
+<td>All signed in</td>
+</tr>
+<tr>
+<td>Feedback</td>
+<td><code>/Feedback</code></td>
+<td>Customer · Admin</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="appendix-b-glossary">Appendix B — Glossary</h2>
+<table>
+<thead><tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><strong>Advance</strong></td>
+<td>Money paid up front at order time, credited against future bills</td>
+</tr>
+<tr>
+<td><strong>Security deposit</strong></td>
+<td>A refundable amount held against the equipment and line</td>
+</tr>
+<tr>
+<td><strong>Billing cycle</strong></td>
+<td>How often a plan is charged — hourly, monthly, half-yearly or yearly</td>
+</tr>
+<tr>
+<td><strong>Billing run</strong></td>
+<td>The monthly process that produces a bill for every active connection</td>
+</tr>
+<tr>
+<td><strong>Draft bill</strong></td>
+<td>A bill produced by a billing run but not yet issued; invisible to the customer</td>
+</tr>
+<tr>
+<td><strong>Issued bill</strong></td>
+<td>A bill released to the customer, against which payment can be taken</td>
+</tr>
+<tr>
+<td><strong>Receipt</strong></td>
+<td>The numbered record of a payment, e.g. <code>RCP-202610-00001</code></td>
+</tr>
+<tr>
+<td><strong>Feasibility check</strong></td>
+<td>The site survey that decides whether a connection can be installed</td>
+</tr>
+<tr>
+<td><strong>Connection</strong></td>
+<td>The physical service line, with its own number, e.g. <code>CON-B-000004</code></td>
+</tr>
+<tr>
+<td><strong>One-off charge</strong></td>
+<td>A non-recurring charge, such as a replacement router</td>
+</tr>
+<tr>
+<td><strong>Proration</strong></td>
+<td>Charging a part-month by the day</td>
+</tr>
+<tr>
+<td><strong>Quoted amount</strong></td>
+<td>The total presented to a customer at order time</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>End of User Manual</em></p>
+
+</body>
+</html>

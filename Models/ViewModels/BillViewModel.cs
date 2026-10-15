@@ -2,6 +2,7 @@
 {
     public class BillViewModel
     {
+        public int BillId { get; set; }
         public string BillNo { get; set; } = string.Empty;
         public string Period { get; set; } = string.Empty;
         public decimal Amount { get; set; }

@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Threading.RateLimiting;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.RateLimiting;
@@ -8,7 +9,9 @@ using NEXUS.Data.Seed;
 using NEXUS.Services.Authentication;
 using NEXUS.Services.Billing;
 using NEXUS.Services.Catalog;
+using NEXUS.Services.Email;
 using NEXUS.Services.Feedback;
+using NEXUS.Services.Notifications;
 using NEXUS.Services.Orders;
 using NEXUS.Services.Reporting;
 using NEXUS.Services.CustomerPortal;
@@ -39,6 +42,21 @@ Log.Logger = new LoggerConfiguration()
 builder.Host.UseSerilog();
 
 /**
+ * Money is rendered with ToString("C") all over the views, which picks the
+ * symbol off the host culture - so the same figure reads as $ on one machine
+ * and Rs on another. The symbol is pinned here to keep the invoices consistent.
+ */
+var currencySymbol = builder.Configuration["NexusFinance:CurrencySymbol"];
+
+if (!string.IsNullOrWhiteSpace(currencySymbol))
+{
+    var culture = (CultureInfo)CultureInfo.CurrentCulture.Clone();
+    culture.NumberFormat.CurrencySymbol = currencySymbol;
+    CultureInfo.DefaultThreadCurrentCulture = culture;
+    CultureInfo.DefaultThreadCurrentUICulture = culture;
+}
+
+/**
  * A non-nullable reference type would otherwise be treated as required by the
  * model validator. That contradicted the forms: fields the view labels
  * "optional" were rejected when left blank, so a vendor could not be saved
@@ -65,6 +83,8 @@ builder.Services.AddSingleton<IPasswordService, PasswordService>();
 
 builder.Services.AddScoped<IUserAuthenticator, AuthenticationService>();
 builder.Services.AddScoped<ISignInService, SignInService>();
+builder.Services.AddScoped<IPasswordResetService, PasswordResetService>();
+builder.Services.AddScoped<IEmailSender, EmailSender>();
 builder.Services.AddScoped<IAccountIdGenerator, AccountIdGenerator>();
 builder.Services.AddScoped<IRegistrationService, RegistrationService>();
 builder.Services.AddScoped<IBillingService, BillingService>();
@@ -82,6 +102,7 @@ builder.Services.AddScoped<IAdvancedSearchService, AdvancedSearchService>();
 builder.Services.AddScoped<IRetailRegisterService, RetailRegisterService>();
 builder.Services.AddScoped<IPlanAdminService, PlanAdminService>();
 builder.Services.AddScoped<IOrderTrackingService, OrderTrackingService>();
+builder.Services.AddScoped<IPlanChangeService, PlanChangeService>();
 builder.Services.AddScoped<IOrderRegisterService, OrderRegisterService>();
 builder.Services.AddScoped<IServiceCatalogService, ServiceCatalogService>();
 builder.Services.AddScoped<IFeedbackService, FeedbackService>();
@@ -93,6 +114,7 @@ builder.Services.AddScoped<IInventoryService, InventoryService>();
 builder.Services.AddScoped<IVendorService, VendorService>();
 builder.Services.AddScoped<IPurchaseOrderService, PurchaseOrderService>();
 builder.Services.AddScoped<IOrganisationService, OrganisationService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<IConnectionLifecycleService, ConnectionLifecycleService>();
 
 builder.Services
@@ -104,6 +126,7 @@ builder.Services
         options.AccessDeniedPath = "/Account/AccessDenied";
 
         // Not sliding: an idle session should expire rather than renew itself.
+        // This is the floor; the settings screen can raise it per sign-in.
         options.SlidingExpiration = false;
         options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
 
@@ -116,6 +139,23 @@ builder.Services
         // a redirect when the caller expects JSON, which the AJAX helpers rely on.
         options.Events = new CookieAuthenticationEvents
         {
+            // The session length is editable from the settings screen, so the
+            // ticket is stamped at sign-in rather than fixed when the app starts.
+            OnSigningIn = async ctx =>
+            {
+                // A "keep me signed in" ticket already carries its own window.
+                if (ctx.Properties.ExpiresUtc is not null) return;
+
+                var settings = ctx.HttpContext.RequestServices
+                    .GetRequiredService<ISiteSettingsService>();
+
+                var minutes = await settings.GetValueAsync(
+                    "security.sessionMinutes", ctx.HttpContext.RequestAborted);
+
+                if (int.TryParse(minutes, out var value) && value > 0)
+                    ctx.Properties.ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(value);
+            },
+
             OnRedirectToLogin = ctx => HandleUnauthorizedAsync(ctx, StatusCodes.Status401Unauthorized),
             OnRedirectToAccessDenied = ctx => HandleUnauthorizedAsync(ctx, StatusCodes.Status403Forbidden)
         };

@@ -276,11 +276,12 @@ public sealed class CustomerPortalService : ICustomerPortalService
 
         var bills = await _db.Bills
             .AsNoTracking()
-            .Where(b => b.CustomerId == customerId)
+            .Where(b => b.CustomerId == customerId && b.Status != BillStatus.Draft)
             .OrderByDescending(b => b.IssuedOn)
             .Take(6)
             .Select(b => new
             {
+                b.Id,
                 b.BillNumber,
                 b.Status,
                 b.TotalAmount,
@@ -292,6 +293,7 @@ public sealed class CustomerPortalService : ICustomerPortalService
 
         vm.RecentBills = bills.Select(b => new BillViewModel
         {
+            BillId = b.Id,
             BillNo = b.BillNumber,
             Status = b.Status.DisplayName(),
             Amount = b.TotalAmount,

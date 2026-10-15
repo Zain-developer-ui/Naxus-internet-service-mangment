@@ -160,8 +160,9 @@
                                 <span class="badge badge-@(p.IsActive ? "success" : "muted")">
                                     @(p.IsActive ? "Active" : "Retired") </span> </td>
                             <td class="actions">
-                                <a href="@Url.Action("Edit", new { id = p.Id })" class="btn btn-ghost btn-sm">
-                                    <i class="fa-solid fa-pen"></i> Edit </a>
+                                <a href="@Url.Action("Edit", new { id = p.Id })" class="icon-act"
+                                   title="Edit" aria-label="Edit @p.Name">
+                                    <i class="fa-solid fa-pen" aria-hidden="true"></i> </a>
 
                                 <form method="post" asp-action="ToggleActive" asp-route-id="@p.Id">
                                     @Html.AntiForgeryToken()
@@ -169,17 +170,19 @@
                                     <input type="hidden" name="type" value="@Model.Filter" />
                                     <input type="hidden" name="search" value="@Model.Search" />
                                     <input type="hidden" name="showInactive" value="@Model.ShowInactive" />
-                                    <button type="submit" class="btn btn-ghost btn-sm">
-                                        <i class="fa-solid @(p.IsActive ? "fa-box-archive" : "fa-rotate-left")"></i>
-                                        @(p.IsActive ? "Retire" : "Restore") </button> </form>
+                                    <button type="submit" class="icon-act"
+                                            title="@(p.IsActive ? "Retire" : "Restore")"
+                                            aria-label="@(p.IsActive ? "Retire" : "Restore") @p.Name">
+                                        <i class="fa-solid @(p.IsActive ? "fa-box-archive" : "fa-rotate-left")" aria-hidden="true"></i> </button> </form>
 
                                 @if (p.OrderCount == 0)
                                 {
                                     <form method="post" asp-action="Delete" asp-route-id="@p.Id"
                                           data-confirm="Delete '@p.Name'? This cannot be undone.">
                                         @Html.AntiForgeryToken()
-                                        <button type="submit" class="btn btn-ghost btn-sm danger">
-                                            <i class="fa-solid fa-trash"></i> Delete </button> </form>
+                                        <button type="submit" class="icon-act danger"
+                                                title="Delete" aria-label="Delete @p.Name">
+                                            <i class="fa-solid fa-trash" aria-hidden="true"></i> </button> </form>
                                 } </td> </tr>
                     }
                 } </tbody> </table> </div>

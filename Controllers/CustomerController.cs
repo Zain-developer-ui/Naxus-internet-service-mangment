@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using NEXUS.Common.Constants;
 using NEXUS.Common.Extensions;
+using NEXUS.Models.ViewModels;
 using NEXUS.Services.CustomerPortal;
+using NEXUS.Services.Orders;
 
 namespace NEXUS.Controllers
 {
@@ -16,8 +18,14 @@ namespace NEXUS.Controllers
     public class CustomerController : Controller
     {
         private readonly ICustomerPortalService _portal;
+        private readonly IPlanChangeService _planChanges;
 
-        public CustomerController(ICustomerPortalService portal) => _portal = portal;
+        public CustomerController(ICustomerPortalService portal,
+                                  IPlanChangeService planChanges)
+        {
+            _portal = portal;
+            _planChanges = planChanges;
+        }
 
         public async Task<IActionResult> Dashboard(int? id, CancellationToken ct)
         {
@@ -41,6 +49,49 @@ namespace NEXUS.Controllers
 
             ViewData.SetActiveItem("myconnection");
             return View(result.Value);
+        }
+
+        /**
+         * Plan change. A customer asked to be moved to a different plan is a
+         * request a clerk approves - never a switch the customer flips, since
+         * the new deposit and speed have to be confirmed against the line.
+         */
+        [HttpGet]
+        public async Task<IActionResult> Upgrade(CancellationToken ct)
+        {
+            var customerId = User.CustomerId();
+            if (customerId is null) return RedirectToAction("Login", "Account");
+
+            ViewData.SetActiveItem("myconnection");
+
+            var result = await _planChanges.GetForCustomerAsync(customerId.Value, ct);
+            if (!result.IsSuccess)
+            {
+                TempData["Error"] = result.Message;
+                return RedirectToAction(nameof(MyConnection));
+            }
+
+            return View(result.Value);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Upgrade(PlanChangeInput input, CancellationToken ct)
+        {
+            var customerId = User.CustomerId();
+            if (customerId is null) return RedirectToAction("Login", "Account");
+
+            ViewData.SetActiveItem("myconnection");
+
+            var result = await _planChanges.SubmitAsync(input, customerId.Value, ct);
+            if (!result.IsSuccess)
+            {
+                TempData["Error"] = result.Message;
+                return RedirectToAction(nameof(Upgrade));
+            }
+
+            TempData["Success"] = "Your plan change request has been sent for approval.";
+            return RedirectToAction(nameof(MyConnection));
         }
 
         /**

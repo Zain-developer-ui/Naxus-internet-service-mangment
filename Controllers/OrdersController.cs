@@ -7,6 +7,7 @@ using NEXUS.Models.ViewModels;
 using NEXUS.Services.Authentication;
 using NEXUS.Services.Orders;
 using NEXUS.Services.Registration;
+using NEXUS.Services.Settings;
 
 namespace NEXUS.Controllers
 {
@@ -16,16 +17,19 @@ namespace NEXUS.Controllers
         private readonly IRegistrationService _registration;
         private readonly IUserAuthenticator _auth;
         private readonly ISignInService _signIn;
+        private readonly ISiteSettingsService _settings;
         private readonly ILogger<OrdersController> _logger;
 
         public OrdersController(IOrderTrackingService tracking, IRegistrationService registration,
                                 IUserAuthenticator auth, ISignInService signIn,
+                                ISiteSettingsService settings,
                                 ILogger<OrdersController> logger)
         {
             _tracking = tracking;
             _registration = registration;
             _auth = auth;
             _signIn = signIn;
+            _settings = settings;
             _logger = logger;
         }
 
@@ -39,6 +43,9 @@ namespace NEXUS.Controllers
         {
             if (User.Identity?.IsAuthenticated == true)
                 return RedirectToAction("Dashboard", "Customer");
+
+            if (!await _settings.GetFlagAsync("feature.registration", ct))
+                return RegistrationClosed();
 
             var options = await _registration.GetOptionsAsync(ct);
             if (!options.IsSuccess)
@@ -54,6 +61,11 @@ namespace NEXUS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> New(OrderViewModel model, CancellationToken ct)
         {
+            // A form left open from before the switch was flipped must not slip
+            // through, so the gate is checked on the post as well.
+            if (!await _settings.GetFlagAsync("feature.registration", ct))
+                return RegistrationClosed();
+
             var options = await _registration.GetOptionsAsync(ct);
             if (!options.IsSuccess)
             {
@@ -108,7 +120,7 @@ namespace NEXUS.Controllers
         [HttpGet]
         public async Task<IActionResult> Tracking(string? id, CancellationToken ct)
         {
-            ViewData.SetActiveItem("orders");
+            ViewData.SetActiveItem("orders", "tracking");
 
             var scopedId = User.IsInRole(NexusRoles.Customer) ? User.CustomerId() : null;
             var reference = string.IsNullOrWhiteSpace(id) ? null : id.Trim();
@@ -118,6 +130,13 @@ namespace NEXUS.Controllers
                 if (scopedId is not int customerId) return View(null);
 
                 var history = await _tracking.ForCustomerAsync(customerId, ct);
+
+                if (history.IsSuccess && history.Value is { Count: 1 })
+                    // A customer with one application has nothing to choose
+                    // from, so their order opens directly.
+                    return RedirectToAction(nameof(Tracking),
+                                           new { id = history.Value[0].OrderId });
+
                 ViewBag.History = history.IsSuccess
                     ? history.Value!
                     : Array.Empty<OrderTrackingSummary>();
@@ -153,6 +172,15 @@ namespace NEXUS.Controllers
             foreach (var (field, messages) in result.Errors)
                 foreach (var message in messages)
                     ModelState.AddModelError(field, message);
+        }
+
+        /** Public applications are switched off from the settings screen. */
+        private IActionResult RegistrationClosed()
+        {
+            TempData["Error"] = "Online applications are closed at the moment. " +
+                                "Please call the support line to order a connection.";
+
+            return RedirectToAction("Index", "Home");
         }
 
         private static OrderViewModel ApplyOptions(OrderViewModel model, RegistrationOptions options)

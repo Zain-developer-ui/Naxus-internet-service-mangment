@@ -21,12 +21,5 @@ namespace NEXUS.Controllers
 
             return View(result.Value!);
         }
-
-        public async Task<IActionResult> Details(int id, CancellationToken ct)
-        {
-            var result = await _services.GetAsync(id, ct);
-            if (!result.IsSuccess) return NotFound();
-            return View(result.Value);
-        }
     }
 }

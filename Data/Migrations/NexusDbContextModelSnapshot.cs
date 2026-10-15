@@ -1135,6 +1135,76 @@ namespace NEXUS.Data.Migrations
                     b.ToTable("FeasibilityChecks", (string)null);
                 });
 
+            modelBuilder.Entity("NEXUS.Domain.Orders.PlanChangeRequest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ConnectionId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CurrentPlanId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DecidedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("DecidedByEmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DecidedById")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Remarks")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<int>("RequestedPlanId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ConnectionId");
+
+                    b.HasIndex("CurrentPlanId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("DecidedById");
+
+                    b.HasIndex("RequestedPlanId");
+
+                    b.HasIndex("Status")
+                        .HasDatabaseName("IX_PlanChangeRequests_Status");
+
+                    b.ToTable("PlanChangeRequests", (string)null);
+                });
+
             modelBuilder.Entity("NEXUS.Domain.Organisation.AppUser", b =>
                 {
                     b.Property<int>("Id")
@@ -1989,6 +2059,47 @@ namespace NEXUS.Data.Migrations
                     b.Navigation("CheckedBy");
 
                     b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("NEXUS.Domain.Orders.PlanChangeRequest", b =>
+                {
+                    b.HasOne("NEXUS.Domain.Orders.Connection", "Connection")
+                        .WithMany()
+                        .HasForeignKey("ConnectionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("NEXUS.Domain.Catalog.Plan", "CurrentPlan")
+                        .WithMany()
+                        .HasForeignKey("CurrentPlanId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("NEXUS.Domain.Customers.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("NEXUS.Domain.Organisation.Employee", "DecidedBy")
+                        .WithMany()
+                        .HasForeignKey("DecidedById");
+
+                    b.HasOne("NEXUS.Domain.Catalog.Plan", "RequestedPlan")
+                        .WithMany()
+                        .HasForeignKey("RequestedPlanId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Connection");
+
+                    b.Navigation("CurrentPlan");
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("DecidedBy");
+
+                    b.Navigation("RequestedPlan");
                 });
 
             modelBuilder.Entity("NEXUS.Domain.Organisation.Employee", b =>

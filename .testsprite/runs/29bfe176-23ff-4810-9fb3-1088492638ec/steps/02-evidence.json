@@ -1,8 +1,0 @@
-[
-  {
-    "kind": "snapshot",
-    "stepIndex": 2,
-    "summary": "Step 2 'Click 'Login link'' passed (captured at 2026-10-13T16:04:07.477Z).",
-    "path": "steps/02-snapshot.html"
-  }
-]

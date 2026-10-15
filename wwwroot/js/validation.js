@@ -122,7 +122,12 @@
 
         if (input.hasAttribute('required') || input.hasAttribute('data-required')) checks.push('required');
 
-        if (type === 'email' || name.includes('email')) checks.push('email');
+        // A name match is only a guess. An explicit type or a data-validate
+        // list wins, and the sign-in identifier - which takes either an
+        // account id or an email - is exempt from the guess entirely.
+        const guessable = name.includes('email') && !name.includes('account');
+
+        if (type === 'email' || guessable) checks.push('email');
         if (input.hasAttribute('data-val-regex-pattern')) checks.push('regex');
         if (input.hasAttribute('data-val-length-min')) checks.push('length');
         if (input.hasAttribute('minlength')) checks.push('minlength');

@@ -21,6 +21,7 @@ public static class SiteSettingsCatalog
     public const string Features = "Features";
     public const string Contact = "Contact";
     public const string Security = "Security";
+    public const string Email = "Email";
 
     public static readonly IReadOnlyList<SiteSettingDefinition> All = new[]
     {
@@ -55,10 +56,24 @@ public static class SiteSettingsCatalog
         new SiteSettingDefinition("security.sessionMinutes", "Session timeout (minutes)",
             Security, "int", "120", "Idle minutes before a signed-in user is returned to the login page."),
         new SiteSettingDefinition("security.maxAttempts", "Lockout after failed logins",
-            Security, "int", "5")
+            Security, "int", "5"),
+
+        new SiteSettingDefinition("smtp.enabled", "Send email", Email, "bool", "false",
+            "Off means password resets fall back to the registered mobile number."),
+        new SiteSettingDefinition("smtp.host", "SMTP host", Email, "text", "",
+            "For example smtp.gmail.com."),
+        new SiteSettingDefinition("smtp.port", "SMTP port", Email, "int", "587",
+            "587 for STARTTLS, 465 for implicit SSL."),
+        new SiteSettingDefinition("smtp.user", "SMTP username", Email, "text", "",
+            "Usually the full email address."),
+        new SiteSettingDefinition("smtp.password", "SMTP password", Email, "secret", "",
+            "Stored as plain text - use an app password, not the mailbox password."),
+        new SiteSettingDefinition("smtp.from", "From address", Email, "text", "",
+            "Shown as the sender. Leave blank to use the username."),
+        new SiteSettingDefinition("smtp.ssl", "Encrypt the connection", Email, "bool", "true")
     };
 
     /** Group order as rendered on the settings screen. */
     public static readonly IReadOnlyList<string> Groups = new[]
-        { General, Branding, Features, Contact, Security };
+        { General, Branding, Features, Contact, Security, Email };
 }

@@ -1,0 +1,36 @@
+{
+  "planSteps": [
+    {
+      "type": "action",
+      "description": "Navigate to /Account/Login and sign in as retail@nexus.example with the password Nexus@2026"
+    },
+    {
+      "type": "action",
+      "description": "Navigate to /Retail/NewOrder. The form is a four step wizard: Service, Customer, Installation, Account"
+    },
+    {
+      "type": "action",
+      "description": "On step 1 choose the Broadband connection type. Then choose a plan from the Broadband group: the server rejects a plan whose type does not match the chosen connection type. Then choose the Monthly billing cycle. Click Next"
+    },
+    {
+      "type": "action",
+      "description": "On step 2 fill Full Name with E2E Test Customer. Fill Mobile Number exactly as 0300-7654322 including the dash: the field only accepts the format 0XXX-XXXXXXX. Fill CNIC as 42101-7654322-9. CNIC and mobile must both be values no other customer already holds. Click Next"
+    },
+    {
+      "type": "action",
+      "description": "On step 3 fill Installation Address with 12 Test Street Lahore. In the City dropdown do NOT pick the first entry, which is the placeholder 'Select the city' with value 0: choose the first real city below it. Leave the Existing Landline field alone, it is hidden for Broadband. Click Next"
+    },
+    {
+      "type": "action",
+      "description": "On step 4 fill Password and Confirm Password both with Test@1234 and tick the terms checkbox"
+    },
+    {
+      "type": "action",
+      "description": "Click the Create Order button, which is the submit button that becomes visible on step 4"
+    },
+    {
+      "type": "assertion",
+      "description": "Assert the browser has left /Retail/NewOrder and landed on the search page, and that an order id matching B followed by ten digits is shown. If the wizard is still displayed, this test must fail."
+    }
+  ]
+}

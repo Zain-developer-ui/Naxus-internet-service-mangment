@@ -1,0 +1,92 @@
+@model IReadOnlyList<NEXUS.Models.ViewModels.PlanChangeRow>
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Plan Changes — NEXUS";
+}
+
+@section DashboardStyles {
+    <link rel="stylesheet" href="~/css/dashboards-luxury.css" />
+    <link rel="stylesheet" href="~/css/admin.css" />
+}
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/Admin/Dashboard">Admin</a>
+    <span class="sep">/</span>
+    <span class="current">Plan Changes</span>
+</nav>
+
+<div class="page-header reveal">
+    <div>
+        <h1><i class="fa-solid fa-arrow-up" style="color:var(--nexus-blue);"></i> Plan Changes</h1>
+        <p class="muted">
+            Customers asking to move to a different plan. Approving one changes the
+            connection's plan from the next billing period.
+        </p> </div>
+</div>
+
+@if (TempData["Error"] is string changeError)
+{
+    <div class="alert alert-warning" style="margin-top:18px;">
+        <i class="fa-solid fa-triangle-exclamation"></i> @changeError </div>
+}
+
+@if (!Model.Any())
+{
+    <div class="card reveal" style="margin-top:20px;">
+        <p class="muted" style="padding:8px 4px;">No plan change requests are waiting.</p>
+    </div>
+}
+else
+{
+    <div class="card reveal" style="margin-top:20px;overflow-x:auto;">
+        <table class="data-table" style="width:100%;border-collapse:collapse;">
+            <thead>
+                <tr>
+                    <th scope="col">Line</th>
+                    <th scope="col">Customer</th>
+                    <th scope="col">From</th>
+                    <th scope="col">To</th>
+                    <th scope="col">New rate</th>
+                    <th scope="col">Asked</th>
+                    <th scope="col"><span class="sr-only">Actions</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var r in Model)
+                {
+                    <tr>
+                        <td class="mono">@r.ConnectionNumber</td>
+                        <td>
+                            @r.CustomerName<br />
+                            <span class="muted small mono">@r.AccountId</span>
+                        </td>
+                        <td>@r.CurrentPlan</td>
+                        <td><strong>@r.RequestedPlan</strong></td>
+                        <td>@r.RequestedMonthlyRate.ToString("C")</td>
+                        <td>@r.RequestedAt.ToString("dd MMM yyyy")</td>
+                        <td>
+                            <div style="display:flex;gap:8px;">
+                                <form asp-action="DecidePlanChange" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="requestId" value="@r.RequestId" />
+                                    <input type="hidden" name="approve" value="true" />
+                                    <button type="submit" class="btn btn-primary btn-sm">
+                                        Approve
+                                    </button>
+                                </form>
+                                <form asp-action="DecidePlanChange" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="requestId" value="@r.RequestId" />
+                                    <input type="hidden" name="approve" value="false" />
+                                    <button type="submit" class="btn btn-ghost btn-sm">
+                                        Reject
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

@@ -97,6 +97,15 @@ public static class ConnectionStatusExtensions
     /** A temporarily inactive line still bills nothing, per SRS rule V9. */
     public static bool CanBeBilled(this ConnectionStatus status) =>
         status == ConnectionStatus.Active;
+
+    public static string BadgeClass(this ConnectionStatus status) => status switch
+    {
+        ConnectionStatus.Active => "badge-success",
+        ConnectionStatus.Pending => "badge-warning",
+        ConnectionStatus.TemporarilyInactive => "badge-warning",
+        ConnectionStatus.PermanentlyInactive => "badge-danger",
+        _ => "badge-neutral"
+    };
 }
 
 public static class OrderStatusExtensions
@@ -164,5 +173,30 @@ public static class PaymentMethodExtensions
         BillingCycle.HalfYearly => "Half-Yearly",
         BillingCycle.Yearly => "Yearly",
         _ => cycle.ToString()
+    };
+}
+
+public enum PlanChangeStatus
+{
+    Pending = 0,
+    Approved = 1,
+    Rejected = 2
+}
+
+public static class PlanChangeStatusExtensions
+{
+    public static string DisplayName(this PlanChangeStatus status) => status switch
+    {
+        PlanChangeStatus.Pending => "Pending",
+        PlanChangeStatus.Approved => "Approved",
+        PlanChangeStatus.Rejected => "Rejected",
+        _ => status.ToString()
+    };
+
+    public static string BadgeClass(this PlanChangeStatus status) => status switch
+    {
+        PlanChangeStatus.Approved => "badge-success",
+        PlanChangeStatus.Rejected => "badge-danger",
+        _ => "badge-warning"
     };
 }
